@@ -221,7 +221,38 @@
     "seeSources": "see sources",
     "pagesLabel": "Result pages",
     "prev": "← Previous",
-    "next": "Next →"
+    "next": "Next →",
+    "trl": "Technology readiness (TRL)",
+    "trlHint": "Applies to technological innovations only.",
+    "trlMin": "From",
+    "trlMax": "To",
+    "trlAny": "Any",
+    "polishIpFilter": "Polish intellectual property",
+    "region": "Region",
+    "regionAny": "All regions",
+    "optionCount": "{label} ({count})",
+    "tags": "Topics",
+    "sortLabel": "Sort by",
+    "sortApply": "Sort",
+    "sort": {
+      "relevance": "Relevance",
+      "recent": "Recently checked",
+      "innovativeness": "Innovativeness",
+      "applicationPotential": "Application potential",
+      "credibility": "Credibility"
+    },
+    "activeLabel": "Active filters",
+    "clearAll": "Clear all",
+    "chipQuery": "Search: “{q}”",
+    "chipAudience": "Preset: {name}",
+    "chipTrlMin": "TRL from {n}",
+    "chipTrlMax": "TRL up to {n}",
+    "rateLimited": "Too many requests at once. Please try again in {s} s.",
+    "retry": "Try again",
+    "pageEmpty": "This page of results is empty.",
+    "firstPage": "Go to the first page",
+    "pageOf": "Page {page} of {pages}",
+    "removeFilterNamed": "Remove filter: {label}"
   },
   "card": {
     "back": "← Results",
@@ -318,5 +349,18 @@
     "notFoundTitle": "Page not found",
     "notFoundText": "This page doesn't exist or has been moved.",
     "notFoundSearch": "Go to search"
+  },
+  "compare": {
+    "heading": "Comparison",
+    "toggle": "Compare",
+    "hint": "Select 2 to 4 cards to compare them.",
+    "count": "{count} of {max} selected.",
+    "full": "You can compare at most {max} cards. Remove one to add another.",
+    "chosenLabel": "Cards selected for comparison",
+    "remove": "Remove from comparison: {title}",
+    "clear": "Clear selection",
+    "go": "Compare selected",
+    "needMore": "Select at least {min} cards to compare.",
+    "toggleNamed": "Compare: {title}"
   }
 }

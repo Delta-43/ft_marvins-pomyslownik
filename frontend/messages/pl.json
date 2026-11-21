@@ -221,7 +221,38 @@
     "seeSources": "zobacz źródła",
     "pagesLabel": "Strony wyników",
     "prev": "← Poprzednia",
-    "next": "Następna →"
+    "next": "Następna →",
+    "trl": "Gotowość technologiczna (TRL)",
+    "trlHint": "Dotyczy tylko innowacji technologicznych.",
+    "trlMin": "Od",
+    "trlMax": "Do",
+    "trlAny": "Dowolny",
+    "polishIpFilter": "Polska własność intelektualna",
+    "region": "Województwo",
+    "regionAny": "Wszystkie województwa",
+    "optionCount": "{label} ({count})",
+    "tags": "Tematy",
+    "sortLabel": "Sortuj według",
+    "sortApply": "Sortuj",
+    "sort": {
+      "relevance": "Trafność",
+      "recent": "Ostatnio sprawdzone",
+      "innovativeness": "Innowacyjność",
+      "applicationPotential": "Potencjał zastosowania",
+      "credibility": "Wiarygodność"
+    },
+    "activeLabel": "Aktywne filtry",
+    "clearAll": "Wyczyść wszystko",
+    "chipQuery": "Szukane: „{q}”",
+    "chipAudience": "Profil: {name}",
+    "chipTrlMin": "TRL od {n}",
+    "chipTrlMax": "TRL do {n}",
+    "rateLimited": "Zbyt wiele zapytań naraz. Spróbuj ponownie za {s} s.",
+    "retry": "Spróbuj ponownie",
+    "pageEmpty": "Ta strona wyników jest pusta.",
+    "firstPage": "Przejdź do pierwszej strony",
+    "pageOf": "Strona {page} z {pages}",
+    "removeFilterNamed": "Usuń filtr: {label}"
   },
   "card": {
     "back": "← Wyniki",
@@ -318,5 +349,18 @@
     "notFoundTitle": "Nie znaleziono strony",
     "notFoundText": "Ta strona nie istnieje albo została przeniesiona.",
     "notFoundSearch": "Przejdź do wyszukiwania"
+  },
+  "compare": {
+    "heading": "Porównanie",
+    "toggle": "Porównaj",
+    "hint": "Zaznacz od 2 do 4 kart, aby je porównać.",
+    "count": "Wybrano {count} z {max}.",
+    "full": "Możesz porównać najwyżej {max} karty. Usuń jedną, aby dodać inną.",
+    "chosenLabel": "Karty wybrane do porównania",
+    "remove": "Usuń z porównania: {title}",
+    "clear": "Wyczyść wybór",
+    "go": "Porównaj zaznaczone",
+    "needMore": "Wybierz co najmniej {min} karty, aby porównać.",
+    "toggleNamed": "Porównaj: {title}"
   }
 }

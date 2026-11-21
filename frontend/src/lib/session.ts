@@ -7,7 +7,7 @@ import { SESSION_COOKIE } from "@/lib/cookie";
 export { SESSION_COOKIE };
 
 /** Routes that need a signed-in user. Card data never shows without one. Keep in sync with proxy.ts. */
-export const PROTECTED_PATHS = ["/szukaj", "/wyniki", "/karta", "/profil"];
+export const PROTECTED_PATHS = ["/szukaj", "/wyniki", "/karta", "/porownaj", "/profil"];
 
 export async function getToken(): Promise<string | null> {
   return (await cookies()).get(SESSION_COOKIE)?.value ?? null;

@@ -19,8 +19,8 @@ const FONTS =
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
   const t = await getTranslations("layout");
-  // Client components (only error.tsx) get just the texts they need.
-  const { status } = await getMessages();
+  // Client components get just the texts they need (error screens: status; compare selection on /wyniki: compare).
+  const { status, compare } = await getMessages();
   return (
     <html lang={locale}>
       <head>
@@ -30,7 +30,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body className="min-h-screen flex flex-col">
         <a className="skip-link" href="#main">{t("skip")}</a>
-        <NextIntlClientProvider messages={{ status }}>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={{ status, compare }}>{children}</NextIntlClientProvider>
       </body>
     </html>
   );
