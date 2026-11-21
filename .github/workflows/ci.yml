@@ -59,7 +59,7 @@ jobs:
       - name: Build the backend image
         run: docker build -t pomyslownik-api:ci ./backend
       - name: Build the frontend image
-        run: docker build -t pomyslownik-web:ci --build-arg NEXT_PUBLIC_API_BASE_URL=https://demo.delta43.net ./frontend
+        run: docker build -t pomyslownik-web:ci --build-context contract=./docs/api --build-arg NEXT_PUBLIC_API_BASE_URL=https://demo.delta43.net ./frontend
 
   licences:
     # The repo is EUPL-1.2. Dependencies must be MIT, BSD, Apache-2.0, ISC or EUPL-compatible (TASKS rule 5).
