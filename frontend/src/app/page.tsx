@@ -1,39 +1,24 @@
 import Link from "next/link";
-import { SearchBar } from "@/components/SearchBar";
 
-const AUDIENCES = [
-  "Inwestorzy i firmy",
-  "Instytucje publiczne",
-  "Uczelnie",
-  "Szkoły",
-  "Startupy i przedsiębiorstwa",
-  "Wynalazcy indywidualni",
-];
-
-// "Search Page" frame: centred search bar, plus the six audience presets from the task.
-export default function SearchPage() {
+// Landing page ("/"). PLACEHOLDER: Alban is designing the creative for this page.
+// Replace the visuals freely, but keep the message (search needs an account) and the link to /logowanie.
+export default function LandingPage() {
   return (
     <section className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center gap-8 px-6 py-16 text-center">
-      <h1>Znajdź polską innowację</h1>
+      <h1>Polskie innowacje w jednym miejscu</h1>
       <p className="max-w-xl text-lg text-kamien">
-        Istniejące rozwiązania technologiczne, edukacyjne i administracyjne. Każda wartość ze źródłem, oznaczona jako fakt lub szacunek.
+        Uczelnie, patenty, laboratoria i startupy z całej Polski. Ze źródłami i uczciwą oceną.
       </p>
-      <SearchBar large />
-      <div>
-        <h2 className="mb-3 text-base font-bold" style={{ fontSize: "1rem" }}>Szukam jako</h2>
-        <ul className="flex flex-wrap justify-center gap-2">
-          {AUDIENCES.map((a) => (
-            <li key={a}>
-              <Link
-                href={`/wyniki?odbiorca=${encodeURIComponent(a)}`}
-                className="inline-block rounded-full border border-atrament px-4 py-1.5 text-sm text-atrament no-underline hover:bg-iskra"
-              >
-                {a}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <p className="max-w-xl">
+        Aby wyszukiwać innowacje, musisz się zalogować. Chroni to własność intelektualną twórców.
+      </p>
+      <Link
+        href="/logowanie"
+        className="inline-flex h-12 items-center rounded-full bg-granat px-8 font-bold text-white no-underline hover:bg-atrament"
+      >
+        Zaloguj się, aby szukać
+      </Link>
+      <p className="font-mono text-xs text-kamien">[Miejsce na grafikę strony startowej: Alban]</p>
     </section>
   );
 }

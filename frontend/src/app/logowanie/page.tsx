@@ -1,4 +1,5 @@
 import { Logo } from "@/components/Logo";
+import { enterDemoMode } from "@/app/actions/auth";
 
 const ROLES = [
   "Inwestorzy i firmy",
@@ -10,12 +11,14 @@ const ROLES = [
 ];
 
 // "Login Page" frame: content on the left, a 600px panel on the right (here: dark brand panel).
-// Visual preview only. Real sign-in (task F11) calls /api/v1/auth/*.
-export default function LoginPage() {
+// Real sign-in (task F11) calls /api/v1/auth/* and sets the session cookie. Not wired yet.
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+  const { next = "/szukaj" } = await searchParams;
   return (
     <div className="grid min-h-[80vh] lg:grid-cols-[1fr_600px]">
       <section className="flex items-center justify-center px-6 py-12">
-        <form className="w-full max-w-md space-y-5" action="/">
+        <div className="w-full max-w-md space-y-5">
+        <form className="space-y-5" action="/logowanie">
           <h1 style={{ fontSize: "2rem" }}>Zaloguj się</h1>
           <p className="text-kamien">Zaloguj się i wybierz rolę, aby zobaczyć karty innowacji. Chroni to własność intelektualną twórców.</p>
 
@@ -51,6 +54,16 @@ export default function LoginPage() {
             Zaloguj się
           </button>
         </form>
+
+        {/* TEMPORARY: demo mode for building without the backend. Remove before release (with DEMO_COOKIE). */}
+        <form action={enterDemoMode} className="border-t border-dashed border-krawedz pt-5">
+          <input type="hidden" name="next" value={next} />
+          <button type="submit" className="h-12 w-full rounded-full border-2 border-dashed border-atrament font-bold text-atrament hover:bg-iskra">
+            Wejdź w tryb demo
+          </button>
+          <p className="mt-2 text-center text-xs text-kamien">Tylko na czas budowy: pomija logowanie, dane przykładowe.</p>
+        </form>
+        </div>
       </section>
 
       <aside className="relative hidden flex-col justify-between overflow-hidden bg-atrament p-12 text-papier lg:flex">
