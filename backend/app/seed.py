@@ -11,7 +11,7 @@ import sys
 
 from .config import settings
 from .db import connection
-from .services.i18n import problems
+from .services.i18n import consistency_problems, problems
 
 
 def _prov(detail: dict) -> dict:
@@ -22,6 +22,9 @@ def load_card(conn, card: dict) -> None:
     bad = problems(card)
     if bad:
         raise ValueError(f"card {card.get('id')} breaks the language rule (needs Polish and English): {', '.join(bad)}")
+    bad = consistency_problems(card)
+    if bad:
+        raise ValueError(f"card {card.get('id')} is inconsistent: {'; '.join(bad)}")
     org = card["organisation"]
     org_id = conn.execute(
         """INSERT INTO organisations (name, type, url, region) VALUES (%s,%s,%s,%s)
@@ -62,17 +65,17 @@ def load_card(conn, card: dict) -> None:
               "lvl": impl["value"], "lvl_p": json.dumps(fix(_prov(impl))), "trl_ok": trl["applicable"], "trl": trl["value"],
               "trl_p": json.dumps(fix(_prov(trl))), "assess": json.dumps(assessment),
               "si": scores["innovativeness"], "sa": scores["applicationPotential"], "sc": scores["credibility"],
-              "oslo": json.dumps(card["oslo"]), "could": json.dumps(card["couldAlsoBeUsedIn"]), "pip": card["polishIp"],
+              "oslo": json.dumps(card["oslo"]), "could": json.dumps(card["couldAlsoBeUsedIn"]), "pip": card["polishIp"], "pips": card.get("polishIpStatus", "unknown"),
               "first": card["firstSeenAt"], "checked": card["lastCheckedAt"], "changed": card.get("statusChangedAt"),
               "search": search_text}
     conn.execute(
         """INSERT INTO cards (id, title_pl, title_en, summary_short_pl, summary_short_en, summary_pl, summary_en, area,
              organisation_id, owner_name, owner_url, region, implementation_level, implementation_prov,
              trl_applicable, trl, trl_prov, assessment, score_innovativeness, score_application, score_credibility,
-             oslo, could_also_be_used_in, polish_ip, first_seen_at, last_checked_at, status_changed_at, search_text)
+             oslo, could_also_be_used_in, polish_ip, polish_ip_status, first_seen_at, last_checked_at, status_changed_at, search_text)
            VALUES (%(id)s,%(t_pl)s,%(t_en)s,%(ss_pl)s,%(ss_en)s,%(s_pl)s,%(s_en)s,%(area)s,%(org_id)s,%(own_n)s,%(own_u)s,
              %(region)s,%(lvl)s,%(lvl_p)s,%(trl_ok)s,%(trl)s,%(trl_p)s,%(assess)s,%(si)s,%(sa)s,%(sc)s,%(oslo)s,%(could)s,
-             %(pip)s,%(first)s,%(checked)s,%(changed)s, lower(public.immutable_unaccent(%(search)s::text)))
+             %(pip)s,%(pips)s,%(first)s,%(checked)s,%(changed)s, lower(public.immutable_unaccent(%(search)s::text)))
            ON CONFLICT (id) DO UPDATE SET
              title_pl = EXCLUDED.title_pl, title_en = EXCLUDED.title_en, summary_short_pl = EXCLUDED.summary_short_pl,
              summary_short_en = EXCLUDED.summary_short_en, summary_pl = EXCLUDED.summary_pl, summary_en = EXCLUDED.summary_en,
@@ -80,7 +83,7 @@ def load_card(conn, card: dict) -> None:
              owner_url = EXCLUDED.owner_url, region = EXCLUDED.region, implementation_level = EXCLUDED.implementation_level,
              implementation_prov = EXCLUDED.implementation_prov, trl_applicable = EXCLUDED.trl_applicable, trl = EXCLUDED.trl,
              trl_prov = EXCLUDED.trl_prov, oslo = EXCLUDED.oslo, could_also_be_used_in = EXCLUDED.could_also_be_used_in,
-             polish_ip = EXCLUDED.polish_ip, search_text = EXCLUDED.search_text,
+             polish_ip = EXCLUDED.polish_ip, polish_ip_status = EXCLUDED.polish_ip_status, search_text = EXCLUDED.search_text,
              last_checked_at = GREATEST(cards.last_checked_at, EXCLUDED.last_checked_at),
              status_changed_at = COALESCE(cards.status_changed_at, EXCLUDED.status_changed_at)""", params)
     # first_seen_at and the scores stay as they are on an update (score.py recomputes the scores).

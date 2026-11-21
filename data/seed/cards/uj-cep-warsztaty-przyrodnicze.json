@@ -124,14 +124,14 @@
     }
   },
   "oslo": {
-    "passed": true,
+    "passed": false,
     "newOrImproved": true,
     "differsSignificantly": false,
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "Warsztaty dla grup szkolnych są dostępne po wcześniejszej rezerwacji. Niektóre tematy mają terminy rozpoczęcia w przyszłości.",
-      "en": "Workshops for school groups are offered by prior booking. Some topics have future start dates."
+      "pl": "Warsztaty dla grup szkolnych po wcześniejszej rezerwacji. Źródło nie opisuje nowej metody ani istotnej różnicy wobec zwykłej oferty zajęć, więc test Oslo nie jest spełniony (ocena).",
+      "en": "Workshops for school groups by prior booking. The source describes no new method or significant difference from an ordinary course offer, so the Oslo test is not met (an estimate)."
     }
   },
   "couldAlsoBeUsedIn": [

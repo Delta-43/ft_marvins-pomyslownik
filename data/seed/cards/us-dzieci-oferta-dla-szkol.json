@@ -124,14 +124,14 @@
     }
   },
   "oslo": {
-    "passed": true,
+    "passed": false,
     "newOrImproved": true,
     "differsSignificantly": false,
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "Szkoły mogą zamawiać wykłady i warsztaty odpłatnie. Oferta jest opisana jako dostępna przez cały rok szkolny.",
-      "en": "Lectures and workshops can be ordered by schools for a fee. The offer is described as running during the whole school year."
+      "pl": "Płatne wykłady i warsztaty dla szkół przez cały rok szkolny. Źródło nie opisuje nowej metody ani istotnej różnicy wobec zwykłej oferty zajęć, więc test Oslo nie jest spełniony (ocena).",
+      "en": "Paid lectures and workshops for schools during the whole school year. The source describes no new method or significant difference from an ordinary course offer, so the Oslo test is not met (an estimate)."
     }
   },
   "couldAlsoBeUsedIn": [

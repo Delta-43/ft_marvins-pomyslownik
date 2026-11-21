@@ -27,3 +27,17 @@ def test_rule_catches_english_only_text():
 
 def test_all_sixteen_regions_have_both_names():
     assert len(REGIONS) == 16 and region_label("DS") == {"pl": "Dolnośląskie", "en": "Lower Silesian"}
+
+
+def test_oslo_and_polish_ip_consistency():
+    from app.services.i18n import consistency_problems
+    ok = {"oslo": {"passed": True, "newOrImproved": True, "differsSignificantly": True, "availableOrInUse": True}, "polishIpStatus": "stated"}
+    assert consistency_problems(ok) == []
+    assert consistency_problems({**ok, "oslo": {**ok["oslo"], "differsSignificantly": False}})
+    assert consistency_problems({**ok, "polishIp": True})  # true needs status confirmed
+
+
+@pytest.mark.parametrize("path", FILES, ids=[pathlib.Path(f).stem for f in FILES])
+def test_seed_card_is_consistent(path):
+    from app.services.i18n import consistency_problems
+    assert consistency_problems(json.loads(pathlib.Path(path).read_text(encoding="utf-8"))) == []

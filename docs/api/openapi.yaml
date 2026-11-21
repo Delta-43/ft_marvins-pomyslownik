@@ -1168,7 +1168,11 @@ components:
             value: { type: [integer, 'null'], minimum: 1, maximum: 9 }
             basis: { $ref: '#/components/schemas/Basis' }
         scores: { $ref: '#/components/schemas/ScoresBrief' }
-        polishIp: { type: boolean, description: 'True when a Polish patent, utility model or Polish origin is confirmed.' }
+        polishIp: { type: boolean, description: 'True only when Polish intellectual property is confirmed (for example in the UPRP register). Same as `polishIpStatus` = confirmed.' }
+        polishIpStatus:
+          type: string
+          enum: [confirmed, stated, unknown]
+          description: '`confirmed`: verified. `stated`: a source names a Polish patent, application, invention, utility model or a Polish-built core technology, not yet verified. `unknown`: no such statement found. Show "stated" as "declared by the source, not verified".'
         lastCheckedAt: { type: string, format: date-time }
         stale:
           type: boolean

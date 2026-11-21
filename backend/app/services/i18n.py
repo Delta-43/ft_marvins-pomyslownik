@@ -67,3 +67,23 @@ YES = {"pl": "tak", "en": "yes"}
 NO = {"pl": "nie", "en": "no"}
 NO_DATA = {"pl": "brak danych", "en": "not enough data"}
 NOT_APPLICABLE = {"pl": "nie dotyczy", "en": "not applicable"}
+
+
+def consistency_problems(card: dict) -> list[str]:
+    """Rules a card must follow besides the language rule."""
+    out: list[str] = []
+    o = card.get("oslo") or {}
+    if o and bool(o.get("passed")) != bool(o.get("newOrImproved") and o.get("differsSignificantly") and o.get("availableOrInUse")):
+        out.append("oslo.passed must be true exactly when all three Oslo conditions are true")
+    status = card.get("polishIpStatus", "unknown")
+    if status not in ("confirmed", "stated", "unknown"):
+        out.append("polishIpStatus must be confirmed, stated or unknown")
+    if bool(card.get("polishIp")) != (status == "confirmed"):
+        out.append("polishIp must be true exactly when polishIpStatus is confirmed")
+    for key in ("implementationLevelDetail", "trlDetail"):
+        p = card.get(key) or {}
+        if p.get("basis") == "confirmed" and not p.get("sourceIds"):
+            out.append(f"{key} is confirmed but names no source")
+        if p.get("basis") == "estimate" and not p.get("method"):
+            out.append(f"{key} is an estimate without a method")
+    return out

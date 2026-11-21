@@ -126,12 +126,12 @@
   "oslo": {
     "passed": true,
     "newOrImproved": true,
-    "differsSignificantly": false,
+    "differsSignificantly": true,
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "Bezpłatny czat AI w miejskim serwisie e-Urząd, w fazie pilotażu. Mieszkańcy mogą już z niego korzystać.",
-      "en": "A free AI chat in the city's e-office service, in a pilot. Residents can already use it."
+      "pl": "Czat AI w e-urzędzie, bezpłatny i dostępny całą dobę, w fazie pilotażu; mieszkańcy już z niego korzystają. Istotnie różni się od wcześniejszej obsługi przez formularze i infolinię (ocena).",
+      "en": "A free 24/7 AI chat in the city's e-office, in a pilot that residents already use. It differs significantly from the earlier service through forms and the helpline (an estimate)."
     }
   },
   "couldAlsoBeUsedIn": [

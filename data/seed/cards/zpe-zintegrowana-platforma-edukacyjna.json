@@ -126,12 +126,12 @@
   "oslo": {
     "passed": true,
     "newOrImproved": true,
-    "differsSignificantly": false,
+    "differsSignificantly": true,
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "Bezpłatna platforma ogólnopolska, z której korzystają szkoły, z dziesiątkami tysięcy e-materiałów.",
-      "en": "A free national platform used by schools, with tens of thousands of e-materials."
+      "pl": "Bezpłatna ogólnopolska platforma z dziesiątkami tysięcy e-materiałów, używana przez szkoły. Wspólne cyfrowe źródło materiałów istotnie różni się od wcześniejszych materiałów rozproszonych (ocena).",
+      "en": "A free national platform with tens of thousands of e-materials, used by schools. One shared digital source of materials differs significantly from the earlier scattered materials (an estimate)."
     }
   },
   "couldAlsoBeUsedIn": [

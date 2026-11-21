@@ -203,5 +203,6 @@
     }
   ],
   "firstSeenAt": "2026-11-21T20:05:00Z",
-  "statusChangedAt": null
+  "statusChangedAt": null,
+  "polishIpStatus": "stated"
 }

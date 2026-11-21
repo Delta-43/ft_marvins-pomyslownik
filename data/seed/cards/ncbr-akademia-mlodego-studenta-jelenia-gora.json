@@ -32,7 +32,7 @@
     "region": "DS"
   },
   "implementationLevel": {
-    "value": "in_practice",
+    "value": "pilot",
     "basis": "estimate"
   },
   "trl": {
@@ -55,16 +55,16 @@
     "en": "A project of the Karkonosze State University of Applied Sciences from the \"Third Mission of Universities\" call (PO WER), run from 15.10.2018 to 31.07.2021. The NCBR page gives a project value of PLN 419,291.84, funding of PLN 395,111.36 and sample classes, such as a radio workshop and kitchen experiments. It gives no participant numbers. Summary written by the model from the page."
   },
   "implementationLevelDetail": {
-    "value": "in_practice",
+    "value": "pilot",
     "basis": "estimate",
     "sourceIds": [
       "e21cc52f-71a2-4f51-899b-14391e7b7e79"
     ],
     "evidenceIds": [],
-    "method": "The page describes a finished project (2018 to 2021) with classes held and sample outcomes listed. Read as in practice. The page does not say whether the classes continue.",
+    "method": "Run once as a time-limited project (15.10.2018 to 31.07.2021). The source does not say the classes continue, so it is treated as a completed pilot.",
     "methodText": {
-      "pl": "Strona opisuje zakończony projekt (2018–2021) z przeprowadzonymi zajęciami i przykładowymi efektami. Przyjęto poziom „wdrożone w praktyce”. Strona nie podaje, czy zajęcia są kontynuowane.",
-      "en": "The page describes a finished project (2018 to 2021) with classes held and sample outcomes listed. Read as in practice. The page does not say whether the classes continue."
+      "pl": "Projekt zrealizowano jednorazowo jako projekt czasowy (15.10.2018–31.07.2021). Źródło nie mówi, że zajęcia trwają nadal, więc traktujemy go jako zakończony pilotaż.",
+      "en": "Run once as a time-limited project (15.10.2018 to 31.07.2021). The source does not say the classes continue, so it is treated as a completed pilot."
     }
   },
   "trlDetail": {

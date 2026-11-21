@@ -135,14 +135,14 @@
     }
   },
   "oslo": {
-    "passed": true,
+    "passed": false,
     "newOrImproved": true,
     "differsSignificantly": true,
-    "availableOrInUse": true,
+    "availableOrInUse": false,
     "basis": "estimate",
     "note": {
-      "pl": "Sprawne tranzystory o zmierzonych parametrach są oferowane w ramach usług produkcyjnych i badawczych.",
-      "en": "Working transistors with measured parameters are offered for production and research services."
+      "pl": "Nowe i istotnie różne: tranzystory z GaN/AlGaN o zmierzonych parametrach. Niedostępne ani nieużywane według źródła: wpis oferuje produkcję na zamówienie i usługi badawcze, ale nie podaje sprzedaży ani wdrożenia. Ta sama zasada co dla innych ofert licencyjnych.",
+      "en": "New and significantly different: GaN/AlGaN transistors with measured parameters. Not shown to be available or in use: the listing offers contract production and research services but reports no sales or deployment. Same rule as the other licence offers."
     }
   },
   "couldAlsoBeUsedIn": [

@@ -90,7 +90,7 @@ class Filters:
 
 
 SUMMARY_COLS = """
-  c.id, c.title_pl, c.title_en, c.summary_short_pl, c.summary_short_en, c.area, c.polish_ip, c.last_checked_at,
+  c.id, c.title_pl, c.title_en, c.summary_short_pl, c.summary_short_en, c.area, c.polish_ip, c.polish_ip_status, c.last_checked_at,
   c.implementation_level, c.implementation_prov->>'basis' AS level_basis,
   c.trl_applicable, c.trl, c.trl_prov->>'basis' AS trl_basis,
   c.score_innovativeness, c.score_application, c.score_credibility,
@@ -115,6 +115,7 @@ def summary(r: dict, relevance: float | None = None) -> dict:
         "scores": {"innovativeness": r["score_innovativeness"], "applicationPotential": r["score_application"],
                    "credibility": r["score_credibility"]},
         "polishIp": r["polish_ip"],
+        "polishIpStatus": r["polish_ip_status"],
         "lastCheckedAt": iso(r["last_checked_at"]),
         "stale": r["stale"],
         "sourceCount": r["source_count"],

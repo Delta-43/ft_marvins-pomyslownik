@@ -126,12 +126,12 @@
   "oslo": {
     "passed": true,
     "newOrImproved": true,
-    "differsSignificantly": false,
+    "differsSignificantly": true,
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "Voicebot umawiający wizyty w urzędzie, dostępny telefonicznie od 2024 r. Mieszkańcy mogą już z niego korzystać.",
-      "en": "A voicebot that books office visits, available by phone since 2024. Residents can already use it."
+      "pl": "Voicebot rezerwujący wizyty w urzędzie, działający telefonicznie od 2024 r. Zastępuje rezerwację przez konsultanta, więc istotnie różni się od wcześniejszego procesu (ocena).",
+      "en": "A voicebot that books office visits by phone, running since 2024. It replaces booking through a consultant, so it differs significantly from the earlier process (an estimate)."
     }
   },
   "couldAlsoBeUsedIn": [

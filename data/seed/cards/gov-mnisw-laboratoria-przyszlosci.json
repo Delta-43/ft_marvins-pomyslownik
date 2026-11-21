@@ -26,7 +26,7 @@
     }
   ],
   "organisation": {
-    "name": "Ministerstwo Nauki i Szkolnictwa Wyższego",
+    "name": "Ministerstwo Edukacji i Nauki",
     "type": "public_institution",
     "url": "https://www.gov.pl/web/nauka",
     "region": null
@@ -144,7 +144,7 @@
     }
   ],
   "owner": {
-    "name": "Ministerstwo Nauki i Szkolnictwa Wyższego",
+    "name": "Ministerstwo Edukacji i Nauki",
     "url": "https://www.gov.pl/web/laboratoria"
   },
   "sources": [

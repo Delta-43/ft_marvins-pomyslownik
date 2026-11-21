@@ -9,7 +9,7 @@ import re
 import uuid
 
 from ..db import connection
-from ..services.i18n import problems
+from ..services.i18n import consistency_problems, problems
 from .extract import Extraction, level_supported, norm, number_in, on_page
 
 ESTIMATE_BY_MODEL = {"pl": "Zaproponowane przez model na podstawie tekstu źródła; źródło nie podaje tego wprost. Wymaga weryfikacji.",
@@ -18,6 +18,10 @@ TRL_NOT_APPLICABLE = {"pl": "Nie dotyczy: skala TRL opisuje technologie, a to ro
                       "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."}
 TRL_UNKNOWN = {"pl": "Źródło nie podaje poziomu gotowości technologicznej, a model nie znalazł podstaw do jego oceny.",
                "en": "The source gives no technology readiness level and the model found no basis to estimate one."}
+
+
+# Protection forms on PTT listings and similar pages that point to Polish industrial property.
+PROTECTION = re.compile(r"Forma ochrony\s+(?:Wynalazek|Zgłoszenie wynalazku|Wzór użytkowy|Wzór przemysłowy)|patent(?:u|em)? (?:nr|PL)|\bP\.\d{6}\b")
 
 
 def card_id_for(url: str) -> str:
@@ -47,7 +51,8 @@ def build_card(x: Extraction, *, text: str, url: str, source_name: str, source_t
             evidence.append({"id": str(uuid.uuid4()), "metric": _slug(f.metric).replace("-", "_"), "label": f.label.model_dump(),
                              "value": value, "unit": f.unit or None, "sourceId": sid,
                              "query": f'Read from {url}. Quoted text: "{norm(f.quote)}"', "retrievedAt": retrieved_at})
-    if x.polish_patent_number and on_page(x.polish_patent_quote, text) and x.polish_patent_number in norm(x.polish_patent_quote):
+    patent_stated = bool(x.polish_patent_number and on_page(x.polish_patent_quote, text) and x.polish_patent_number in norm(x.polish_patent_quote))
+    if patent_stated:
         evidence.append({"id": str(uuid.uuid4()), "metric": "polish_patent_number_stated",
                          "label": {"pl": "Numer polskiego patentu lub zgłoszenia podany przez źródło", "en": "Polish patent or application number stated by the source"},
                          "value": x.polish_patent_number, "unit": None, "sourceId": sid,
@@ -86,6 +91,7 @@ def build_card(x: Extraction, *, text: str, url: str, source_name: str, source_t
         "trl": {"applicable": technological, "value": trl_value, "basis": trl_prov["basis"]},
         "scores": {"innovativeness": None, "applicationPotential": None, "credibility": None},
         "polishIp": False,  # set only after the number is verified in the UPRP register (not reachable without login)
+        "polishIpStatus": "stated" if (patent_stated or PROTECTION.search(text)) else "unknown",
         "lastCheckedAt": now, "stale": False, "sourceCount": 1, "relevance": None,
         "implementationLevelDetail": {"value": x.implementation_level, **prov(x.implementation_quote, level_ok)},
         "trlDetail": {"applicable": technological, "value": trl_value, **trl_prov},
@@ -99,9 +105,9 @@ def build_card(x: Extraction, *, text: str, url: str, source_name: str, source_t
                      "passage": passage, "passageLang": _passage_lang(passage) if passage else None, "license": license}],
         "evidence": evidence, "firstSeenAt": now, "statusChangedAt": None,
     }
-    bad = problems(card)
+    bad = problems(card) + consistency_problems(card)
     if bad:
-        raise ValueError(f"extracted card breaks the language rule: {', '.join(bad)}")
+        raise ValueError(f"extracted card breaks a card rule: {', '.join(bad)}")
     return card
 
 

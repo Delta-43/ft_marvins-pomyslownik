@@ -33,7 +33,7 @@
   },
   "implementationLevel": {
     "value": "in_practice",
-    "basis": "confirmed"
+    "basis": "estimate"
   },
   "trl": {
     "applicable": false,
@@ -51,17 +51,21 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "System dialogowy na stronie BIP Wrocławia, oparty na Bazie Wiedzy wspólnej dla Wirtualnego Doradcy, konsultantów Contact Center i urzędników. Rozpoznaje pytania zadane w zdaniu i radzi sobie z błędami w pisowni. Strona nie podaje daty uruchomienia ani liczby użytkowników. Streszczenie napisane przez model na podstawie strony.",
-    "en": "A dialogue system on the Wrocław bulletin site, built on a Knowledge Base shared by the Virtual Adviser, Contact Centre consultants and officials. It recognises questions asked in full sentences and copes with spelling errors. The page gives no launch date or user numbers. Summary written by the model from the page."
+    "pl": "System dialogowy w Biuletynie Informacji Publicznej Wrocławia, oparty na Bazie Wiedzy wspólnej dla Wirtualnego Doradcy, konsultantów Contact Center i urzędników. Rozpoznaje pytania zadane pełnymi zdaniami i radzi sobie z błędami pisowni. Strona pochodzi z 03.04.2016 i jest materiałem archiwalnym; nie podaje liczby użytkowników. Streszczenie napisane przez model na podstawie źródła.",
+    "en": "A dialogue system on the Wrocław public information bulletin, built on a Knowledge Base shared by the Virtual Adviser, Contact Centre consultants and officials. It recognises questions asked in full sentences and copes with spelling errors. The page dates from 03.04.2016 and is archive material; it gives no user numbers. Summary written by the model from the source."
   },
   "implementationLevelDetail": {
     "value": "in_practice",
-    "basis": "confirmed",
+    "basis": "estimate",
     "sourceIds": [
       "2cec0169-344d-4871-8341-6c7db91cfd98"
     ],
     "evidenceIds": [],
-    "method": null
+    "method": "The page, dated 03.04.2016 and marked as archive material, describes a working service. It does not confirm the service runs today.",
+    "methodText": {
+      "pl": "Strona z 03.04.2016, oznaczona jako archiwalna, opisuje działającą usługę. Nie potwierdza, że usługa działa dziś.",
+      "en": "The page, dated 03.04.2016 and marked as archive material, describes a working service. It does not confirm the service runs today."
+    }
   },
   "trlDetail": {
     "applicable": false,
@@ -125,12 +129,12 @@
   "oslo": {
     "passed": false,
     "newOrImproved": true,
-    "differsSignificantly": true,
+    "differsSignificantly": false,
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "Działająca usługa czatu w BIP miasta. Strona opisuje oprogramowanie jako sprawdzone i używane przez wielu klientów, więc nowość nie została wykazana.",
-      "en": "A working chat service on the city bulletin site. The page calls the software established and used by many clients, so novelty is not shown."
+      "pl": "Nowa usługa dla mieszkańców i dostępna w 2016 r. Strona opisuje jednak oprogramowanie jako sprawdzone i używane przez wielu klientów, więc istotna różnica wobec istniejących rozwiązań nie jest wykazana.",
+      "en": "A new service for residents, available in 2016. The page describes the software as established and used by many clients, so a significant difference from existing solutions is not shown."
     }
   },
   "couldAlsoBeUsedIn": [

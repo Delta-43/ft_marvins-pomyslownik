@@ -135,12 +135,12 @@
   "oslo": {
     "passed": false,
     "newOrImproved": true,
-    "differsSignificantly": false,
+    "differsSignificantly": true,
     "availableOrInUse": false,
     "basis": "estimate",
     "note": {
-      "pl": "Brak dowodów na zbudowanie lub przetestowanie urządzenia, więc nie wykazano jego dostępności ani użycia.",
-      "en": "No evidence of a built or tested device, so it is not shown to be available or in use."
+      "pl": "Nowe lub ulepszone i istotnie różne: rozwiązanie zgłoszono jako wynalazek („Forma ochrony: Wynalazek”), co wymaga nowości (ocena). Niedostępne ani nieużywane: oferta dotyczy tylko licencji, źródło nie opisuje zbudowanego ani sprzedawanego urządzenia.",
+      "en": "New or improved and significantly different: it is registered as an invention (\"Forma ochrony: Wynalazek\"), which requires novelty (an estimate). Not available or in use: the listing offers only a licence and describes no built or sold device."
     }
   },
   "couldAlsoBeUsedIn": [
@@ -181,5 +181,6 @@
     }
   ],
   "firstSeenAt": "2026-11-21T20:05:00Z",
-  "statusChangedAt": null
+  "statusChangedAt": null,
+  "polishIpStatus": "stated"
 }
