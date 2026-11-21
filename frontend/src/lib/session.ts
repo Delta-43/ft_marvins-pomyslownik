@@ -1,8 +1,31 @@
-/** Session cookie names, shared by proxy.ts, the layout and the auth server actions.
- *  SESSION_COOKIE: real session (task F11 sets it after /api/v1/auth/login, httpOnly).
- *  DEMO_COOKIE: TEMPORARY "demo mode" for building without a backend. Remove before release. */
-export const SESSION_COOKIE = "pomyslownik_session";
-export const DEMO_COOKIE = "pomyslownik_demo";
+/** Session handling. The token lives only in an httpOnly cookie set by a server action. */
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { api, ApiError } from "@/lib/api";
 
-/** Routes that need a signed-in user (or demo mode). Card data never shows without one. */
-export const PROTECTED_PATHS = ["/szukaj", "/wyniki"];
+import { SESSION_COOKIE } from "@/lib/cookie";
+export { SESSION_COOKIE };
+
+/** Routes that need a signed-in user. Card data never shows without one. Keep in sync with proxy.ts. */
+export const PROTECTED_PATHS = ["/szukaj", "/wyniki", "/karta", "/profil"];
+
+export async function getToken(): Promise<string | null> {
+  return (await cookies()).get(SESSION_COOKIE)?.value ?? null;
+}
+
+/** Where to send the user when the session is missing or expired. The route handler clears the cookie. */
+function expired(next: string): never {
+  redirect(`/sesja-wygasla?next=${encodeURIComponent(next)}`);
+}
+
+/** Authenticated GET for server components. A 401 clears the session and goes to sign-in. */
+export async function authed<T>(path: string, currentPath: string): Promise<T> {
+  const token = await getToken();
+  if (!token) expired(currentPath);
+  try {
+    return await api<T>(path, { token });
+  } catch (e) {
+    if (e instanceof ApiError && e.status === 401) expired(currentPath);
+    throw e;
+  }
+}

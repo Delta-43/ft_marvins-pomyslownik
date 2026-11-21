@@ -3,7 +3,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { Logo } from "@/components/Logo";
 import { signOut } from "@/app/actions/auth";
-import { DEMO_COOKIE, SESSION_COOKIE } from "@/lib/session";
+import { DEMO_COOKIE, SESSION_COOKIE } from "@/lib/cookie";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,8 +17,8 @@ const FONTS =
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const store = await cookies();
-  const demo = store.has(DEMO_COOKIE);
-  const signedIn = demo || store.has(SESSION_COOKIE);
+  const signedIn = store.has(SESSION_COOKIE);
+  const demo = signedIn && store.has(DEMO_COOKIE);
   return (
     <html lang="pl">
       <head>
@@ -38,6 +38,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   {demo && <li className="mr-1 rounded-full bg-iskra px-2.5 py-0.5 text-xs font-bold text-atrament shadow-sm">Tryb demo</li>}
                   <li><Link href="/szukaj">Szukaj</Link></li>
                   <li><Link href="/wyniki">Wyniki</Link></li>
+                  <li><Link href="/profil">Profil</Link></li>
                   <li>
                     <form action={signOut}>
                       <button type="submit" className="btn-liquid cursor-pointer rounded-full px-4 py-1.5 font-bold">Wyloguj</button>

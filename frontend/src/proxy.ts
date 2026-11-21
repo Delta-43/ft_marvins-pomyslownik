@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { DEMO_COOKIE, SESSION_COOKIE } from "@/lib/session";
+import { SESSION_COOKIE } from "@/lib/cookie";
 
-// Sign-in gate: search and results need a session (or TEMPORARY demo mode).
-// Without one, send the user to /logowanie and remember where they were going.
+// Sign-in gate: card pages need a session cookie. Without one, send the user to /logowanie
+// and remember where they were going. An expired token is caught later (API 401 -> /sesja-wygasla).
 export function proxy(request: NextRequest) {
-  const signedIn = request.cookies.has(SESSION_COOKIE) || request.cookies.has(DEMO_COOKIE);
-  if (signedIn) return NextResponse.next();
+  if (request.cookies.has(SESSION_COOKIE)) return NextResponse.next();
 
   const login = new URL("/logowanie", request.url);
   login.searchParams.set("next", request.nextUrl.pathname + request.nextUrl.search);
@@ -15,5 +14,5 @@ export function proxy(request: NextRequest) {
 
 // Keep in sync with PROTECTED_PATHS in src/lib/session.ts.
 export const config = {
-  matcher: ["/szukaj/:path*", "/wyniki/:path*"],
+  matcher: ["/szukaj/:path*", "/wyniki/:path*", "/karta/:path*", "/profil/:path*"],
 };
