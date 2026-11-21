@@ -1,0 +1,8 @@
+extends:
+  - recommended
+rules:
+  # Read-only list endpoints with no failure mode of their own do not need a 4XX response.
+  operation-4xx-response: off
+  # The card detail example uses a $ref inside the example value. The linter does not resolve it
+  # and reports false positives. Prism does resolve it (checked with the mock server).
+  no-invalid-media-type-examples: off

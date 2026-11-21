@@ -1,0 +1,17 @@
+# Delta-server overrides. Use together with compose.yaml:
+#   docker compose -f compose.yaml -f compose.prod.yaml --profile full up -d --build
+# The tunnel points at the api container (port 8000) and, if the web app is served too, at web (port 3000).
+
+services:
+  db:
+    restart: unless-stopped
+  api:
+    restart: unless-stopped
+    ports: !override
+      - "127.0.0.1:8000:8000"
+  worker:
+    restart: unless-stopped
+  web:
+    restart: unless-stopped
+    ports: !override
+      - "127.0.0.1:3000:3000"

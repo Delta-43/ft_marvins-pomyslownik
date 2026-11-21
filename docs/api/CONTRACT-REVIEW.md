@@ -1,0 +1,68 @@
+# Contract review: Innovation Radar API v1 (draft 1)
+
+Date: 2026-11-21. Method: the ten design checks of the `api-contract-review` skill (Mozurok/fhorja.dev), applied by hand to `openapi.yaml` before any backend code exists. The review is by the author of the draft, so it is a self-review. A second reader from the team should check it.
+
+**Grounding.** Statements below rest on command output seen during this review: the Redocly CLI lint of `openapi.yaml` (valid, 3 warnings), a running Prism 5 mock (200, 400, 401, 404, 429 responses, CORS header), `openapi-typescript` 7.13.0 type generation (1,368 lines, all operations present), and `docker compose config` for both compose files. Items marked `[ungrounded: ...]` were not run.
+
+## 1. Contract summary
+
+15 operations, base path `/api/v1` (health is `/health`, unversioned). JSON, camelCase, success body `{ data }`, list body adds `meta { total, limit, offset }`, error body `{ error { code, message, details, requestId } }`.
+
+| Area | Operations | Auth |
+|---|---|---|
+| Cards | `GET /cards`, `GET /cards/{id}`, `GET /cards/{id}/similar`, `GET /cards/{id}/history`, `GET /compare` | Public |
+| Reference | `GET /facets`, `GET /audiences`, `GET /sources` | Public |
+| Statistics | `GET /stats/overview`, `GET /stats/usage` | Public |
+| Events | `POST /events` | Public write, anonymous |
+| Admin | `POST /admin/collect-runs`, `GET /admin/collect-runs`, `GET /admin/collect-runs/{id}` | Bearer token |
+| System | `GET /health` | Public |
+
+There is no endpoint that submits an idea, creates an account or moves money. This follows the organisers' FAQ section 6.
+
+## 2. Findings per check
+
+| # | Check | Result |
+|---|---|---|
+| 2 | Naming and paths | Pass. Plural resources (`cards`, `sources`, `collect-runs`). Hierarchy reflects ownership (`/cards/{id}/similar`). `/compare`, `/facets`, `/audiences` are read-only helper views, named as nouns. `/health` is unversioned on purpose |
+| 3 | HTTP methods | Pass. Every read is GET with no side effects. Both POSTs create something (an event, a run). Compare uses GET with up to four ids in the query, which fits the URL length limit |
+| 4 | Shapes | **Fixed during review:** `Audience.defaultFilters` was a free object. It is now the typed `CardFilters`. Remaining: `UsageEvent` is closed (`additionalProperties: false`). `Evidence.value` allows number, string or boolean on purpose. Nullable fields are typed with `null`. Casing is camelCase everywhere. Envelope is consistent |
+| 5 | Errors | **Fixed during review:** malformed JSON now returns `400 bad_request`, separate from `422 validation_failed`. Codes are an enum. Messages carry no internal detail. 401, 403, 404, 409, 422, 429, 500 and 503 are used for their normal meaning |
+| 6 | Auth | Admin endpoints need a bearer token. Public reads are marked `security: []` so they are visibly intentional. There is no tenant, so no tenant filter. **Open:** `POST /events` is a public write. See risk R1. `GET /stats/usage` is public. See question Q1 |
+| 7 | Pagination | Pass. `limit` (default 20, max 100) and `offset`, with `total`. `similar` has a small cap (max 20, no offset). Facet lists are capped at 50 options. `history` is unbounded but small by nature |
+| 8 | Idempotency | Pass. `POST /events` is deduplicated by a client `eventId`. `POST /admin/collect-runs` needs an `Idempotency-Key` (same key and body returns the same run, same key and different body returns 409). **Fixed during review:** a second run while one is active now returns `409 run_in_progress` |
+| 9 | Versioning | URL versioning (`/api/v1`). Rule in the description: inside v1 only optional fields and new endpoints are added. Breaking changes go to v2 |
+| 10 | Alignment with existing API | Not applicable. The service is new. The submission repository held only a README when checked |
+
+## 3. Overall assessment
+
+**Ready to implement**, with the three fixes above already applied. The remaining items are decisions, not defects.
+
+## 4. Risks and open questions
+
+| ID | Item | Proposal |
+|---|---|---|
+| R1 | `POST /events` has no auth, so anyone can post fake events and skew the PCI statistics | Rate limit per IP in the backend. Cap body size. Closed field set. Accept that the numbers are indicative. Do not store IP addresses |
+| R2 | The static admin token in `ADMIN_TOKEN` is weak | Fine for a hackathon demo. Use a long random value. Serve the admin screen only from a field where the token is typed. Rotate after the demo |
+| R3 | Tunnel and CORS: the browser calls the API on another origin | Set `CORS_ORIGINS` to the exact web origin. Do not use `*` with credentials |
+| R4 | Server-side rendering needs a different API address from the browser | `API_BASE_URL_INTERNAL` (compose network) and `NEXT_PUBLIC_API_BASE_URL` (browser). Already in `compose.yaml` and `.env.example` |
+| Q1 | Should `/stats/usage` be public or admin only? | Public is simpler for the demo. The FAQ says analytics are anonymous. Counts under 5 are hidden. Decide with the PCI mentor |
+| Q2 | Card id: UUID or a readable slug in URLs? | UUID now. Adding an optional `slug` field later is a backward-compatible change |
+| Q3 | Search language: one `q` matches both languages. Good enough? | Yes for the demo. Revisit if Polish matching is poor |
+| Q4 | `couldAlsoBeUsedIn` and `explanation` are model-written. They are always estimates | Backend must run the "no number outside the evidence" check on both before storing |
+
+## 5. Reference grounding
+
+| Contract named | Status |
+|---|---|
+| OpenAPI 3.1.0 document | Grounded. Redocly CLI lint output seen (valid) |
+| Prism 5 as the mock server, with `--multiprocess=false` | Grounded. Ran it. The default multiprocess mode crashed on startup |
+| `Prefer: code=<status>` header on Prism | Grounded. 404 and 429 observed |
+| `openapi-typescript` for generated types | Grounded. Version 7.13.0 ran on the file |
+| Compose `ports: !override` for the production file | Grounded. `config` output shows `host_ip: 127.0.0.1` |
+| Image `pgvector/pgvector:pg16` | `[ungrounded: image and tag not pulled in this review]` |
+| Image `stoplight/prism:5` | Grounded. Pulled and run |
+| Healthcheck `wget` inside the backend image | `[ungrounded: depends on the image the backend owner builds; busybox images have wget, slim images may not]` |
+
+## 6. Next step
+
+The backend owner implements against `openapi.yaml`. The frontend team builds against the mock (`docs/FRONTEND-START.md`). Any change goes through the contract first. A contract test (schemathesis or similar) against the real backend is listed in `TASKS.md`.

@@ -1,0 +1,1155 @@
+openapi: 3.1.0
+info:
+  title: Innovation Radar API
+  version: 1.0.0-draft.1
+  summary: Read API for the Innovation Radar prototype (Hacknation 2026, PCI challenge).
+  description: |
+    Contract-first draft. The frontend builds against this file with a mock server.
+    The backend implements it. If either side needs a change, change this file first.
+
+    **Product rules that shape the API**
+    - The Radar finds innovations that already exist. There is no endpoint to submit an idea.
+    - Search is public. No account is needed. Only the `/admin` endpoints need a token.
+    - Every assessed field says whether it is a **confirmed** fact (with sources) or an **estimate**
+      (with the method). The model never produces a number. Scores come from stored evidence.
+    - Anonymous usage events carry no free text and no user identifier.
+
+    **Conventions**
+    - Base path `/api/v1`. Changes inside v1 only add optional fields or endpoints.
+    - JSON, `camelCase`, UTF-8. Timestamps are RFC 3339 in UTC.
+    - Every success body is `{ "data": ... }`. List bodies add `meta` with `total`, `limit`, `offset`.
+    - Every error body is `{ "error": { "code", "message", "details", "requestId" } }`.
+    - Malformed JSON returns `400 bad_request`. A well-formed but invalid value returns `422 validation_failed`.
+    - Text for people is `LocalizedText` (`pl`, `en`). The frontend picks the language and falls back to the other.
+    - CORS: the API allows the web origins listed in the `CORS_ORIGINS` environment variable.
+    - Rate limiting: a `429` carries a `Retry-After` header (seconds).
+
+    **Status of this draft**
+    Mock example data is fictional and starts with `[MOCK]`. Field names are agreed by the team only when
+    this file is merged. Open questions are in `docs/api/CONTRACT-REVIEW.md`.
+  license:
+    name: EUPL-1.2
+    url: https://eupl.eu/1.2/en
+servers:
+  - url: http://localhost:4010
+    description: Mock server (Prism), for frontend work
+  - url: http://localhost:8000
+    description: Local backend
+  - url: https://api.example.invalid
+    description: Delta-server behind the tunnel. Replace with the real host when it exists
+# Public by default. Only operations with their own `security` entry need the admin token.
+security: []
+tags:
+  - name: Cards
+    description: Search, read and compare innovation cards. Public.
+  - name: Reference
+    description: Filter options, audience presets, sources. Public.
+  - name: Statistics
+    description: Aggregate numbers for the overview and for PCI. Public, anonymous.
+  - name: Events
+    description: Anonymous usage events. Public write, no personal data.
+  - name: Admin
+    description: Trigger and inspect collection runs. Needs a bearer token.
+  - name: System
+    description: Health.
+
+paths:
+  /health:
+    get:
+      tags: [System]
+      operationId: getHealth
+      summary: Liveness and dependency check
+      description: Not versioned. Used by container healthchecks and the tunnel monitor.
+      responses:
+        '200':
+          description: Service is up.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, version, database]
+                properties:
+                  status: { type: string, enum: [ok, degraded] }
+                  version: { type: string, examples: ['1.0.0-draft.1'] }
+                  database: { type: string, enum: [up, down] }
+                  lastRefreshAt:
+                    type: [string, 'null']
+                    format: date-time
+        '503':
+          $ref: '#/components/responses/Unavailable'
+
+  /api/v1/cards:
+    get:
+      tags: [Cards]
+      operationId: searchCards
+      summary: Search and filter innovation cards
+      description: |
+        Free-text search plus filters. Multi-value filters are comma separated (`area=technological,educational`).
+        Counts and facets for the same filters come from `/api/v1/facets`.
+        Default sort is `relevance` when `q` is set, otherwise `recent`.
+      parameters:
+        - { name: q, in: query, description: Free text. Matches Polish and English text., schema: { type: string, maxLength: 200 } }
+        - { name: area, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/Area' } } }
+        - { name: implementationLevel, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/ImplementationLevel' } } }
+        - { name: trlMin, in: query, schema: { type: integer, minimum: 1, maximum: 9 } }
+        - { name: trlMax, in: query, schema: { type: integer, minimum: 1, maximum: 9 } }
+        - { name: tag, in: query, style: form, explode: false, description: Tag slugs., schema: { type: array, items: { type: string } } }
+        - { name: region, in: query, description: 'Region code, for example `PK` for Podkarpackie.', schema: { type: string, maxLength: 10 } }
+        - { name: audience, in: query, description: Applies the preset from `/api/v1/audiences`. Explicit filters override it., schema: { $ref: '#/components/schemas/AudienceId' } }
+        - { name: polishIp, in: query, description: Only cards based on Polish IP., schema: { type: boolean } }
+        - { name: minCredibility, in: query, schema: { type: integer, minimum: 0, maximum: 100 } }
+        - { name: includeStale, in: query, schema: { type: boolean, default: true } }
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [relevance, recent, innovativeness, applicationPotential, credibility]
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A page of card summaries.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/CardSummary' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /api/v1/cards/{cardId}:
+    get:
+      tags: [Cards]
+      operationId: getCard
+      summary: Read one full innovation card
+      description: Includes the assessment, the sources and the evidence rows the scores were computed from.
+      parameters:
+        - $ref: '#/components/parameters/CardId'
+      responses:
+        '200':
+          description: The card.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/Card' }
+              examples:
+                default:
+                  summary: Full card (fictional)
+                  value:
+                    data:
+                      $ref: '#/components/examples/CardDetail/value'
+        '404': { $ref: '#/components/responses/NotFound' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /api/v1/cards/{cardId}/similar:
+    get:
+      tags: [Cards]
+      operationId: getSimilarCards
+      summary: Cards similar to this one
+      description: Used for the innovativeness check and the "similar solutions" panel. Sorted by similarity, highest first.
+      parameters:
+        - $ref: '#/components/parameters/CardId'
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 20, default: 5 } }
+      responses:
+        '200':
+          description: Similar cards.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required: [card, similarity, basis]
+                      properties:
+                        card: { $ref: '#/components/schemas/CardSummary' }
+                        similarity:
+                          type: number
+                          minimum: 0
+                          maximum: 1
+                          description: Computed from stored embeddings and shared keywords. Not written by the model.
+                        basis: { $ref: '#/components/schemas/Basis' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /api/v1/cards/{cardId}/history:
+    get:
+      tags: [Cards]
+      operationId: getCardHistory
+      summary: Status changes found by scheduled refreshes
+      parameters:
+        - $ref: '#/components/parameters/CardId'
+      responses:
+        '200':
+          description: Changes, newest first. Empty when nothing changed since first seen.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/StatusChange' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /api/v1/compare:
+    get:
+      tags: [Cards]
+      operationId: compareCards
+      summary: Compare two to four cards side by side
+      parameters:
+        - name: ids
+          in: query
+          required: true
+          style: form
+          explode: false
+          description: Two to four card ids, comma separated.
+          schema:
+            type: array
+            minItems: 2
+            maxItems: 4
+            items: { type: string, format: uuid }
+      responses:
+        '200':
+          description: The cards and a row-by-row comparison the frontend can render as a table.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [cards, rows]
+                    properties:
+                      cards:
+                        type: array
+                        items: { $ref: '#/components/schemas/CardSummary' }
+                      rows:
+                        type: array
+                        items: { $ref: '#/components/schemas/CompareRow' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+
+  /api/v1/facets:
+    get:
+      tags: [Reference]
+      operationId: getFacets
+      summary: Filter options with counts for the current filters
+      description: Accepts the same filter parameters as `/api/v1/cards` (not `sort`, `limit`, `offset`). The `tag` and `region` lists return at most the 50 largest options.
+      parameters:
+        - { name: q, in: query, schema: { type: string, maxLength: 200 } }
+        - { name: area, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/Area' } } }
+        - { name: implementationLevel, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/ImplementationLevel' } } }
+        - { name: tag, in: query, style: form, explode: false, schema: { type: array, items: { type: string } } }
+        - { name: region, in: query, schema: { type: string, maxLength: 10 } }
+        - { name: audience, in: query, schema: { $ref: '#/components/schemas/AudienceId' } }
+        - { name: polishIp, in: query, schema: { type: boolean } }
+      responses:
+        '200':
+          description: Counts per option.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [area, implementationLevel, tag, region, polishIp]
+                    properties:
+                      area: { type: array, items: { $ref: '#/components/schemas/FacetOption' } }
+                      implementationLevel: { type: array, items: { $ref: '#/components/schemas/FacetOption' } }
+                      tag: { type: array, items: { $ref: '#/components/schemas/FacetOption' } }
+                      region: { type: array, items: { $ref: '#/components/schemas/FacetOption' } }
+                      polishIp:
+                        type: object
+                        required: ['true', 'false']
+                        properties:
+                          'true': { type: integer, minimum: 0 }
+                          'false': { type: integer, minimum: 0 }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+
+  /api/v1/audiences:
+    get:
+      tags: [Reference]
+      operationId: listAudiences
+      summary: The six audience presets
+      description: A preset is a saved filter set plus the fields to show first. It is not a separate site and not an account type.
+      responses:
+        '200':
+          description: All presets.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Audience' }
+
+  /api/v1/sources:
+    get:
+      tags: [Reference]
+      operationId: listSources
+      summary: Sources the Radar collects from, with freshness
+      parameters:
+        - { name: type, in: query, schema: { $ref: '#/components/schemas/SourceType' } }
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A page of sources.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/SourceSummary' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+
+  /api/v1/stats/overview:
+    get:
+      tags: [Statistics]
+      operationId: getOverviewStats
+      summary: Database size, coverage and freshness
+      description: Feeds the home page and the effectiveness measures (task section 6e).
+      responses:
+        '200':
+          description: Current numbers. Computed from the database, never from the model.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/OverviewStats' }
+
+  /api/v1/stats/usage:
+    get:
+      tags: [Statistics]
+      operationId: getUsageStats
+      summary: Anonymous usage trends for PCI
+      description: Aggregates of events from `POST /api/v1/events`. Counts below 5 are not shown, to avoid singling anyone out.
+      parameters:
+        - { name: from, in: query, description: Start of period., schema: { type: string, format: date } }
+        - { name: to, in: query, description: End of period (inclusive)., schema: { type: string, format: date } }
+      responses:
+        '200':
+          description: Aggregated counts.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/UsageStats' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+
+  /api/v1/events:
+    post:
+      tags: [Events]
+      operationId: recordEvent
+      summary: Record one anonymous usage event
+      description: |
+        Safe to retry. The same `eventId` is stored once. No free text, no user id, no IP address is stored.
+        The frontend should send events with `navigator.sendBeacon` or a fire-and-forget call, and ignore failures.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UsageEvent' }
+      responses:
+        '202':
+          description: Accepted. A repeated `eventId` also returns 202.
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /api/v1/admin/collect-runs:
+    post:
+      tags: [Admin]
+      operationId: startCollectRun
+      summary: Start a collection or refresh run
+      description: |
+        Starts the collectors now, outside the schedule. Used in the demo to show a status change.
+        Send an `Idempotency-Key` header. A retry with the same key and body returns the same run.
+        The same key with a different body returns `409`.
+      security: [{ adminBearer: [] }]
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, minLength: 8, maxLength: 80 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mode]
+              properties:
+                mode:
+                  type: string
+                  enum: [collect, refresh]
+                  description: '`collect` looks for new items. `refresh` rechecks known cards for status changes.'
+                sourceIds:
+                  type: array
+                  description: Limit the run to these sources. Empty or missing means all.
+                  items: { type: string, format: uuid }
+      responses:
+        '202':
+          description: Run accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/CollectRun' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+    get:
+      tags: [Admin]
+      operationId: listCollectRuns
+      summary: List recent runs
+      security: [{ adminBearer: [] }]
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A page of runs, newest first.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/CollectRun' }
+                  meta: { $ref: '#/components/schemas/PageMeta' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /api/v1/admin/collect-runs/{runId}:
+    get:
+      tags: [Admin]
+      operationId: getCollectRun
+      summary: Read one run
+      security: [{ adminBearer: [] }]
+      parameters:
+        - { name: runId, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: The run.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/CollectRun' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+components:
+  securitySchemes:
+    adminBearer:
+      type: http
+      scheme: bearer
+      description: Static admin token from the `ADMIN_TOKEN` environment variable. Only for the demo and PCI staff. Never put it in frontend code that is served to the public.
+
+  examples:
+    CardDetail:
+      summary: Full card (fictional)
+      value:
+          id: 7b1d5a52-3d0e-4c52-9a43-0a8e5f1c2d01
+          title: { pl: '[MOCK] Lekka obudowa czujnika', en: '[MOCK] Lightweight sensor housing' }
+          summaryShort: { en: '[MOCK] A composite housing for flight sensors, tested in a university lab.' }
+          summary: { en: '[MOCK] A composite housing that cuts sensor mass for small aircraft. Prototype tested in a university lab. Patent application filed in Poland. Fictional example for frontend work.' }
+          area: technological
+          tags: [{ slug: robotics, label: { pl: Robotyka, en: Robotics } }, { slug: aviation, label: { pl: Lotnictwo, en: Aviation } }]
+          organisation: { name: '[MOCK] Example University of Technology', type: university, url: null, region: PK }
+          implementationLevel: { value: prototype, basis: confirmed }
+          trl: { applicable: true, value: 5, basis: estimate }
+          scores: { innovativeness: 62, applicationPotential: 48, credibility: 71 }
+          polishIp: true
+          lastCheckedAt: '2026-11-22T06:10:00Z'
+          stale: false
+          sourceCount: 2
+          relevance: null
+          implementationLevelDetail:
+            value: prototype
+            basis: confirmed
+            sourceIds: [11111111-1111-4111-8111-111111111111]
+            evidenceIds: []
+            method: null
+          trlDetail:
+            applicable: true
+            value: 5
+            basis: estimate
+            sourceIds: [11111111-1111-4111-8111-111111111111]
+            evidenceIds: []
+            method: 'Mapped from "prototype tested in a laboratory environment" to TRL 5 by rule.'
+          assessment:
+            innovativeness:
+              value: 62
+              confidence: medium
+              insufficientData: false
+              sampleSize: 14
+              basis: estimate
+              sourceIds: [22222222-2222-4222-8222-222222222222]
+              evidenceIds: [33333333-3333-4333-8333-333333333333]
+              method: 'Distance to the 14 nearest records, plus counts of similar patents and papers.'
+              explanation: { en: '[MOCK] Fewer similar patents than the typical record in this area (evidence 3333).' }
+            applicationPotential:
+              value: 48
+              confidence: low
+              insufficientData: false
+              sampleSize: 6
+              basis: estimate
+              sourceIds: [22222222-2222-4222-8222-222222222222]
+              evidenceIds: [33333333-3333-4333-8333-333333333333]
+              method: 'Sectors found in similar records and documentation completeness.'
+              explanation: null
+            credibility:
+              value: 71
+              confidence: medium
+              insufficientData: false
+              sampleSize: 2
+              basis: estimate
+              sourceIds: [11111111-1111-4111-8111-111111111111, 22222222-2222-4222-8222-222222222222]
+              evidenceIds: []
+              method: 'Two independent sources, one official register.'
+              explanation: null
+          oslo:
+            passed: true
+            newOrImproved: true
+            differsSignificantly: true
+            availableOrInUse: true
+            basis: estimate
+            note: { en: '[MOCK] Tested prototype exists, so it counts as available for testing.' }
+          couldAlsoBeUsedIn:
+            - { en: '[MOCK] Drone manufacturing' }
+            - { en: '[MOCK] Industrial inspection' }
+          owner: { name: '[MOCK] Example University of Technology', url: 'https://example.invalid/lab' }
+          sources:
+            - id: 11111111-1111-4111-8111-111111111111
+              type: crawl
+              name: '[MOCK] University technology transfer page'
+              url: 'https://example.invalid/transfer/sensor-housing'
+              retrievedAt: '2026-11-22T06:00:00Z'
+              passage: '[MOCK] "The prototype housing was tested in the laboratory in 2025."'
+              license: null
+            - id: 22222222-2222-4222-8222-222222222222
+              type: api
+              name: '[MOCK] Patent register'
+              url: 'https://example.invalid/patent/PL123456'
+              retrievedAt: '2026-11-22T06:05:00Z'
+              passage: null
+              license: CC0
+          evidence:
+            - id: 33333333-3333-4333-8333-333333333333
+              metric: similar_patents_count
+              value: 3
+              unit: patents
+              sourceId: 22222222-2222-4222-8222-222222222222
+              query: 'classification G01D, keywords "sensor housing composite", Poland, 2015-2026'
+              retrievedAt: '2026-11-22T06:05:00Z'
+          firstSeenAt: '2026-11-21T20:00:00Z'
+          statusChangedAt: '2026-11-22T06:10:00Z'
+
+
+  parameters:
+    CardId:
+      name: cardId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    Limit:
+      name: limit
+      in: query
+      description: Page size.
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+    Offset:
+      name: offset
+      in: query
+      description: Number of items to skip.
+      schema: { type: integer, minimum: 0, default: 0 }
+
+  responses:
+    BadRequest:
+      description: The body is not valid JSON.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+          example:
+            error: { code: bad_request, message: The request body is not valid JSON., details: [], requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c10 }
+    ValidationFailed:
+      description: A parameter or body field is invalid.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+          example:
+            error:
+              code: validation_failed
+              message: One or more fields are invalid.
+              details:
+                - { field: limit, issue: must be at most 100 }
+              requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c11
+    NotFound:
+      description: The resource does not exist.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+          example:
+            error: { code: not_found, message: Card not found., details: [], requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c12 }
+    Unauthorized:
+      description: Missing or invalid token.
+      headers:
+        WWW-Authenticate: { schema: { type: string, examples: ['Bearer'] } }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+          example:
+            error: { code: unauthorized, message: A valid token is required., details: [], requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c13 }
+    Forbidden:
+      description: The token is valid but not allowed.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+          example:
+            error: { code: forbidden, message: This token cannot do that., details: [], requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c14 }
+    Conflict:
+      description: The idempotency key was already used with a different request (`idempotency_conflict`), or a collection run is already active (`run_in_progress`).
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+          example:
+            error: { code: idempotency_conflict, message: This key was used with a different body., details: [], requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c15 }
+    RateLimited:
+      description: Too many requests.
+      headers:
+        Retry-After: { schema: { type: integer, minimum: 1 }, description: Seconds to wait. }
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+          example:
+            error: { code: rate_limited, message: Too many requests. Try again later., details: [], requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c16 }
+    Unavailable:
+      description: A dependency is down.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    Internal:
+      description: Unexpected server error. The message never contains internal details.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+          example:
+            error: { code: internal_error, message: Something went wrong. Quote the request id when you report it., details: [], requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c17 }
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message, details, requestId]
+          properties:
+            code:
+              type: string
+              enum: [bad_request, validation_failed, not_found, unauthorized, forbidden, idempotency_conflict, run_in_progress, rate_limited, source_unavailable, internal_error]
+            message: { type: string }
+            details:
+              type: array
+              items:
+                type: object
+                required: [field, issue]
+                properties:
+                  field: { type: string }
+                  issue: { type: string }
+            requestId: { type: string }
+
+    PageMeta:
+      type: object
+      required: [total, limit, offset]
+      properties:
+        total: { type: integer, minimum: 0 }
+        limit: { type: integer, minimum: 1 }
+        offset: { type: integer, minimum: 0 }
+
+    LocalizedText:
+      type: object
+      description: At least one language is present.
+      minProperties: 1
+      properties:
+        pl: { type: string }
+        en: { type: string }
+      examples:
+        - { pl: '[MOCK] Lekka obudowa czujnika', en: '[MOCK] Lightweight sensor housing' }
+
+    Area:
+      type: string
+      enum: [technological, educational, administrative]
+      description: The three areas named in the organisers' FAQ.
+
+    ImplementationLevel:
+      type: string
+      enum: [concept, prototype, testing, pilot, in_practice]
+      description: The five steps named in the FAQ, in order.
+
+    Basis:
+      type: string
+      enum: [confirmed, estimate]
+      description: '`confirmed` means a stored source says so. `estimate` means we computed or inferred it.'
+
+    Confidence:
+      type: string
+      enum: [low, medium, high]
+      description: How much evidence stands behind a value. Computed from the number and age of evidence rows.
+
+    AudienceId:
+      type: string
+      enum: [investors_business, public_bodies, universities, schools, startups_enterprises, inventors]
+
+    SourceType:
+      type: string
+      enum: [api, crawl, document]
+      description: How the Radar collected the data.
+
+    Organisation:
+      type: object
+      required: [name, type]
+      properties:
+        name: { type: string }
+        type:
+          type: string
+          enum: [university, research_institute, school, local_government, public_institution, company, startup, incubator, individual, other]
+        url: { type: [string, 'null'], format: uri }
+        region: { type: [string, 'null'], description: 'Region code, for example PK.' }
+
+    Provenance:
+      type: object
+      required: [basis, sourceIds, evidenceIds]
+      properties:
+        basis: { $ref: '#/components/schemas/Basis' }
+        sourceIds:
+          type: array
+          items: { type: string, format: uuid }
+          description: Required to be non-empty when `basis` is `confirmed`.
+        evidenceIds:
+          type: array
+          items: { type: string, format: uuid }
+        method:
+          type: [string, 'null']
+          description: Required when `basis` is `estimate`. Short plain-language description of how it was made.
+
+    ImplementationLevelField:
+      allOf:
+        - $ref: '#/components/schemas/Provenance'
+        - type: object
+          required: [value]
+          properties:
+            value: { $ref: '#/components/schemas/ImplementationLevel' }
+
+    TrlField:
+      allOf:
+        - $ref: '#/components/schemas/Provenance'
+        - type: object
+          required: [applicable, value]
+          properties:
+            applicable:
+              type: boolean
+              description: False for educational and administrative items. Then `value` is null.
+            value: { type: [integer, 'null'], minimum: 1, maximum: 9 }
+
+    Score:
+      allOf:
+        - $ref: '#/components/schemas/Provenance'
+        - type: object
+          required: [value, confidence, insufficientData]
+          properties:
+            value:
+              type: [integer, 'null']
+              minimum: 0
+              maximum: 100
+              description: Null when there is not enough data.
+            confidence: { $ref: '#/components/schemas/Confidence' }
+            insufficientData:
+              type: boolean
+              description: When true the screen says "not enough data" and shows `sampleSize`.
+            sampleSize: { type: [integer, 'null'], minimum: 0 }
+            explanation:
+              oneOf:
+                - { $ref: '#/components/schemas/LocalizedText' }
+                - { type: 'null' }
+              description: Written by the model from evidence ids only. Always an estimate. Never contains a number that is not in the evidence.
+
+    Scores:
+      type: object
+      required: [innovativeness, applicationPotential, credibility]
+      properties:
+        innovativeness: { $ref: '#/components/schemas/Score' }
+        applicationPotential: { $ref: '#/components/schemas/Score' }
+        credibility: { $ref: '#/components/schemas/Score' }
+
+    ScoresBrief:
+      type: object
+      description: Values only, for list views. Null means not enough data.
+      required: [innovativeness, applicationPotential, credibility]
+      properties:
+        innovativeness: { type: [integer, 'null'], minimum: 0, maximum: 100 }
+        applicationPotential: { type: [integer, 'null'], minimum: 0, maximum: 100 }
+        credibility: { type: [integer, 'null'], minimum: 0, maximum: 100 }
+
+    OsloCheck:
+      type: object
+      required: [passed, newOrImproved, differsSignificantly, availableOrInUse, basis]
+      properties:
+        passed: { type: boolean }
+        newOrImproved: { type: boolean }
+        differsSignificantly: { type: boolean }
+        availableOrInUse: { type: boolean }
+        basis: { $ref: '#/components/schemas/Basis' }
+        note: { oneOf: [{ $ref: '#/components/schemas/LocalizedText' }, { type: 'null' }] }
+
+    CardSummary:
+      type: object
+      required: [id, title, summaryShort, area, tags, organisation, implementationLevel, trl, scores, polishIp, lastCheckedAt, stale, sourceCount, relevance]
+      properties:
+        id: { type: string, format: uuid }
+        title: { $ref: '#/components/schemas/LocalizedText' }
+        summaryShort:
+          allOf: [{ $ref: '#/components/schemas/LocalizedText' }]
+          description: One or two sentences. Estimate by nature (model-written from sources).
+        area: { $ref: '#/components/schemas/Area' }
+        tags:
+          type: array
+          items: { $ref: '#/components/schemas/Tag' }
+        organisation: { $ref: '#/components/schemas/Organisation' }
+        implementationLevel:
+          type: object
+          required: [value, basis]
+          properties:
+            value: { $ref: '#/components/schemas/ImplementationLevel' }
+            basis: { $ref: '#/components/schemas/Basis' }
+        trl:
+          type: object
+          required: [applicable, value, basis]
+          properties:
+            applicable: { type: boolean }
+            value: { type: [integer, 'null'], minimum: 1, maximum: 9 }
+            basis: { $ref: '#/components/schemas/Basis' }
+        scores: { $ref: '#/components/schemas/ScoresBrief' }
+        polishIp: { type: boolean, description: 'True when a Polish patent, utility model or Polish origin is confirmed.' }
+        lastCheckedAt: { type: string, format: date-time }
+        stale:
+          type: boolean
+          description: True when `lastCheckedAt` is older than the freshness limit (default 30 days).
+        sourceCount: { type: integer, minimum: 0 }
+        relevance:
+          type: [number, 'null']
+          description: Search score. Null when there is no `q`.
+      examples:
+        - id: 7b1d5a52-3d0e-4c52-9a43-0a8e5f1c2d01
+          title: { pl: '[MOCK] Lekka obudowa czujnika', en: '[MOCK] Lightweight sensor housing' }
+          summaryShort: { en: '[MOCK] A composite housing for flight sensors, tested in a university lab.' }
+          area: technological
+          tags: [{ slug: robotics, label: { pl: Robotyka, en: Robotics } }, { slug: aviation, label: { pl: Lotnictwo, en: Aviation } }]
+          organisation: { name: '[MOCK] Example University of Technology', type: university, url: null, region: PK }
+          implementationLevel: { value: prototype, basis: confirmed }
+          trl: { applicable: true, value: 5, basis: estimate }
+          scores: { innovativeness: 62, applicationPotential: 48, credibility: 71 }
+          polishIp: true
+          lastCheckedAt: '2026-11-22T06:10:00Z'
+          stale: false
+          sourceCount: 3
+          relevance: 0.82
+
+    Tag:
+      type: object
+      required: [slug, label]
+      properties:
+        slug: { type: string }
+        label: { $ref: '#/components/schemas/LocalizedText' }
+
+    Card:
+      allOf:
+        - $ref: '#/components/schemas/CardSummary'
+        - type: object
+          required: [summary, implementationLevelDetail, trlDetail, assessment, oslo, couldAlsoBeUsedIn, owner, sources, evidence, firstSeenAt, statusChangedAt]
+          properties:
+            summary:
+              $ref: '#/components/schemas/LocalizedText'
+            implementationLevelDetail: { $ref: '#/components/schemas/ImplementationLevelField' }
+            trlDetail: { $ref: '#/components/schemas/TrlField' }
+            assessment: { $ref: '#/components/schemas/Scores' }
+            oslo: { $ref: '#/components/schemas/OsloCheck' }
+            couldAlsoBeUsedIn:
+              type: array
+              description: Other institutions, organisations or industries. Estimate.
+              items: { $ref: '#/components/schemas/LocalizedText' }
+            owner:
+              type: object
+              description: Where to reach the owner. Always a public page. The Radar does not mediate contact.
+              required: [name, url]
+              properties:
+                name: { type: string }
+                url: { type: string, format: uri }
+            sources:
+              type: array
+              items: { $ref: '#/components/schemas/Source' }
+            evidence:
+              type: array
+              items: { $ref: '#/components/schemas/Evidence' }
+            firstSeenAt: { type: string, format: date-time }
+            statusChangedAt: { type: [string, 'null'], format: date-time }
+
+    Source:
+      type: object
+      required: [id, type, name, url, retrievedAt, passage]
+      properties:
+        id: { type: string, format: uuid }
+        type: { $ref: '#/components/schemas/SourceType' }
+        name: { type: string }
+        url: { type: string, format: uri }
+        retrievedAt: { type: string, format: date-time }
+        passage:
+          type: [string, 'null']
+          description: The quoted passage the fact came from. Null for pure API numbers.
+        license: { type: [string, 'null'] }
+
+    SourceSummary:
+      type: object
+      required: [id, type, name, url, lastCollectedAt, cardCount]
+      properties:
+        id: { type: string, format: uuid }
+        type: { $ref: '#/components/schemas/SourceType' }
+        name: { type: string }
+        url: { type: string, format: uri }
+        lastCollectedAt: { type: [string, 'null'], format: date-time }
+        cardCount: { type: integer, minimum: 0 }
+        license: { type: [string, 'null'] }
+
+    Evidence:
+      type: object
+      required: [id, metric, value, unit, sourceId, query, retrievedAt]
+      properties:
+        id: { type: string, format: uuid }
+        metric: { type: string, examples: [similar_publications_count] }
+        value: { type: [number, string, boolean] }
+        unit: { type: [string, 'null'] }
+        sourceId: { type: string, format: uuid }
+        query: { type: string, description: The query or call that produced the value. }
+        retrievedAt: { type: string, format: date-time }
+
+    StatusChange:
+      type: object
+      required: [at, field, from, to, sourceId]
+      properties:
+        at: { type: string, format: date-time }
+        field: { type: string, enum: [implementationLevel, trl, organisation, other] }
+        from: { type: [string, 'null'] }
+        to: { type: [string, 'null'] }
+        sourceId: { type: [string, 'null'], format: uuid }
+
+    CompareRow:
+      type: object
+      required: [key, label, cells]
+      properties:
+        key:
+          type: string
+          enum: [area, organisation, implementationLevel, trl, innovativeness, applicationPotential, credibility, polishIp, sourceCount, lastCheckedAt]
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        cells:
+          type: array
+          description: One cell per card, in the order of `cards`.
+          items:
+            type: object
+            required: [cardId, display, basis]
+            properties:
+              cardId: { type: string, format: uuid }
+              display: { type: string, description: Ready-to-show text. }
+              raw: { type: [number, string, boolean, 'null'] }
+              basis: { oneOf: [{ $ref: '#/components/schemas/Basis' }, { type: 'null' }] }
+              isBest: { type: boolean, description: True for the highest value in a numeric row. }
+
+    FacetOption:
+      type: object
+      required: [value, label, count]
+      properties:
+        value: { type: string }
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        count: { type: integer, minimum: 0 }
+
+    Audience:
+      type: object
+      required: [id, label, description, defaultFilters, highlightedFields]
+      properties:
+        id: { $ref: '#/components/schemas/AudienceId' }
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        description: { $ref: '#/components/schemas/LocalizedText' }
+        defaultFilters:
+          $ref: '#/components/schemas/CardFilters'
+        highlightedFields:
+          type: array
+          description: Card fields to show first for this audience.
+          items:
+            type: string
+            enum: [implementationLevel, trl, innovativeness, applicationPotential, credibility, polishIp, organisation]
+      examples:
+        - id: startups_enterprises
+          label: { pl: Startupy i przedsiębiorstwa, en: Startups and enterprises }
+          description: { en: 'Ready or nearly ready solutions to use, license or integrate.' }
+          defaultFilters: { implementationLevel: [pilot, in_practice] }
+          highlightedFields: [implementationLevel, applicationPotential, credibility]
+
+    CardFilters:
+      type: object
+      description: The filter parameters of `/api/v1/cards` as JSON. Arrays are sent comma separated in the query string.
+      additionalProperties: false
+      properties:
+        area: { type: array, items: { $ref: '#/components/schemas/Area' } }
+        implementationLevel: { type: array, items: { $ref: '#/components/schemas/ImplementationLevel' } }
+        trlMin: { type: integer, minimum: 1, maximum: 9 }
+        trlMax: { type: integer, minimum: 1, maximum: 9 }
+        tag: { type: array, items: { type: string } }
+        region: { type: string }
+        polishIp: { type: boolean }
+        minCredibility: { type: integer, minimum: 0, maximum: 100 }
+
+    OverviewStats:
+      type: object
+      required: [cardCount, byArea, byImplementationLevel, sourceCount, sourcesByType, lastRefreshAt, staleShare, confirmedFieldShare]
+      properties:
+        cardCount: { type: integer, minimum: 0 }
+        byArea:
+          type: object
+          required: [technological, educational, administrative]
+          properties:
+            technological: { type: integer, minimum: 0 }
+            educational: { type: integer, minimum: 0 }
+            administrative: { type: integer, minimum: 0 }
+        byImplementationLevel:
+          type: object
+          required: [concept, prototype, testing, pilot, in_practice]
+          properties:
+            concept: { type: integer, minimum: 0 }
+            prototype: { type: integer, minimum: 0 }
+            testing: { type: integer, minimum: 0 }
+            pilot: { type: integer, minimum: 0 }
+            in_practice: { type: integer, minimum: 0 }
+        sourceCount: { type: integer, minimum: 0 }
+        sourcesByType:
+          type: object
+          required: [api, crawl, document]
+          properties:
+            api: { type: integer, minimum: 0 }
+            crawl: { type: integer, minimum: 0 }
+            document: { type: integer, minimum: 0 }
+        lastRefreshAt: { type: [string, 'null'], format: date-time }
+        staleShare: { type: number, minimum: 0, maximum: 1, description: Share of cards flagged stale. }
+        confirmedFieldShare: { type: number, minimum: 0, maximum: 1, description: Share of assessed fields with basis confirmed. }
+        polishIpCount: { type: integer, minimum: 0 }
+      examples:
+        - cardCount: 48
+          byArea: { technological: 22, educational: 14, administrative: 12 }
+          byImplementationLevel: { concept: 6, prototype: 12, testing: 8, pilot: 9, in_practice: 13 }
+          sourceCount: 17
+          sourcesByType: { api: 6, crawl: 8, document: 3 }
+          lastRefreshAt: '2026-11-22T06:10:00Z'
+          staleShare: 0.08
+          confirmedFieldShare: 0.64
+          polishIpCount: 15
+
+    UsageEvent:
+      type: object
+      required: [eventId, type, occurredAt]
+      additionalProperties: false
+      description: Closed set of fields on purpose. There is no free text and no user identifier.
+      properties:
+        eventId: { type: string, format: uuid, description: Generated by the client. Makes retries safe. }
+        type: { type: string, enum: [search_performed, card_viewed, compare_opened, filter_used] }
+        occurredAt: { type: string, format: date-time }
+        audience: { $ref: '#/components/schemas/AudienceId' }
+        area: { $ref: '#/components/schemas/Area' }
+        tags:
+          type: array
+          maxItems: 10
+          items: { type: string, maxLength: 60 }
+        cardId: { type: string, format: uuid }
+        resultCount: { type: integer, minimum: 0 }
+
+    UsageStats:
+      type: object
+      required: [period, totalSearches, totalCardViews, topAreas, topTags, mostViewedCards, searchesByAudience]
+      properties:
+        period:
+          type: object
+          required: [from, to]
+          properties:
+            from: { type: string, format: date }
+            to: { type: string, format: date }
+        totalSearches: { type: integer, minimum: 0 }
+        totalCardViews: { type: integer, minimum: 0 }
+        topAreas: { type: array, items: { $ref: '#/components/schemas/CountItem' } }
+        topTags: { type: array, items: { $ref: '#/components/schemas/CountItem' } }
+        mostViewedCards:
+          type: array
+          items:
+            type: object
+            required: [cardId, title, views]
+            properties:
+              cardId: { type: string, format: uuid }
+              title: { $ref: '#/components/schemas/LocalizedText' }
+              views: { type: integer, minimum: 0 }
+        searchesByAudience: { type: array, items: { $ref: '#/components/schemas/CountItem' } }
+
+    CountItem:
+      type: object
+      required: [value, count]
+      properties:
+        value: { type: string }
+        count: { type: integer, minimum: 0 }
+
+    CollectRun:
+      type: object
+      required: [id, mode, status, startedAt, finishedAt, summary]
+      properties:
+        id: { type: string, format: uuid }
+        mode: { type: string, enum: [collect, refresh] }
+        status: { type: string, enum: [queued, running, succeeded, failed] }
+        startedAt: { type: [string, 'null'], format: date-time }
+        finishedAt: { type: [string, 'null'], format: date-time }
+        summary:
+          type: object
+          required: [cardsAdded, cardsUpdated, statusChanges, errors]
+          properties:
+            cardsAdded: { type: integer, minimum: 0 }
+            cardsUpdated: { type: integer, minimum: 0 }
+            statusChanges: { type: integer, minimum: 0 }
+            errors: { type: integer, minimum: 0 }

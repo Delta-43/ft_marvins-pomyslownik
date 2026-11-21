@@ -1,0 +1,85 @@
+# Innovation Radar: local and staging stack.
+#
+# Frontend team (no backend needed):   docker compose --profile mock up
+#   Mock API from docs/api/openapi.yaml on http://localhost:4010
+# Whole stack (backend and frontend exist): docker compose --profile full up --build
+#   Web on http://localhost:3000, API on http://localhost:8000
+#
+# Nothing starts without a profile, on purpose.
+
+name: innovation-radar
+
+services:
+  mock:
+    profiles: [mock]
+    image: stoplight/prism:5
+    command: mock -h 0.0.0.0 -p 4010 --multiprocess=false /spec/openapi.yaml
+    volumes:
+      - ./docs/api:/spec:ro
+    ports:
+      - "4010:4010"
+
+  db:
+    profiles: [full]
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-radar}
+      POSTGRES_USER: ${POSTGRES_USER:-radar}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}  # override in .env on any shared machine
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    profiles: [full]
+    build: ./backend
+    command: serve
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-radar}:${POSTGRES_PASSWORD:-change-me}@db:5432/${POSTGRES_DB:-radar}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+
+  worker:
+    profiles: [full]
+    build: ./backend
+    command: worker
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-radar}:${POSTGRES_PASSWORD:-change-me}@db:5432/${POSTGRES_DB:-radar}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    profiles: [full]
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000}
+    environment:
+      # Server-side rendering calls the API over the compose network. The browser uses NEXT_PUBLIC_API_BASE_URL.
+      API_BASE_URL_INTERNAL: http://api:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  dbdata:
