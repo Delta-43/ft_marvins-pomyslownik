@@ -1,5 +1,7 @@
 # Tasks: Innovation Radar
 
+> **All tasks which are complete according to teammate files or other places should be marked with strikethrough** (`| ~~ID~~ | ~~Task~~ **Done: Name** |`) - {Philip Organisational Decision}
+
 > Research notes and the translated task files are kept outside this repository. Ask Delta if you need them.
 
 
@@ -20,7 +22,7 @@ Tasks have no fixed owner here. To take a task, add its ID to your own file in `
 
 ## Working rules
 
-1. **Claim tasks in `team/`.** Add the task ID to your own file and mark it `[~]`. Mark `[x]` when done.
+1. **Claim tasks in `team/`.** Add the task ID to your own file and mark it `[~]`. Mark `[x]` when done. Then strike the task through in this file with **Done: Name** (see the note at the top).
 2. **Contract first.** Change `openapi.yaml` in a pull request. The backend owner and a frontend developer agree before merge. Lint it with `docker run --rm -v "$PWD/docs/api":/spec -w /spec redocly/cli lint openapi.yaml`.
 3. **No secrets in git.** The repo becomes public. Use `.env` (ignored). Never paste API keys in chat or commits.
 4. **Sign-in first.** No card data on any page or endpoint without a session.
