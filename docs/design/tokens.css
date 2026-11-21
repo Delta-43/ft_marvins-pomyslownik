@@ -1,0 +1,57 @@
+/* Pomysłownik — tokeny marki v1.0 (1rem = 16px) */
+:root {
+  /* Kolory podstawowe */
+  --color-papier: #F7F2EB;    /* tła */
+  --color-atrament: #141414;  /* tekst, elementy główne · 16,54:1 na Papierze */
+  --color-granat: #1B3F8F;    /* akcent, przyciski, linki, fokus · 8,75:1 na Papierze */
+  --color-iskra: #FFD93D;     /* wyróżnienia · tylko na Atramencie lub pod tekstem Atramentu */
+  --color-kamien: #5A544D;    /* tekst drugorzędny · 6,71:1 na Papierze */
+  --color-krawedz: #DDD5C8;   /* obramowania kart */
+  /* Kolory kategorii (zawsze z ikoną) */
+  --color-uczelnie: #A9DCE6;
+  --color-patenty: #D6E6A3;
+  --color-laboratoria: #CDB8F0;
+  --color-startupy: #F7C6A8;
+  /* Statusy (zawsze ikona + słowo) */
+  --color-tak: #1F7A45;
+  --color-nie: #B42318;
+
+  /* Typografia */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+  --font-display-settings: "opsz" 72, "SOFT" 50, "WONK" 0;
+  --text-min: 1rem;           /* 16px — tekst ciągły */
+  --text-small: 0.875rem;     /* 14px — podpisy, metadane */
+  --text-h3: 1.5rem;
+  --text-h2: 2rem;
+  --text-h1: 3rem;
+  --leading-body: 1.55;       /* 1,5–1,6 */
+  --leading-heading: 1.1;     /* ≥ 1,1 */
+  --tracking-display: -0.01em;
+
+  /* Kształty */
+  --radius-card: 1.5rem;      /* 24px */
+  --radius-pill: 62.4375rem;  /* 999px */
+  --radius-icon: 22%;         /* ikona aplikacji */
+  --border-card: 0.0625rem solid var(--color-krawedz);
+
+  /* Odstępy */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;         /* odstęp między kartami */
+  --space-6: 1.5rem;          /* margines planszy, padding kart */
+
+  /* Fokus: 3px Granat, odstęp 2px */
+  --focus-ring-width: 0.1875rem;
+  --focus-ring-offset: 0.125rem;
+  --focus-ring: var(--focus-ring-width) solid var(--color-granat);
+
+  /* Logo */
+  --logo-min-width: 7.5rem;   /* 120px — logo pełne */
+  --symbol-min-size: 1rem;    /* 16px — sygnet / favicon */
+  --logo-angle: 55deg;        /* kąt linii łączącej węzły sygnetu */
+}
+:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
