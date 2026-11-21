@@ -75,7 +75,7 @@ jobs:
           python scripts/licence_check.py
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - name: Frontend production dependencies (LGPL allowed: the sharp image library binary; EUPL-compatible)
+      - name: "Frontend production dependencies (LGPL allowed: the sharp image library binary, EUPL-compatible)"
         run: |
           cd frontend && npm ci --omit=dev
           npx --yes license-checker-rseidelsohn@4.4.2 --production --summary \
