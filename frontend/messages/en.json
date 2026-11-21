@@ -120,7 +120,11 @@
     "applicationPotential": "Application potential",
     "credibility": "Credibility",
     "confidence": "Confidence: {level}",
-    "confidenceLevel": { "low": "low", "medium": "medium", "high": "high" },
+    "confidenceLevel": {
+      "low": "low",
+      "medium": "medium",
+      "high": "high"
+    },
     "oslo": "Innovation per the Oslo Manual 2018",
     "osloPassed": "✓ Meets the definition",
     "osloFailed": "✗ Not shown",
@@ -130,7 +134,11 @@
     "alsoUsedIn": "Could also be used in",
     "alsoUsedInNote": "Based on the description in the sources.",
     "sources": "Sources",
-    "sourceType": { "api": "API", "crawl": "Web page", "document": "Document" },
+    "sourceType": {
+      "api": "API",
+      "crawl": "Web page",
+      "document": "Document"
+    },
     "retrieved": "retrieved",
     "source": "Source:",
     "method": "Method: {method}",
@@ -156,8 +164,18 @@
     "deleteButton": "Delete account"
   },
   "bits": {
-    "area": { "technological": "Technological", "educational": "Educational", "administrative": "Administrative" },
-    "level": { "concept": "Concept", "prototype": "Prototype", "testing": "Testing", "pilot": "Pilot", "in_practice": "In practice" },
+    "area": {
+      "technological": "Technological",
+      "educational": "Educational",
+      "administrative": "Administrative"
+    },
+    "level": {
+      "concept": "Concept",
+      "prototype": "Prototype",
+      "testing": "Testing",
+      "pilot": "Pilot",
+      "in_practice": "In practice"
+    },
     "confirmed": "✓ Confirmed",
     "estimate": "≈ Estimate",
     "notEnoughData": "Not enough data",
@@ -173,5 +191,18 @@
     "not_found": "Not found.",
     "unavailable": "The server is temporarily unavailable. Please try again in a moment.",
     "unknown": "Something went wrong. Please try again in a moment."
+  },
+  "status": {
+    "loadingLabel": "Loading…",
+    "loadingResults": "Loading content, please wait.",
+    "errorTitle": "Something went wrong",
+    "errorText": "We couldn't show this page. Please try again in a moment.",
+    "errorId": "Error ID: {id}",
+    "retry": "Try again",
+    "home": "Home page",
+    "notFoundCode": "404",
+    "notFoundTitle": "Page not found",
+    "notFoundText": "This page doesn't exist or has been moved.",
+    "notFoundSearch": "Go to search"
   }
 }

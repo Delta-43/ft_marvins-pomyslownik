@@ -120,7 +120,11 @@
     "applicationPotential": "Potencjał zastosowania",
     "credibility": "Wiarygodność",
     "confidence": "Pewność: {level}",
-    "confidenceLevel": { "low": "niska", "medium": "średnia", "high": "wysoka" },
+    "confidenceLevel": {
+      "low": "niska",
+      "medium": "średnia",
+      "high": "wysoka"
+    },
     "oslo": "Innowacja wg Oslo Manual 2018",
     "osloPassed": "✓ Spełnia",
     "osloFailed": "✗ Nie wykazano",
@@ -130,7 +134,11 @@
     "alsoUsedIn": "Może się przydać także w",
     "alsoUsedInNote": "Na podstawie opisu w źródłach.",
     "sources": "Źródła",
-    "sourceType": { "api": "API", "crawl": "Strona WWW", "document": "Dokument" },
+    "sourceType": {
+      "api": "API",
+      "crawl": "Strona WWW",
+      "document": "Dokument"
+    },
     "retrieved": "pobrano",
     "source": "Źródło:",
     "method": "Metoda: {method}",
@@ -156,8 +164,18 @@
     "deleteButton": "Usuń konto"
   },
   "bits": {
-    "area": { "technological": "Technologiczne", "educational": "Edukacyjne", "administrative": "Administracyjne" },
-    "level": { "concept": "Koncepcja", "prototype": "Prototyp", "testing": "Testy", "pilot": "Pilotaż", "in_practice": "W praktyce" },
+    "area": {
+      "technological": "Technologiczne",
+      "educational": "Edukacyjne",
+      "administrative": "Administracyjne"
+    },
+    "level": {
+      "concept": "Koncepcja",
+      "prototype": "Prototyp",
+      "testing": "Testy",
+      "pilot": "Pilotaż",
+      "in_practice": "W praktyce"
+    },
     "confirmed": "✓ Potwierdzone",
     "estimate": "≈ Szacunek",
     "notEnoughData": "Za mało danych",
@@ -173,5 +191,18 @@
     "not_found": "Nie znaleziono.",
     "unavailable": "Serwer jest chwilowo niedostępny. Spróbuj ponownie za chwilę.",
     "unknown": "Coś poszło nie tak. Spróbuj ponownie za chwilę."
+  },
+  "status": {
+    "loadingLabel": "Ładowanie…",
+    "loadingResults": "Ładowanie treści, proszę czekać.",
+    "errorTitle": "Coś poszło nie tak",
+    "errorText": "Nie udało się wyświetlić tej strony. Spróbuj ponownie za chwilę.",
+    "errorId": "ID błędu: {id}",
+    "retry": "Spróbuj ponownie",
+    "home": "Strona główna",
+    "notFoundCode": "404",
+    "notFoundTitle": "Nie znaleziono strony",
+    "notFoundText": "Ta strona nie istnieje albo została przeniesiona.",
+    "notFoundSearch": "Przejdź do wyszukiwania"
   }
 }

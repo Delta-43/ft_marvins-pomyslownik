@@ -107,7 +107,7 @@ Start now, on the mock. Switch to the real API at M1. Follow `docs/FRONTEND-STAR
 
 | ID | Task | Depends | Est | Done when | Req |
 |---|---|---|---|---|---|
-| F0 | **Scaffold:** Next.js, TypeScript, Tailwind, i18n (Polish first, English toggle), design tokens, typed API client from the contract, layout with skip link, error and loading components | — | 2 h | App runs with `docker compose --profile mock up` plus `npm run dev`. Types generated. Other frontend tasks can start from it | F20 |
+| ~~F0~~ | ~~**Scaffold:** Next.js, TypeScript, Tailwind, i18n (Polish first, English toggle), design tokens, typed API client from the contract, layout with skip link, error and loading components~~ **Done: Delta, Philip** | — | 2 h | App runs with `docker compose --profile mock up` plus `npm run dev`. Types generated. Other frontend tasks can start from it | F20 |
 | F1 | **Home:** search box, six audience presets, overview numbers, "how it works" strip | F0 | 2 h | Preset sets filters and goes to results. Overview numbers come from `/stats/overview` | F4, F18, F20 |
 | F2 | **Results:** list, filters from `/facets`, sort, pagination, active filter chips, select cards for compare | F0 | 3 h | Every filter works with keyboard. Empty, loading and error states designed | F15 |
 | F3 | **Card page:** description, area, implementation level, TRL, scores with confidence, **Confirmed and Estimate labels**, sources with quoted passages, evidence drawer, similar cards, history, link to the owner | F0 | 4 h | A number never appears without a source link or a "not enough data" note. Labels do not rely on colour alone | F13, F14 |

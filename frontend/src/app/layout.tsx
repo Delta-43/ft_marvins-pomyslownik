@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { getLocale, getTranslations } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { Logo } from "@/components/Logo";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { signOut } from "@/app/actions/auth";
@@ -23,6 +24,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const demo = signedIn && store.has(DEMO_COOKIE);
   const locale = await getLocale();
   const t = await getTranslations("layout");
+  // Client components (only error.tsx) get just the texts they need.
+  const { status } = await getMessages();
   return (
     <html lang={locale}>
       <head>
@@ -58,7 +61,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </nav>
         </header>
         <main id="main" tabIndex={-1} className="flex-1">
-          {children}
+          <NextIntlClientProvider messages={{ status }}>{children}</NextIntlClientProvider>
         </main>
         <footer className="glass-bar mt-12 border-t text-sm text-kamien">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3">
