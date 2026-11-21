@@ -23,11 +23,108 @@
     "en": "English"
   },
   "landing": {
-    "badge": "Hacknation 2026 · Pomysłownik!",
-    "title": "Polish innovations <hl>in one place</hl>",
-    "lead": "Universities, patents, laboratories and start-ups from all over Poland. With sources and a fair assessment.",
-    "loginNote": "You need to sign in to search for innovations. This protects the creators' intellectual property.",
-    "cta": "Sign in to search"
+    "metaTitle": "Pomysłownik! - Where ideas find people.",
+    "metaDescription": "Pomysłownik! connects university teams, laboratories, patent owners and startups across Poland. With sources and honest assessments.",
+    "skipToSignIn": "Skip to sign-in",
+    "eyebrow": "A PLATFORM FOR INNOVATORS",
+    "heroTitle": "Where ideas find people.",
+    "heroLead": "Pomysłownik! connects university teams, laboratories, patent owners and startups across Poland. See who is working on what you are looking for, and how to reach them.",
+    "sideNote": "Pomysłownik! · demo version · 2026",
+    "signIn": {
+      "title": "Sign in",
+      "subtitle": "Choose how to sign in",
+      "sandbox": "Continue with a test identity",
+      "sandboxHelp": "This is not a national identity check. It is only for the demo version.",
+      "noAccount": "No account yet?",
+      "register": "Register",
+      "infoLead": "Note.",
+      "infoText": "Cards are available after signing in. We protect the authors' intellectual property."
+    },
+    "terms": "Terms of use",
+    "accessibility": "Accessibility statement",
+    "about": "About the project",
+    "howTitle": "How it works",
+    "steps": {
+      "s1": {
+        "title": "Sign in and choose your role",
+        "text": "Your role sets the starting filters. You can change it in your profile."
+      },
+      "s2": {
+        "title": "Search by field, region and type",
+        "text": "Technology, medicine, robotics, AI. From small universities to large ones."
+      },
+      "s3": {
+        "title": "Check the sources and reach the team",
+        "text": "Every number has a source and a date."
+      }
+    },
+    "doorsTitle": "Four doors to Polish innovation",
+    "doors": {
+      "uczelnie": {
+        "name": "Universities",
+        "text": "Research teams and their record of putting research into practice."
+      },
+      "patenty": {
+        "name": "Patents",
+        "text": "Patent applications and patents ready for licensing."
+      },
+      "laboratoria": {
+        "name": "Laboratories",
+        "text": "Labs, equipment and research services."
+      },
+      "startupy": {
+        "name": "Startups",
+        "text": "Companies grown out of research."
+      }
+    },
+    "doorCta": "Sign in to browse",
+    "constellationTitle": "Every node is someone who <hl>creates</hl> something.",
+    "constellationText": "Pomysłownik! shows the connections between science, business and public administration.",
+    "pause": "Pause animation",
+    "resume": "Resume animation",
+    "audiencesTitle": "Who Pomysłownik! is for",
+    "audiences": {
+      "scientist": {
+        "name": "Researcher",
+        "text": "Find partners to put your work into practice."
+      },
+      "business": {
+        "name": "Business",
+        "text": "Find technology and a team."
+      },
+      "investor": {
+        "name": "Investor",
+        "text": "Find projects ready to grow."
+      },
+      "student": {
+        "name": "Student",
+        "text": "Find a place for an internship or research."
+      },
+      "public": {
+        "name": "Public administration",
+        "text": "See the potential of your region."
+      },
+      "media": {
+        "name": "Media",
+        "text": "Check facts at the source."
+      }
+    },
+    "principlesTitle": "Reliable and accessible",
+    "principleSource": "A source for every number",
+    "principleSourceExample": "Source: GUS · 12.03.2026 [EXAMPLE]",
+    "principleBasis": "Confirmed or estimate",
+    "confirmed": "Confirmed",
+    "estimate": "Estimate",
+    "principleBasisText": "“Confirmed” is a value taken straight from a source, and “Estimate” is a value calculated from public data.",
+    "principleA11y": "WCAG 2.2 AA accessibility",
+    "principleA11yText": "Keyboard, contrast, screen readers, a no-animation mode.",
+    "ctaTitle": "Find your people.",
+    "ctaSignIn": "Sign in",
+    "ctaRegister": "Create an account",
+    "ideaMap": "Map of ideas",
+    "footerNav": "Footer",
+    "footerNote": "Demo version · 2026",
+    "logo": "Pomysłownik!"
   },
   "login": {
     "titleSignIn": "Sign in",

@@ -23,11 +23,108 @@
     "en": "English"
   },
   "landing": {
-    "badge": "Hacknation 2026 · Pomysłownik!",
-    "title": "Polskie innowacje <hl>w jednym miejscu</hl>",
-    "lead": "Uczelnie, patenty, laboratoria i startupy z całej Polski. Ze źródłami i uczciwą oceną.",
-    "loginNote": "Aby wyszukiwać innowacje, musisz się zalogować. Chroni to własność intelektualną twórców.",
-    "cta": "Zaloguj się, aby szukać"
+    "metaTitle": "Pomysłownik! - Tu pomysły znajdują ludzi.",
+    "metaDescription": "Pomysłownik! łączy zespoły uczelni, laboratoria, właścicieli patentów i startupy w całej Polsce. Ze źródłami i uczciwą oceną.",
+    "skipToSignIn": "Przejdź do logowania",
+    "eyebrow": "PLATFORMA DLA INNOWATORÓW",
+    "heroTitle": "Tu pomysły znajdują ludzi.",
+    "heroLead": "Pomysłownik! łączy zespoły uczelni, laboratoria, właścicieli patentów i startupy w całej Polsce. Zobacz, kto pracuje nad tym, czego szukasz, i jak do niego dotrzeć.",
+    "sideNote": "Pomysłownik! · wersja demo · 2026",
+    "signIn": {
+      "title": "Zaloguj się",
+      "subtitle": "Wybierz sposób logowania",
+      "sandbox": "Kontynuuj z tożsamością testową",
+      "sandboxHelp": "To nie jest weryfikacja krajowa. Służy wyłącznie do wersji demonstracyjnej.",
+      "noAccount": "Nie masz konta?",
+      "register": "Zarejestruj się",
+      "infoLead": "Informacja.",
+      "infoText": "Karty są dostępne po zalogowaniu. Chronimy własność intelektualną autorów."
+    },
+    "terms": "Regulamin",
+    "accessibility": "Deklaracja dostępności",
+    "about": "O projekcie",
+    "howTitle": "Jak to działa",
+    "steps": {
+      "s1": {
+        "title": "Zaloguj się i wybierz rolę",
+        "text": "Twoja rola ustawia startowe filtry. Zmienisz ją w profilu."
+      },
+      "s2": {
+        "title": "Szukaj po dziedzinie, regionie i typie",
+        "text": "Technologia, medycyna, robotyka, AI. Od małych uczelni po duże."
+      },
+      "s3": {
+        "title": "Sprawdź źródła i dotrzyj do zespołu",
+        "text": "Każda liczba ma źródło i datę."
+      }
+    },
+    "doorsTitle": "Cztery drzwi do polskich innowacji",
+    "doors": {
+      "uczelnie": {
+        "name": "Uczelnie",
+        "text": "Zespoły badawcze i ich dorobek wdrożeniowy."
+      },
+      "patenty": {
+        "name": "Patenty",
+        "text": "Zgłoszenia i patenty gotowe do licencji."
+      },
+      "laboratoria": {
+        "name": "Laboratoria",
+        "text": "Pracownie, aparatura i usługi badawcze."
+      },
+      "startupy": {
+        "name": "Startupy",
+        "text": "Spółki wyrosłe z badań."
+      }
+    },
+    "doorCta": "Zaloguj się, aby przeglądać",
+    "constellationTitle": "Każdy węzeł to ktoś, kto coś <hl>tworzy</hl>.",
+    "constellationText": "Pomysłownik! pokazuje połączenia między nauką, biznesem i administracją.",
+    "pause": "Zatrzymaj animację",
+    "resume": "Wznów animację",
+    "audiencesTitle": "Dla kogo jest Pomysłownik!",
+    "audiences": {
+      "scientist": {
+        "name": "Naukowiec",
+        "text": "Znajdź partnerów do wdrożeń."
+      },
+      "business": {
+        "name": "Biznes",
+        "text": "Znajdź technologię i zespół."
+      },
+      "investor": {
+        "name": "Inwestor",
+        "text": "Znajdź projekty gotowe do rozwoju."
+      },
+      "student": {
+        "name": "Student",
+        "text": "Znajdź miejsce na praktyki i badania."
+      },
+      "public": {
+        "name": "Administracja publiczna",
+        "text": "Zobacz potencjał regionu."
+      },
+      "media": {
+        "name": "Media",
+        "text": "Sprawdzaj fakty u źródła."
+      }
+    },
+    "principlesTitle": "Rzetelnie i dostępnie",
+    "principleSource": "Źródło przy każdej liczbie",
+    "principleSourceExample": "Źródło: GUS · 12.03.2026 [PRZYKŁAD]",
+    "principleBasis": "Potwierdzone czy szacunek",
+    "confirmed": "Potwierdzone",
+    "estimate": "Szacunek",
+    "principleBasisText": "„Potwierdzone” to wartość wprost ze źródła, a „Szacunek” to wartość wyliczona z danych publicznych.",
+    "principleA11y": "Dostępność WCAG 2.2 AA",
+    "principleA11yText": "Klawiatura, kontrast, czytniki ekranu, tryb bez animacji.",
+    "ctaTitle": "Znajdź swoich ludzi.",
+    "ctaSignIn": "Zaloguj się",
+    "ctaRegister": "Załóż konto",
+    "ideaMap": "Mapa idei",
+    "footerNav": "Stopka",
+    "footerNote": "Wersja demonstracyjna · 2026",
+    "logo": "Pomysłownik!"
   },
   "login": {
     "titleSignIn": "Zaloguj się",

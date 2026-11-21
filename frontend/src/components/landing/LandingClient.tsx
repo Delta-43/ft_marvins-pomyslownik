@@ -51,7 +51,12 @@ export function LandingShell({ children }: { children: React.ReactNode }) {
 }
 
 /** "Zatrzymaj animację" control. Hidden when the user prefers reduced motion (nothing moves then). */
-export function PauseButton({ dark = false, className = "" }: { dark?: boolean; className?: string }) {
+export function PauseButton({
+  dark = false,
+  className = "",
+  pauseLabel = "Zatrzymaj animację",
+  resumeLabel = "Wznów animację",
+}: { dark?: boolean; className?: string; pauseLabel?: string; resumeLabel?: string }) {
   const { paused, reduced, toggle } = useMotion();
   if (reduced) return null;
   const look = dark
@@ -66,7 +71,7 @@ export function PauseButton({ dark = false, className = "" }: { dark?: boolean; 
       <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
         <path d={paused ? "M5 3v10l8.5-5Z" : "M4 3h3v10H4Z M9 3h3v10H9Z"} fill="currentColor" />
       </svg>
-      {paused ? "Wznów animację" : "Zatrzymaj animację"}
+      {paused ? resumeLabel : pauseLabel}
     </button>
   );
 }

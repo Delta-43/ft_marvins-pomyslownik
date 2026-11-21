@@ -37,12 +37,17 @@ const OPTIONS: { value: Locale; code: string; Flag: () => React.JSX.Element }[] 
   { value: "en", code: "EN", Flag: FlagUK },
 ];
 
-/** Footer language switch (bottom right on every page). A plain form, so it also works without JavaScript. */
-export async function LanguageSwitch() {
+/** Language switch (footer, bottom right on every page). A plain form, so it also works without JavaScript.
+ *  `dark` is for dark surfaces (the landing page footer). */
+export async function LanguageSwitch({ dark = false }: { dark?: boolean } = {}) {
   const locale = await getLocale();
   const t = await getTranslations("language");
   return (
-    <form action={setLocale} aria-label={t("label")} className="flex items-center gap-1 rounded-full bg-white/50 p-1 ring-1 ring-white/80">
+    <form
+      action={setLocale}
+      aria-label={t("label")}
+      className={`flex items-center gap-1 rounded-full p-1 ring-1 ${dark ? "bg-white/10 ring-white/25" : "bg-white/50 ring-white/80"}`}
+    >
       {OPTIONS.map(({ value, code, Flag }) => {
         const active = locale === value;
         return (
@@ -55,7 +60,11 @@ export async function LanguageSwitch() {
             lang={value}
             title={t(value)}
             className={`flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold transition ${
-              active ? "bg-white text-atrament shadow-sm ring-1 ring-atrament/10" : "text-kamien hover:bg-white/70 hover:text-atrament"
+              active
+                ? "bg-white text-atrament shadow-sm ring-1 ring-atrament/10"
+                : dark
+                  ? "text-[#E4DDD2] hover:bg-white/15 hover:text-papier"
+                  : "text-kamien hover:bg-white/70 hover:text-atrament"
             }`}
           >
             <Flag />
