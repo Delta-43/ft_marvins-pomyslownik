@@ -1,0 +1,201 @@
+{
+  "id": "33bc17c6-9d3d-4293-a86e-7ba17ac986f2",
+  "title": {
+    "pl": "Szkoła międzypokoleniowa: uczniowie uczą seniorów obsługi internetu",
+    "en": "Intergenerational School: pupils teach seniors to use the internet"
+  },
+  "summaryShort": {
+    "pl": "Ogólnopolski projekt, w którym uczniowie i nauczyciele prowadzili warsztaty cyfrowe dla seniorów.",
+    "en": "A national project in which pupils and teachers ran digital skills workshops for seniors."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "digital-skills",
+      "label": {
+        "pl": "Kompetencje cyfrowe",
+        "en": "Digital skills"
+      }
+    },
+    {
+      "slug": "intergenerational",
+      "label": {
+        "pl": "Współpraca międzypokoleniowa",
+        "en": "Intergenerational learning"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Ministerstwo Edukacji Narodowej",
+    "type": "public_institution",
+    "url": "https://www.gov.pl/web/edukacja",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T19:47:34Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Inicjatywa dla szkół z Ogólnopolskiej Sieci Edukacyjnej. Według strony MEN zgłosiło się 1554 szkoły, odbyło się ponad 5,5 tys. warsztatów, a udział wzięło 10 349 seniorów i 11 260 uczniów. Po konkursie część szkół założyła stałe formy pomocy, np. dyżury dla seniora. Streszczenie napisane przez model na podstawie strony.",
+    "en": "An initiative for schools in the National Education Network (OSE). According to the ministry page, 1,554 schools applied, over 5,500 workshops were held, and 10,349 seniors and 11,260 pupils took part. After the contest some schools set up lasting help, such as senior help desks. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "value": "in_practice",
+    "basis": "confirmed",
+    "sourceIds": [
+      "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30"
+    ],
+    "evidenceIds": [],
+    "method": null
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Zrealizowany projekt ogólnopolski z opublikowanymi liczbami uczestników. To konkurs ograniczony w czasie, więc może nie zostać powtórzony.",
+      "en": "A delivered national project with published participation numbers. It is a time-limited contest, so it may not be repeated."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Biblioteki, domy kultury i samorządy (wg modelu)",
+      "en": "Libraries, community centres and local governments (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Ministerstwo Edukacji Narodowej",
+    "url": "https://www.gov.pl/web/edukacja"
+  },
+  "sources": [
+    {
+      "id": "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30",
+      "type": "crawl",
+      "name": "gov.pl, Ministerstwo Edukacji Narodowej: Gala finałowa projektu Szkoła Międzypokoleniowa w KPRM (29.04.2025)",
+      "url": "https://www.gov.pl/web/edukacja/szkola-miedzypokoleniowa-cyfrowy-swiat-polaczyl-tysiace-uczniow-i-seniorow-gala-finalowa-w-kprm",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "passage": "do udziału zgłosiło się 1554 szkoły z całej Polski, uczniowie i nauczyciele zorganizowali ponad 5,5 tysiąca warsztatów, 10 349 seniorów … 11 260 uczniów wcieliło się w rolę mentorów … Jej celem było zorganizowanie warsztatów, podczas których uczniowie oraz nauczyciele uczyli seniorów obsługi internetu",
+      "license": null,
+      "passageLang": "pl"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "b3664bba-e015-4b53-b70b-6d1f30dc157c",
+      "metric": "schools_registered",
+      "value": 1554,
+      "unit": "schools",
+      "sourceId": "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30",
+      "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-miedzypokoleniowa-cyfrowy-swiat-polaczyl-tysiace-uczniow-i-seniorow-gala-finalowa-w-kprm. Quoted text: \"zgłosiło się 1554 szkoły\"",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Szkoły, które się zgłosiły",
+        "en": "Schools that applied"
+      }
+    },
+    {
+      "id": "31ea57a7-5874-4ced-a25b-cce999834a7d",
+      "metric": "seniors_trained",
+      "value": 10349,
+      "unit": "people",
+      "sourceId": "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30",
+      "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-miedzypokoleniowa-cyfrowy-swiat-polaczyl-tysiace-uczniow-i-seniorow-gala-finalowa-w-kprm. Quoted text: \"10 349 seniorów\"",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Seniorzy uczestniczący w warsztatach",
+        "en": "Seniors who took part"
+      }
+    },
+    {
+      "id": "03010987-71fc-415e-bc2e-c065699a588e",
+      "metric": "pupil_mentors",
+      "value": 11260,
+      "unit": "people",
+      "sourceId": "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30",
+      "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-miedzypokoleniowa-cyfrowy-swiat-polaczyl-tysiace-uczniow-i-seniorow-gala-finalowa-w-kprm. Quoted text: \"11 260 uczniów wcieliło się w rolę mentorów\"",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Uczniowie w roli mentorów",
+        "en": "Pupils who acted as mentors"
+      }
+    }
+  ],
+  "firstSeenAt": "2026-11-21T19:47:34Z",
+  "statusChangedAt": null
+}

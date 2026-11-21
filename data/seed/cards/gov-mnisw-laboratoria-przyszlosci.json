@@ -1,0 +1,192 @@
+{
+  "id": "08413986-6b48-4e27-a35e-1198863e0881",
+  "title": {
+    "pl": "Laboratoria Przyszłości: sprzęt do nauki technologii we wszystkich szkołach podstawowych",
+    "en": "Laboratories of the Future: technology equipment for every primary school"
+  },
+  "summaryShort": {
+    "pl": "Rządowy program dofinansowuje samorządom zakup drukarek 3D, mikrokontrolerów i robotów dla szkół podstawowych.",
+    "en": "A government programme funds local governments to buy 3D printers, microcontrollers and robots for primary schools."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "school-equipment",
+      "label": {
+        "pl": "Wyposażenie szkół",
+        "en": "School equipment"
+      }
+    },
+    {
+      "slug": "stem",
+      "label": {
+        "pl": "Nauki ścisłe i techniczne (STEM)",
+        "en": "STEM"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Ministerstwo Edukacji i Nauki",
+    "type": "public_institution",
+    "url": "https://www.gov.pl/web/nauka",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T19:47:34Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Ogłoszenie z 15 września 2021 r. opisuje program, w którym samorządy prowadzące około 12 000 szkół podstawowych otrzymują środki na nowoczesne narzędzia do rozwijania kompetencji przyszłości. Wsparcie zależy od wielkości szkoły, a wnioski składa się elektronicznie przez organ prowadzący i wojewodę. Strona to komunikat z 2021 r., więc nie pokazuje stanu obecnego programu. Streszczenie napisane przez model na podstawie strony.",
+    "en": "An announcement of 15 September 2021 describes a programme in which local governments running about 12,000 primary schools receive funds for modern tools that build future skills. Support depends on school size, and applications are filed electronically through the school owner and the voivode. The page is a 2021 notice, so it does not show the programme's present state. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "value": "in_practice",
+    "basis": "estimate",
+    "sourceIds": [
+      "ca5de875-c2ba-4414-ae70-8ea3dff8990a"
+    ],
+    "evidenceIds": [],
+    "method": "The 2021 page announces funding and says equipment will reach schools from 1 September 2022. It does not report delivery. Read as in practice because the programme was launched nationally. Reviewer to confirm with a later source.",
+    "methodText": {
+      "pl": "Strona z 2021 r. zapowiada finansowanie i podaje, że sprzęt trafi do szkół od 1 września 2022 r. Nie potwierdza dostaw. Przyjęto poziom „wdrożone w praktyce”, bo program ruszył w całym kraju. Do potwierdzenia przez recenzenta na podstawie późniejszego źródła.",
+      "en": "The 2021 page announces funding and says equipment will reach schools from 1 September 2022. It does not report delivery. Read as in practice because the programme was launched nationally. Reviewer to confirm with a later source."
+    }
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Finansowany program ogólnopolski z opublikowanym katalogiem wyposażenia. Strona z 2021 r. nie pokazuje, czy sprzęt dotarł do szkół.",
+      "en": "A funded national programme with a published equipment catalogue. Delivery is not shown on this 2021 page."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Szkoły ponadpodstawowe i samorządy (wg modelu)",
+      "en": "Secondary schools and local governments (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Ministerstwo Edukacji i Nauki",
+    "url": "https://www.gov.pl/web/laboratoria"
+  },
+  "sources": [
+    {
+      "id": "ca5de875-c2ba-4414-ae70-8ea3dff8990a",
+      "type": "crawl",
+      "name": "gov.pl, Ministerstwo Nauki i Szkolnictwa Wyższego: Laboratoria Przyszłości – największe w historii wsparcie dla wszystkich szkół podstawowych w Polsce! (15.09.2021)",
+      "url": "https://www.gov.pl/web/nauka/laboratoria-przyszlosci--najwieksze-w-historii-wsparcie-dla-wszystkich-szkol-podstawowych-w-polsce",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "passage": "samorządy prowadzące około 12 000 szkół podstawowych w całej Polsce otrzymają środki finansowe na zakup nowoczesnych narzędzi wspierających odkrywanie talentów i rozwijanie kompetencji przyszłości … Na wsparcie szkół Rząd przeznaczy łącznie ponad 1 miliard złotych … Drukarki 3D, mikrokontrolery, roboty, sprzęt do nagrań i inne nowoczesne wyposażenie",
+      "license": null,
+      "passageLang": "pl"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "49218165-0871-43f4-ae5c-53c1ce1929c3",
+      "metric": "schools_covered",
+      "value": 12000,
+      "unit": "schools",
+      "sourceId": "ca5de875-c2ba-4414-ae70-8ea3dff8990a",
+      "query": "Read from the page https://www.gov.pl/web/nauka/laboratoria-przyszlosci--najwieksze-w-historii-wsparcie-dla-wszystkich-szkol-podstawowych-w-polsce. Quoted text: \"samorządy prowadzące około 12 000 szkół podstawowych\"",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Szkoły objęte programem",
+        "en": "Schools covered by the programme"
+      }
+    },
+    {
+      "id": "39a9dc7c-16b7-4746-85ae-966ec80ba0ef",
+      "metric": "planned_funding_min",
+      "value": 1000000000,
+      "unit": "PLN",
+      "sourceId": "ca5de875-c2ba-4414-ae70-8ea3dff8990a",
+      "query": "Read from the page https://www.gov.pl/web/nauka/laboratoria-przyszlosci--najwieksze-w-historii-wsparcie-dla-wszystkich-szkol-podstawowych-w-polsce. Quoted text: \"ponad 1 miliard złotych\"",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Planowane finansowanie (co najmniej)",
+        "en": "Planned funding (at least)"
+      }
+    }
+  ],
+  "firstSeenAt": "2026-11-21T19:47:34Z",
+  "statusChangedAt": null
+}

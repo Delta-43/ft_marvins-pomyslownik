@@ -1,0 +1,208 @@
+{
+  "id": "fa3d8d29-d162-4885-9d61-7c1557365cbb",
+  "title": {
+    "pl": "Sposób biodegradacji zanieczyszczeń ropopochodnych z gleby wspomagany surfaktantami naturalnymi",
+    "en": "Biodegradation of petroleum pollutants in soil aided by natural surfactants"
+  },
+  "summaryShort": {
+    "pl": "Metoda oczyszczania gleby z substancji ropopochodnych z użyciem ekstraktu z buraka cukrowego (saponiny) i szczepionki bakteryjnej.",
+    "en": "A method for cleaning petroleum-contaminated soil with a sugar-beet extract (saponins) and a bacterial inoculant."
+  },
+  "summary": {
+    "pl": "Oferta Uniwersytetu Przyrodniczego w Poznaniu. Do zanieczyszczonej gleby wprowadza się ekstrakt z buraka cukrowego z saponinami triterpenoidowymi, które obniżają napięcie powierzchniowe, oraz opcjonalnie konsorcjum bakterii rozkładających węglowodory. Wpis deklaruje TRL 4 i zgłoszenie wynalazku. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "Offer by the Poznań University of Life Sciences. A sugar-beet extract with triterpenoid saponins, which lower surface tension, is added to contaminated soil, optionally with hydrocarbon-degrading bacteria. The listing declares TRL 4 and a patent application. Summary written by the model from the listing."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "soil-remediation",
+      "label": {
+        "pl": "Remediacja gleby",
+        "en": "Soil remediation"
+      }
+    },
+    {
+      "slug": "environment",
+      "label": {
+        "pl": "Ochrona środowiska",
+        "en": "Environmental protection"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Uniwersytet Przyrodniczy w Poznaniu",
+    "type": "university",
+    "url": "http://puls.edu.pl/",
+    "region": "WP"
+  },
+  "implementationLevel": {
+    "value": "testing",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 4,
+    "basis": "confirmed"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:05:00Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "implementationLevelDetail": {
+    "value": "testing",
+    "basis": "estimate",
+    "sourceIds": [
+      "85035362-137e-4323-81d2-5ba0ce3c795a"
+    ],
+    "evidenceIds": [
+      "c0cd0866-8db9-4cb7-b793-7ee81b523968"
+    ],
+    "method": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis deklaruje TRL 4 (walidacja w warunkach laboratoryjnych). Zgodnie z regułą przypisano poziom „testowanie”. Do potwierdzenia przez recenzenta.",
+      "en": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm."
+    }
+  },
+  "trlDetail": {
+    "applicable": true,
+    "value": 4,
+    "basis": "confirmed",
+    "sourceIds": [
+      "85035362-137e-4323-81d2-5ba0ce3c795a"
+    ],
+    "evidenceIds": [
+      "c0cd0866-8db9-4cb7-b793-7ee81b523968"
+    ],
+    "method": null
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Oferowane do licencjonowania, ze zgłoszeniem patentowym i TRL 4, ale nie wykazano dostępności ani użycia. Nie spełnia trzeciego warunku Oslo.",
+      "en": "Offered for licensing with a patent application and TRL 4, but not shown to be available or in use. Failed on the third Oslo condition."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Firmy z branży ochrony środowiska (wg wpisu)",
+      "en": "Environmental protection companies (per the listing)"
+    }
+  ],
+  "owner": {
+    "name": "Uniwersytet Przyrodniczy w Poznaniu",
+    "url": "http://puls.edu.pl/"
+  },
+  "sources": [
+    {
+      "id": "85035362-137e-4323-81d2-5ba0ce3c795a",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Sposób biodegradacji zanieczyszczeń ropopochodnych z gleby wspomagany surfaktantami naturalnymi",
+      "url": "http://ptt.arp.pl/bazy/sposób-biodegradacji-zanieczyszczeń-ropopochodnych-z-gleby-wspomagany-surfaktantami-naturalnymi/",
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "passage": "Istotą technologii jest sposób usuwania zanieczyszczeń substancjami ropopochodnymi, który polega na tym, że do zanieczyszczonego układu wprowadza się ekstrakt z buraka cukrowego … Zgłoszenie wynalazku … Poziom gotowości technologicznej TRL 4",
+      "license": null,
+      "passageLang": "pl"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "c0cd0866-8db9-4cb7-b793-7ee81b523968",
+      "metric": "declared_trl",
+      "value": 4,
+      "unit": "TRL",
+      "sourceId": "85035362-137e-4323-81d2-5ba0ce3c795a",
+      "query": "Read from the listing page http://ptt.arp.pl/bazy/sposób-biodegradacji-zanieczyszczeń-ropopochodnych-z-gleby-wspomagany-surfaktantami-naturalnymi/. Quoted text: \"Poziom gotowości technologicznej TRL 4\"",
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Poziom gotowości technologicznej podany we wpisie",
+        "en": "Technology readiness level declared in the listing"
+      }
+    },
+    {
+      "id": "40b22ca7-9658-4e76-9948-59c35592d798",
+      "metric": "saponin_content_in_extract",
+      "value": 10,
+      "unit": "mg/ml",
+      "sourceId": "85035362-137e-4323-81d2-5ba0ce3c795a",
+      "query": "Read from the listing page http://ptt.arp.pl/bazy/sposób-biodegradacji-zanieczyszczeń-ropopochodnych-z-gleby-wspomagany-surfaktantami-naturalnymi/. Quoted text: \"stwierdzono zawartość saponin w ekstrakcie z buraka na poziomie 10 mg/ml\"",
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Zawartość saponin w ekstrakcie",
+        "en": "Saponin content in the extract"
+      }
+    },
+    {
+      "id": "1743209c-2b19-4746-80f2-d8bf7392de56",
+      "metric": "saponins_identified",
+      "value": 9,
+      "unit": "count",
+      "sourceId": "85035362-137e-4323-81d2-5ba0ce3c795a",
+      "query": "Read from the listing page http://ptt.arp.pl/bazy/sposób-biodegradacji-zanieczyszczeń-ropopochodnych-z-gleby-wspomagany-surfaktantami-naturalnymi/. Quoted text: \"Zidentyfikowano 9 saponin triterpenoidowych\"",
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Liczba zidentyfikowanych saponin",
+        "en": "Number of saponins identified"
+      }
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:05:00Z",
+  "statusChangedAt": null,
+  "polishIpStatus": "stated"
+}

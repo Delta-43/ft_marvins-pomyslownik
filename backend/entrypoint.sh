@@ -8,6 +8,13 @@ case "$1" in
   worker)
     exec python -m app.worker
     ;;
+  score)
+    exec python -m app.score
+    ;;
+  seed)
+    python -m app.migrate
+    exec python -m app.seed
+    ;;
   migrate)
     exec python -m app.migrate
     ;;

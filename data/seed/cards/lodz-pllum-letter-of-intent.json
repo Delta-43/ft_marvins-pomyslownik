@@ -1,0 +1,176 @@
+{
+  "id": "e83b9ef0-dff8-40e1-83bc-39519731fe4b",
+  "title": {
+    "pl": "Wdrożenie modelu PLLuM w Urzędzie Miasta Łodzi",
+    "en": "PLLuM language model rollout at the Łódź city office"
+  },
+  "summaryShort": {
+    "pl": "Łódź podpisała list intencyjny w sprawie wdrożenia polskiego modelu AI, by usprawnić urząd i dostęp do informacji.",
+    "en": "Łódź signed a letter of intent to deploy the Polish AI model to improve the office and access to information."
+  },
+  "area": "administrative",
+  "tags": [
+    {
+      "slug": "language-model",
+      "label": {
+        "pl": "Polski model językowy",
+        "en": "Polish language model"
+      }
+    },
+    {
+      "slug": "e-government",
+      "label": {
+        "pl": "E-administracja",
+        "en": "E-government"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Urząd Miasta Łodzi",
+    "type": "local_government",
+    "url": null,
+    "region": "LD"
+  },
+  "implementationLevel": {
+    "value": "concept",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Komunikat Ministerstwa Cyfryzacji z 7 października 2025 r. opisuje list intencyjny w sprawie wdrożenia modelu PLLuM w Łodzi. Cel to usprawnienie pracy urzędu i ułatwienie mieszkańcom dostępu do informacji, a miasto ma do 1 stycznia 2027 r. dołączyć do wiodących ośrodków sztucznej inteligencji. To zapowiedź, nie działająca usługa. Streszczenie napisane przez model na podstawie strony.",
+    "en": "A Ministry of Digital Affairs notice of 7 October 2025 describes a letter of intent to deploy the PLLuM model in Łódź. The aim is to improve the office's work and residents' access to information, and the city is to join the leading AI centres by 1 January 2027. This is an announcement, not a running service. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "79300330-79b5-49a7-bf1f-c1d44b8dcf6e"
+    ],
+    "evidenceIds": [],
+    "method": null,
+    "methodText": null,
+    "value": "concept"
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "List intencyjny w sprawie wdrożenia modelu. Nie opisano jeszcze żadnej usługi.",
+      "en": "A letter of intent to deploy the model. No service is described yet."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Inne duże miasta (wg modelu)",
+      "en": "Other large cities (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Urząd Miasta Łodzi",
+    "url": "https://www.gov.pl/web/cyfryzacja/polski-model-jezykowy-pllum-trafi-do-lodzkiego-samorzadu"
+  },
+  "sources": [
+    {
+      "id": "79300330-79b5-49a7-bf1f-c1d44b8dcf6e",
+      "type": "crawl",
+      "name": "gov.pl, Ministerstwo Cyfryzacji: Polski model językowy PLLuM trafi do łódzkiego samorządu (07.10.2025)",
+      "url": "https://www.gov.pl/web/cyfryzacja/polski-model-jezykowy-pllum-trafi-do-lodzkiego-samorzadu",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "podpisali list intencyjny w sprawie wdrożenia polskiego modelu AI PLLuM w Łodzi … Celem jest usprawnienie pracy urzędu i ułatwienie mieszkańcom dostępu do informacji … do 1 stycznia 2027 roku ma włączyć miasto do grona krajowych liderów rozwoju sztucznej inteligencji",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "20b9069c-0f1b-4991-88de-875c6ac72bc8",
+      "metric": "target_date_leading_centre",
+      "label": {
+        "pl": "Termin dołączenia Łodzi do wiodących ośrodków AI",
+        "en": "Date by which Łódź is to join the leading AI centres"
+      },
+      "value": "2027-01-01",
+      "unit": null,
+      "sourceId": "79300330-79b5-49a7-bf1f-c1d44b8dcf6e",
+      "query": "Read from the page https://www.gov.pl/web/cyfryzacja/polski-model-jezykowy-pllum-trafi-do-lodzkiego-samorzadu. Quoted text: \"do 1 stycznia 2027 roku ma włączyć miasto do grona krajowych liderów rozwoju sztucznej inteligencji\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

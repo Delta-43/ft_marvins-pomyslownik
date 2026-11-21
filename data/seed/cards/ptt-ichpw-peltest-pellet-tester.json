@@ -1,0 +1,179 @@
+{
+  "id": "d1572ed1-6ea6-4363-bd20-f79c5f058fa7",
+  "title": {
+    "pl": "PELTEST: aparat do badania wytrzymałości mechanicznej peletów z biomasy",
+    "en": "PELTEST: apparatus for testing the mechanical durability of biomass pellets"
+  },
+  "summaryShort": {
+    "pl": "Aparat z akredytowaną metodyką mierzy wytrzymałość peletów zgodnie z normami EN 15210-1 i EN ISO 17831-1.",
+    "en": "An apparatus with an accredited method measures pellet durability to standards EN 15210-1 and EN ISO 17831-1."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "biomass",
+      "label": {
+        "pl": "Biomasa",
+        "en": "Biomass"
+      }
+    },
+    {
+      "slug": "quality-testing",
+      "label": {
+        "pl": "Badania jakości",
+        "en": "Quality testing"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Instytut Chemicznej Przeróbki Węgla",
+    "type": "research_institute",
+    "url": "http://www.ichpw.zabrze.pl",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 8,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Instytut Chemicznej Przeróbki Węgla oferuje aparat do kontroli jakości peletów z biomasy. Wpis podaje, że metodyka badań ma akredytację Polskiego Centrum Akredytacji i działa w laboratoriach instytutu. Forma ochrony: wzór użytkowy, bez numeru w tekście. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "The Institute of Chemical Processing of Coal offers an apparatus for quality control of biomass pellets. The listing says the test method is accredited by the Polish Centre for Accreditation and runs in the institute's laboratories. Protection: utility model, with no number in the text. Summary written by the model from the listing."
+  },
+  "implementationLevelDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "fc91a336-8aa6-4752-b086-0ca2b3201e5b"
+    ],
+    "evidenceIds": [],
+    "method": null,
+    "methodText": null,
+    "value": "in_practice"
+  },
+  "trlDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "fc91a336-8aa6-4752-b086-0ca2b3201e5b"
+    ],
+    "evidenceIds": [],
+    "method": "No TRL in the listing. The apparatus is built, and its test method is accredited and in use in the institute's laboratories, which reads as TRL 8. Reviewer to confirm.",
+    "methodText": {
+      "pl": "We wpisie brak TRL. Aparat jest zbudowany, a metoda badań jest akredytowana i stosowana w laboratoriach instytutu, co odpowiada TRL 8. Do potwierdzenia przez recenzenta.",
+      "en": "No TRL in the listing. The apparatus is built, and its test method is accredited and in use in the institute's laboratories, which reads as TRL 8. Reviewer to confirm."
+    },
+    "applicable": true,
+    "value": 8
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Aparat istnieje, jego metoda badań jest akredytowana i stosowana w laboratoriach instytutu, a oferta obejmuje licencję lub sprzedaż praw.",
+      "en": "The apparatus exists, its test method is accredited and used in the institute's laboratories, and it is offered under licence or for sale."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Producenci i odbiorcy peletów, laboratoria certyfikujące (wg wpisu)",
+      "en": "Pellet producers and buyers, certifying laboratories (per the listing)"
+    }
+  ],
+  "owner": {
+    "name": "Instytut Chemicznej Przeróbki Węgla",
+    "url": "http://www.ichpw.zabrze.pl"
+  },
+  "sources": [
+    {
+      "id": "fc91a336-8aa6-4752-b086-0ca2b3201e5b",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Aparat do badania wytrzymałości mechanicznej peletów z biomasy – „PELTEST”",
+      "url": "http://ptt.arp.pl/bazy/aparat-do-badania-wytrzymałości-mechanicznej-peletów-z-biomasy-peltest-2/",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Opracowany przez instytut aparat do badania wytrzymałości mechanicznej peletów jest odpowiedzią na realną potrzebę rynku … Budowa i sposób działania aparatu spełnia wymagania norm EN 15210-1 i EN ISO 17831-1 … Metodyka badań z wykorzystaniem aparatu otrzymała akredytację Polskiego Centrum Akredytacji i została wdrożona w Laboratoriach Instytutu Chemicznej Przeróbki Węgla … Forma ochrony Wzór użytkowy",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "04334fb0-ad8a-431b-8383-d0c7d379be43",
+      "metric": "protection_form",
+      "label": {
+        "pl": "Forma ochrony",
+        "en": "Form of protection"
+      },
+      "value": "Wzór użytkowy",
+      "unit": null,
+      "sourceId": "fc91a336-8aa6-4752-b086-0ca2b3201e5b",
+      "query": "Read from the page http://ptt.arp.pl/bazy/aparat-do-badania-wytrzymałości-mechanicznej-peletów-z-biomasy-peltest-2/. Quoted text: \"Forma ochrony Wzór użytkowy\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null,
+  "polishIpStatus": "stated"
+}

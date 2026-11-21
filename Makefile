@@ -1,11 +1,14 @@
 # Shortcuts. Run from the repository root.
-.PHONY: mock up down lint-api types test smoke
+.PHONY: mock up down seed lint-api types test smoke
 
 mock:       ## mock API for frontend work on :4010
 	docker compose --profile mock up
 
 up:         ## whole stack (needs backend and frontend images)
 	docker compose --profile full up --build
+
+seed:       ## load seed cards into the running database
+	docker compose --profile full run --rm api seed
 
 down:
 	docker compose --profile full --profile mock down

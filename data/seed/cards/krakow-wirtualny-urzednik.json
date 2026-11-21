@@ -1,0 +1,175 @@
+{
+  "id": "f2174411-9482-460a-8cfd-a5122e191871",
+  "title": {
+    "pl": "Wirtualny Urzędnik: aplikacja z AI do wyszukiwania procedur urzędowych",
+    "en": "Virtual Official: an AI app for finding city procedures"
+  },
+  "summaryShort": {
+    "pl": "Aplikacja mobilna z głosowym wyszukiwaniem procedur Urzędu Miasta Krakowa, w trzech językach.",
+    "en": "A mobile app with voice search of Kraków City Office procedures, in three languages."
+  },
+  "area": "administrative",
+  "tags": [
+    {
+      "slug": "mobile-app",
+      "label": {
+        "pl": "Aplikacja mobilna",
+        "en": "Mobile app"
+      }
+    },
+    {
+      "slug": "e-government",
+      "label": {
+        "pl": "E-administracja",
+        "en": "E-government"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Urząd Miasta Krakowa",
+    "type": "local_government",
+    "url": "https://krakow.pl",
+    "region": "MA"
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T19:47:34Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Bezpłatna aplikacja na Androida i iOS wykorzystuje sztuczną inteligencję do wyszukiwania informacji o obsłudze przedsiębiorcy i innych procedurach Urzędu Miasta Krakowa. Odpowiedź zawiera link do procedury i informację, czy sprawę można załatwić elektronicznie. Działa po polsku, angielsku i ukraińsku. Streszczenie napisane przez model na podstawie strony z 2023 r.",
+    "en": "A free Android and iOS app uses artificial intelligence to find information on business services and other procedures of the Kraków City Office. An answer includes a link to the procedure and a note on whether it can be handled online. It works in Polish, English and Ukrainian. Summary written by the model from a 2023 page."
+  },
+  "implementationLevelDetail": {
+    "value": "in_practice",
+    "basis": "confirmed",
+    "sourceIds": [
+      "9e125714-b580-4c10-86e1-3c0d78d9308c"
+    ],
+    "evidenceIds": [],
+    "method": null
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Aplikacja jest w sklepach od 2023 r. Strona nie podaje, czy jest nadal rozwijana.",
+      "en": "Published in app stores in 2023. Whether it is still maintained today is not stated."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Inne miasta i urzędy wojewódzkie (wg modelu)",
+      "en": "Other cities and voivodeship offices (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Urząd Miasta Krakowa",
+    "url": "https://krakow.pl/start/273116,artykul,wirtualny_urzednik.html"
+  },
+  "sources": [
+    {
+      "id": "9e125714-b580-4c10-86e1-3c0d78d9308c",
+      "type": "crawl",
+      "name": "krakow.pl (Urząd Miasta Krakowa): Wirtualny Urzędnik (30.06.2023)",
+      "url": "https://krakow.pl/start/273116,artykul,wirtualny_urzednik.html",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "passage": "Aplikacja mobilna Wirtualny Urzędnik to wykorzystujące sztuczną inteligencję narzędzie pozwalające na intuicyjne wyszukiwanie informacji … Można ją pobrać bezpłatnie w sklepach Google Play oraz App Store … Aplikacja dostępna jest w trzech językach: polskim [PL], angielskim [EN], a także ukraińskim [UA]",
+      "license": null,
+      "passageLang": "pl"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "349a8fc7-bb70-4694-8bba-0c7b5f32f2ca",
+      "metric": "languages_supported",
+      "value": 3,
+      "unit": "languages",
+      "sourceId": "9e125714-b580-4c10-86e1-3c0d78d9308c",
+      "query": "Read from the page https://krakow.pl/start/273116,artykul,wirtualny_urzednik.html. Quoted text: \"w trzech językach: polskim [PL], angielskim [EN], a także ukraińskim [UA]\"",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Obsługiwane języki",
+        "en": "Languages supported"
+      }
+    }
+  ],
+  "firstSeenAt": "2026-11-21T19:47:34Z",
+  "statusChangedAt": null
+}

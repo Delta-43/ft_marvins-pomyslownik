@@ -1,0 +1,196 @@
+{
+  "id": "04f21815-e4d6-4e04-bbe2-4257f5db8e07",
+  "title": {
+    "pl": "Tkanina terapeutyczna z funkcją mikromasażu",
+    "en": "Therapeutic fabric with a micro-massage function"
+  },
+  "summaryShort": {
+    "pl": "Trójwymiarowa tkanina z kieszeniami powietrznymi, która wentyluje skórę w odzieży i wyrobach higienicznych.",
+    "en": "A three-dimensional fabric with air pockets that ventilates the skin in clothing and hygiene products."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "textiles",
+      "label": {
+        "pl": "Włókiennictwo",
+        "en": "Textiles"
+      }
+    },
+    {
+      "slug": "medical-materials",
+      "label": {
+        "pl": "Materiały medyczne",
+        "en": "Medical materials"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Sieć Badawcza Łukasiewicz – Łódzki Instytut Technologiczny",
+    "type": "research_institute",
+    "url": "https://lit.lukasiewicz.gov.pl/",
+    "region": "LD"
+  },
+  "implementationLevel": {
+    "value": "testing",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 5,
+    "basis": "confirmed"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Wpis Łukasiewicz – Łódzkiego Instytutu Technologicznego opisuje tkaninę o naprzemiennych miejscach wypukłych i wklęsłych, które tworzą kieszenie powietrzne między odzieżą a skórą. Wskazane zastosowania to obłożenia szpitalne i rehabilitacja. Wpis deklaruje TRL 5 i ochronę jako wynalazek. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "A listing by the Łukasiewicz Łódź Institute of Technology describes a fabric with alternating raised and recessed areas that form air pockets between clothing and skin. Named uses are hospital drapes and rehabilitation. The listing declares TRL 5 and protection as an invention. Summary written by the model from the listing."
+  },
+  "implementationLevelDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "6d774e4a-1380-4885-ba62-5b31c80633b9"
+    ],
+    "evidenceIds": [
+      "9d5aa27e-cf62-407a-8cc7-84740126bbed"
+    ],
+    "method": "Listing declares TRL 5 (validation in an environment close to the real one). Mapped to 'testing' by rule. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis deklaruje TRL 5 (walidacja w środowisku zbliżonym do rzeczywistego). Zgodnie z regułą przypisano poziom „testowanie”. Do potwierdzenia przez recenzenta.",
+      "en": "Listing declares TRL 5 (validation in an environment close to the real one). Mapped to 'testing' by rule. Reviewer to confirm."
+    },
+    "value": "testing"
+  },
+  "trlDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "6d774e4a-1380-4885-ba62-5b31c80633b9"
+    ],
+    "evidenceIds": [
+      "9d5aa27e-cf62-407a-8cc7-84740126bbed"
+    ],
+    "method": null,
+    "methodText": null,
+    "applicable": true,
+    "value": 5
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Opatentowana konstrukcja tkaniny z zadeklarowanym TRL 5. Wpis nie wskazuje, że jest już dostępna na rynku.",
+      "en": "A patented fabric structure with a declared TRL 5. The listing does not show that it is already available on the market."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Producenci odzieży roboczej i pościeli (wg wpisu)",
+      "en": "Makers of workwear and bedding (per the listing)"
+    }
+  ],
+  "owner": {
+    "name": "Sieć Badawcza Łukasiewicz – Łódzki Instytut Technologiczny",
+    "url": "https://lit.lukasiewicz.gov.pl/"
+  },
+  "sources": [
+    {
+      "id": "6d774e4a-1380-4885-ba62-5b31c80633b9",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Tkanina terapeutyczna z funkcją mikromasażu",
+      "url": "http://ptt.arp.pl/bazy/tkanina-terapeutyczna-z-funkcją-mikromasażu/",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Tkanina terapeutyczna ma trójwymiarową strukturę, charakteryzującą się naprzemiennym występowaniem w kierunku osnowy i w kierunku wątku, równomiernie rozłożonych miejsc wypukłych i wklęsłych … Materiały włókiennicze stosowane na obłożenia szpitalne, bądź rozwiązania stosowane w rehabilitacji … Lokalizacja Łódź, woj. łódzkie … Forma ochrony Wynalazek Poziom gotowości technologicznej TRL 5",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "9d5aa27e-cf62-407a-8cc7-84740126bbed",
+      "metric": "declared_trl",
+      "label": {
+        "pl": "Poziom gotowości technologicznej podany we wpisie",
+        "en": "Technology readiness level declared in the listing"
+      },
+      "value": 5,
+      "unit": null,
+      "sourceId": "6d774e4a-1380-4885-ba62-5b31c80633b9",
+      "query": "Read from the page http://ptt.arp.pl/bazy/tkanina-terapeutyczna-z-funkcją-mikromasażu/. Quoted text: \"Poziom gotowości technologicznej TRL 5\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    },
+    {
+      "id": "a584bb28-9ba5-4976-9cb6-9505e1b640bf",
+      "metric": "protection_form",
+      "label": {
+        "pl": "Forma ochrony",
+        "en": "Form of protection"
+      },
+      "value": "Wynalazek",
+      "unit": null,
+      "sourceId": "6d774e4a-1380-4885-ba62-5b31c80633b9",
+      "query": "Read from the page http://ptt.arp.pl/bazy/tkanina-terapeutyczna-z-funkcją-mikromasażu/. Quoted text: \"Forma ochrony Wynalazek\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null,
+  "polishIpStatus": "stated"
+}

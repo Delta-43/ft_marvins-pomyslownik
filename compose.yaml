@@ -43,9 +43,14 @@ services:
         required: false
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-radar}:${POSTGRES_PASSWORD:-change-me}@db:5432/${POSTGRES_DB:-radar}
+      SEED_DIR: /srv/data/seed
+      CACHE_DIR: /srv/data/cache
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - ./data/seed:/srv/data/seed:ro   # seed cards and audiences, loaded with: docker compose run --rm api seed
+      - cache:/srv/data/cache           # source snapshots and collected cards
     ports:
       - "8000:8000"
     healthcheck:
@@ -63,6 +68,13 @@ services:
         required: false
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-radar}:${POSTGRES_PASSWORD:-change-me}@db:5432/${POSTGRES_DB:-radar}
+      SEED_DIR: /srv/data/seed
+      CACHE_DIR: /srv/data/cache
+      SOURCES_DIR: /srv/data/sources
+    volumes:
+      - ./data/seed:/srv/data/seed:ro
+      - ./data/sources:/srv/data/sources:ro
+      - cache:/srv/data/cache
     depends_on:
       db:
         condition: service_healthy
@@ -71,6 +83,9 @@ services:
     profiles: [full]
     build:
       context: ./frontend
+      # The image generates its API types from the contract (see frontend/Dockerfile).
+      additional_contexts:
+        contract: ./docs/api
       args:
         NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8000}
     environment:
@@ -83,3 +98,4 @@ services:
 
 volumes:
   dbdata:
+  cache:
