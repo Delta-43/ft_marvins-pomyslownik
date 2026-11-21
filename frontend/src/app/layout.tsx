@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   description: "Odkrywaj istniejące polskie innowacje, ze źródłami i uczciwą oceną.",
 };
 
-// Fonts: Lato (display), Atkinson Hyperlegible Next (body), Fraunces (serif accents: notes, counts, scores). All SIL OFL, EUPL-compatible.
+// Fonts: Lato (display), Atkinson Hyperlegible Next (body), Roboto Serif (technical values: scores, counts, TRL, dates, code). All SIL OFL, EUPL-compatible.
 const FONTS =
-  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Fraunces:opsz,wght,SOFT@9..144,300..600,50&family=Lato:wght@400;700&display=swap";
+  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Roboto+Serif:opsz,wght@8..144,300..600&family=Lato:wght@400;700&display=swap";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const store = await cookies();
@@ -31,8 +31,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <div className="aurora" aria-hidden="true"><span /><span /><span /></div>
         <header className="glass-bar sticky top-0 z-40 border-b">
           <nav aria-label="Główna" className="mx-auto flex max-w-6xl items-center gap-6 px-6 py-3">
-            <Link href="/" aria-label="Pomysłownik, strona główna" className="flex items-center no-underline"><Logo inverted /></Link>
-            <ul className="ml-auto flex items-center gap-1 text-sm [&_a]:rounded-full [&_a]:px-3 [&_a]:py-1.5 [&_a]:no-underline [&_a]:text-papier [&_a:not(.btn-liquid):hover]:bg-white/15">
+            <Link href="/" aria-label="Pomysłownik, strona główna" className="flex items-center no-underline"><Logo /></Link>
+            <ul className="ml-auto flex items-center gap-1 text-sm [&_a]:rounded-full [&_a]:px-3 [&_a]:py-1.5 [&_a]:no-underline [&_a]:text-atrament [&_a:not(.btn-liquid):hover]:bg-atrament/5">
               {signedIn ? (
                 <>
                   {demo && <li className="mr-1 rounded-full bg-iskra px-2.5 py-0.5 text-xs font-bold text-atrament shadow-sm">Tryb demo</li>}
@@ -55,7 +55,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <main id="main" tabIndex={-1} className="flex-1">
           {children}
         </main>
-        <footer className="glass-bar mt-12 border-t text-sm text-papier/80">
+        <footer className="glass-bar mt-12 border-t text-sm text-kamien">
           <div className="mx-auto max-w-6xl px-6 py-4">Pomysłownik! · Hacknation 2026 · podgląd projektu, dane przykładowe</div>
         </footer>
       </body>

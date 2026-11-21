@@ -50,7 +50,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
         <section aria-labelledby="results-h">
           <div className="mb-4 flex items-baseline justify-between">
             <h1 id="results-h" style={{ fontSize: "1.5rem" }}>{q ? `Wyniki dla „${q}”` : "Wszystkie innowacje"}</h1>
-            <p className="font-serif text-sm italic text-kamien">{CARDS.length} wyniki · dane przykładowe</p>
+            <p className="font-tech text-sm tabular-nums text-kamien">{CARDS.length} wyniki · dane przykładowe</p>
           </div>
           <ul className="grid gap-5 md:grid-cols-2">
             {CARDS.map((c) => {
@@ -68,9 +68,9 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
                   <p className="text-sm text-kamien">{c.org}</p>
                   <p className="text-sm">{c.summary}</p>
                   <dl className="mt-auto grid grid-cols-3 gap-2 rounded-2xl bg-white/55 p-3 text-sm ring-1 ring-white/80">
-                    <div><dt className="text-xs text-kamien">Wdrożenie</dt><dd className="font-bold">{c.level}</dd></div>
-                    <div><dt className="text-xs text-kamien">Gotowość</dt><dd className="font-bold">{c.trl}</dd></div>
-                    <div><dt className="text-xs text-kamien">Wiarygodność</dt><dd className="font-serif font-semibold tabular-nums">{c.score === null ? "Za mało danych" : `${c.score}/100`}</dd></div>
+                    <div><dt className="text-xs text-kamien">Wdrożenie</dt><dd className="font-tech font-semibold">{c.level}</dd></div>
+                    <div><dt className="text-xs text-kamien">Gotowość</dt><dd className="font-tech font-semibold tabular-nums">{c.trl}</dd></div>
+                    <div><dt className="text-xs text-kamien">Wiarygodność</dt><dd className="font-tech font-semibold tabular-nums">{c.score === null ? "Za mało danych" : `${c.score}/100`}</dd></div>
                   </dl>
                   <label className="flex items-center gap-2 text-sm"><input type="checkbox" className="accent-granat" /> Porównaj</label>
                 </li>

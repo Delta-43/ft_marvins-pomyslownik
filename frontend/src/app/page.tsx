@@ -20,7 +20,7 @@ export default function LandingPage() {
       >
         Zaloguj się, aby szukać
       </Link>
-      <p className="font-serif text-sm italic font-light text-kamien">[Miejsce na grafikę strony startowej: Alban]</p>
+      <p className="font-tech text-sm text-kamien">[Miejsce na grafikę strony startowej: Alban]</p>
       </div>
     </section>
   );
