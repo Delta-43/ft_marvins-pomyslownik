@@ -1,0 +1,162 @@
+{
+  "id": "85c8eb04-5102-48d0-bc8f-cd4cf4d48130",
+  "title": {
+    "pl": "Szkoła dla innowatora: pilotaż uczenia kompetencji proinnowacyjnych",
+    "en": "School for an Innovator: pilot teaching innovation skills"
+  },
+  "summaryShort": {
+    "pl": "Pilotaż w 20 szkołach podstawowych testuje model nauczania kreatywności, ryzyka i współpracy.",
+    "en": "A pilot in 20 primary schools tests a model for teaching creativity, risk-taking and teamwork."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "innovation-skills",
+      "label": {
+        "pl": "Kompetencje proinnowacyjne",
+        "en": "Pro-innovation skills"
+      }
+    },
+    {
+      "slug": "primary-education",
+      "label": {
+        "pl": "Szkoła podstawowa",
+        "en": "Primary school"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Ministerstwo Edukacji Narodowej",
+    "type": "public_institution",
+    "url": "https://www.gov.pl/web/edukacja",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "pilot",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T19:47:34Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Wspólna inicjatywa resortów przedsiębiorczości i edukacji. Strona z 2019 r. opisuje cele pilotażu, 20 szkół podstawowych, grant do 10 mln zł oraz termin realizacji od października 2019 do sierpnia 2022. To zapowiedź konkursu na operatora, nie sprawozdanie z wyników. Streszczenie napisane przez model na podstawie strony.",
+    "en": "A joint initiative of the entrepreneurship and education ministries. The 2019 page describes the pilot's aims, 20 primary schools, a grant of up to PLN 10 million and a run from October 2019 to August 2022. It announces the operator competition and does not report results. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "value": "pilot",
+    "basis": "confirmed",
+    "sourceIds": [
+      "6cbc7c6f-523e-4fc6-8117-f9c40dfe8d4a"
+    ],
+    "evidenceIds": [],
+    "method": null
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "en": "A pilot model for teaching pro-innovation skills in 20 schools. The page is from 2019 and does not report results."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Szkoły ponadpodstawowe, kuratoria, ośrodki doskonalenia nauczycieli (wg modelu)",
+      "en": "Secondary schools, education boards, teacher training centres (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Ministerstwo Edukacji Narodowej",
+    "url": "https://www.gov.pl/web/edukacja"
+  },
+  "sources": [
+    {
+      "id": "6cbc7c6f-523e-4fc6-8117-f9c40dfe8d4a",
+      "type": "crawl",
+      "name": "gov.pl, Ministerstwo Edukacji Narodowej: W sierpniu rusza konkurs na operatora projektu „Szkoła dla innowatora” (26.07.2019)",
+      "url": "https://www.gov.pl/web/edukacja/szkola-dla-innowatora",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "passage": "Wypracowanie i przetestowanie rozwiązań służących kształtowaniu i rozwijaniu kompetencji proinnowacyjnych w systemie oświaty … Podczas pilotażu, w wybranych 20 szkołach podstawowych, zostanie przetestowany model nauczania kompetencji proinnowacyjnych … Wartość grantu nie może przekroczyć 10 mln zł",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "19995419-bb8b-4f12-8559-de0393d59e76",
+      "metric": "pilot_schools",
+      "value": 20,
+      "unit": "schools",
+      "sourceId": "6cbc7c6f-523e-4fc6-8117-f9c40dfe8d4a",
+      "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-dla-innowatora. Quoted text: \"w wybranych 20 szkołach podstawowych\"",
+      "retrievedAt": "2026-11-21T19:47:34Z"
+    },
+    {
+      "id": "5cfa79ed-a804-4835-ad56-56e208a6a88e",
+      "metric": "grant_cap",
+      "value": 10000000,
+      "unit": "PLN",
+      "sourceId": "6cbc7c6f-523e-4fc6-8117-f9c40dfe8d4a",
+      "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-dla-innowatora. Quoted text: \"Wartość grantu nie może przekroczyć 10 mln zł\"",
+      "retrievedAt": "2026-11-21T19:47:34Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T19:47:34Z",
+  "statusChangedAt": null
+}

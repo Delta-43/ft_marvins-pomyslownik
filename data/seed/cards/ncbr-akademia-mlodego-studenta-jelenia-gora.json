@@ -1,0 +1,162 @@
+{
+  "id": "2bd5dfeb-31b7-44dd-9b07-7fcf1803a10c",
+  "title": {
+    "pl": "Akademia Młodego Studenta: zajęcia uczelni dla uczniów z Jeleniej Góry",
+    "en": "Young Student Academy: university classes for pupils in Jelenia Góra"
+  },
+  "summaryShort": {
+    "pl": "Uczelnia prowadziła nietypowe zajęcia dla dzieci i młodzieży, by wzmacniać motywację do nauki.",
+    "en": "A university ran unusual classes for children and young people to build motivation to learn."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "university-outreach",
+      "label": {
+        "pl": "Uczelnia dla uczniów",
+        "en": "University outreach"
+      }
+    },
+    {
+      "slug": "motivation",
+      "label": {
+        "pl": "Motywacja do nauki",
+        "en": "Motivation to learn"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Karkonoska Państwowa Szkoła Wyższa w Jeleniej Górze",
+    "type": "university",
+    "url": null,
+    "region": "DS"
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T19:47:34Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Projekt Karkonoskiej Państwowej Szkoły Wyższej z konkursu „Trzecia Misja Uczelni” (PO WER), realizowany od 15.10.2018 do 31.07.2021. Strona NCBR podaje wartość projektu 419 291,84 zł, dofinansowanie 395 111,36 zł i przykładowe zajęcia, m.in. warsztat radiowy i eksperymenty w kuchni. Strona nie podaje liczby uczestników. Streszczenie napisane przez model na podstawie strony.",
+    "en": "A project of the Karkonosze State University of Applied Sciences from the \"Third Mission of Universities\" call (PO WER), run from 15.10.2018 to 31.07.2021. The NCBR page gives a project value of PLN 419,291.84, funding of PLN 395,111.36 and sample classes, such as a radio workshop and kitchen experiments. It gives no participant numbers. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "value": "in_practice",
+    "basis": "estimate",
+    "sourceIds": [
+      "e21cc52f-71a2-4f51-899b-14391e7b7e79"
+    ],
+    "evidenceIds": [],
+    "method": "The page describes a finished project (2018 to 2021) with classes held and sample outcomes listed. Read as in practice. The page does not say whether the classes continue."
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "en": "Project run 2018 to 2021 with classes delivered. Whether the offer is still available today is not stated."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Inne uczelnie regionalne i szkoły podstawowe (wg modelu)",
+      "en": "Other regional universities and primary schools (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Karkonoska Państwowa Szkoła Wyższa w Jeleniej Górze",
+    "url": "https://www.gov.pl/web/ncbr/akademia-mlodego-studenta"
+  },
+  "sources": [
+    {
+      "id": "e21cc52f-71a2-4f51-899b-14391e7b7e79",
+      "type": "crawl",
+      "name": "gov.pl, Narodowe Centrum Badań i Rozwoju: Akademia Młodego Studenta (projekt Karkonoskiej Państwowej Szkoły Wyższej)",
+      "url": "https://www.gov.pl/web/ncbr/akademia-mlodego-studenta",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "passage": "Głównym celem wynikającym z realizacji zajęć w ramach projektu Akademia Młodego Studenta była aktywizacja dzieci i młodzieży z jeleniogórskich szkół … Wartość dofinansowania 395 111,36 zł … Okres realizacji projektu 15.10.2018 r. - 31.07.2021 r.",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e11d3ea0-1a97-4417-ba54-3b6310bcbc11",
+      "metric": "funding_awarded",
+      "value": 395111.36,
+      "unit": "PLN",
+      "sourceId": "e21cc52f-71a2-4f51-899b-14391e7b7e79",
+      "query": "Read from the page https://www.gov.pl/web/ncbr/akademia-mlodego-studenta. Quoted text: \"Wartość dofinansowania 395 111,36 zł\"",
+      "retrievedAt": "2026-11-21T19:47:34Z"
+    },
+    {
+      "id": "6da43c80-0141-4de3-ba12-ccf60365a819",
+      "metric": "project_value",
+      "value": 419291.84,
+      "unit": "PLN",
+      "sourceId": "e21cc52f-71a2-4f51-899b-14391e7b7e79",
+      "query": "Read from the page https://www.gov.pl/web/ncbr/akademia-mlodego-studenta. Quoted text: \"Wartość projektu 419 291,84 zł\"",
+      "retrievedAt": "2026-11-21T19:47:34Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T19:47:34Z",
+  "statusChangedAt": null
+}

@@ -1,0 +1,188 @@
+{
+  "id": "9fe02918-badd-423f-b924-cba67232683e",
+  "title": {
+    "pl": "Technologia mikrofalowych tranzystorów HEMT dla potrzeb radiolokacji",
+    "en": "Microwave HEMT transistor technology for radiolocation"
+  },
+  "summaryShort": {
+    "pl": "Tranzystory HEMT z GaN/AlGaN na szafirze i SiC dla pasm S i X, opracowane przez ITME.",
+    "en": "GaN/AlGaN HEMT transistors on sapphire and SiC for the S and X bands, developed by ITME."
+  },
+  "summary": {
+    "pl": "Oferta Instytutu Technologii Materiałów Elektronicznych. Wpis podaje wzmocnienie 16 dB w paśmie S i 10 dB w paśmie X oraz napięcie przebicia 80 V, wykonane serie tranzystorów małej mocy i prace nad większymi mocami. Forma ochrony: strzeżone know-how. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "Offer by the Institute of Electronic Materials Technology (ITME). The listing gives 16 dB gain in the S band, 10 dB in the X band and 80 V breakdown voltage, with several series of low-power transistors made and higher power versions in development. Protection: guarded know-how. Summary written by the model from the listing."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "microelectronics",
+      "label": {
+        "pl": "Mikroelektronika",
+        "en": "Microelectronics"
+      }
+    },
+    {
+      "slug": "energy",
+      "label": {
+        "pl": "Energetyka",
+        "en": "Energy"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Instytut Technologii Materiałów Elektronicznych",
+    "type": "research_institute",
+    "url": "http://www.itme.edu.pl",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "prototype",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 4,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:05:00Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "implementationLevelDetail": {
+    "value": "prototype",
+    "basis": "estimate",
+    "sourceIds": [
+      "92e336cf-297f-4779-bbef-5f183f6622e4"
+    ],
+    "evidenceIds": [
+      "3c5cc1a3-1d06-4a02-9690-da93aca718df",
+      "1a0045e2-a53d-4138-a54d-2ebde263e071"
+    ],
+    "method": "Listing reports several series of working transistors with measured parameters but gives no TRL. Read as a laboratory prototype. Reviewer to confirm."
+  },
+  "trlDetail": {
+    "applicable": true,
+    "value": 4,
+    "basis": "estimate",
+    "sourceIds": [
+      "92e336cf-297f-4779-bbef-5f183f6622e4"
+    ],
+    "evidenceIds": [
+      "3c5cc1a3-1d06-4a02-9690-da93aca718df",
+      "1a0045e2-a53d-4138-a54d-2ebde263e071"
+    ],
+    "method": "No TRL in the listing. Measured parameters on repeatable series read as validation in laboratory conditions (TRL 4 in the listing's own glossary). Reviewer to confirm."
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "en": "Working transistors with measured parameters are offered for production and research services."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Motoryzacja, radiolokacja, fotowoltaika (wg wpisu)",
+      "en": "Automotive, radiolocation, photovoltaics (per the listing)"
+    }
+  ],
+  "owner": {
+    "name": "Instytut Technologii Materiałów Elektronicznych",
+    "url": "http://www.itme.edu.pl"
+  },
+  "sources": [
+    {
+      "id": "92e336cf-297f-4779-bbef-5f183f6622e4",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Technologia mikrofalowych tranzystorów HEMT dla potrzeb radiolokacji",
+      "url": "http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/",
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "passage": "Tranzystory wykazują wzmocnienie 16dB w paśmie S i 10 dB w paśmie X. Napięcie przebicia tranzystorów wynosi 80V. … Wykonano wiele serii tranzystorów małej mocy. … Forma ochrony Strzeżone know-how",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "3c5cc1a3-1d06-4a02-9690-da93aca718df",
+      "metric": "gain_s_band",
+      "value": 16,
+      "unit": "dB",
+      "sourceId": "92e336cf-297f-4779-bbef-5f183f6622e4",
+      "query": "Read from the listing page http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/. Quoted text: \"wzmocnienie 16dB w paśmie S\"",
+      "retrievedAt": "2026-11-21T20:05:00Z"
+    },
+    {
+      "id": "d1c97c02-003c-4137-9c9b-87c7315115ef",
+      "metric": "gain_x_band",
+      "value": 10,
+      "unit": "dB",
+      "sourceId": "92e336cf-297f-4779-bbef-5f183f6622e4",
+      "query": "Read from the listing page http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/. Quoted text: \"10 dB w paśmie X\"",
+      "retrievedAt": "2026-11-21T20:05:00Z"
+    },
+    {
+      "id": "1a0045e2-a53d-4138-a54d-2ebde263e071",
+      "metric": "breakdown_voltage",
+      "value": 80,
+      "unit": "V",
+      "sourceId": "92e336cf-297f-4779-bbef-5f183f6622e4",
+      "query": "Read from the listing page http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/. Quoted text: \"Napięcie przebicia tranzystorów wynosi 80V\"",
+      "retrievedAt": "2026-11-21T20:05:00Z"
+    },
+    {
+      "id": "a3200b32-72ce-47a3-b221-c8b52848061d",
+      "metric": "gate_length",
+      "value": 500,
+      "unit": "nm",
+      "sourceId": "92e336cf-297f-4779-bbef-5f183f6622e4",
+      "query": "Read from the listing page http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/. Quoted text: \"bramką o długości 500nm\"",
+      "retrievedAt": "2026-11-21T20:05:00Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:05:00Z",
+  "statusChangedAt": null
+}

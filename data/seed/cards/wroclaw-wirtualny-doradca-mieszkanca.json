@@ -1,0 +1,143 @@
+{
+  "id": "1fd516f1-ab8c-4427-a800-a6b18144ff66",
+  "title": {
+    "pl": "Wirtualny Doradca Mieszkańca w BIP Wrocławia",
+    "en": "Virtual Resident Adviser in the Wrocław public information bulletin"
+  },
+  "summaryShort": {
+    "pl": "Czat na stronie BIP prowadzi mieszkańców do właściwej informacji i rozumie pytania w języku naturalnym.",
+    "en": "A chat on the bulletin site guides residents to the right information and understands natural-language questions."
+  },
+  "area": "administrative",
+  "tags": [
+    {
+      "slug": "chatbot",
+      "label": {
+        "pl": "Czat dla mieszkańców",
+        "en": "Resident chatbot"
+      }
+    },
+    {
+      "slug": "e-government",
+      "label": {
+        "pl": "E-administracja",
+        "en": "E-government"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Urząd Miejski Wrocławia",
+    "type": "local_government",
+    "url": "https://www.wroclaw.pl",
+    "region": "DS"
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T19:47:34Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "System dialogowy na stronie BIP Wrocławia, oparty na Bazie Wiedzy wspólnej dla Wirtualnego Doradcy, konsultantów Contact Center i urzędników. Rozpoznaje pytania zadane w zdaniu i radzi sobie z błędami w pisowni. Strona nie podaje daty uruchomienia ani liczby użytkowników. Streszczenie napisane przez model na podstawie strony.",
+    "en": "A dialogue system on the Wrocław bulletin site, built on a Knowledge Base shared by the Virtual Adviser, Contact Centre consultants and officials. It recognises questions asked in full sentences and copes with spelling errors. The page gives no launch date or user numbers. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "value": "in_practice",
+    "basis": "confirmed",
+    "sourceIds": [
+      "2cec0169-344d-4871-8341-6c7db91cfd98"
+    ],
+    "evidenceIds": [],
+    "method": null
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "en": "A working chat service on the city bulletin site. The page calls the software established and used by many clients, so novelty is not shown."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Inne urzędy miast i gmin (wg modelu)",
+      "en": "Other city and municipal offices (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Urząd Miejski Wrocławia",
+    "url": "https://www.bip.um.wroc.pl"
+  },
+  "sources": [
+    {
+      "id": "2cec0169-344d-4871-8341-6c7db91cfd98",
+      "type": "crawl",
+      "name": "wroclaw.pl (Urząd Miejski Wrocławia): Wirtualny doradca mieszkańca w Urzędzie Miejskim",
+      "url": "https://www.wroclaw.pl/dla-mieszkanca/wirtualny-doradca-mieszkanca-urzad-miejski-wroclaw",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "passage": "Wirtualny Doradca Mieszkańca dostępny jest na stronie www.bip.um.wroc.pl … Wirtualny Doradca potrafi rozpoznać język naturalny, w tym pytania użytkowników zadanych w naturalny sposób w zdaniu … ze wspólnej Bazy Wiedzy korzystać będą wszystkie linie wsparcia",
+      "license": null
+    }
+  ],
+  "evidence": [],
+  "firstSeenAt": "2026-11-21T19:47:34Z",
+  "statusChangedAt": null
+}

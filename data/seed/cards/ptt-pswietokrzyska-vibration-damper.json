@@ -1,0 +1,159 @@
+{
+  "id": "32966d65-dd3b-4222-b454-b8e4b78318c8",
+  "title": {
+    "pl": "Urządzenie elektromagnetyczne do tłumienia drgań mechanicznych",
+    "en": "Electromagnetic device for damping mechanical vibrations"
+  },
+  "summaryShort": {
+    "pl": "Tłumik drgań z magnesami trwałymi i cewkami, który odzyskuje energię elektryczną.",
+    "en": "A vibration damper with permanent magnets and coils that recovers electrical energy."
+  },
+  "summary": {
+    "pl": "Oferta Politechniki Świętokrzyskiej. Tłoczysko z magnesami trwałymi porusza się w cewkach, a indukowany prąd zasila odbiornik lub ładuje akumulator, przy czym siłę tłumienia reguluje się odbiorem energii. Forma ochrony: wynalazek (wpis nie podaje numeru ani statusu). Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "Offer by the Kielce University of Technology. A piston rod with permanent magnets moves through coils and the induced current feeds a load or charges a battery, while the damping force is set by controlling the load. Protection: invention (no number or status given). Summary written by the model from the listing."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "vibration-damping",
+      "label": {
+        "pl": "Redukcja drgań",
+        "en": "Vibration damping"
+      }
+    },
+    {
+      "slug": "energy",
+      "label": {
+        "pl": "Energetyka",
+        "en": "Energy"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Politechnika Świętokrzyska",
+    "type": "university",
+    "url": "http://www.tu.kielce.pl/",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "concept",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 2,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:05:00Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "implementationLevelDetail": {
+    "value": "concept",
+    "basis": "estimate",
+    "sourceIds": [
+      "67386b40-0c9b-4bfa-96ff-052df35d6b10"
+    ],
+    "evidenceIds": [
+      "993bee2d-ca4e-4f44-b6a6-94446ad3ba0c"
+    ],
+    "method": "Listing describes the design but gives no TRL and reports no tests. Lowest level the text supports. Reviewer to confirm."
+  },
+  "trlDetail": {
+    "applicable": true,
+    "value": 2,
+    "basis": "estimate",
+    "sourceIds": [
+      "67386b40-0c9b-4bfa-96ff-052df35d6b10"
+    ],
+    "evidenceIds": [
+      "993bee2d-ca4e-4f44-b6a6-94446ad3ba0c"
+    ],
+    "method": "No TRL in the listing. Only a formulated design is described (TRL 2 in the listing's glossary: 'Sformułowano koncepcję technologii'). Reviewer to confirm."
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": false,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "en": "No evidence of a built or tested device, so it is not shown to be available or in use."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Układy redukcji drgań pojazdów i hałasu (wg wpisu)",
+      "en": "Vehicle vibration and noise reduction (per the listing)"
+    }
+  ],
+  "owner": {
+    "name": "Politechnika Świętokrzyska",
+    "url": "http://www.tu.kielce.pl/"
+  },
+  "sources": [
+    {
+      "id": "67386b40-0c9b-4bfa-96ff-052df35d6b10",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Urządzenie elektromagnetyczne do tłumienia drgań mechanicznych",
+      "url": "http://ptt.arp.pl/bazy/urządzenie-elektromagnetyczne-do-tłumienia-drgań-mechanicznych/",
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "passage": "Przedmiotem oferty jest urządzenie elektromagnetyczne do tłumienia drgań mechanicznych. … Forma ochrony Wynalazek … Siła tłumiąca ruch elementu mechanicznego może być w łatwy sposób regulowana",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "993bee2d-ca4e-4f44-b6a6-94446ad3ba0c",
+      "metric": "protection_form",
+      "value": "Wynalazek",
+      "unit": null,
+      "sourceId": "67386b40-0c9b-4bfa-96ff-052df35d6b10",
+      "query": "Read from the listing page http://ptt.arp.pl/bazy/urządzenie-elektromagnetyczne-do-tłumienia-drgań-mechanicznych/. Quoted text: \"Forma ochrony Wynalazek\"",
+      "retrievedAt": "2026-11-21T20:05:00Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:05:00Z",
+  "statusChangedAt": null
+}
