@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;500&amp;family=Atkinson+Hyperlegible+Next:wght@400;500;700&amp;family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..600,0..100,0..1&amp;family=Poltawski+Nowy:wght@400..700&amp;family=Brygada+1918:wght@400..700&amp;family=Lato:wght@400;700&amp;family=Lexend:wght@300..700&amp;family=Bricolage+Grotesque:opsz,wght@12..96,200..800&amp;display=swap">
+<style>body{margin:0;background:#E9E2D7;-webkit-font-smoothing:antialiased}a{color:#1B3F8F}a:hover{color:#141414}@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}</style>
+</helmet>
+<main lang="pl" style="display:flex;flex-direction:column;align-items:center;gap:32px;padding:32px 0 64px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;color:#141414">
+<div id="plansza" data-screen-label="Plansza" style="width:2000px;height:1333px;flex:none;box-sizing:border-box;padding:24px;background:#F7F2EB;display:grid;grid-template-columns:352px minmax(0,1fr);gap:20px;overflow:hidden">
+
+<aside aria-label="Pomysłownik — identyfikacja wizualna v1.0" style="position:relative;overflow:hidden;background:#141414;color:#F7F2EB;border-radius:24px;padding:28px;box-sizing:border-box;display:flex;flex-direction:column;min-height:0">
+  <div style="display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:8px">
+      <svg viewBox="0 0 64 64" width="34" height="34" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#FFD93D" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#FFD93D"></circle><circle cx="36.4" cy="31.46" r="6" fill="#FFD93D"></circle></svg>
+      <span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:23px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pomysłownik</span>
+    </div>
+    <span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;border:1px solid #8A8278;border-radius:999px;padding:3px 10px">v1.0</span>
+  </div>
+  <h1 style="margin:44px 0 0;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:600;font-size:42px;line-height:1.1;letter-spacing:-0.01em;font-variation-settings:'opsz' 96,'SOFT' 50,'WONK' 0;color:#F7F2EB">Identyfikacja wizualna</h1>
+  <p style="margin:18px 0 0;font-size:16px;line-height:1.55;color:#E4DDD2;text-wrap:pretty">Identyfikacja wizualna Pomysłownika — platformy, która łączy innowatorów: zespoły uczelni, laboratoria, patenty i startupy w całej Polsce.</p>
+  <figure style="margin:28px 0 0;border-radius:18px;overflow:hidden;height:392px;flex:none">
+    <svg viewBox="0 0 296 392" width="296" height="392" role="img" aria-labelledby="hero-t" style="display:block">
+      <title id="hero-t">Ilustracja: koncentryczne łuki radaru nad uproszczonym konturem Polski. Kilka węzłów połączonych cienkimi liniami, jeden węzeł świeci na żółto. Dane abstrakcyjne.</title>
+      <defs>
+        <linearGradient id="hg" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#1B3F8F"></stop><stop offset="0.85" stop-color="#141414"></stop></linearGradient>
+        <radialGradient id="glow"><stop offset="0" stop-color="#FFD93D" stop-opacity="0.75"></stop><stop offset="1" stop-color="#FFD93D" stop-opacity="0"></stop></radialGradient>
+        <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
+      </defs>
+      <rect width="296" height="392" fill="url(#hg)"></rect>
+      <g transform="translate(-6 60)">
+        <path d="M30.0 79.4L49.5 74.5L64.5 69.2L79.5 63.1L95.8 52.2L113.3 44.9L132.7 42.4L138.3 56.2L140.7 62.3L154.5 63.1L165.7 58.3L187.0 60.3L212.0 63.1L244.5 61.9L262.0 68.4L262.0 78.6L272.0 96.8L272.5 111.1L264.5 133.4L254.5 145.6L265.7 154.5L263.3 176.0L269.5 191.1L277.0 204.5L263.3 228.8L247.0 241.0L244.5 247.9L240.7 259.3L238.3 276.3L229.5 273.5L214.5 262.1L199.5 264.1L189.5 263.3L177.0 271.5L168.2 263.3L159.5 255.2L145.8 258.5L139.5 243.0L124.5 239.0L117.0 226.8L104.5 223.5L97.0 220.7L89.5 232.9L79.5 221.9L84.5 212.6L74.5 212.6L59.5 206.5L49.5 198.4L45.3 203.6L48.2 180.1L42.5 174.0L39.5 165.9L43.3 154.9L38.3 141.5L28.3 132.6L34.5 119.2L34.5 109.0L30.8 100.9Z" fill="#F7F2EB" fill-opacity="0.05" stroke="#F7F2EB" stroke-opacity="0.5" stroke-width="1.2" stroke-linejoin="round"></path>
+        <g fill="none" stroke="#F7F2EB" stroke-width="1">
+          <circle cx="161" cy="167.5" r="34" stroke-opacity="0.45"></circle>
+          <circle cx="161" cy="167.5" r="68" stroke-opacity="0.32"></circle>
+          <circle cx="161" cy="167.5" r="102" stroke-opacity="0.22"></circle>
+          <circle cx="161" cy="167.5" r="136" stroke-opacity="0.14"></circle>
+          <circle cx="161" cy="167.5" r="170" stroke-opacity="0.08"></circle>
+        </g>
+        <g stroke="#F7F2EB" stroke-opacity="0.55" stroke-width="1">
+          <line x1="161" y1="167.5" x2="199.5" y2="148.4"></line><line x1="161" y1="167.5" x2="100.3" y2="193.9"></line><line x1="161" y1="167.5" x2="173" y2="236.5"></line><line x1="161" y1="167.5" x2="97.7" y2="141.1"></line>
+          <line x1="199.5" y1="148.4" x2="140.7" y2="62.3"></line><line x1="199.5" y1="148.4" x2="253.5" y2="111.9"></line><line x1="199.5" y1="148.4" x2="238.7" y2="188.2"></line><line x1="97.7" y1="141.1" x2="38.3" y2="99.7"></line><line x1="97.7" y1="141.1" x2="140.7" y2="62.3"></line><line x1="100.3" y1="193.9" x2="173" y2="236.5"></line><line x1="173" y1="236.5" x2="238.7" y2="188.2"></line>
+        </g>
+        <g fill="#F7F2EB">
+          <circle cx="199.5" cy="148.4" r="4"></circle><circle cx="100.3" cy="193.9" r="4"></circle><circle cx="173" cy="236.5" r="4"></circle><circle cx="97.7" cy="141.1" r="4"></circle><circle cx="140.7" cy="62.3" r="4"></circle><circle cx="253.5" cy="111.9" r="3.5"></circle><circle cx="238.7" cy="188.2" r="3.5"></circle><circle cx="38.3" cy="99.7" r="3.5"></circle>
+        </g>
+        <circle cx="161" cy="167.5" r="30" fill="url(#glow)"></circle>
+        <circle cx="161" cy="167.5" r="6.5" fill="#FFD93D"></circle>
+      </g>
+      <rect width="296" height="392" filter="url(#grain)" opacity="0.16" style="mix-blend-mode:screen"></rect>
+    </svg>
+  </figure>
+  <nav aria-labelledby="spis-t" style="margin-top:30px;position:relative;z-index:1">
+    <h2 id="spis-t" style="margin:0 0 10px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:22px;line-height:1.1;color:#FFD93D;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Spis treści</h2>
+    <ol style="list-style:none;margin:0;padding:0;display:grid;font-size:17px">
+      <li style="border-top:1px solid #3A3733"><a href="#logo" style="display:flex;gap:14px;padding:8px 0;color:#F7F2EB;text-decoration:none" style-hover="color:#FFD93D"><span style="font-family:'Atkinson Hyperlegible Mono',monospace;color:#BDB5A9">01</span>Logo</a></li>
+      <li style="border-top:1px solid #3A3733"><a href="#kolory" style="display:flex;gap:14px;padding:8px 0;color:#F7F2EB;text-decoration:none" style-hover="color:#FFD93D"><span style="font-family:'Atkinson Hyperlegible Mono',monospace;color:#BDB5A9">02</span>Kolory</a></li>
+      <li style="border-top:1px solid #3A3733"><a href="#typografia" style="display:flex;gap:14px;padding:8px 0;color:#F7F2EB;text-decoration:none" style-hover="color:#FFD93D"><span style="font-family:'Atkinson Hyperlegible Mono',monospace;color:#BDB5A9">03</span>Typografia</a></li>
+      <li style="border-top:1px solid #3A3733"><a href="#elementy" style="display:flex;gap:14px;padding:8px 0;color:#F7F2EB;text-decoration:none" style-hover="color:#FFD93D"><span style="font-family:'Atkinson Hyperlegible Mono',monospace;color:#BDB5A9">04</span>Elementy graficzne</a></li>
+      <li style="border-top:1px solid #3A3733"><a href="#zasady" style="display:flex;gap:14px;padding:8px 0;color:#F7F2EB;text-decoration:none" style-hover="color:#FFD93D"><span style="font-family:'Atkinson Hyperlegible Mono',monospace;color:#BDB5A9">05</span>Zasady użycia</a></li>
+      <li style="border-top:1px solid #3A3733;border-bottom:1px solid #3A3733"><a href="#zastosowania" style="display:flex;gap:14px;padding:8px 0;color:#F7F2EB;text-decoration:none" style-hover="color:#FFD93D"><span style="font-family:'Atkinson Hyperlegible Mono',monospace;color:#BDB5A9">06</span>Zastosowania</a></li>
+    </ol>
+  </nav>
+  <svg viewBox="0 0 220 220" width="220" height="220" aria-hidden="true" style="position:absolute;right:0;bottom:0"><path d="M220 62A158 158 0 0 0 72.4 162.6" fill="none" stroke="#FFD93D" stroke-width="24" stroke-linecap="round"></path><circle cx="72.4" cy="162.6" r="20" fill="#FFD93D"></circle></svg>
+</aside>
+
+<div style="display:grid;grid-template-rows:480px 430px minmax(0,1fr);gap:20px;min-width:0;min-height:0">
+<div id="r1" style="display:grid;grid-template-columns:560px 340px minmax(0,1fr);gap:20px;min-height:0">
+<section id="logo" aria-labelledby="h-logo" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:24px;box-sizing:border-box;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-logo" style="margin:0;display:flex;gap:10px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0"><span style="color:#1B3F8F">01.</span>Logo</h2>
+  <p style="margin:4px 0 0;font-size:16px;color:#5A544D">Logo główne i warianty</p>
+  <div role="img" aria-label="Logo główne Pomysłownika: granatowy sygnet P z dwóch węzłów i łuku oraz znak słowny Pomysłownik w kolorze atramentu" style="margin-top:14px;height:96px;flex:none;background:#F7F2EB;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:14px">
+    <svg viewBox="15 5 34 54" width="44" height="70" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg>
+    <span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:56px;line-height:1;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;color:#141414">Pomysłownik</span>
+  </div>
+  <h3 style="margin:16px 0 8px;font-size:15px;font-weight:700">Warianty</h3>
+  <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+    <li style="display:flex;flex-direction:column;gap:5px">
+      <div role="img" aria-label="Wersja podstawowa na jasnym tle" style="height:64px;border-radius:12px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:4px"><svg viewBox="15 5 34 54" width="11" height="17" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:14px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;color:#141414">Pomysłownik</span></div>
+      <span style="font-size:14px;line-height:1.3">Podstawowa · jasne tło</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:5px">
+      <div role="img" aria-label="Wersja odwrócona na ciemnym tle" style="height:64px;border-radius:12px;background:#141414;display:flex;align-items:center;justify-content:center;gap:4px"><svg viewBox="15 5 34 54" width="11" height="17" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#FFD93D" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#FFD93D"></circle><circle cx="36.4" cy="31.46" r="6" fill="#FFD93D"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:14px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;color:#F7F2EB">Pomysłownik</span></div>
+      <span style="font-size:14px;line-height:1.3">Odwrócona · ciemne tło</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:5px">
+      <div role="img" aria-label="Wersja monochromatyczna: czarna na białym i biała na czarnym" style="height:64px;border-radius:12px;overflow:hidden;border:1px solid #DDD5C8;box-sizing:border-box;display:grid;grid-template-rows:1fr 1fr">
+        <div style="background:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:4px"><svg viewBox="15 5 34 54" width="10" height="16" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#000000" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#000000"></circle><circle cx="36.4" cy="31.46" r="6" fill="#000000"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:14px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;color:#000000">Pomysłownik</span></div>
+        <div style="background:#000000;display:flex;align-items:center;justify-content:center;gap:4px"><svg viewBox="15 5 34 54" width="10" height="16" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#FFFFFF"></circle><circle cx="36.4" cy="31.46" r="6" fill="#FFFFFF"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:14px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;color:#FFFFFF">Pomysłownik</span></div>
+      </div>
+      <span style="font-size:14px;line-height:1.3">Monochromatyczna</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:5px">
+      <div role="img" aria-label="Sygnet samodzielny jako ikona aplikacji" style="height:64px;border-radius:12px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 64 64" width="46" height="46" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1B3F8F"></rect><g transform="translate(32 32) scale(0.66) translate(-31.75 -32.25)"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#F7F2EB" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#F7F2EB"></circle><circle cx="36.4" cy="31.46" r="6" fill="#F7F2EB"></circle></g></svg></div>
+      <span style="font-size:14px;line-height:1.3">Sygnet samodzielny</span>
+    </li>
+  </ul>
+  <h3 style="margin:16px 0 8px;font-size:15px;font-weight:700">Koncepcje</h3>
+  <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+    <li style="display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #DDD5C8;border-radius:14px">
+      <svg viewBox="0 0 64 64" width="44" height="44" role="img" aria-label="Koncepcja A: litera ł z iskrą w zaokrąglonym kwadracie" style="flex:none"><rect width="64" height="64" rx="14" fill="#5A544D"></rect><line x1="30" y1="12" x2="30" y2="52" stroke="#F7F2EB" stroke-width="7" stroke-linecap="round"></line><polyline points="18,41 41,28 39,21 52,14" fill="none" stroke="#F7F2EB" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"></polyline></svg>
+      <div style="min-width:0;line-height:1.3"><div style="font-size:15px;font-weight:700">A · Iskra w ł</div></div>
+    </li>
+    <li style="position:relative;display:flex;align-items:center;gap:10px;padding:9px;border:2px solid #1B3F8F;border-radius:14px">
+      <svg viewBox="0 0 64 64" width="44" height="44" role="img" aria-label="Koncepcja B: litera P z dwóch węzłów połączonych łukiem" style="flex:none"><rect width="64" height="64" rx="14" fill="#1B3F8F"></rect><g transform="translate(32 32) scale(0.7) translate(-31.75 -32.25)"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#F7F2EB" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#F7F2EB"></circle><circle cx="36.4" cy="31.46" r="6" fill="#F7F2EB"></circle></g></svg>
+      <div style="min-width:0;line-height:1.3"><div style="font-size:15px;font-weight:700">B · Połączenie</div></div>
+      <span style="position:absolute;top:-11px;right:10px;display:flex;align-items:center;gap:4px;background:#FFD93D;color:#141414;font-size:14px;font-weight:700;line-height:1;padding:4px 9px 4px 7px;border-radius:999px"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="#141414" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Wybrana</span>
+    </li>
+    <li style="display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #DDD5C8;border-radius:14px">
+      <svg viewBox="0 0 64 64" width="44" height="44" role="img" aria-label="Koncepcja C: litera P z łuków radaru i punktu w środku" style="flex:none"><rect width="64" height="64" rx="14" fill="#5A544D"></rect><g fill="none" stroke="#F7F2EB" stroke-width="5.5" stroke-linecap="round"><path d="M19 52V12H28A14 14 0 0 1 28 40H19"></path><path d="M28 19.5A6.5 6.5 0 0 1 28 32.5"></path></g><circle cx="27" cy="26" r="3.4" fill="#F7F2EB"></circle></svg>
+      <div style="min-width:0;line-height:1.3"><div style="font-size:15px;font-weight:700">C · Radar pomysłów</div></div>
+    </li>
+  </ul>
+</section>
+<div style="display:grid;grid-template-rows:minmax(0,1fr) auto;gap:20px;min-height:0">
+<section id="pole-ochronne" aria-labelledby="h-pole" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:20px 20px 18px;box-sizing:border-box;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-pole" style="margin:0;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:24px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pole ochronne</h2>
+  <p style="margin:6px 0 0;font-size:16px;line-height:1.5;color:#5A544D;text-wrap:pretty">Minimalny obszar wokół logo, który zapewnia jego czytelność.</p>
+  <div role="img" aria-label="Schemat pola ochronnego: przerywana ramka wokół logo, w każdym rogu kwadrat o boku X" style="margin:16px auto 0;position:relative;border:1.5px dashed #1B3F8F;border-radius:4px;padding:10px">
+    <span aria-hidden="true" style="position:absolute;top:0;left:0;width:10px;height:10px;background:#DCE3F2;color:#1B3F8F;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;line-height:10px;text-align:center">x</span>
+    <span aria-hidden="true" style="position:absolute;top:0;right:0;width:10px;height:10px;background:#DCE3F2;color:#1B3F8F;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;line-height:10px;text-align:center">x</span>
+    <span aria-hidden="true" style="position:absolute;bottom:0;left:0;width:10px;height:10px;background:#DCE3F2;color:#1B3F8F;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;line-height:10px;text-align:center">x</span>
+    <span aria-hidden="true" style="position:absolute;bottom:0;right:0;width:10px;height:10px;background:#DCE3F2;color:#1B3F8F;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;line-height:10px;text-align:center">x</span>
+    <div style="display:flex;align-items:center;gap:8px;outline:1px solid #C9D2E6">
+      <svg viewBox="15 5 34 54" width="25" height="40" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg>
+      <span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:32px;line-height:1;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pomysłownik</span>
+    </div>
+  </div>
+  <p style="margin:10px 0 0;text-align:center;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;color:#1B3F8F">X = wysokość sygnetu / 4</p>
+</section>
+<section id="minimalny-rozmiar" aria-labelledby="h-min" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:20px 20px 18px;box-sizing:border-box;display:flex;flex-direction:column">
+  <h2 id="h-min" style="margin:0;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:24px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Minimalny rozmiar</h2>
+  <p style="margin:6px 0 0;font-size:16px;line-height:1.5;color:#5A544D;text-wrap:pretty">Najmniejszy rozmiar zapewniający czytelność w cyfrze i w druku.</p>
+  <div style="margin-top:14px;display:grid;grid-template-columns:auto auto;justify-content:space-between;align-items:end;gap:16px">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div role="img" aria-label="Logo pełne o szerokości 120 pikseli" style="width:120px;display:flex;align-items:center;gap:4px;overflow:hidden"><svg viewBox="15 5 34 54" width="12" height="19" aria-hidden="true" style="flex:none"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:16px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;white-space:nowrap">Pomysłownik</span></div>
+      <div aria-hidden="true" style="position:relative;width:120px;height:8px;box-sizing:border-box;border-left:1px solid #5A544D;border-right:1px solid #5A544D"><div style="position:absolute;left:0;right:0;top:3.5px;border-top:1px solid #5A544D"></div></div>
+      <p style="margin:0;font-size:14px;line-height:1.35"><strong style="font-family:'Atkinson Hyperlegible Mono',monospace;font-weight:500">≥ 120 px</strong><br>(logo pełne)</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div aria-hidden="true" style="position:relative;width:8px;height:16px;box-sizing:border-box;border-top:1px solid #5A544D;border-bottom:1px solid #5A544D"><div style="position:absolute;top:0;bottom:0;left:3.5px;border-left:1px solid #5A544D"></div></div>
+        <img src="logo/favicon-16.svg" width="16" height="16" alt="Favicon 16 pikseli" style="display:block">
+        <svg viewBox="15 5 34 54" width="10" height="16" role="img" aria-label="Sygnet 16 pikseli"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg>
+        <img src="logo/favicon-32.svg" width="32" height="32" alt="Favicon 32 piksele" style="display:block">
+      </div>
+      <p style="margin:0;font-size:14px;line-height:1.35"><strong style="font-family:'Atkinson Hyperlegible Mono',monospace;font-weight:500">≥ 16 px</strong><br>(sygnet / favicon)</p>
+    </div>
+  </div>
+</section>
+</div>
+<section id="kolory" aria-labelledby="h-kolory" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:24px;box-sizing:border-box;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-kolory" style="margin:0;display:flex;gap:10px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0"><span style="color:#1B3F8F">02.</span>Kolory</h2>
+  <p style="margin:4px 0 0;font-size:16px;color:#5A544D">Paleta podstawowa</p>
+  <ul style="list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px">
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div style="height:64px;border-radius:14px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;padding:9px 10px;display:flex;flex-direction:column;justify-content:flex-end;color:#141414"><strong style="font-size:15px;line-height:1.2">Papier</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#F7F2EB</span></div>
+      <span style="font-size:14px;line-height:1.3">tła</span>
+      <span style="margin-top:auto;display:flex;align-items:center;gap:6px;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px"><span style="background:#F7F2EB;color:#141414;border:1px solid #DDD5C8;border-radius:6px;padding:0 4px;font-weight:500">Aa</span>16,54:1</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div style="height:64px;border-radius:14px;background:#141414;box-sizing:border-box;padding:9px 10px;display:flex;flex-direction:column;justify-content:flex-end;color:#F7F2EB"><strong style="font-size:15px;line-height:1.2">Atrament</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#141414</span></div>
+      <span style="font-size:14px;line-height:1.3">tekst, elementy główne</span>
+      <span style="margin-top:auto;display:flex;align-items:center;gap:6px;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px"><span style="background:#141414;color:#F7F2EB;border:1px solid #141414;border-radius:6px;padding:0 4px;font-weight:500">Aa</span>16,54:1</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div style="height:64px;border-radius:14px;background:#1B3F8F;box-sizing:border-box;padding:9px 10px;display:flex;flex-direction:column;justify-content:flex-end;color:#F7F2EB"><strong style="font-size:15px;line-height:1.2">Granat</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#1B3F8F</span></div>
+      <span style="font-size:14px;line-height:1.3">akcent, przyciski, linki, fokus</span>
+      <span style="margin-top:auto;display:flex;align-items:center;gap:6px;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px"><span style="background:#1B3F8F;color:#F7F2EB;border:1px solid #1B3F8F;border-radius:6px;padding:0 4px;font-weight:500">Aa</span>8,75:1</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div style="height:64px;border-radius:14px;background:#FFD93D;box-sizing:border-box;padding:9px 10px;display:flex;flex-direction:column;justify-content:flex-end;color:#141414"><strong style="font-size:15px;line-height:1.2">Iskra</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#FFD93D</span></div>
+      <span style="font-size:14px;line-height:1.3">wyróżnienia; nigdy jako tekst na jasnym tle</span>
+      <span style="margin-top:auto;display:flex;align-items:center;gap:6px;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px"><span style="background:#FFD93D;color:#141414;border:1px solid #FFD93D;border-radius:6px;padding:0 4px;font-weight:500">Aa</span>13,37:1</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div style="height:64px;border-radius:14px;background:#5A544D;box-sizing:border-box;padding:9px 10px;display:flex;flex-direction:column;justify-content:flex-end;color:#F7F2EB"><strong style="font-size:15px;line-height:1.2">Kamień</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#5A544D</span></div>
+      <span style="font-size:14px;line-height:1.3">tekst drugorzędny</span>
+      <span style="margin-top:auto;display:flex;align-items:center;gap:6px;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px"><span style="background:#F7F2EB;color:#5A544D;border:1px solid #DDD5C8;border-radius:6px;padding:0 4px;font-weight:500">Aa</span>6,71:1</span>
+    </li>
+  </ul>
+  <h3 style="margin:16px 0 8px;font-size:15px;font-weight:700">Kolory kategorii</h3>
+  <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+    <li style="height:52px;border-radius:14px;background:#A9DCE6;padding:0 8px;display:flex;align-items:center;gap:7px;color:#141414"><span aria-hidden="true" style="flex:none;width:26px;height:26px;border-radius:50%;background:#141414;display:grid;place-items:center"><svg viewBox="0 0 16 16" width="15" height="15"><g fill="none" stroke="#F7F2EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5L8 3l6 3.5Z"></path><path d="M4.5 8v4M8 8v4M11.5 8v4M2.5 13.5h11"></path></g></svg></span><span style="display:flex;flex-direction:column;line-height:1.2"><strong style="font-size:14px">Uczelnie</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#A9DCE6</span></span></li>
+    <li style="height:52px;border-radius:14px;background:#D6E6A3;padding:0 8px;display:flex;align-items:center;gap:7px;color:#141414"><span aria-hidden="true" style="flex:none;width:26px;height:26px;border-radius:50%;background:#141414;display:grid;place-items:center"><svg viewBox="0 0 16 16" width="15" height="15"><g fill="none" stroke="#F7F2EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h5.5L12.5 5v9h-8.5Z"></path><path d="M6.5 8h4M6.5 11h4"></path></g></svg></span><span style="display:flex;flex-direction:column;line-height:1.2"><strong style="font-size:14px">Patenty</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#D6E6A3</span></span></li>
+    <li style="height:52px;border-radius:14px;background:#CDB8F0;padding:0 8px;display:flex;align-items:center;gap:7px;color:#141414"><span aria-hidden="true" style="flex:none;width:26px;height:26px;border-radius:50%;background:#141414;display:grid;place-items:center"><svg viewBox="0 0 16 16" width="15" height="15"><g fill="none" stroke="#F7F2EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h4M7 2v4.5L3.2 13a1 1 0 0 0 .9 1.5h7.8a1 1 0 0 0 .9-1.5L9 6.5V2"></path><path d="M5 10.5h6"></path></g></svg></span><span style="display:flex;flex-direction:column;line-height:1.2"><strong style="font-size:14px">Laboratoria</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#CDB8F0</span></span></li>
+    <li style="height:52px;border-radius:14px;background:#F7C6A8;padding:0 8px;display:flex;align-items:center;gap:7px;color:#141414"><span aria-hidden="true" style="flex:none;width:26px;height:26px;border-radius:50%;background:#141414;display:grid;place-items:center"><svg viewBox="0 0 16 16" width="15" height="15"><g fill="none" stroke="#F7F2EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12l4-4 3 2.5L14 4.5"></path><path d="M10 4.5h4v4"></path></g></svg></span><span style="display:flex;flex-direction:column;line-height:1.2"><strong style="font-size:14px">Startupy</strong><span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px">#F7C6A8</span></span></li>
+  </ul>
+  <h3 style="margin:16px 0 8px;font-size:15px;font-weight:700">Proporcje kolorów</h3>
+  <div role="img" aria-label="Proporcje kolorów: Papier 60%, Atrament 25%, Granat 10%, Iskra 5%" style="height:36px;border-radius:10px;overflow:hidden;border:1px solid #DDD5C8;display:flex;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;font-weight:500">
+    <span style="width:60%;background:#F7F2EB;color:#141414;display:flex;align-items:center;padding-left:12px">60%</span>
+    <span style="width:25%;background:#141414;color:#F7F2EB;display:flex;align-items:center;padding-left:10px">25%</span>
+    <span style="width:10%;background:#1B3F8F;color:#F7F2EB;display:flex;align-items:center;justify-content:center">10%</span>
+    <span style="width:5%;background:#FFD93D;color:#141414;display:flex;align-items:center;justify-content:center">5%</span>
+  </div>
+  <ul style="list-style:none;margin:8px 0 0;padding:0;display:flex;gap:18px;font-size:14px">
+    <li style="display:flex;align-items:center;gap:6px"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><rect x="0.5" y="0.5" width="11" height="11" fill="#F7F2EB" stroke="#141414"></rect></svg>Papier 60%</li>
+    <li style="display:flex;align-items:center;gap:6px"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="5.5" fill="#141414"></circle></svg>Atrament 25%</li>
+    <li style="display:flex;align-items:center;gap:6px"><svg viewBox="0 0 12 12" width="13" height="12" aria-hidden="true"><path d="M6 0.8L11.4 11.2H0.6Z" fill="#1B3F8F"></path></svg>Granat 10%</li>
+    <li style="display:flex;align-items:center;gap:6px"><svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M6 0.6L11.4 6L6 11.4L0.6 6Z" fill="#FFD93D" stroke="#141414"></path></svg>Iskra 5%</li>
+  </ul>
+</section>
+</div>
+<div id="r2" style="display:grid;grid-template-columns:540px 520px minmax(0,1fr);gap:20px;min-height:0">
+<section id="typografia" aria-labelledby="h-typo" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:24px;box-sizing:border-box;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-typo" style="margin:0;display:flex;gap:10px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0"><span style="color:#1B3F8F">03.</span>Typografia</h2>
+  <p style="margin:4px 0 0;font-size:16px;color:#5A544D">Kroje pisma marki</p>
+  <ul style="list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column">
+    <li style="display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #EAE4DA">
+      <span aria-hidden="true" style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:54px;line-height:1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Aa</span>
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><strong style="font-size:16px">{{ displayName }}</strong><span style="display:flex;gap:8px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-size:15px;font-variation-settings:'opsz' 24,'SOFT' 50,'WONK' 0"><span style="font-weight:400">Regular</span><span style="font-weight:700">Bold</span></span></div>
+        <span style="font-size:14px;color:#5A544D">Nagłówki, hasła, logo · nigdy grubość 300</span>
+        <span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:20px;line-height:1.3;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Źródło Żółć Ąę Ńó — Pomysłownik</span>
+      </div>
+    </li>
+    <li style="display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #EAE4DA">
+      <span aria-hidden="true" style="font-weight:500;font-size:52px;line-height:1">Aa</span>
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><strong style="font-size:16px">Atkinson Hyperlegible Next</strong><span style="display:flex;gap:8px;font-size:15px"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span><span style="font-weight:700">Bold</span></span></div>
+        <span style="font-size:14px;color:#5A544D">Tekst, interfejs, czytelność</span>
+        <span style="font-size:18px;line-height:1.4">Źródło Żółć Ąę Ńó — Pomysłownik</span>
+      </div>
+    </li>
+    <li style="display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center;padding:10px 0">
+      <span aria-hidden="true" style="font-family:'Atkinson Hyperlegible Mono',monospace;font-weight:500;font-size:46px;line-height:1">Aa</span>
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:0;font-family:'Atkinson Hyperlegible Mono',monospace">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-family:'Atkinson Hyperlegible Next',sans-serif"><strong style="font-size:16px">Atkinson Hyperlegible Mono</strong><span style="display:flex;gap:8px;font-size:15px;font-family:'Atkinson Hyperlegible Mono',monospace"><span style="font-weight:400">Regular</span><span style="font-weight:500">Medium</span></span></div>
+        <span style="font-size:14px;color:#5A544D;font-family:'Atkinson Hyperlegible Next',sans-serif">Daty, identyfikatory, liczby</span>
+        <span style="font-size:16px;line-height:1.4">Źródło Żółć Ąę Ńó — Pomysłownik</span>
+        <span style="font-size:14px;line-height:1.4;color:#5A544D">Źródło: GUS · 12.03.2026 · ID PL-LAB-00417</span>
+      </div>
+    </li>
+  </ul>
+  <p style="margin:auto 0 0;padding-top:8px;border-top:1px solid #EAE4DA;font-size:14px;color:#5A544D">Tekst min. 16 px · interlinia 1,5–1,6 · nagłówki interlinia ≥ 1,1</p>
+</section>
+<section id="elementy" aria-labelledby="h-elem" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:24px;box-sizing:border-box;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-elem" style="margin:0;display:flex;gap:10px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0"><span style="color:#1B3F8F">04.</span>Elementy graficzne</h2>
+  <p style="margin:4px 0 0;font-size:16px;color:#5A544D">Motywy, formy i komponenty</p>
+  <ul style="list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+    <li style="display:flex;flex-direction:column;gap:4px">
+      <svg viewBox="0 0 100 100" role="img" aria-label="Wzór z łuków radaru, same linie, na atramencie" style="display:block;width:100%;aspect-ratio:1;border-radius:14px;background:#141414"><g fill="none" stroke="#F7F2EB" stroke-width="1.6"><circle cx="0" cy="100" r="18" stroke-opacity="0.9"></circle><circle cx="0" cy="100" r="34" stroke-opacity="0.75"></circle><circle cx="0" cy="100" r="50" stroke-opacity="0.6"></circle><circle cx="0" cy="100" r="66" stroke-opacity="0.45"></circle><circle cx="0" cy="100" r="82" stroke-opacity="0.32"></circle><circle cx="0" cy="100" r="98" stroke-opacity="0.22"></circle><circle cx="0" cy="100" r="114" stroke-opacity="0.14"></circle></g><path d="M0 34A66 66 0 0 1 46.7 53.3" fill="none" stroke="#FFD93D" stroke-width="2.4" stroke-linecap="round"></path></svg>
+      <span style="font-size:14px">Łuki radaru</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:4px">
+      <svg viewBox="0 0 100 100" role="img" aria-label="Ukośny podział Granat i Iskra pod kątem 55 stopni, jak linia łącząca węzły sygnetu" style="display:block;width:100%;aspect-ratio:1;border-radius:14px;overflow:hidden"><path d="M0 0H85L15 100H0Z" fill="#1B3F8F"></path><path d="M85 0H100V100H15Z" fill="#FFD93D"></path></svg>
+      <span style="font-size:14px">Podział pod kątem 55°</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:4px">
+      <svg viewBox="0 0 100 100" role="img" aria-label="Sieć połączeń: węzły i linie na papierze" style="display:block;width:100%;aspect-ratio:1;border-radius:14px;background:#F7F2EB;box-sizing:border-box;border:1px solid #DDD5C8"><g stroke="#141414" stroke-width="1.1"><line x1="22" y1="26" x2="54" y2="44"></line><line x1="54" y1="44" x2="80" y2="22"></line><line x1="54" y1="44" x2="72" y2="76"></line><line x1="54" y1="44" x2="26" y2="70"></line><line x1="26" y1="70" x2="72" y2="76"></line><line x1="22" y1="26" x2="26" y2="70"></line><line x1="80" y1="22" x2="88" y2="54"></line><line x1="88" y1="54" x2="72" y2="76"></line></g><g fill="#141414"><circle cx="22" cy="26" r="4"></circle><circle cx="80" cy="22" r="4"></circle><circle cx="72" cy="76" r="4"></circle><circle cx="26" cy="70" r="4"></circle><circle cx="88" cy="54" r="3"></circle></g><circle cx="54" cy="44" r="6.5" fill="#1B3F8F"></circle></svg>
+      <span style="font-size:14px">Sieć połączeń</span>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:4px">
+      <div role="img" aria-label="Sygnet jako przestrzenny zaokrąglony kafel na miękkiej powierzchni" style="width:100%;aspect-ratio:1;border-radius:14px;background:radial-gradient(circle at 50% 38%,#FFFFFF 0%,#EFE8DD 70%,#E4DACB 100%);display:grid;place-items:center"><div style="width:58%;aspect-ratio:1;border-radius:24%;background:linear-gradient(160deg,#2A55B0 0%,#1B3F8F 55%,#14306E 100%);box-shadow:0 14px 18px -8px rgba(20,20,20,0.45),inset 0 2px 0 rgba(255,255,255,0.28),inset 0 -3px 0 rgba(0,0,0,0.2);display:grid;place-items:center"><svg viewBox="0 0 64 64" width="70%" height="70%" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#F7F2EB" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#F7F2EB"></circle><circle cx="36.4" cy="31.46" r="6" fill="#F7F2EB"></circle></svg></div></div>
+      <span style="font-size:14px">Sygnet 3D</span>
+    </li>
+  </ul>
+  <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+    <div role="img" aria-label="Komponent: pole wyszukiwania w kształcie pigułki" style="height:44px;border-radius:999px;border:1.5px solid #5A544D;background:#F7F2EB;display:flex;align-items:center;gap:10px;padding:0 16px;box-sizing:border-box"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="#141414" stroke-width="1.8"></circle><path d="M11 11l3.5 3.5" stroke="#141414" stroke-width="1.8" stroke-linecap="round"></path></svg><span style="font-size:16px;color:#5A544D;white-space:nowrap">Szukaj zespołów, patentów, laboratoriów…</span></div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span role="img" aria-label="Komponent: etykieta kategorii Laboratoria z ikoną" style="height:34px;border-radius:999px;background:#CDB8F0;display:flex;align-items:center;gap:7px;padding:0 12px 0 5px;font-size:15px;font-weight:700"><span style="width:24px;height:24px;border-radius:50%;background:#141414;display:grid;place-items:center"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><g fill="none" stroke="#F7F2EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h4M7 2v4.5L3.2 13a1 1 0 0 0 .9 1.5h7.8a1 1 0 0 0 .9-1.5L9 6.5V2"></path><path d="M5 10.5h6"></path></g></svg></span>Laboratoria</span>
+      <span role="img" aria-label="Komponent: znacznik Potwierdzone" style="height:32px;border-radius:999px;background:#141414;color:#F7F2EB;display:flex;align-items:center;gap:6px;padding:0 13px 0 10px;font-size:15px;font-weight:700"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="#F7F2EB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Potwierdzone</span>
+      <span role="img" aria-label="Komponent: znacznik Szacunek" style="height:32px;border-radius:999px;border:1.5px dashed #141414;box-sizing:border-box;display:flex;align-items:center;gap:6px;padding:0 13px 0 10px;font-size:15px;font-weight:700"><span aria-hidden="true" style="font-family:'Atkinson Hyperlegible Mono',monospace">~</span>Szacunek</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span role="img" aria-label="Komponent: okrągły przycisk ze strzałką" style="width:40px;height:40px;border-radius:50%;background:#141414;display:grid;place-items:center;flex:none"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3 8h9.5M8.5 4l4 4-4 4" fill="none" stroke="#F7F2EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+      <span role="img" aria-label="Przykład fokusu: przycisk z obwódką 3 piksele w kolorze Granat, odstęp 2 piksele" style="height:38px;border-radius:999px;background:#1B3F8F;color:#F7F2EB;display:flex;align-items:center;padding:0 18px;font-size:15px;font-weight:700;outline:3px solid #1B3F8F;outline-offset:2px;flex:none">Szukaj</span>
+      <span style="font-size:14px;line-height:1.35;color:#5A544D">Fokus: 3 px Granat,<br>odstęp 2 px</span>
+    </div>
+  </div>
+</section>
+<section id="zasady" aria-labelledby="h-zasady" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:24px;box-sizing:border-box;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-zasady" style="margin:0;display:flex;gap:10px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0"><span style="color:#1B3F8F">05.</span>Zasady użycia</h2>
+  <p style="margin:4px 0 0;font-size:16px;color:#5A544D">Dobre i złe praktyki</p>
+  <ul aria-label="Dobre praktyki" style="list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div role="img" aria-label="Logo na papierze" style="height:56px;border-radius:12px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:5px"><svg viewBox="15 5 34 54" width="12" height="19" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:15px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pomysłownik</span></div>
+      <p style="margin:0;display:flex;gap:6px;font-size:14px;line-height:1.3"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none"><circle cx="10" cy="10" r="10" fill="#1F7A45"></circle><path d="M5.5 10.3l3 2.8 6-6.2" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span><strong>Tak</strong> — logo na papierze</span></p>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div role="img" aria-label="Logo na atramencie" style="height:56px;border-radius:12px;background:#141414;display:flex;align-items:center;justify-content:center;gap:5px"><svg viewBox="15 5 34 54" width="12" height="19" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#FFD93D" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#FFD93D"></circle><circle cx="36.4" cy="31.46" r="6" fill="#FFD93D"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:15px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;color:#F7F2EB">Pomysłownik</span></div>
+      <p style="margin:0;display:flex;gap:6px;font-size:14px;line-height:1.3"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none"><circle cx="10" cy="10" r="10" fill="#1F7A45"></circle><path d="M5.5 10.3l3 2.8 6-6.2" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span><strong>Tak</strong> — logo na atramencie</span></p>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div role="img" aria-label="Sygnet jako ikona aplikacji" style="height:56px;border-radius:12px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1B3F8F"></rect><g transform="translate(32 32) scale(0.66) translate(-31.75 -32.25)"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#F7F2EB" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#F7F2EB"></circle><circle cx="36.4" cy="31.46" r="6" fill="#F7F2EB"></circle></g></svg></div>
+      <p style="margin:0;display:flex;gap:6px;font-size:14px;line-height:1.3"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none"><circle cx="10" cy="10" r="10" fill="#1F7A45"></circle><path d="M5.5 10.3l3 2.8 6-6.2" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span><strong>Tak</strong> — sygnet jako ikona</span></p>
+    </li>
+  </ul>
+  <ul aria-label="Złe praktyki" style="list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div role="img" aria-label="Błąd: logo w zmienionych kolorach" style="height:52px;border-radius:12px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:5px"><svg viewBox="15 5 34 54" width="12" height="19" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#E8590C" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#E8590C"></circle><circle cx="36.4" cy="31.46" r="6" fill="#E8590C"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:15px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;color:#2F9E44">Pomysłownik</span></div>
+      <p style="margin:0;display:flex;gap:6px;font-size:14px;line-height:1.3"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none"><circle cx="10" cy="10" r="10" fill="#B42318"></circle><path d="M6.5 6.5l7 7M13.5 6.5l-7 7" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path></svg><span><strong>Nie</strong> zmieniaj kolorów</span></p>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div role="img" aria-label="Błąd: logo pochylone i rozciągnięte" style="height:52px;border-radius:12px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;display:flex;align-items:center;justify-content:center;overflow:hidden"><div style="display:flex;align-items:center;gap:5px;transform:skewX(-18deg) scaleX(1.3)"><svg viewBox="15 5 34 54" width="12" height="19" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:15px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pomysłownik</span></div></div>
+      <p style="margin:0;display:flex;gap:6px;font-size:14px;line-height:1.3"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none"><circle cx="10" cy="10" r="10" fill="#B42318"></circle><path d="M6.5 6.5l7 7M13.5 6.5l-7 7" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path></svg><span><strong>Nie</strong> pochylaj ani nie zniekształcaj</span></p>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div role="img" aria-label="Błąd: logo z cieniem i poświatą" style="height:52px;border-radius:12px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:5px;filter:drop-shadow(2px 3px 2px rgba(20,20,20,0.45))"><svg viewBox="15 5 34 54" width="12" height="19" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:15px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;text-shadow:0 0 6px #FFD93D,0 0 12px #FFD93D">Pomysłownik</span></div>
+      <p style="margin:0;display:flex;gap:6px;font-size:14px;line-height:1.3"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none"><circle cx="10" cy="10" r="10" fill="#B42318"></circle><path d="M6.5 6.5l7 7M13.5 6.5l-7 7" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path></svg><span><strong>Nie</strong> dodawaj efektów (cień, poświata)</span></p>
+    </li>
+    <li style="display:flex;flex-direction:column;gap:6px">
+      <div role="img" aria-label="Błąd: nazwa zapisana wersalikami, przekreślona" style="height:52px;border-radius:12px;background:#F7F2EB;border:1px solid #DDD5C8;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:5px"><svg viewBox="15 5 34 54" width="12" height="19" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:15px;letter-spacing:0.02em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0;text-decoration:line-through;text-decoration-color:#B42318;text-decoration-thickness:2px">POMYSŁOWNIK</span></div>
+      <p style="margin:0;display:flex;gap:6px;font-size:14px;line-height:1.3"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none"><circle cx="10" cy="10" r="10" fill="#B42318"></circle><path d="M6.5 6.5l7 7M13.5 6.5l-7 7" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path></svg><span><strong>Nie</strong> zapisuj wersalikami</span></p>
+    </li>
+  </ul>
+</section>
+</div>
+<div id="r3" style="display:grid;grid-template-columns:760px 360px minmax(0,1fr);gap:20px;min-height:0">
+<section id="zastosowania" aria-labelledby="h-zast" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:24px;box-sizing:border-box;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-zast" style="margin:0;display:flex;gap:10px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0"><span style="color:#1B3F8F">06.</span>Zastosowania</h2>
+  <p style="margin:4px 0 0;font-size:16px;color:#5A544D">Przykłady użycia marki</p>
+  <div style="margin-top:12px;flex:1;min-height:0;display:grid;grid-template-columns:236px 196px 92px minmax(0,1fr);grid-template-rows:52px minmax(0,1fr);gap:12px">
+    <div role="img" aria-label="Makieta górnego paska aplikacji: logo, wyszukiwarka w kształcie pigułki i awatar" style="grid-column:1 / 4;grid-row:1;border:1px solid #DDD5C8;border-radius:14px;background:#FFFFFF;display:flex;align-items:center;gap:14px;padding:0 10px 0 14px">
+      <div style="display:flex;align-items:center;gap:6px;flex:none"><svg viewBox="15 5 34 54" width="16" height="25" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#1B3F8F" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#1B3F8F"></circle><circle cx="36.4" cy="31.46" r="6" fill="#1B3F8F"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:20px;letter-spacing:-0.01em;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pomysłownik</span></div>
+      <div style="flex:1;min-width:0;height:34px;border-radius:999px;border:1.5px solid #5A544D;background:#F7F2EB;box-sizing:border-box;display:flex;align-items:center;gap:8px;padding:0 12px"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" style="flex:none"><circle cx="7" cy="7" r="5" fill="none" stroke="#141414" stroke-width="1.8"></circle><path d="M11 11l3.5 3.5" stroke="#141414" stroke-width="1.8" stroke-linecap="round"></path></svg><span style="font-size:14px;color:#5A544D;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Szukaj zespołów, patentów, laboratoriów…</span></div>
+      <span style="width:32px;height:32px;border-radius:50%;background:#CDB8F0;flex:none;display:grid;place-items:center"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="5.5" r="2.6" fill="none" stroke="#141414" stroke-width="1.5"></circle><path d="M3 14c.6-2.8 2.6-4.2 5-4.2s4.4 1.4 5 4.2" fill="none" stroke="#141414" stroke-width="1.5" stroke-linecap="round"></path></svg></span>
+    </div>
+    <figure style="grid-column:1;grid-row:2;margin:0;display:flex;flex-direction:column;gap:4px">
+      <div role="img" aria-label="Obraz udostępniania 1200 na 630 z hasłem: Tu pomysły znajdują ludzi." style="position:relative;width:236px;height:124px;border-radius:10px;overflow:hidden;background:linear-gradient(150deg,#1B3F8F 0%,#141414 75%);color:#F7F2EB;padding:12px 14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between">
+        <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true" style="position:absolute;right:-34px;bottom:-40px"><g fill="none" stroke="#F7F2EB" stroke-width="1.2"><circle cx="60" cy="60" r="18" stroke-opacity="0.5"></circle><circle cx="60" cy="60" r="34" stroke-opacity="0.32"></circle><circle cx="60" cy="60" r="50" stroke-opacity="0.18"></circle></g><circle cx="60" cy="60" r="5" fill="#FFD93D"></circle></svg>
+        <div style="display:flex;align-items:center;gap:4px"><svg viewBox="15 5 34 54" width="10" height="16" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#FFD93D" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#FFD93D"></circle><circle cx="36.4" cy="31.46" r="6" fill="#FFD93D"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:580;font-size:14px;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pomysłownik</span></div>
+        <span style="position:relative;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:600;font-size:22px;line-height:1.1;max-width:150px;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Tu pomysły znajdują ludzi.</span>
+      </div>
+      <figcaption style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;color:#5A544D">Udostępnianie 1200×630</figcaption>
+    </figure>
+    <div role="img" aria-label="Przykładowa karta wyniku: laboratorium z oznaczeniem Potwierdzone i źródłem danych" style="grid-column:2;grid-row:2;position:relative;border:1px solid #DDD5C8;border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start">
+      <span style="position:absolute;top:-10px;right:8px;background:#FFFFFF;border:1px solid #5A544D;border-radius:999px;padding:0 6px;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;line-height:18px">[PRZYKŁAD]</span>
+      <span style="height:24px;border-radius:999px;background:#CDB8F0;display:flex;align-items:center;gap:5px;padding:0 9px 0 3px;font-size:14px;font-weight:700"><span style="width:18px;height:18px;border-radius:50%;background:#141414;display:grid;place-items:center"><svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><g fill="none" stroke="#F7F2EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h4M7 2v4.5L3.2 13a1 1 0 0 0 .9 1.5h7.8a1 1 0 0 0 .9-1.5L9 6.5V2"></path></g></svg></span>Laboratoria</span>
+      <strong style="font-size:15px;line-height:1.25">Pracownia polimerów</strong>
+      <span style="height:24px;border-radius:999px;background:#141414;color:#F7F2EB;display:flex;align-items:center;gap:5px;padding:0 10px 0 8px;font-size:14px;font-weight:700"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="#F7F2EB" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Potwierdzone</span>
+      <span style="font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;line-height:1.35;color:#5A544D">Źródło: POL-on ·<br>30.09.2026</span>
+    </div>
+    <div role="img" aria-label="Identyfikator na smyczy na hackathon z sygnetem i miejscem na imię" style="grid-column:3;grid-row:2;position:relative;display:flex;flex-direction:column;align-items:center">
+      <span style="width:16px;height:22px;background:#1B3F8F;border-radius:0 0 3px 3px"></span>
+      <span style="width:22px;height:8px;margin-top:-2px;border:2px solid #5A544D;border-radius:4px;box-sizing:border-box"></span>
+      <div style="width:92px;flex:1;margin-top:2px;border:1px solid #DDD5C8;border-radius:10px;overflow:hidden;background:#FFFFFF;display:flex;flex-direction:column">
+        <div style="height:26px;background:#141414;display:grid;place-items:center"><svg viewBox="15 5 34 54" width="11" height="17" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#FFD93D" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#FFD93D"></circle><circle cx="36.4" cy="31.46" r="6" fill="#FFD93D"></circle></svg></div>
+        <div style="padding:5px 7px 0;display:flex;flex-direction:column;gap:1px;line-height:1.25"><span style="font-size:14px;color:#5A544D">Hackathon</span><strong style="font-size:14px">Imię Nazwisko</strong></div>
+        <span style="margin-top:auto;background:#F7C6A8;font-size:14px;font-weight:700;padding:2px 7px">Startupy</span>
+      </div>
+      <span style="position:absolute;top:-4px;left:50%;transform:translateX(-50%);background:#FFFFFF;border:1px solid #5A544D;border-radius:999px;padding:0 4px;letter-spacing:-0.02em;font-family:'Atkinson Hyperlegible Mono',monospace;font-size:14px;line-height:18px;white-space:nowrap">[PRZYKŁAD]</span>
+    </div>
+    <div style="grid-column:4;grid-row:1 / 3;display:flex;flex-direction:column;align-items:center;gap:10px;min-height:0">
+      <div role="img" aria-label="Okrągła naklejka w kolorze Iskra z sygnetem i nazwą" style="width:96px;height:96px;flex:none;border-radius:50%;background:#FFD93D;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:inset 0 0 0 4px #FFFFFF,inset 0 0 0 5px #141414"><svg viewBox="15 5 34 54" width="22" height="35" aria-hidden="true"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#141414" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#141414"></circle><circle cx="36.4" cy="31.46" r="6" fill="#141414"></circle></svg><span style="font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:600;font-size:14px;color:#141414;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pomysłownik</span></div>
+      <div role="img" aria-label="Ikona aplikacji w wersji jasnej i ciemnej" style="display:flex;gap:10px">
+        <svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1B3F8F"></rect><g transform="translate(32 32) scale(0.62) translate(-31.75 -32.25)"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#F7F2EB" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#F7F2EB"></circle><circle cx="36.4" cy="31.46" r="6" fill="#F7F2EB"></circle></g></svg>
+        <svg viewBox="0 0 64 64" width="40" height="40" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#141414"></rect><g transform="translate(32 32) scale(0.62) translate(-31.75 -32.25)"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#FFD93D" stroke-width="7" stroke-linecap="round"></path><circle cx="22" cy="52" r="6" fill="#FFD93D"></circle><circle cx="36.4" cy="31.46" r="6" fill="#FFD93D"></circle></g></svg>
+      </div>
+      <div role="img" aria-label="Favicon na karcie przeglądarki w trybie jasnym i ciemnym" style="width:100%;display:flex;flex-direction:column;gap:5px">
+        <span style="height:26px;border-radius:8px 8px 0 0;background:#FFFFFF;border:1px solid #DDD5C8;border-bottom:none;display:flex;align-items:center;gap:6px;padding:0 8px;font-size:14px"><img src="logo/favicon-16.svg" width="16" height="16" alt="" style="display:block">Pomysłownik</span>
+        <span style="height:26px;border-radius:8px 8px 0 0;background:#2A2826;color:#F7F2EB;display:flex;align-items:center;gap:6px;padding:0 8px;font-size:14px"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect width="16" height="16" rx="3.5" fill="#141414" stroke="#5A544D"></rect><g transform="translate(8 8) scale(0.225) translate(-31.75 -32.25)"><path d="M22 52V21A11 11 0 1 1 36.4 31.46" fill="none" stroke="#FFD93D" stroke-width="8.5" stroke-linecap="round"></path><circle cx="22" cy="52" r="6.5" fill="#FFD93D"></circle><circle cx="36.4" cy="31.46" r="6.5" fill="#FFD93D"></circle></g></svg>Pomysłownik</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="ton" aria-labelledby="h-ton" style="background:#FFFFFF;border:1px solid #DDD5C8;border-radius:24px;padding:24px;box-sizing:border-box;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-ton" style="margin:0;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Pozycjonowanie i ton</h2>
+  <ul style="list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:1.5">
+    <li style="display:flex;gap:12px"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" style="flex:none;margin-top:1px"><g fill="none" stroke="#141414" stroke-width="1.7" stroke-linecap="round"><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="6" r="3"></circle><path d="M8.2 15.8l7.6-7.6"></path></g></svg><span><strong>Łączący.</strong> Pokazuje, kto pracuje nad czym i jak się spotkać.</span></li>
+    <li style="display:flex;gap:12px"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" style="flex:none;margin-top:1px"><g fill="none" stroke="#141414" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5"></rect><path d="M3.5 10h17M8 3v4M16 3v4M8.5 15l2.3 2.2 4.7-4.7"></path></g></svg><span><strong>Rzetelny.</strong> Każda liczba ma źródło i datę.</span></li>
+    <li style="display:flex;gap:12px"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" style="flex:none;margin-top:1px"><g fill="none" stroke="#141414" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2.5"></rect><path d="M8 11V7.5a4 4 0 0 1 7.7-1.6"></path></g></svg><span><strong>Otwarty.</strong> Dla nauki, biznesu, administracji i mediów.</span></li>
+    <li style="display:flex;gap:12px"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" style="flex:none;margin-top:1px"><g fill="none" stroke="#141414" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></g></svg><span><strong>Dostępny.</strong> Zgodny z WCAG 2.2 AA, czytelny dla każdego.</span></li>
+  </ul>
+</section>
+<section id="do-zapamietania" aria-labelledby="h-dz" style="background:#141414;color:#F7F2EB;border-radius:24px;padding:24px;box-sizing:border-box;min-width:0;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+  <h2 id="h-dz" style="margin:0;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.1;color:#FFD93D;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Do zapamiętania</h2>
+  <ul style="list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.5">
+    <li style="display:flex;gap:10px"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M4 10.5l4 3.8 8-8.3" fill="none" stroke="#FFD93D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Używaj tylko oficjalnych wersji logo.</li>
+    <li style="display:flex;gap:10px"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M4 10.5l4 3.8 8-8.3" fill="none" stroke="#FFD93D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Zachowuj pole ochronne.</li>
+    <li style="display:flex;gap:10px"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M4 10.5l4 3.8 8-8.3" fill="none" stroke="#FFD93D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Trzymaj się palety i proporcji kolorów.</li>
+    <li style="display:flex;gap:10px"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M4 10.5l4 3.8 8-8.3" fill="none" stroke="#FFD93D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>{{ displayName }} do nagłówków, Atkinson Hyperlegible do reszty.</span></li>
+    <li style="display:flex;gap:10px"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M4 10.5l4 3.8 8-8.3" fill="none" stroke="#FFD93D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Kolor nigdy nie jest jedynym nośnikiem informacji.</li>
+    <li style="display:flex;gap:10px"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" style="flex:none;margin-top:2px"><path d="M4 10.5l4 3.8 8-8.3" fill="none" stroke="#FFD93D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>Ton: konkretny, życzliwy, rzetelny.</li>
+  </ul>
+</section>
+</div>
+</div>
+</div>
+<section aria-labelledby="h-nota" style="width:2000px;box-sizing:border-box;padding:0 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;font-size:16px;line-height:1.55">
+  <div>
+    <h2 id="h-nota" style="margin:0 0 8px;font-family:var(--fd,'Lato'),'Segoe UI',Arial,sans-serif;font-weight:700;font-size:24px;line-height:1.1;font-variation-settings:'opsz' 72,'SOFT' 50,'WONK' 0">Dlaczego „Połączenie”</h2>
+    <p style="margin:0;max-width:60ch;text-wrap:pretty">Wybraliśmy koncepcję B, bo najprościej opowiada o tym, czym jest Pomysłownik: dwa węzły i łączący je łuk tworzą literę P, czyli dwóch innowatorów, którzy się odnaleźli. Znak składa się z jednej grubej linii i dwóch kół, więc pozostaje czytelny w jednym kolorze nawet jako favicon 16 px. Linia między węzłami wyznacza kąt 55°, z którego korzystają ukośne formy w całym systemie, a łuk wraca w motywie radaru.</p>
+  </div>
+  <div>
+    <h3 style="margin:0 0 8px;font-size:16px;font-weight:700">Zestaw logo (SVG)</h3>
+    <ul style="margin:0;padding-left:18px;display:grid;gap:2px">
+      <li><a href="logo/pomyslownik-logo-podstawowe.svg">Logo podstawowe</a> · <a href="logo/pomyslownik-logo-odwrocone.svg">odwrócone</a></li>
+      <li><a href="logo/pomyslownik-logo-mono-czarne.svg">Mono czarne</a> · <a href="logo/pomyslownik-logo-mono-biale.svg">mono białe</a></li>
+      <li><a href="logo/pomyslownik-sygnet.svg">Sygnet</a> · <a href="logo/favicon-16.svg">favicon 16</a> · <a href="logo/favicon-32.svg">favicon 32</a></li>
+      <li><a href="logo/app-icon-512.svg">Ikona aplikacji 512</a> · <a href="logo/app-icon-512-ciemna.svg">wersja ciemna</a></li>
+    </ul>
+  </div>
+  <div>
+    <h3 style="margin:0 0 8px;font-size:16px;font-weight:700">Tokeny</h3>
+    <p style="margin:0"><a href="tokens.css">tokens.css</a> — kolory, kroje, promienie i fokus jako zmienne CSS w rem. <a href="Komponenty.dc.html">Komponenty →</a></p>
+    <p style="margin:6px 0 0;color:#5A544D">Znak słowny w plikach SVG korzysta z Fraunces przez <span style="font-family:'Atkinson Hyperlegible Mono',monospace">@import</span>; przed drukiem zamień tekst na krzywe.</p>
+  </div>
+</section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;fontDisplay&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Lato&quot;,&quot;Lexend&quot;,&quot;Bricolage Grotesque&quot;,&quot;Poltawski Nowy&quot;,&quot;Brygada 1918&quot;,&quot;Fraunces&quot;],&quot;default&quot;:&quot;Lato&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Typografia&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() { document.documentElement.lang = 'pl'; document.title = 'Pomysłownik — Identyfikacja wizualna v1.0'; this.applyFont(); }
+  applyFont() { document.documentElement.style.setProperty('--fd', '"' + (this.props.fontDisplay ?? 'Lato') + '"'); }
+  componentDidUpdate() { this.applyFont(); }
+  renderVals() { return { displayName: this.props.fontDisplay ?? 'Lato' }; }
+}
+</script>
+</body>
+</html>
