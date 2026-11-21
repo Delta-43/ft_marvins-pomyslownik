@@ -32,7 +32,7 @@ Backend complete and live. Waiting for decisions: Karrie's seed corrections, pol
 
 - Polish IP: patent numbers stated by sources are not verified, because the UPRP register needs a working e-Profil key (ours returns 401). `polishIp` stays false until verified.
 - Scoring weights are indicative. Mentors' definitions (R7) would replace them.
-- For Philip (fixed 23:05): sign-in rate limit is now 300/min per address plus 10/min per identity, so the web server no longer hits it. `/compare`, `/cards/{id}/similar`, `/cards/{id}/history`, `/events` and `/stats/usage` are live. New optional fields: `methodText`, `Evidence.label`, `Source.passageLang`, `CountItem.label`, `StatusChange.fromLabel/toLabel`, `CollectRun.changedCardIds`; compare cells' `display` is now `{pl, en}`.
+- For Philip (fixed 22:40): sign-in rate limit is now 300/min per address plus 10/min per identity, so the web server no longer hits it. `/compare`, `/cards/{id}/similar`, `/cards/{id}/history`, `/events` and `/stats/usage` are live. New optional fields: `methodText`, `Evidence.label`, `Source.passageLang`, `CountItem.label`, `StatusChange.fromLabel/toLabel`, `CollectRun.changedCardIds`; compare cells' `display` is now `{pl, en}`.
 
 ## Log
 
@@ -44,4 +44,4 @@ Backend complete and live. Waiting for decisions: Karrie's seed corrections, pol
 | 2026-11-21 22:00 | B3 done: seed loader, cards, card, facets, audiences, sources, overview. 10 real cards loaded. R2 done, R5 (verification) pending with Karrie. |
 | 2026-11-21 22:10 | Backend live: API https://demo.delta43.net (→ delta-server 192.168.0.43:8000), web https://pomyslownik.delta43.net (→ :3010). 10 real cards seeded. Branch `backend/b3-b12-scaffold` pushed. Karrie's first review: research articles correct, stories summarised correctly. |
 | 2026-11-21 22:26 | Live on delta-server: B4, B5, B8 (earlier this evening), then B6a-d, B7, B11: collectors (PTT, RAD-on, PDF, OpenAlex), refresh worker every 24 h, contract test. Language rule enforced (every user-visible text in Polish and English). Claude and OpenAlex keys set in the server .env. Earlier log times are approximate. |
-| 2026-11-21 23:05 | Code review (10 findings) fixed and live: re-seed keeps events, history and attached PDFs; collectors remember skipped sources; rate limit no longer trusts X-Forwarded-For; register/admin races handled. 72 tests pass; contract test passes against the live server for all 27 cards. |
+| 2026-11-21 22:43 | Code review (10 findings) fixed and live: re-seed keeps events, history and attached PDFs; collectors remember skipped sources; rate limit no longer trusts X-Forwarded-For; register/admin races handled. 72 tests pass; contract test passes against the live server for all 27 cards. |
