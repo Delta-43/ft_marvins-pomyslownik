@@ -155,8 +155,8 @@ body { background: #F4EEE6; }
 
 /* Landing (/) - gentle drift of the hero artwork. Disabled by the reduced-motion rule above. */
 @keyframes p-drift { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(8px, -12px) rotate(-4deg); } }
-/* Landing (/) only: anchor links land below the sticky header; smooth scroll unless reduced motion. */
-html:has(#landing-root) { scroll-padding-top: 96px; scroll-padding-bottom: 96px; }
+/* Landing (/) only: small gap above anchor targets; smooth scroll unless reduced motion. */
+html:has(#landing-root) { scroll-padding-top: 24px; scroll-padding-bottom: 24px; }
 @media (prefers-reduced-motion: no-preference) { html:has(#landing-root) { scroll-behavior: smooth; } }
 /* Landing (/) dark surfaces: keep the Granat focus outline visible on Atrament. */
 .landing-dark :focus-visible { box-shadow: 0 0 0 2px #F7F2EB; }

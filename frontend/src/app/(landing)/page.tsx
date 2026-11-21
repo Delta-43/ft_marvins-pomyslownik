@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { HeroArt } from "@/components/landing/HeroArt";
-import { LandingHeader, LandingShell, PauseButton } from "@/components/landing/LandingClient";
+import { LandingShell, PauseButton } from "@/components/landing/LandingClient";
 
 // Landing page ("/"), a faithful port of the brand prototype landing/Landing.dc.html (Alban).
 // Public: no card data here (docs/FRONTEND-START.md section 6). Search needs an account, which protects the
@@ -146,12 +146,10 @@ export default function LandingPage() {
           Przejdź do logowania
         </a>
 
-        <LandingHeader registerHref={REGISTER} />
-
         <main id="main" tabIndex={-1} className="outline-none">
           {/* Hero */}
           <section aria-labelledby="h1" className="relative overflow-hidden">
-            <div className={`${WRAP} flex min-h-[calc(100svh-81px)] flex-wrap gap-[clamp(2rem,4vw,4rem)] pt-[clamp(2rem,5vw,4rem)]`}>
+            <div className={`${WRAP} flex min-h-svh flex-wrap gap-[clamp(2rem,4vw,4rem)] pt-[clamp(2rem,5vw,4rem)]`}>
               <div className="flex min-w-0 flex-[7_1_34rem] flex-col">
                 <p className="m-0 text-sm font-bold tracking-[0.18em]">PLATFORMA DLA INNOWATORÓW</p>
                 <h1 id="h1" className="mt-5 mb-0 pt-[0.06em] font-display text-[clamp(3.5rem,9vw,9rem)] leading-[1.1] font-bold tracking-[-0.01em] [text-wrap:balance]">
