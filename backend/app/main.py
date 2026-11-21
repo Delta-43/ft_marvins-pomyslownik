@@ -9,7 +9,7 @@ from .config import settings
 from .db import check_database
 from .routers import admin, cards, events, reference, stats
 
-app = FastAPI(title="Innovation Radar API", version=settings.version, docs_url="/docs", redoc_url=None)
+app = FastAPI(title="Pomysłownik! API", version=settings.version, docs_url="/docs", redoc_url=None)
 errors.install(app)
 
 app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origin_list, allow_methods=["GET", "POST", "OPTIONS"],

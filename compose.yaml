@@ -1,4 +1,4 @@
-# Innovation Radar: local and staging stack.
+# Pomysłownik!: local and staging stack.
 #
 # Frontend team (no backend needed):   docker compose --profile mock up
 #   Mock API from docs/api/openapi.yaml on http://localhost:4010
@@ -7,7 +7,7 @@
 #
 # Nothing starts without a profile, on purpose.
 
-name: innovation-radar
+name: pomyslownik
 
 services:
   mock:

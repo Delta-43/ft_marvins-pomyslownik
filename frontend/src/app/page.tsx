@@ -11,8 +11,8 @@ export default async function Home() {
   }
   return (
     <>
-      <h1 className="text-4xl font-bold">Radar Innowacji</h1>
-      <p>Innovation Radar. Frontend scaffold.</p>
+      <h1 className="text-4xl font-bold">Pomysłownik!</h1>
+      <p>Radar innowacji. Frontend scaffold.</p>
       <p>{cardCount === null ? "The API is not reachable." : `The API reports ${cardCount} cards.`}</p>
     </>
   );

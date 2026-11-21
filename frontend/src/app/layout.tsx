@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Radar Innowacji",
+  title: "Pomysłownik!",
   description: "Discover existing Polish innovations, with sources and honest assessments.",
 };
 

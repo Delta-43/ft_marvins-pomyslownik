@@ -1,6 +1,6 @@
-# Radar Innowacji (Innovation Radar)
+# Pomysłownik!
 
-Hacknation 2026, challenge "Radar Innowacji" by Podkarpackie Centrum Innowacji (PCI).
+Team **ft_marvins**, Hacknation 2026, challenge "Radar Innowacji" (Innovation Radar) by Podkarpackie Centrum Innowacji (PCI).
 
 A web app that automatically collects existing Polish innovations from open sources, assesses each one, and shows
 it on a clear card with its sources. Every value is marked as a confirmed fact or an estimate. Search, filter and compare

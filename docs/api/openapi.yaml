@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
-  title: Innovation Radar API
+  title: Pomysłownik! API
   version: 1.0.0-draft.2
-  summary: Read API for the Innovation Radar prototype (Hacknation 2026, PCI challenge).
+  summary: API for Pomysłownik!, an innovation radar prototype (Hacknation 2026, PCI challenge).
   description: |
     Contract-first draft. The frontend builds against this file with a mock server.
     The backend implements it. If either side needs a change, change this file first.

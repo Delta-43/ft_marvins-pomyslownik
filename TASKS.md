@@ -26,7 +26,7 @@ Tasks have no fixed owner here. To take a task, add its ID to your own file in `
 4. **Sign-in first.** No card data on any page or endpoint without a session.
 5. **Licences.** Every dependency must be MIT, BSD, Apache-2.0 or EUPL-compatible. No proprietary fonts, images, data or models.
 6. **Excluded features** (FAQ section 6): no idea submission, no social features, no crowdfunding, no financing, no investor matching. Do not build them, even small.
-7. **Branches and pull requests** into `main` of `ft_ddos-hacknation`. Small pull requests. One reviewer. Do not wait long for review.
+7. **Branches and pull requests** into `main` of `ft_marvins-pomyslownik`. Small pull requests. One reviewer. Do not wait long for review.
 8. **Definition of done** for any task: it works in the staging containers, it meets its "done when" line, accessibility basics hold (frontend), and the contract has not drifted.
 
 ## Milestones (clock times)
