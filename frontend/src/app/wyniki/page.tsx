@@ -23,9 +23,9 @@ const CARDS: Card[] = [
 
 function BasisLabel({ basis }: { basis: Basis }) {
   return basis === "confirmed" ? (
-    <span className="inline-flex items-center gap-1 rounded-full bg-tak px-2.5 py-0.5 text-xs font-bold text-white">✓ Potwierdzone</span>
+    <span className="inline-flex items-center gap-1 rounded-full bg-tak px-2.5 py-0.5 text-xs font-bold text-white shadow-[0_4px_12px_-4px_rgb(31_122_69/0.6)]">✓ Potwierdzone</span>
   ) : (
-    <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-atrament px-2.5 py-0.5 text-xs font-bold">≈ Szacunek</span>
+    <span className="inline-flex items-center gap-1 rounded-full border border-dashed border-atrament bg-white/60 px-2.5 py-0.5 text-xs font-bold">≈ Szacunek</span>
   );
 }
 
@@ -36,7 +36,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
     <div className="mx-auto max-w-6xl px-6 py-8">
       <SearchBar defaultValue={q} />
       <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">
-        <aside aria-label="Filtry" className="space-y-6">
+        <aside aria-label="Filtry" className="glass h-fit space-y-6 rounded-3xl p-5 lg:sticky lg:top-24">
           {[["Obszar", ["Technologiczna", "Edukacyjna", "Administracyjna"]], ["Poziom wdrożenia", ["Koncepcja", "Prototyp", "Testy", "Pilotaż", "W użyciu"]]].map(([name, opts]) => (
             <fieldset key={name as string}>
               <legend className="mb-2 font-bold">{name}</legend>
@@ -56,9 +56,9 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
             {CARDS.map((c) => {
               const cat = CAT[c.category];
               return (
-                <li key={c.title} className="flex flex-col gap-3 rounded-[var(--radius-card)] border border-krawedz bg-white p-6">
+                <li key={c.title} className="glass-strong lift flex flex-col gap-3 rounded-[var(--radius-card)] p-6">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`inline-flex items-center gap-1 rounded-full ${cat.bg} px-2.5 py-0.5 text-xs font-bold`}>
+                    <span className={`inline-flex items-center gap-1 rounded-full ${cat.bg} px-2.5 py-0.5 text-xs font-bold ring-1 ring-white/80`}>
                       <span aria-hidden="true">{cat.icon}</span>{cat.label}
                     </span>
                     <span className="text-xs text-kamien">{c.area}</span>
@@ -67,7 +67,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
                   <h2 style={{ fontSize: "1.25rem" }}><a href="#" className="text-atrament">{c.title}</a></h2>
                   <p className="text-sm text-kamien">{c.org}</p>
                   <p className="text-sm">{c.summary}</p>
-                  <dl className="mt-auto grid grid-cols-3 gap-2 border-t border-krawedz pt-3 text-sm">
+                  <dl className="mt-auto grid grid-cols-3 gap-2 rounded-2xl bg-white/55 p-3 text-sm ring-1 ring-white/80">
                     <div><dt className="text-xs text-kamien">Wdrożenie</dt><dd className="font-bold">{c.level}</dd></div>
                     <div><dt className="text-xs text-kamien">Gotowość</dt><dd className="font-bold">{c.trl}</dd></div>
                     <div><dt className="text-xs text-kamien">Wiarygodność</dt><dd className="font-mono font-bold">{c.score === null ? "Za mało danych" : `${c.score}/100`}</dd></div>
