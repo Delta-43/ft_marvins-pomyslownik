@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Innovation Radar API
-  version: 1.0.0-draft.1
+  version: 1.0.0-draft.2
   summary: Read API for the Innovation Radar prototype (Hacknation 2026, PCI challenge).
   description: |
     Contract-first draft. The frontend builds against this file with a mock server.
@@ -9,10 +9,16 @@ info:
 
     **Product rules that shape the API**
     - The Radar finds innovations that already exist. There is no endpoint to submit an idea.
-    - Search is public. No account is needed. Only the `/admin` endpoints need a token.
+    - **Everyone signs in** and picks a role (one of the six audiences). This deters misuse of the
+      intellectual property described on the cards. Only `/health`, `/api/v1/audiences` and `/api/v1/auth/*`
+      work without a session. Every other endpoint needs `Authorization: Bearer <session token>`.
+    - Sign-in uses an identity provider. For the demo the provider is a clearly labelled **sandbox**. The real
+      national login (login.gov.pl) needs SAML onboarding and will replace it with a redirect flow later.
+    - The `/admin` endpoints need the separate admin token.
     - Every assessed field says whether it is a **confirmed** fact (with sources) or an **estimate**
       (with the method). The model never produces a number. Scores come from stored evidence.
-    - Anonymous usage events carry no free text and no user identifier.
+    - Usage statistics stay aggregated. Events carry no free text. The server attaches the user's role,
+      not the user id, to each event.
 
     **Conventions**
     - Base path `/api/v1`. Changes inside v1 only add optional fields or endpoints.
@@ -37,17 +43,20 @@ servers:
     description: Local backend
   - url: https://api.example.invalid
     description: Delta-server behind the tunnel. Replace with the real host when it exists
-# Public by default. Only operations with their own `security` entry need the admin token.
-security: []
+# Signed in by default. Public operations say `security: []`. Admin operations use the admin token.
+security:
+  - userBearer: []
 tags:
+  - name: Auth
+    description: Sign in, register with a role, sign out, read and edit your profile.
   - name: Cards
-    description: Search, read and compare innovation cards. Public.
+    description: Search, read and compare innovation cards. Signed-in users.
   - name: Reference
-    description: Filter options, audience presets, sources. Public.
+    description: Filter options, audience presets (public, used by the registration form), sources.
   - name: Statistics
-    description: Aggregate numbers for the overview and for PCI. Public, anonymous.
+    description: Aggregate numbers for the overview and for PCI. Signed-in users.
   - name: Events
-    description: Anonymous usage events. Public write, no personal data.
+    description: Usage events. Signed-in users. No free text.
   - name: Admin
     description: Trigger and inspect collection runs. Needs a bearer token.
   - name: System
@@ -58,6 +67,7 @@ paths:
     get:
       tags: [System]
       operationId: getHealth
+      security: []
       summary: Liveness and dependency check
       description: Not versioned. Used by container healthchecks and the tunnel monitor.
       responses:
@@ -77,6 +87,147 @@ paths:
                     format: date-time
         '503':
           $ref: '#/components/responses/Unavailable'
+
+  /api/v1/auth/providers:
+    get:
+      tags: [Auth]
+      operationId: listAuthProviders
+      summary: Identity providers the user can sign in with
+      security: []
+      responses:
+        '200':
+          description: Providers. In the demo only `sandbox_id` is enabled.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/AuthProvider' }
+
+  /api/v1/auth/register:
+    post:
+      tags: [Auth]
+      operationId: register
+      summary: Create an account with a verified identity and a role
+      description: |
+        The identity comes from the provider (`providerSubject`). The user picks one role, states an affiliation
+        and interests, and must accept the terms of use, which forbid misuse of the intellectual property on the cards.
+        Returns a session, so the user is signed in at once.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegisterRequest' }
+      responses:
+        '201':
+          description: Account created and signed in.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/Session' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '409':
+          description: An account already exists for this identity (`account_exists`). Sign in instead.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /api/v1/auth/login:
+    post:
+      tags: [Auth]
+      operationId: login
+      summary: Sign in with an identity from a provider
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200':
+          description: Signed in.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/Session' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404':
+          description: No account for this identity (`registration_required`). Go to registration.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /api/v1/auth/logout:
+    post:
+      tags: [Auth]
+      operationId: logout
+      summary: End the current session
+      responses:
+        '204':
+          description: Signed out. Safe to repeat.
+        '401': { $ref: '#/components/responses/Unauthorized' }
+
+  /api/v1/me:
+    get:
+      tags: [Auth]
+      operationId: getMe
+      summary: The signed-in user's profile
+      responses:
+        '200':
+          description: Profile.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/User' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    delete:
+      tags: [Auth]
+      operationId: deleteMe
+      summary: Delete the account and its personal data (GDPR right to erasure)
+      description: Removes email, affiliation and interests, and ends all sessions. Aggregated usage counts stay, because they hold no user id.
+      responses:
+        '204':
+          description: Deleted.
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    patch:
+      tags: [Auth]
+      operationId: updateMe
+      summary: Change role, affiliation or interests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateMeRequest' }
+      responses:
+        '200':
+          description: Updated profile.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/User' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
 
   /api/v1/cards:
     get:
@@ -107,6 +258,7 @@ paths:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: A page of card summaries.
           content:
@@ -132,6 +284,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/CardId'
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: The card.
           content:
@@ -160,6 +313,7 @@ paths:
         - $ref: '#/components/parameters/CardId'
         - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 20, default: 5 } }
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Similar cards.
           content:
@@ -191,6 +345,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/CardId'
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Changes, newest first. Empty when nothing changed since first seen.
           content:
@@ -222,6 +377,7 @@ paths:
             maxItems: 4
             items: { type: string, format: uuid }
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: The cards and a row-by-row comparison the frontend can render as a table.
           content:
@@ -258,6 +414,7 @@ paths:
         - { name: audience, in: query, schema: { $ref: '#/components/schemas/AudienceId' } }
         - { name: polishIp, in: query, schema: { type: boolean } }
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Counts per option.
           content:
@@ -286,6 +443,7 @@ paths:
     get:
       tags: [Reference]
       operationId: listAudiences
+      security: []
       summary: The six audience presets
       description: A preset is a saved filter set plus the fields to show first. It is not a separate site and not an account type.
       responses:
@@ -311,6 +469,7 @@ paths:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: A page of sources.
           content:
@@ -331,6 +490,7 @@ paths:
       summary: Database size, coverage and freshness
       description: Feeds the home page and the effectiveness measures (task section 6e).
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Current numbers. Computed from the database, never from the model.
           content:
@@ -346,11 +506,12 @@ paths:
       tags: [Statistics]
       operationId: getUsageStats
       summary: Anonymous usage trends for PCI
-      description: Aggregates of events from `POST /api/v1/events`. Counts below 5 are not shown, to avoid singling anyone out.
+      description: Aggregates of events from `POST /api/v1/events`, by role, area and tag. Counts below 5 are not shown, to avoid singling anyone out.
       parameters:
         - { name: from, in: query, description: Start of period., schema: { type: string, format: date } }
         - { name: to, in: query, description: End of period (inclusive)., schema: { type: string, format: date } }
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Aggregated counts.
           content:
@@ -368,7 +529,8 @@ paths:
       operationId: recordEvent
       summary: Record one anonymous usage event
       description: |
-        Safe to retry. The same `eventId` is stored once. No free text, no user id, no IP address is stored.
+        Safe to retry. The same `eventId` is stored once. No free text and no IP address is stored.
+        The server adds the user's role from the session. The user id is not stored with the event.
         The frontend should send events with `navigator.sendBeacon` or a fire-and-forget call, and ignore failures.
       requestBody:
         required: true
@@ -376,6 +538,7 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/UsageEvent' }
       responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
         '202':
           description: Accepted. A repeated `eventId` also returns 202.
         '400': { $ref: '#/components/responses/BadRequest' }
@@ -476,6 +639,10 @@ paths:
 
 components:
   securitySchemes:
+    userBearer:
+      type: http
+      scheme: bearer
+      description: Session token from `/api/v1/auth/login` or `/api/v1/auth/register`. Opaque string. Expires (see `Session.expiresAt`).
     adminBearer:
       type: http
       scheme: bearer
@@ -672,6 +839,139 @@ components:
             error: { code: internal_error, message: Something went wrong. Quote the request id when you report it., details: [], requestId: 4f0c1c0e-6f2a-4f43-9a0e-2d1f3b7a9c17 }
 
   schemas:
+    AuthProvider:
+      type: object
+      required: [id, label, kind, enabled]
+      properties:
+        id: { type: string, enum: [sandbox_id, login_gov_pl] }
+        label: { $ref: '#/components/schemas/LocalizedText' }
+        kind:
+          type: string
+          enum: [sandbox, saml]
+          description: '`sandbox` is a labelled demo provider. `saml` is the real national login, not available yet.'
+        enabled: { type: boolean }
+      examples:
+        - { id: sandbox_id, label: { pl: 'Tożsamość testowa (demo)', en: 'Test identity (demo)' }, kind: sandbox, enabled: true }
+
+    RegisterRequest:
+      type: object
+      required: [provider, providerSubject, email, role, affiliation, interests, acceptedTerms]
+      additionalProperties: false
+      properties:
+        provider: { type: string, enum: [sandbox_id] }
+        providerSubject:
+          type: string
+          minLength: 3
+          maxLength: 200
+          description: Identity from the provider. In the sandbox the user picks one of the demo identities. Never a national ID number.
+        email: { type: string, format: email }
+        displayName: { type: string, maxLength: 120 }
+        role: { $ref: '#/components/schemas/AudienceId' }
+        affiliation:
+          type: object
+          required: [name, type]
+          properties:
+            name: { type: string, maxLength: 200 }
+            type: { $ref: '#/components/schemas/OrganisationType' }
+        interests:
+          type: array
+          maxItems: 20
+          description: Tag slugs or areas.
+          items: { type: string, maxLength: 60 }
+        acceptedTerms:
+          type: boolean
+          const: true
+          description: Must be true. The terms forbid misuse of the intellectual property on the cards. Otherwise `terms_not_accepted`.
+        consentToContact:
+          type: boolean
+          default: false
+          description: Optional. Allows PCI to contact the user about matching innovations.
+
+    LoginRequest:
+      type: object
+      required: [provider, providerSubject]
+      additionalProperties: false
+      properties:
+        provider: { type: string, enum: [sandbox_id] }
+        providerSubject: { type: string, minLength: 3, maxLength: 200 }
+
+    UpdateMeRequest:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        role: { $ref: '#/components/schemas/AudienceId' }
+        affiliation:
+          type: object
+          required: [name, type]
+          properties:
+            name: { type: string, maxLength: 200 }
+            type: { $ref: '#/components/schemas/OrganisationType' }
+        interests:
+          type: array
+          maxItems: 20
+          items: { type: string, maxLength: 60 }
+        consentToContact: { type: boolean }
+
+    User:
+      type: object
+      required: [id, email, role, affiliation, interests, identityVerified, provider, consentToContact, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string, format: email }
+        displayName: { type: [string, 'null'] }
+        role: { $ref: '#/components/schemas/AudienceId' }
+        affiliation:
+          type: object
+          required: [name, type]
+          properties:
+            name: { type: string }
+            type: { $ref: '#/components/schemas/OrganisationType' }
+        interests: { type: array, items: { type: string } }
+        identityVerified:
+          type: boolean
+          description: True only for a real identity provider. Always false for the sandbox, and the UI must say so.
+        provider: { type: string, enum: [sandbox_id, login_gov_pl] }
+        consentToContact: { type: boolean }
+        createdAt: { type: string, format: date-time }
+      examples:
+        - id: 5a0c7f3e-1b2d-4c3e-9f10-aa11bb22cc33
+          email: mock.user@example.invalid
+          displayName: '[MOCK] Anna'
+          role: startups_enterprises
+          affiliation: { name: '[MOCK] Example Startup', type: startup }
+          interests: [robotics, education]
+          identityVerified: false
+          provider: sandbox_id
+          consentToContact: false
+          createdAt: '2026-11-22T07:00:00Z'
+
+    Session:
+      type: object
+      required: [token, expiresAt, user]
+      properties:
+        token: { type: string, description: 'Send as `Authorization: Bearer <token>`. Keep it in memory or in an httpOnly cookie set by the web server, not in localStorage.' }
+        expiresAt: { type: string, format: date-time }
+        user: { $ref: '#/components/schemas/User' }
+      examples:
+        - token: mock-session-token
+          expiresAt: '2026-11-22T19:00:00Z'
+          user:
+            id: 5a0c7f3e-1b2d-4c3e-9f10-aa11bb22cc33
+            email: mock.user@example.invalid
+            displayName: '[MOCK] Anna'
+            role: startups_enterprises
+            affiliation: { name: '[MOCK] Example Startup', type: startup }
+            interests: [robotics, education]
+            identityVerified: false
+            provider: sandbox_id
+            consentToContact: false
+            createdAt: '2026-11-22T07:00:00Z'
+
+    OrganisationType:
+      type: string
+      enum: [university, research_institute, school, local_government, public_institution, company, startup, incubator, investor, individual, other]
+
     ErrorResponse:
       type: object
       required: [error]
@@ -682,7 +982,7 @@ components:
           properties:
             code:
               type: string
-              enum: [bad_request, validation_failed, not_found, unauthorized, forbidden, idempotency_conflict, run_in_progress, rate_limited, source_unavailable, internal_error]
+              enum: [bad_request, validation_failed, not_found, unauthorized, forbidden, idempotency_conflict, run_in_progress, account_exists, registration_required, terms_not_accepted, rate_limited, source_unavailable, internal_error]
             message: { type: string }
             details:
               type: array
@@ -746,9 +1046,7 @@ components:
       required: [name, type]
       properties:
         name: { type: string }
-        type:
-          type: string
-          enum: [university, research_institute, school, local_government, public_institution, company, startup, incubator, individual, other]
+        type: { $ref: '#/components/schemas/OrganisationType' }
         url: { type: [string, 'null'], format: uri }
         region: { type: [string, 'null'], description: 'Region code, for example PK.' }
 
@@ -1090,7 +1388,7 @@ components:
       type: object
       required: [eventId, type, occurredAt]
       additionalProperties: false
-      description: Closed set of fields on purpose. There is no free text and no user identifier.
+      description: Closed set of fields on purpose. There is no free text and no user identifier. The server adds the role.
       properties:
         eventId: { type: string, format: uuid, description: Generated by the client. Makes retries safe. }
         type: { type: string, enum: [search_performed, card_viewed, compare_opened, filter_used] }

@@ -4,7 +4,7 @@
 
 
 Written 2026-11-21 17:30 CET. Deadline as told by Delta: **2026-11-22 11:00** (about 17 hours). Confirm the official deadline on hacknation.pl.
-Work items are in `TASKS.md`. Requirements (F1 to F20) are in `REQUIREMENTS.md`. The API is `docs/api/openapi.yaml`.
+Work items are in `TASKS.md`. Task ownership is tracked in `team/`. `team/`, `PLAN.md` and `TASKS.md` stay in the repo until the final step, and are removed just before the 10:30 submission. Requirements (F1 to F20) are in `REQUIREMENTS.md`. The API is `docs/api/openapi.yaml`.
 Earlier versions: `archive/`. Research: `research/01` to `04`. Evidence tags: **S** search summary, **V** tested live, **R** our reasoning, **?** not read.
 
 ## 1. The product
@@ -17,9 +17,9 @@ The organisers' FAQ governs (`task_files/en/03-faq-clarification.md`):
 - Assessment: implementation level (concept, prototype, tests, pilot, in practice), TRL 1 to 9 (technology only), innovativeness, application potential, credibility.
 - Every field is a **confirmed fact (with source)** or an **estimate (with method)**.
 - **Not built:** idea submission, social features, crowdfunding, financing, investor search.
-- Login is optional and not planned. Analytics are anonymous.
+- **Everyone signs in and selects a role** (one of the six audiences) before seeing any card. This deters misuse of the intellectual property on the cards. The demo uses a clearly labelled sandbox identity. The real national login (login.gov.pl, SAML) is documented as the next step. Usage statistics are aggregated by role.
 
-To confirm with a mentor: that the FAQ governs where it differs from the earlier mentor talk (catalogue of proposals, verified login, introductions).
+To confirm with a mentor: that the FAQ governs where it differs from the earlier mentor talk (catalogue of proposals, introductions). Required sign-in is the team's decision. The FAQ does not forbid it and asks for GDPR compliance.
 
 ## 2. Key building points
 
@@ -31,7 +31,7 @@ These are the points that decide the score. Everything else is secondary.
 4. **Cards in all three areas** and **two deep use cases** (one technological, one educational or administrative).
 5. **Public, simple assessment.** Five criteria with plain definitions on a methodology page. Scores show confidence.
 6. **Scheduled refresh** with status-change detection and a "stale" flag, plus a button to trigger it in the demo.
-7. **Search, filter, compare** with six audience presets.
+7. **Sign-in with a role**, then **search, filter, compare**. The role sets the default audience preset.
 8. **Accessible interface** (WCAG 2.2 AA, tested) and Polish first.
 9. **Effectiveness numbers** the demo can show: time to find a solution, source coverage, freshness.
 10. **Runs from containers**, staged here and deployed on delta-server.
@@ -95,9 +95,9 @@ Do not scrape Google Scholar (no official API). Use OpenAlex and say so in the p
 
 | Tier | Items |
 |---|---|
-| **Must** | Items 1 to 9 of §2. Contract, containers and deployment |
+| **Must** | Items 1 to 9 of §2. Sign-in with role and terms (sandbox identity). Contract, containers and deployment |
 | **Should** | Anonymous analytics page, Polish-IP view, second live API source |
-| **Could** | Saved searches, embeddings-based similarity (trigram fallback first), optional login |
+| **Could** | Saved searches, embeddings-based similarity (trigram fallback first) |
 | **Do not build** | Idea submission, community, crowdfunding, financing, introductions, real login.gov.pl, own model training |
 
 **Cut order if late:** embeddings similarity, saved searches, Polish-IP view, analytics page, the second crawler, then the second use case depth.
@@ -127,17 +127,19 @@ Required: title, problem and solution text, how it works, **PDF with at most 10 
 | Crawling terms | Respect robots. Low rate. Stored snapshots. Prefer APIs |
 | Tunnel or CORS trouble on the day | Test the tunnel in the first hours, not at the end. Keep a localhost fallback for the demo |
 | Over-building excluded features | The FAQ exclusion list gates every feature |
+| Sign-in friction for the jury | One-click sandbox identities in the demo. Explain why: protecting IP |
+| Personal data from sign-in (email, affiliation) | Privacy notice, retention period, account deletion. No national ID number stored |
+| Sandbox mistaken for verification | Label it "test identity" everywhere. `identityVerified` is false |
 | Accessibility claimed but untested | Automated and manual checks. Honest statement |
 | PFR platform already covers part of this | Read it first. Position on automatic collection, assessment, freshness |
 
 ## 10. Decisions needed now
 
-1. Who is the third frontend developer (the message named Przemek twice)?
-2. Backend language: Python and FastAPI as proposed, or TypeScript?
-3. Claude API key for extraction and explanations: whose, and the spending limit?
-4. Tunnel host name and whether the web app is also served from delta-server.
-5. Which embedding model, or skip embeddings and use trigram similarity only?
-6. Which two use cases?
+1. Backend language: Python and FastAPI as proposed, or TypeScript?
+2. Claude API key for extraction and explanations: whose, and the spending limit?
+3. Tunnel host name and whether the web app is also served from delta-server.
+4. Which embedding model, or skip embeddings and use trigram similarity only?
+5. Which two use cases?
 
 ## 11. Not yet verified
 

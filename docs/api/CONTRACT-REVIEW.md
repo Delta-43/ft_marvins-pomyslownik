@@ -4,6 +4,26 @@ Date: 2026-11-21. Method: the ten design checks of the `api-contract-review` ski
 
 **Grounding.** Statements below rest on command output seen during this review: the Redocly CLI lint of `openapi.yaml` (valid, 3 warnings), a running Prism 5 mock (200, 400, 401, 404, 429 responses, CORS header), `openapi-typescript` 7.13.0 type generation (1,368 lines, all operations present), and `docker compose config` for both compose files. Items marked `[ungrounded: ...]` were not run.
 
+## 0. Revision: draft 2 (2026-11-21 evening)
+
+**Change requested by the team:** everyone signs in and picks a role, to deter misuse of the intellectual property on the cards.
+
+- Added `Auth` tag: `GET /auth/providers`, `POST /auth/register`, `POST /auth/login`, `POST /auth/logout`, `GET /me`, `PATCH /me`, `DELETE /me`. 22 operations in total.
+- Default security is now `userBearer` (session token). Public: `/health`, `/api/v1/audiences`, `/api/v1/auth/providers`, `/auth/register`, `/auth/login`. Every protected operation lists `401`.
+- Role is one of the six audience ids. New error codes: `account_exists`, `registration_required`, `terms_not_accepted`.
+- Registration requires `acceptedTerms: true` (`const: true`). The mock returns 422 when it is false (checked).
+- The demo provider is `sandbox_id` and `User.identityVerified` is always false for it. The real login.gov.pl flow is a SAML redirect. Adding it later means new redirect endpoints, which is an additive change.
+- Usage events: the server attaches the role, not the user id. Usage stats are aggregated by role.
+
+**Checks re-run for the change:**
+- Check 6 (auth): every write now has auth except register and login, which are public on purpose and rate limited. **Risk R5:** a sandbox identity is not proof of identity. The UI must say "test identity" and the pitch must say real verification needs login.gov.pl onboarding.
+- Check 4 (shapes): request bodies for auth are closed (`additionalProperties: false`).
+- Check 8 (idempotency): `logout` is safe to repeat. `register` with an existing identity returns `409 account_exists`, so retries cannot create duplicates.
+- **New personal data:** email, affiliation, interests. **Risk R6:** GDPR (RODO). Needs a privacy notice at registration, a retention period, and erasure (`DELETE /me`, added). Consent to contact is a separate optional flag.
+- Grounding: lint valid. Mock checked: 401 without token, 200 with token, public `/audiences` and `/health` 200, register 201, register with `acceptedTerms: false` 422.
+
+The rest of this review describes draft 1 and still holds, except where it says search is public.
+
 ## 1. Contract summary
 
 15 operations, base path `/api/v1` (health is `/health`, unversioned). JSON, camelCase, success body `{ data }`, list body adds `meta { total, limit, offset }`, error body `{ error { code, message, details, requestId } }`.

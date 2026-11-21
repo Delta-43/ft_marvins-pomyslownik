@@ -5,3 +5,6 @@ __pycache__/
 *.pyc
 .venv/
 data/cache/
+frontend/src/api/schema.d.ts
+frontend/next-env.d.ts
+*.tsbuildinfo

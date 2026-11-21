@@ -1,0 +1,11 @@
+# Runtime dependencies. Pinned to versions that installed cleanly on 2026-11-21.
+# Licences must stay MIT, BSD, Apache-2.0 or EUPL-compatible (the repo is released under EUPL-1.2).
+fastapi==0.165.0
+uvicorn[standard]==0.54.0
+pydantic-settings==2.16.3
+psycopg[binary]==3.3.9
+psycopg-pool==3.3.3
+httpx==0.28.1
+selectolax==1.0.2
+pypdf==7.1.1
+anthropic==2.12.0

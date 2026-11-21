@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Design tokens. Check contrast (WCAG 2.2 AA) before changing a colour. */
+:root {
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --ink: #1a1d23;
+  --muted: #4a515c;
+  --line: #d9d6cc;
+  --accent: #0b5cad;
+  --accent-ink: #ffffff;
+  --focus: #b3003b;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151a; --surface: #1b1f27; --ink: #eef0f3; --muted: #b4bac4;
+    --line: #333a46; --accent: #7db6ff; --accent-ink: #0a1624; --focus: #ff7aa5;
+  }
+}
+
+body { background: var(--bg); color: var(--ink); font: 18px/1.55 system-ui, sans-serif; margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.skip-link { position: absolute; left: -999px; top: 8px; background: var(--accent); color: var(--accent-ink); padding: 8px 12px; border-radius: 6px; }
+.skip-link:focus { left: 8px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

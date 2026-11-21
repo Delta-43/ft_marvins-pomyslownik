@@ -4,7 +4,7 @@
 
 
 Source documents: `task_files/en/01-task-description.md` (task), `02-competition-rules.md` (rules), `03-faq-clarification.md` (FAQ).
-The FAQ is the most specific and governs where it differs from the mentor talk. Requirement IDs F1 to F20 are used in `TASKS.md`.
+The FAQ is the most specific and governs where it differs from the mentor talk. Team decision on top of it: everyone signs in and selects a role, to deter IP misuse (the FAQ does not forbid this; it requires GDPR compliance). Requirement IDs F1 to F20 are used in `TASKS.md`.
 Status tags: **Must**, **Should**. Written 2026-11-21.
 
 

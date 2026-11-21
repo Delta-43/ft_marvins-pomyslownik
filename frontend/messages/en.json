@@ -1,0 +1,4 @@
+{
+  "app": { "title": "Innovation Radar", "skip": "Skip to content" },
+  "labels": { "confirmed": "Confirmed", "estimate": "Estimate", "notEnoughData": "Not enough data", "stale": "Not checked recently" }
+}

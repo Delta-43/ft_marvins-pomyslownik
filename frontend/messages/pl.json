@@ -1,0 +1,4 @@
+{
+  "app": { "title": "Radar Innowacji", "skip": "Przejdź do treści" },
+  "labels": { "confirmed": "Potwierdzone", "estimate": "Szacunek", "notEnoughData": "Za mało danych", "stale": "Dawno nie sprawdzano" }
+}
