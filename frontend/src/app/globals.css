@@ -1,26 +1,48 @@
 @import "tailwindcss";
 
-/* Design tokens. Check contrast (WCAG 2.2 AA) before changing a colour. */
-:root {
-  --bg: #f7f6f2;
-  --surface: #ffffff;
-  --ink: #1a1d23;
-  --muted: #4a515c;
-  --line: #d9d6cc;
-  --accent: #0b5cad;
-  --accent-ink: #ffffff;
-  --focus: #b3003b;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #12151a; --surface: #1b1f27; --ink: #eef0f3; --muted: #b4bac4;
-    --line: #333a46; --accent: #7db6ff; --accent-ink: #0a1624; --focus: #ff7aa5;
-  }
+/* Pomysłownik brand tokens v1.0 (source: design/brand tokens.css, font update: Lato for display).
+   Check contrast (WCAG 2.2 AA) before changing a colour. */
+@theme {
+  --color-papier: #F7F2EB;    /* backgrounds */
+  --color-atrament: #141414;  /* text, main elements · 16.54:1 on Papier */
+  --color-granat: #1B3F8F;    /* accent, buttons, links, focus · 8.75:1 on Papier */
+  --color-iskra: #FFD93D;     /* highlights · only on Atrament or under Atrament text */
+  --color-kamien: #5A544D;    /* secondary text · 6.71:1 on Papier */
+  --color-krawedz: #DDD5C8;   /* card borders */
+  --color-uczelnie: #A9DCE6;  /* categories: always with an icon */
+  --color-patenty: #D6E6A3;
+  --color-laboratoria: #CDB8F0;
+  --color-startupy: #F7C6A8;
+  --color-tak: #1F7A45;       /* statuses: always icon + word */
+  --color-nie: #B42318;
+
+  --font-display: "Lato", "Segoe UI", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
+
+  --radius-card: 1.5rem;
+  --radius-pill: 999px;
 }
 
-body { background: var(--bg); color: var(--ink); font: 18px/1.55 system-ui, sans-serif; margin: 0; }
-a { color: var(--accent); }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
-.skip-link { position: absolute; left: -999px; top: 8px; background: var(--accent); color: var(--accent-ink); padding: 8px 12px; border-radius: 6px; }
+:root {
+  --focus-ring: 0.1875rem solid var(--color-granat);
+}
+
+body {
+  background: var(--color-papier);
+  color: var(--color-atrament);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; }
+h1 { font-size: 3rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+a { color: var(--color-granat); }
+:focus-visible { outline: var(--focus-ring); outline-offset: 0.125rem; }
+
+.skip-link { position: absolute; left: -999px; top: 8px; background: var(--color-granat); color: #fff; padding: 8px 12px; border-radius: 6px; z-index: 50; }
 .skip-link:focus { left: 8px; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

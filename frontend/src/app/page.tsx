@@ -1,19 +1,39 @@
-import { apiGet } from "@/lib/api";
+import Link from "next/link";
+import { SearchBar } from "@/components/SearchBar";
 
-// Task F0 and F1 replace this page. It shows that the API client works against the mock or the backend.
-export default async function Home() {
-  let cardCount: number | null = null;
-  try {
-    const res = await apiGet<{ data: { cardCount: number } }>("/api/v1/stats/overview");
-    cardCount = res.data.cardCount;
-  } catch {
-    cardCount = null;
-  }
+const AUDIENCES = [
+  "Inwestorzy i firmy",
+  "Instytucje publiczne",
+  "Uczelnie",
+  "Szkoły",
+  "Startupy i przedsiębiorstwa",
+  "Wynalazcy indywidualni",
+];
+
+// "Search Page" frame: centred search bar, plus the six audience presets from the task.
+export default function SearchPage() {
   return (
-    <>
-      <h1 className="text-4xl font-bold">Pomysłownik!</h1>
-      <p>Radar innowacji. Frontend scaffold.</p>
-      <p>{cardCount === null ? "The API is not reachable." : `The API reports ${cardCount} cards.`}</p>
-    </>
+    <section className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center gap-8 px-6 py-16 text-center">
+      <h1>Znajdź polską innowację</h1>
+      <p className="max-w-xl text-lg text-kamien">
+        Istniejące rozwiązania technologiczne, edukacyjne i administracyjne. Każda wartość ze źródłem, oznaczona jako fakt lub szacunek.
+      </p>
+      <SearchBar large />
+      <div>
+        <h2 className="mb-3 text-base font-bold" style={{ fontSize: "1rem" }}>Szukam jako</h2>
+        <ul className="flex flex-wrap justify-center gap-2">
+          {AUDIENCES.map((a) => (
+            <li key={a}>
+              <Link
+                href={`/wyniki?odbiorca=${encodeURIComponent(a)}`}
+                className="inline-block rounded-full border border-atrament px-4 py-1.5 text-sm text-atrament no-underline hover:bg-iskra"
+              >
+                {a}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
