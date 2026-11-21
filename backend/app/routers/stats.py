@@ -1,10 +1,18 @@
-"""Statistics. Usage stats arrive with task B8."""
-from fastapi import APIRouter, Depends
+"""Statistics: database overview and anonymous usage trends."""
+import datetime as dt
+
+from fastapi import APIRouter, Depends, Query
 
 from ..config import settings
 from ..db import one, rows
+from ..errors import ApiError
 from ..security import require_session
-from ..services.cards import LEVELS, iso
+from ..services.cards import LEVELS, iso, loc
+from ..services.cards import audiences as audience_list
+from ..services.i18n import label as fixed_label
+
+MIN_COUNT = 5  # buckets below this are not shown, so nobody can be singled out
+FROM_DATE = Query(None, alias="from", description="Start of period.")
 
 router = APIRouter(tags=["Statistics"], dependencies=[Depends(require_session)])
 
@@ -36,4 +44,37 @@ def overview():
         "staleShare": round(c["stale"] / n, 3) if n else 0,
         "confirmedFieldShare": round(f["confirmed"] / f["total"], 3) if f["total"] else 0,
         "polishIpCount": c["pip"],
+    }}
+
+
+@router.get("/stats/usage")
+def usage(from_: dt.date | None = FROM_DATE, to: dt.date | None = None):
+    end = to or dt.date.today()
+    start = from_ or end - dt.timedelta(days=29)
+    if start > end:
+        raise ApiError(422, "validation_failed", "`from` must not be after `to`.")
+    p = {"a": start, "b": end}
+    inside = "occurred_at >= %(a)s AND occurred_at < %(b)s::date + 1"
+
+    def top(sql: str, limit: int) -> list[dict]:
+        return [r for r in rows(sql, {**p, "limit": limit}) if r["count"] >= MIN_COUNT]
+
+    totals = one(f"""SELECT count(*) FILTER (WHERE type = 'search_performed') AS s, count(*) FILTER (WHERE type = 'card_viewed') AS v
+                     FROM events WHERE {inside}""", p)
+    areas = top(f"SELECT area AS value, count(*) AS count FROM events WHERE {inside} AND area IS NOT NULL GROUP BY 1 ORDER BY 2 DESC LIMIT %(limit)s", 5)
+    tags = top(f"""SELECT t AS value, count(*) AS count FROM events, unnest(tags) AS t WHERE {inside} GROUP BY 1 ORDER BY 2 DESC LIMIT %(limit)s""", 10)
+    tag_labels = {r["slug"]: loc(r["label_pl"], r["label_en"]) for r in rows("SELECT slug, label_pl, label_en FROM tags")}
+    aud = top(f"""SELECT COALESCE(audience, role) AS value, count(*) AS count FROM events
+                  WHERE {inside} AND type = 'search_performed' AND COALESCE(audience, role) IS NOT NULL GROUP BY 1 ORDER BY 2 DESC LIMIT %(limit)s""", 6)
+    aud_labels = {a["id"]: a["label"] for a in audience_list()}
+    viewed = [r for r in rows(f"""SELECT c.id, c.title_pl, c.title_en, count(*) AS views FROM events e JOIN cards c ON c.id = e.card_id
+                                  WHERE {inside.replace('occurred_at', 'e.occurred_at')} AND e.type = 'card_viewed'
+                                  GROUP BY c.id ORDER BY views DESC LIMIT 5""", p) if r["views"] >= MIN_COUNT]
+    return {"data": {
+        "period": {"from": start.isoformat(), "to": end.isoformat()},
+        "totalSearches": totals["s"], "totalCardViews": totals["v"],
+        "topAreas": [{"value": r["value"], "label": fixed_label(r["value"]), "count": r["count"]} for r in areas],
+        "topTags": [{"value": r["value"], "label": tag_labels.get(r["value"]), "count": r["count"]} for r in tags],
+        "mostViewedCards": [{"cardId": str(r["id"]), "title": loc(r["title_pl"], r["title_en"]), "views": r["views"]} for r in viewed],
+        "searchesByAudience": [{"value": r["value"], "label": aud_labels.get(r["value"]), "count": r["count"]} for r in aud],
     }}

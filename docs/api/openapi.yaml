@@ -1445,7 +1445,12 @@ components:
       type: object
       required: [value, count]
       properties:
-        value: { type: string }
+        value: { type: string, description: 'Machine value (an area id, tag slug or audience id). Do not show it. Show `label`.' }
+        label:
+          oneOf:
+            - { $ref: '#/components/schemas/LocalizedText' }
+            - { type: 'null' }
+          description: The value's name in Polish and English.
         count: { type: integer, minimum: 0 }
 
     CollectRun:
