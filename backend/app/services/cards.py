@@ -1,0 +1,190 @@
+"""Card reads: filters, summaries, detail, facets. Task B4 improves ranking on top of this."""
+import datetime as dt
+import json
+import pathlib
+from uuid import UUID
+
+from fastapi import HTTPException
+
+from ..config import settings
+from ..db import one, rows
+
+AREAS = {"technological", "educational", "administrative"}
+LEVELS = ["concept", "prototype", "testing", "pilot", "in_practice"]
+SORTS = {"relevance", "recent", "innovativeness", "applicationPotential", "credibility"}
+
+
+def iso(d: dt.datetime | None) -> str | None:
+    return d.astimezone(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ") if d else None
+
+
+def loc(pl: str | None, en: str | None) -> dict:
+    return {k: v for k, v in (("pl", pl), ("en", en)) if v}
+
+
+def audiences() -> list[dict]:
+    return json.loads((pathlib.Path(settings.seed_dir) / "audiences.json").read_text(encoding="utf-8"))
+
+
+def _csv(name: str, value: str | None, allowed: set[str] | None = None) -> list[str]:
+    items = [v.strip() for v in (value or "").split(",") if v.strip()]
+    if allowed is not None and not set(items) <= allowed:
+        raise HTTPException(status_code=422, detail=f"Unknown value in '{name}'.")
+    return items
+
+
+class Filters:
+    """Parsed filter parameters shared by /cards and /facets. An explicit filter overrides the audience preset."""
+
+    def __init__(self, q=None, area=None, implementationLevel=None, trlMin=None, trlMax=None, tag=None, region=None,
+                 audience=None, polishIp=None, minCredibility=None, includeStale=True):
+        preset: dict = {}
+        if audience:
+            found = next((a for a in audiences() if a["id"] == audience), None)
+            if not found:
+                raise HTTPException(status_code=422, detail="Unknown audience.")
+            preset = found["defaultFilters"]
+        self.q = (q or "").strip() or None
+        self.area = _csv("area", area, AREAS) or preset.get("area", [])
+        self.level = _csv("implementationLevel", implementationLevel, set(LEVELS)) or preset.get("implementationLevel", [])
+        self.trl_min = trlMin if trlMin is not None else preset.get("trlMin")
+        self.trl_max = trlMax if trlMax is not None else preset.get("trlMax")
+        self.tag = _csv("tag", tag) or preset.get("tag", [])
+        self.region = region or preset.get("region")
+        self.polish_ip = polishIp if polishIp is not None else preset.get("polishIp")
+        self.min_cred = minCredibility if minCredibility is not None else preset.get("minCredibility")
+        self.include_stale = includeStale
+
+    def where(self, skip: str | None = None) -> tuple[str, dict]:
+        c, p = ["TRUE"], {"fresh": settings.freshness_days}
+        if self.area and skip != "area":
+            c.append("c.area = ANY(%(area)s)"); p["area"] = self.area
+        if self.level and skip != "level":
+            c.append("c.implementation_level = ANY(%(level)s)"); p["level"] = self.level
+        if self.trl_min is not None:
+            c.append("c.trl >= %(trl_min)s"); p["trl_min"] = self.trl_min
+        if self.trl_max is not None:
+            c.append("c.trl <= %(trl_max)s"); p["trl_max"] = self.trl_max
+        if self.tag and skip != "tag":
+            c.append("EXISTS (SELECT 1 FROM card_tags ct WHERE ct.card_id = c.id AND ct.tag_slug = ANY(%(tag)s))"); p["tag"] = self.tag
+        if self.region and skip != "region":
+            c.append("c.region = %(region)s"); p["region"] = self.region
+        if self.polish_ip is not None and skip != "polish":
+            c.append("c.polish_ip = %(pip)s"); p["pip"] = self.polish_ip
+        if self.min_cred is not None:
+            c.append("c.score_credibility >= %(min_cred)s"); p["min_cred"] = self.min_cred
+        if not self.include_stale:
+            c.append("c.last_checked_at >= now() - make_interval(days => %(fresh)s)")
+        if self.q:
+            # Basic text match: every word must appear in the accent-free text. Task B4 adds ranking and typo tolerance.
+            for i, word in enumerate(self.q.split()[:8]):
+                c.append(f"c.search_text LIKE %(w{i})s")
+                p[f"w{i}"] = "%" + word.lower().replace("%", "").replace("_", "") + "%"
+            p["q"] = self.q
+        return " AND ".join(c), p
+
+
+SUMMARY_COLS = """
+  c.id, c.title_pl, c.title_en, c.summary_short_pl, c.summary_short_en, c.area, c.polish_ip, c.last_checked_at,
+  c.implementation_level, c.implementation_prov->>'basis' AS level_basis,
+  c.trl_applicable, c.trl, c.trl_prov->>'basis' AS trl_basis,
+  c.score_innovativeness, c.score_application, c.score_credibility,
+  o.name AS org_name, o.type AS org_type, o.url AS org_url, o.region AS org_region,
+  (c.last_checked_at < now() - make_interval(days => %(fresh)s)) AS stale,
+  (SELECT count(*) FROM card_sources cs WHERE cs.card_id = c.id) AS source_count,
+  COALESCE((SELECT jsonb_agg(jsonb_build_object('slug', t.slug, 'label_pl', t.label_pl, 'label_en', t.label_en) ORDER BY t.slug)
+            FROM card_tags ct JOIN tags t ON t.slug = ct.tag_slug WHERE ct.card_id = c.id), '[]'::jsonb) AS tags
+"""
+
+
+def summary(r: dict, relevance: float | None = None) -> dict:
+    return {
+        "id": str(r["id"]),
+        "title": loc(r["title_pl"], r["title_en"]),
+        "summaryShort": loc(r["summary_short_pl"], r["summary_short_en"]),
+        "area": r["area"],
+        "tags": [{"slug": t["slug"], "label": loc(t["label_pl"], t["label_en"])} for t in r["tags"]],
+        "organisation": {"name": r["org_name"], "type": r["org_type"], "url": r["org_url"], "region": r["org_region"]},
+        "implementationLevel": {"value": r["implementation_level"], "basis": r["level_basis"]},
+        "trl": {"applicable": r["trl_applicable"], "value": r["trl"], "basis": r["trl_basis"]},
+        "scores": {"innovativeness": r["score_innovativeness"], "applicationPotential": r["score_application"],
+                   "credibility": r["score_credibility"]},
+        "polishIp": r["polish_ip"],
+        "lastCheckedAt": iso(r["last_checked_at"]),
+        "stale": r["stale"],
+        "sourceCount": r["source_count"],
+        "relevance": relevance,
+    }
+
+
+def search_cards(f: Filters, sort: str | None, limit: int, offset: int) -> tuple[list[dict], int]:
+    if sort and sort not in SORTS:
+        raise HTTPException(status_code=422, detail="Unknown sort.")
+    sort = sort or ("relevance" if f.q else "recent")
+    where, p = f.where()
+    total = one(f"SELECT count(*) AS n FROM cards c WHERE {where}", p)["n"]
+    rel = "word_similarity(lower(public.immutable_unaccent(%(q)s)), c.search_text)" if f.q else "NULL::float"
+    order = {"relevance": "relevance DESC NULLS LAST, c.last_checked_at DESC",
+             "recent": "c.last_checked_at DESC",
+             "innovativeness": "c.score_innovativeness DESC NULLS LAST",
+             "applicationPotential": "c.score_application DESC NULLS LAST",
+             "credibility": "c.score_credibility DESC NULLS LAST"}[sort]
+    data = rows(f"""SELECT {SUMMARY_COLS}, {rel} AS relevance FROM cards c JOIN organisations o ON o.id = c.organisation_id
+                    WHERE {where} ORDER BY {order}, c.id LIMIT %(limit)s OFFSET %(offset)s""",
+                {**p, "limit": limit, "offset": offset})
+    return [summary(r, r["relevance"]) for r in data], total
+
+
+def get_card(card_id: UUID) -> dict:
+    r = one(f"""SELECT {SUMMARY_COLS}, c.summary_pl, c.summary_en, c.implementation_prov, c.trl_prov, c.assessment, c.oslo,
+                       c.could_also_be_used_in, c.owner_name, c.owner_url, c.first_seen_at, c.status_changed_at
+                FROM cards c JOIN organisations o ON o.id = c.organisation_id WHERE c.id = %(id)s""",
+            {"id": card_id, "fresh": settings.freshness_days})
+    if not r:
+        raise HTTPException(status_code=404, detail="Card not found.")
+    sources = rows("""SELECT s.id, s.type, s.name, s.url, s.license, cs.retrieved_at, cs.passage
+                      FROM card_sources cs JOIN sources s ON s.id = cs.source_id WHERE cs.card_id = %s ORDER BY s.name""", (card_id,))
+    evidence = rows("SELECT id, metric, value, unit, source_id, query, retrieved_at FROM evidence WHERE card_id = %s ORDER BY metric", (card_id,))
+    card = summary(r)
+    card.update({
+        "summary": loc(r["summary_pl"], r["summary_en"]),
+        "implementationLevelDetail": {"value": r["implementation_level"], **r["implementation_prov"]},
+        "trlDetail": {"applicable": r["trl_applicable"], "value": r["trl"], **r["trl_prov"]},
+        "assessment": r["assessment"],
+        "oslo": r["oslo"],
+        "couldAlsoBeUsedIn": r["could_also_be_used_in"],
+        "owner": {"name": r["owner_name"], "url": r["owner_url"]},
+        "sources": [{"id": str(s["id"]), "type": s["type"], "name": s["name"], "url": s["url"],
+                     "retrievedAt": iso(s["retrieved_at"]), "passage": s["passage"], "license": s["license"]} for s in sources],
+        "evidence": [{"id": str(e["id"]), "metric": e["metric"], "value": e["value"], "unit": e["unit"],
+                      "sourceId": str(e["source_id"]), "query": e["query"], "retrievedAt": iso(e["retrieved_at"])} for e in evidence],
+        "firstSeenAt": iso(r["first_seen_at"]),
+        "statusChangedAt": iso(r["status_changed_at"]),
+    })
+    return card
+
+
+def facets(f: Filters) -> dict:
+    def count(col_sql: str, skip: str, extra_join: str = "") -> list[dict]:
+        where, p = f.where(skip=skip)
+        return rows(f"SELECT {col_sql} AS value, count(DISTINCT c.id) AS count FROM cards c {extra_join} WHERE {where} GROUP BY 1 ORDER BY 2 DESC, 1", p)
+
+    area = {r["value"]: r["count"] for r in count("c.area", "area")}
+    level = {r["value"]: r["count"] for r in count("c.implementation_level", "level")}
+    tags = rows(f"""SELECT t.slug AS value, t.label_pl, t.label_en, count(DISTINCT c.id) AS count FROM cards c
+                    JOIN card_tags ct ON ct.card_id = c.id JOIN tags t ON t.slug = ct.tag_slug
+                    WHERE {f.where(skip='tag')[0]} GROUP BY t.slug, t.label_pl, t.label_en ORDER BY 4 DESC, 1 LIMIT 50""", f.where(skip="tag")[1])
+    regions = [r for r in count("c.region", "region") if r["value"]][:50]
+    pip = {r["value"]: r["count"] for r in count("c.polish_ip", "polish")}
+    names = {"technological": ("Technologiczne", "Technological"), "educational": ("Edukacyjne", "Educational"),
+             "administrative": ("Administracyjne", "Administrative"), "concept": ("Koncepcja", "Concept"),
+             "prototype": ("Prototyp", "Prototype"), "testing": ("Testy", "Testing"), "pilot": ("Pilotaż", "Pilot"),
+             "in_practice": ("W praktyce", "In practice")}
+    opt = lambda k, n: {"value": k, "label": loc(*names[k]), "count": n}
+    return {
+        "area": [opt(k, area.get(k, 0)) for k in ("technological", "educational", "administrative")],
+        "implementationLevel": [opt(k, level.get(k, 0)) for k in LEVELS],
+        "tag": [{"value": t["value"], "label": loc(t["label_pl"], t["label_en"]), "count": t["count"]} for t in tags],
+        "region": [{"value": r["value"], "label": {"en": r["value"]}, "count": r["count"]} for r in regions],
+        "polishIp": {"true": pip.get(True, 0), "false": pip.get(False, 0)},
+    }

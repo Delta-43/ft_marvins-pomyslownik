@@ -1,7 +1,13 @@
-"""Database access. Task B2 adds the pool and query helpers."""
+"""Database access: one lazy connection pool, dict rows."""
+from contextlib import contextmanager
+
 import psycopg
+from psycopg.rows import dict_row
+from psycopg_pool import ConnectionPool
 
 from .config import settings
+
+_pool: ConnectionPool | None = None
 
 
 def check_database() -> bool:
@@ -14,3 +20,34 @@ def check_database() -> bool:
         return True
     except psycopg.Error:
         return False
+
+
+def pool() -> ConnectionPool:
+    global _pool
+    if _pool is None:
+        _pool = ConnectionPool(settings.database_url, min_size=1, max_size=8, open=True,
+                               kwargs={"row_factory": dict_row}, timeout=5)
+    return _pool
+
+
+def close_pool() -> None:
+    global _pool
+    if _pool is not None:
+        _pool.close()
+        _pool = None
+
+
+@contextmanager
+def connection():
+    with pool().connection() as conn:
+        yield conn
+
+
+def rows(sql: str, params: dict | tuple | None = None) -> list[dict]:
+    with connection() as conn:
+        return conn.execute(sql, params).fetchall()
+
+
+def one(sql: str, params: dict | tuple | None = None) -> dict | None:
+    with connection() as conn:
+        return conn.execute(sql, params).fetchone()

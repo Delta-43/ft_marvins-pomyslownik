@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(env_file=(".env", "../.env"), extra="ignore")  # repo-root .env when run from backend/
 
     database_url: str = ""
     admin_token: str = ""
@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     openalex_api_key: str = ""
     freshness_days: int = 30
+    seed_dir: str = "../data/seed"  # in the container: /srv/data/seed (mounted)
     version: str = "1.0.0-draft.2"
 
     @property

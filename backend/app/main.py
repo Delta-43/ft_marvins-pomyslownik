@@ -1,18 +1,26 @@
 """Innovation Radar API. The contract is docs/api/openapi.yaml. Change the contract first."""
 import uuid
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import errors
 from .config import settings
-from .db import check_database
-from .routers import admin, cards, events, reference, stats
+from .db import check_database, close_pool
+from .routers import admin, auth, cards, events, reference, stats
 
-app = FastAPI(title="Pomysłownik! API", version=settings.version, docs_url="/docs", redoc_url=None)
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    yield
+    close_pool()
+
+
+app = FastAPI(title="Pomysłownik! API", version=settings.version, docs_url="/docs", redoc_url=None, lifespan=lifespan)
 errors.install(app)
 
-app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origin_list, allow_methods=["GET", "POST", "OPTIONS"],
+app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origin_list, allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
                    allow_headers=["*"], expose_headers=["X-Request-Id", "Retry-After"])
 
 
@@ -31,5 +39,5 @@ def health():
             "database": "up" if db_up else "down", "lastRefreshAt": None}
 
 
-for router in (cards.router, reference.router, stats.router, events.router, admin.router):
+for router in (auth.router, cards.router, reference.router, stats.router, events.router, admin.router):
     app.include_router(router, prefix="/api/v1")

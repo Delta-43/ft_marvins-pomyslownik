@@ -43,9 +43,12 @@ services:
         required: false
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-radar}:${POSTGRES_PASSWORD:-change-me}@db:5432/${POSTGRES_DB:-radar}
+      SEED_DIR: /srv/data/seed
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - ./data/seed:/srv/data/seed:ro   # seed cards and audiences, loaded with: docker compose run --rm api seed
     ports:
       - "8000:8000"
     healthcheck:
