@@ -14,5 +14,5 @@ export function proxy(request: NextRequest) {
 
 // Keep in sync with PROTECTED_PATHS in src/lib/session.ts.
 export const config = {
-  matcher: ["/szukaj/:path*", "/wyniki/:path*", "/karta/:path*", "/profil/:path*"],
+  matcher: ["/szukaj/:path*", "/wyniki/:path*", "/karta/:path*", "/porownaj/:path*", "/profil/:path*"],
 };
