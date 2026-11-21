@@ -31,7 +31,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
         <select id="role" name="role" defaultValue={me.role} className="h-12 w-full rounded-xl border border-atrament/30 bg-white/75 px-3">
           {audiences.map((a) => <option key={a.id} value={a.id}>{t(a.label)}</option>)}
         </select>
-        <button type="submit" className="btn-liquid cursor-pointer rounded-full px-6 py-2 font-bold">Zapisz rolę</button>
+        <button type="submit" className="btn-primary cursor-pointer rounded-full px-6 py-2 font-bold">Zapisz rolę</button>
       </form>
 
       <form action={deleteAccount} className="glass space-y-3 rounded-[var(--radius-card)] border-nie/40 p-6">

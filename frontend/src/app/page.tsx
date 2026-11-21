@@ -16,7 +16,7 @@ export default function LandingPage() {
       </p>
       <Link
         href="/logowanie"
-        className="btn-liquid inline-flex h-14 items-center rounded-full px-10 text-lg font-bold no-underline"
+        className="btn-primary inline-flex h-14 items-center rounded-full px-10 text-lg font-bold no-underline"
       >
         Zaloguj się, aby szukać
       </Link>

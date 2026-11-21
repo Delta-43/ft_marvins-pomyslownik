@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <header className="glass-bar sticky top-0 z-40 border-b">
           <nav aria-label="Główna" className="mx-auto flex max-w-6xl items-center gap-6 px-6 py-3">
             <Link href="/" aria-label="Pomysłownik, strona główna" className="flex items-center no-underline"><Logo /></Link>
-            <ul className="ml-auto flex items-center gap-1 text-sm [&_a]:rounded-full [&_a]:px-3 [&_a]:py-1.5 [&_a]:no-underline [&_a]:text-atrament [&_a:not(.btn-liquid):hover]:bg-atrament/5">
+            <ul className="ml-auto flex items-center gap-1 text-sm [&_a]:rounded-full [&_a]:px-3 [&_a]:py-1.5 [&_a]:no-underline [&_a]:text-atrament [&_a:not(.btn-primary):hover]:bg-atrament/5">
               {signedIn ? (
                 <>
                   {demo && <li className="mr-1 rounded-full bg-iskra px-2.5 py-0.5 text-xs font-bold text-atrament shadow-sm">Tryb demo</li>}
@@ -41,12 +41,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   <li><Link href="/profil">Profil</Link></li>
                   <li>
                     <form action={signOut}>
-                      <button type="submit" className="btn-liquid cursor-pointer rounded-full px-4 py-1.5 font-bold">Wyloguj</button>
+                      <button type="submit" className="btn-primary cursor-pointer rounded-full px-4 py-1.5 font-bold">Wyloguj</button>
                     </form>
                   </li>
                 </>
               ) : (
-                <li><Link href="/logowanie" className="btn-liquid !text-white font-bold">Zaloguj się</Link></li>
+                <li><Link href="/logowanie" className="btn-primary !text-white font-bold">Zaloguj się</Link></li>
               )}
               <li><a href="/design/Komponenty.dc.html">Komponenty</a></li>
               <li><a href="/design/Identyfikacja%20wizualna.dc.html">Identyfikacja</a></li>

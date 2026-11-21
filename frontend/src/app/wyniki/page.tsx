@@ -73,7 +73,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
             </fieldset>
           ))}
           <div className="flex items-center gap-2">
-            <button type="submit" className="btn-liquid flex-1 cursor-pointer rounded-full px-4 py-2 font-bold">Filtruj</button>
+            <button type="submit" className="btn-primary flex-1 cursor-pointer rounded-full px-4 py-2 font-bold">Filtruj</button>
             <Link href={q ? `/wyniki?q=${encodeURIComponent(q)}` : "/wyniki"} className="rounded-full px-3 py-2 text-sm">Wyczyść</Link>
           </div>
         </form>

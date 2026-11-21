@@ -15,7 +15,7 @@ export function SearchBar({ defaultValue = "", large = false }: { defaultValue?:
           placeholder="Szukaj zespołów, patentów, laboratoriów…"
           className={`flex-1 bg-transparent outline-none placeholder:text-kamien ${large ? "text-xl" : "text-base"}`}
         />
-        <button type="submit" className="btn-liquid cursor-pointer rounded-full px-6 py-2.5 font-bold">
+        <button type="submit" className="btn-primary cursor-pointer rounded-full px-6 py-2.5 font-bold">
           Szukaj
         </button>
       </div>

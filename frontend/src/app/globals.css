@@ -108,14 +108,30 @@ body { background: #F4EEE6; }
   border: 1px solid rgb(255 255 255 / 0.14);
   box-shadow: 0 1px 0 rgb(255 255 255 / 0.18) inset, 0 30px 60px -20px rgb(20 20 20 / 0.45);
 }
-/* Glossy primary button: Granat with a light sheen on top. */
-@utility btn-liquid {
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0) 55%), #1B3F8F;
-  color: #fff;
-  box-shadow: 0 1px 0 rgb(255 255 255 / 0.35) inset, 0 -2px 6px rgb(0 0 0 / 0.18) inset, 0 8px 22px -6px rgb(27 63 143 / 0.6);
-  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
-  &:hover { transform: translateY(-1px); box-shadow: 0 1px 0 rgb(255 255 255 / 0.35) inset, 0 -2px 6px rgb(0 0 0 / 0.18) inset, 0 12px 28px -6px rgb(27 63 143 / 0.7); }
-  &:active { transform: translateY(0); }
+/* Buttons: flat colours as in the brand components page (Komponenty), no gradient, with a soft drop shadow. */
+@utility btn-primary {
+  background: #1B3F8F;
+  color: #F7F2EB;
+  border: none;
+  box-shadow: 0 8px 22px -6px rgb(27 63 143 / 0.6);
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+  &:hover { background: #14306E; box-shadow: 0 12px 28px -6px rgb(27 63 143 / 0.7); }
+}
+@utility btn-secondary {
+  background: #FFFFFF;
+  color: #141414;
+  border: 1.5px solid #141414;
+  box-shadow: 0 8px 22px -8px rgb(20 20 20 / 0.25);
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+  &:hover { background: #F7F2EB; box-shadow: 0 12px 28px -8px rgb(20 20 20 / 0.3); }
+}
+@utility btn-accent {
+  background: #FFD93D;
+  color: #141414;
+  border: none;
+  box-shadow: 0 8px 22px -6px rgb(245 204 31 / 0.6);
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+  &:hover { background: #F5CC1F; box-shadow: 0 12px 28px -6px rgb(245 204 31 / 0.7); }
 }
 /* Full-width top and bottom strips: white glass, dark text. */
 @utility glass-bar {

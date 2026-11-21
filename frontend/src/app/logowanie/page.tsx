@@ -30,7 +30,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     <Link
       href={`/logowanie?tryb=${m}&next=${encodeURIComponent(next)}`}
       aria-current={mode === m ? "page" : undefined}
-      className={`flex-1 rounded-full px-4 py-2 text-center font-bold no-underline ${mode === m ? "btn-liquid" : "text-atrament hover:bg-white/60"}`}
+      className={`flex-1 rounded-full px-4 py-2 text-center font-bold no-underline ${mode === m ? "btn-primary" : "text-atrament hover:bg-white/60"}`}
     >
       {label}
     </Link>
@@ -61,7 +61,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
 
           <form action={enterDemoMode}>
             <input type="hidden" name="next" value={next} />
-            <button type="submit" disabled={!sandbox} className="h-12 w-full cursor-pointer rounded-full border-2 border-dashed border-atrament/60 bg-white/40 font-bold text-atrament transition hover:bg-iskra disabled:opacity-50">
+            <button type="submit" disabled={!sandbox} className="btn-secondary h-12 w-full cursor-pointer rounded-full font-bold disabled:opacity-50">
               Wejdź w tryb demo
             </button>
             <p className="mt-2 text-center text-xs text-kamien">Jedno kliknięcie: wspólne konto testowe, prawdziwe dane.</p>
@@ -81,7 +81,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
                 <label htmlFor="providerSubject" className="mb-1 block font-bold">Identyfikator testowy</label>
                 <input id="providerSubject" name="providerSubject" required minLength={3} maxLength={200} defaultValue={id} autoComplete="username" className={`${field} font-tech`} />
               </div>
-              <button type="submit" disabled={!sandbox} className="btn-liquid h-12 w-full cursor-pointer rounded-full font-bold disabled:opacity-50">
+              <button type="submit" disabled={!sandbox} className="btn-primary h-12 w-full cursor-pointer rounded-full font-bold disabled:opacity-50">
                 Zaloguj się
               </button>
             </form>
@@ -133,7 +133,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
                 <input type="checkbox" name="consentToContact" className="mt-1 accent-granat" />
                 <span>Zgadzam się na kontakt w sprawie pasujących innowacji (opcjonalnie).</span>
               </label>
-              <button type="submit" disabled={!sandbox || !audiences} className="btn-liquid h-12 w-full cursor-pointer rounded-full font-bold disabled:opacity-50">
+              <button type="submit" disabled={!sandbox || !audiences} className="btn-primary h-12 w-full cursor-pointer rounded-full font-bold disabled:opacity-50">
                 Załóż konto
               </button>
             </form>
