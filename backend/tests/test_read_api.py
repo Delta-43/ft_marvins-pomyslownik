@@ -31,7 +31,7 @@ def test_list_filter_and_detail():
     body = r.json()
     assert r.status_code == 200 and body["meta"]["total"] == len(body["data"]) >= 1
     first = body["data"][0]
-    assert first["relevance"] is None and first["scores"]["credibility"] is None
+    assert first["relevance"] is None and first["scores"]["credibility"] is not None
     d = client.get(f"/api/v1/cards/{first['id']}", headers=AUTH).json()["data"]
     assert d["sources"] and d["trlDetail"]["basis"] in ("confirmed", "estimate")
     assert all(s["passage"] for s in d["sources"])
@@ -47,7 +47,7 @@ def test_search_without_diacritics_and_unknown_card():
 def test_facets_sources_overview():
     f = client.get("/api/v1/facets", headers=AUTH).json()["data"]
     assert {o["value"] for o in f["area"]} == {"technological", "educational", "administrative"}
-    s = client.get("/api/v1/sources", headers=AUTH).json()
+    s = client.get("/api/v1/sources?limit=100", headers=AUTH).json()
     assert s["meta"]["total"] == len(s["data"]) >= 1 and s["data"][0]["cardCount"] >= 1
     o = client.get("/api/v1/stats/overview", headers=AUTH).json()["data"]
     assert o["cardCount"] >= 1 and 0 <= o["confirmedFieldShare"] <= 1

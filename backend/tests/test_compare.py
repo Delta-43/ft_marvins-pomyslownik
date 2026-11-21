@@ -67,5 +67,9 @@ def test_card_detail_is_bilingual(auth):
     assert card["title"]["pl"] and card["title"]["en"] and card["oslo"]["note"]["pl"]
     assert all(s["passageLang"] in ("pl", "en") for s in card["sources"] if s["passage"])
     assert all(e["label"]["pl"] and e["label"]["en"] for e in card["evidence"])
-    for prov in (card["implementationLevelDetail"], card["trlDetail"]):
-        assert prov["methodText"]["pl"] and prov["methodText"]["en"]
+    provs = [card["implementationLevelDetail"], card["trlDetail"], *card["assessment"].values()]
+    for prov in provs:
+        if prov.get("method"):
+            assert prov["methodText"]["pl"] and prov["methodText"]["en"]
+        if prov.get("explanation"):
+            assert prov["explanation"]["pl"] and prov["explanation"]["en"]

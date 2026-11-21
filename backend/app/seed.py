@@ -10,7 +10,7 @@ import pathlib
 import sys
 
 from .config import settings
-from .db import close_pool, connection
+from .db import connection
 from .services.i18n import problems
 
 
@@ -99,7 +99,8 @@ def main() -> int:
             load_card(conn, json.loads(f.read_text(encoding="utf-8")))
             print("loaded", f.name)
     print(f"{len(files)} cards loaded")
-    close_pool()
+    from . import score
+    score.main()
     return 0
 
 
