@@ -8,7 +8,11 @@
 Written 2026-11-21 17:30 CET. Deadline as told by Delta: **2026-11-22 11:00**. Plan: `PLAN.md`. Requirement IDs (F1 to F20): `REQUIREMENTS.md`.
 Contract: `docs/api/openapi.yaml`. Frontend start guide: `docs/FRONTEND-START.md`.
 
-**Status 2026-11-21 23:11:** done items are struck through. The backend is complete and live (API `https://demo.delta43.net`, web `https://pomyslownik.delta43.net`, both on delta-server). Latest backend and contract: branch `backend/b3-b12-scaffold`, not yet merged into `main`. M0 to M3 are reached. Research now: Karrie and Andrei.
+**Status 2026-11-22 00:05:** done items are struck through. M0 to M3 are reached.
+- **Backend:** complete, merged into `main` (PRs #4, #5) and live: API `https://demo.delta43.net` on delta-server, which tracks `main`. Only B10 (optional) is open.
+- **Frontend on `main`** (PR #6): landing page `/` with the new logo and hero video (Alban), plus Philip's sign-in, search, results, card and profile pages. Newer frontend work (F0 screens, F1, PL/EN switch, F2 filter fix) is on branch `Philip`, not yet in `main`.
+- **Production web** `https://pomyslownik.delta43.net` still serves the old scaffold page and cannot reach the API. It needs a rebuild on delta-server from `main`, with `NEXT_PUBLIC_API_BASE_URL=https://demo.delta43.net`.
+- **Research:** 25 seed cards on `main` (27 live with collected ones). The next batch (R4) and corrections are on branch `research/seed-cards-r1-r2`. Research now: Karrie and Andrei.
 
 ## Tracks
 
@@ -60,8 +64,8 @@ Sleep in shifts after M2. Two people stay awake at any time.
 | ~~P4~~ | ~~Staging: whole stack up on this machine~~ **Done: Delta** | P2, P3 | 0.5 h | `docker compose --profile full up --build` starts db, api, worker, web. Frontend shows seed cards | — |
 | ~~P5~~ | ~~Deploy to delta-server and tunnel~~ **Done: Delta** | P4 | 1 h | Same stack runs on delta-server with `compose.prod.yaml`. Tunnel reaches the API. Browser on another network loads the site with no CORS errors. Use the `managing-ssh-mesh` skill for host work | F20 |
 | ~~P6~~ | ~~Smoke test script~~ **Done: Delta** | P4 | 0.5 h | One command checks `/health`, a search, a card, CORS and the admin 401. Run it after every deploy | — |
-| P7 | CI: contract lint, image builds, licence scan | P2, P3 | 1 h | Pull request checks pass. Licence scan lists no incompatible dependency | rules §4 |
-| P8 | Repository hygiene | — | 1 h | Stale README replaced. `LICENSE` is EUPL-1.2. No AI files in the repo. `.env` ignored. Data-protection note added | F17 |
+| ~~P7~~ | ~~CI: contract lint, image builds, licence scan~~ **Done: Delta** (frontend image build fixed in PR #6: Alban) | P2, P3 | 1 h | Pull request checks pass. Licence scan lists no incompatible dependency | rules §4 |
+| P8 | Repository hygiene. Status 00:05: README replaced and `.env` ignored. Left: no `LICENSE` file on `main` yet, `frontend/AGENTS.md` is an AI file (re-created by `next dev`), no data-protection note | — | 1 h | Stale README replaced. `LICENSE` is EUPL-1.2. No AI files in the repo. `.env` ignored. Data-protection note added | F17 |
 | ~~P9~~ | ~~Reproducible data: `make seed` or one command loads seed into a fresh database~~ **Done: Delta** | B3 | 0.5 h | A fresh clone plus one command gives a populated app | F20 |
 
 ## Backend (B)
@@ -95,8 +99,8 @@ Research output goes straight into the app, so the format matters. The seed form
 | ~~R1~~ | ~~**Source list and rules check.** For each source we plan to use: URL, access method (API, crawl, document), licence or terms, robots rules, key needed~~ **Done: Delta** | — | 2 h | A table in `research/` with a go or no-go per source. Crawl only sources marked go | F5, rules §4 |
 | ~~R2~~ | ~~**Seed set, first 10 cards** (3 technological, 4 educational, 3 administrative) in the contract format, with source URLs and quoted passages~~ **Done: Delta** | R1 | 3 h | Valid JSON that passes the contract schema. The backend can load it. Due by 21:00 | F2, F13 |
 | R3 | **Two deep use cases** chosen and fully documented: one technological (patent or research), one educational or administrative (page plus PDF) | R1 | 2 h | Each has 3 or more sources, quoted passages and a note on where the confirmed facts come from | task §6 |
-| R4 | **Seed set, grow to 40 to 60 cards** across the three areas | R2 | 5 h | Cards cover all areas. Several different regions of Poland. At least 10 with Polish IP | F1, F2, F19 |
-| R5 | **Verify.** A second look at every "confirmed" field: the source says it. Mark wrong ones | R2, R4 | continuous | No card has a "confirmed" field the source does not support. A list of corrections sent to the backend developer | F14 |
+| R4 | **Seed set, grow to 40 to 60 cards** across the three areas. Status 00:05: 25 seed cards on `main` (27 live); batch 1 notes and card fixes on branch `research/seed-cards-r1-r2` | R2 | 5 h | Cards cover all areas. Several different regions of Poland. At least 10 with Polish IP | F1, F2, F19 |
+| R5 | **Verify.** A second look at every "confirmed" field: the source says it. Mark wrong ones. Status 00:05: Karrie's first corrections applied by Delta (four cards corrected) | R2, R4 | continuous | No card has a "confirmed" field the source does not support. A list of corrections sent to the backend developer | F14 |
 | R6 | Read the Technology Transfer Platform (PTT, run by ARP, not PFR; ptt.arp.pl is reachable and crawlable) in a browser and write 10 lines: what it lists, who posts, what is missing | — | 0.5 h | Note in `research/`. Changes the pitch wording if needed | — |
 | R7 | **Ask the mentors:** (1) Does the FAQ govern where it differs from the earlier talk (no submission form, login optional, no introductions)? (2) Are early stages such as concept and prototype wanted? (3) Their own definitions and weights for the five criteria. (4) Two real examples for the demo. (5) Sources that must not be crawled. (6) Is the Polish-IP goal about patents only? (7) What would PCI do with anonymous usage numbers? | — | 1 h | Answers written down, with the mentor's role and the time asked | F8–F12 |
 | R8 | Methodology text (plain Polish and English): the five criteria and how each is computed | R7 | 1.5 h | Reviewed by the backend developer. Used on the methodology page | F8–F12 |
@@ -105,16 +109,18 @@ Research output goes straight into the app, so the format matters. The seed form
 
 ## Frontend (F)
 
-Start now, on the mock. Switch to the real API at M1 (done on branch `Philip`).
+Start now, on the mock. Switch to the real API at M1 (done, and in `main` since PR #6).
+
+**Landing page (agreed flow, first screen): done: Alban.** `/` in the Next.js app, on `main` since PR #6: Blender renders and hero video, new logo (bulb and otter symbol as the "!" of "Pomysłownik!"), sign-in panel linking to `/logowanie`, aligned with `DESIGN.md`, no navbar.
 
 **Agreed flow (design team, 23:00):** landing with graphics and logo on the left and the sign-in panel on the right; after sign-in the window slides open to the search screen (nav bar on top, search bar, latest tags as chips under it); results with filters and sort in a left column and collapsed cards with a short summary; a click expands a card in place with the full details, still scrollable. This replaces the home layout in F1 and the separate sign-in page in F11. Mockups and review: see the design agent's report. Follow `docs/FRONTEND-START.md` (states to design, accessibility checklist, generated types).
 
 | ID | Task | Depends | Est | Done when | Req |
 |---|---|---|---|---|---|
-| ~~F0~~ | ~~**Scaffold:** Next.js, TypeScript, Tailwind, i18n (Polish first, English toggle), design tokens, typed API client from the contract, layout with skip link, error and loading components~~ **Done: Delta** | — | 2 h | App runs with `docker compose --profile mock up` plus `npm run dev`. Types generated. Other frontend tasks can start from it | F20 |
-| F1 | **Home:** search box, six audience presets, overview numbers, "how it works" strip | F0 | 2 h | Preset sets filters and goes to results. Overview numbers come from `/stats/overview` | F4, F18, F20 |
-| F2 | **Results:** list, filters from `/facets`, sort, pagination, active filter chips, select cards for compare | F0 | 3 h | Every filter works with keyboard. Empty, loading and error states designed | F15 |
-| F3 | **Card page:** description, area, implementation level, TRL, scores with confidence, **Confirmed and Estimate labels**, sources with quoted passages, evidence drawer, similar cards, history, link to the owner | F0 | 4 h | A number never appears without a source link or a "not enough data" note. Labels do not rely on colour alone | F13, F14 |
+| ~~F0~~ | ~~**Scaffold:** Next.js, TypeScript, Tailwind, i18n (Polish first, English toggle), design tokens, typed API client from the contract, layout with skip link, error and loading components~~ **Done: Delta, Philip** (Philip's i18n and error/loading screens are on branch `Philip`) | — | 2 h | App runs with `docker compose --profile mock up` plus `npm run dev`. Types generated. Other frontend tasks can start from it | F20 |
+| ~~F1~~ | ~~**Home:** search box, six audience presets, overview numbers, "how it works" strip~~ **Done: Philip** (on branch `Philip`, not yet in `main`) | F0 | 2 h | Preset sets filters and goes to results. Overview numbers come from `/stats/overview` | F4, F18, F20 |
+| F2 | **Results:** list, filters from `/facets`, sort, pagination, active filter chips, select cards for compare. Status 00:05 (Philip, in progress): list, multi-select filters with counts, paging and states done. Left: sort, active filter chips, compare selection | F0 | 3 h | Every filter works with keyboard. Empty, loading and error states designed | F15 |
+| F3 | **Card page:** description, area, implementation level, TRL, scores with confidence, **Confirmed and Estimate labels**, sources with quoted passages, evidence drawer, similar cards, history, link to the owner. Status 00:05 (Philip, in progress). Left: similar cards, history, evidence drawer (the endpoints are live now) | F0 | 4 h | A number never appears without a source link or a "not enough data" note. Labels do not rely on colour alone | F13, F14 |
 | F4 | **Compare:** two to four cards side by side from `/compare`, best value marked in text | F3 | 2 h | Table has proper headers. Works at phone width | F15 |
 | F5 | **Insights page:** usage trends and database effectiveness (cards, freshness, confirmed share) | F0 | 2 h | Shows `/stats/usage` and `/stats/overview`. Text version of any chart | F16, F18 |
 | F6 | **Admin demo page:** token input, start a refresh, show run status and changed cards | F0 | 2 h | Token is typed in, never stored in the bundle. Works with the mock | F7 |
@@ -122,7 +128,7 @@ Start now, on the mock. Switch to the real API at M1 (done on branch `Philip`).
 | F8 | **Usage events:** background `POST /events` for search, view, compare, filter | F2, F3 | 1 h | Never blocks the screen. No free text sent | F16 |
 | F9 | **Accessibility pass:** automated checks (axe), keyboard-only run, 200% zoom, one screen reader on the demo path | F1–F4 | 2 h | No serious axe issues. Demo path works by keyboard | WCAG |
 | F10 | **Polish copy and translation check** of every screen | F1–F8 | 1 h | No mixed-language screens | F20 |
-| F11 | **Sign-in and registration:** provider choice (sandbox labelled "test identity"), registration with role, affiliation, interests, terms and privacy notice, session handling (httpOnly cookie via the Next.js server), redirect to sign-in on 401, profile page with role change and account deletion. Every card page is behind sign-in | F0 | 3 h | No card data is visible without a session. Role sets the default preset. Works by keyboard | F4, F17 |
+| F11 | **Sign-in and registration:** provider choice (sandbox labelled "test identity"), registration with role, affiliation, interests, terms and privacy notice, session handling (httpOnly cookie via the Next.js server), redirect to sign-in on 401, profile page with role change and account deletion. Every card page is behind sign-in. Status 00:05 (Philip, in progress): everything works on the live API. Left: keyboard check, role sets the default preset | F0 | 3 h | No card data is visible without a session. Role sets the default preset. Works by keyboard | F4, F17 |
 
 ## QA, slides, video (Q, S)
 
@@ -147,4 +153,5 @@ The things that block others most: **B3** (frontend), **R2** (backend seed) and 
 
 ## Open decisions (see `PLAN.md` §10)
 
-Backend language, Claude API key owner and limit, tunnel host name, embeddings or trigram only, and the two use cases.
+Decided: backend in Python and FastAPI; tunnel hosts `demo.delta43.net` (API) and `pomyslownik.delta43.net` (web); similarity uses trigram plus shared tags (embeddings optional, B10); the Claude key is set on the server.
+Still open: the Claude key's spending limit, and the two use cases (R3).
