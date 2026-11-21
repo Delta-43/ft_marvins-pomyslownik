@@ -1,0 +1,176 @@
+{
+  "id": "ce48d18e-44c9-4aba-849c-495b86425e08",
+  "title": {
+    "pl": "Warsztaty przyrodnicze Centrum Edukacji Przyrodniczej UJ",
+    "en": "Natural science workshops at the UJ Centre for Nature Education"
+  },
+  "summaryShort": {
+    "pl": "Interaktywne warsztaty dla grup szkolnych, od przedszkola po szkołę średnią, np. o DNA i barwach w przyrodzie.",
+    "en": "Interactive workshops for school groups, from kindergarten to secondary school, for example on DNA and colours in nature."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "natural-sciences",
+      "label": {
+        "pl": "Nauki przyrodnicze",
+        "en": "Natural sciences"
+      }
+    },
+    {
+      "slug": "workshops",
+      "label": {
+        "pl": "Warsztaty",
+        "en": "Workshops"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Uniwersytet Jagielloński, Centrum Edukacji Przyrodniczej",
+    "type": "university",
+    "url": "https://cep.uj.edu.pl",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Centrum Edukacji Przyrodniczej Uniwersytetu Jagiellońskiego prowadzi warsztaty po wcześniejszej rezerwacji, dla grup od 8 osób. Wśród tematów są „DNA pod lupą” dla klas 4–8, „Kolorowy świat przyrody” i chromatografia dla szkół średnich. Streszczenie napisane przez model na podstawie strony.",
+    "en": "The Jagiellonian University Centre for Nature Education runs workshops by prior booking, for groups of at least 8. Topics include \"DNA under the magnifying glass\" for grades 4 to 8, \"The colourful world of nature\" and chromatography for secondary schools. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "32a9e7ae-6bc2-4ef0-ad9b-36fcbbc69e7f"
+    ],
+    "evidenceIds": [],
+    "method": null,
+    "methodText": null,
+    "value": "in_practice"
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": false,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Warsztaty dla grup szkolnych są dostępne po wcześniejszej rezerwacji. Niektóre tematy mają terminy rozpoczęcia w przyszłości.",
+      "en": "Workshops for school groups are offered by prior booking. Some topics have future start dates."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Muzea przyrodnicze i ogrody botaniczne innych uczelni (wg modelu)",
+      "en": "Natural history museums and botanical gardens at other universities (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Uniwersytet Jagielloński, Centrum Edukacji Przyrodniczej",
+    "url": "https://cep.uj.edu.pl/warsztaty"
+  },
+  "sources": [
+    {
+      "id": "32a9e7ae-6bc2-4ef0-ad9b-36fcbbc69e7f",
+      "type": "crawl",
+      "name": "Uniwersytet Jagielloński, Centrum Edukacji Przyrodniczej: Warsztaty",
+      "url": "https://cep.uj.edu.pl/warsztaty",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Warsztaty w Centrum Edukacji Przyrodniczej Tylko po uprzedniej rezerwacji, dla zwiedzających indywidualnych i grup … Wszystkie warsztaty prowadzimy na każdym poziomie edukacyjnym, od przedszkola po szkołę średnią … Warsztaty organizujemy dla grup liczących minimum 8 osób",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "d0a72dd0-db8b-40bc-9964-70ba5fbe3a5b",
+      "metric": "min_group_size",
+      "label": {
+        "pl": "Minimalna liczba osób w grupie",
+        "en": "Minimum group size"
+      },
+      "value": 8,
+      "unit": "people",
+      "sourceId": "32a9e7ae-6bc2-4ef0-ad9b-36fcbbc69e7f",
+      "query": "Read from the page https://cep.uj.edu.pl/warsztaty. Quoted text: \"Warsztaty organizujemy dla grup liczących minimum 8 osób\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

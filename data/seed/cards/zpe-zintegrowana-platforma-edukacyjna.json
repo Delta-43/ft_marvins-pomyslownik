@@ -1,0 +1,162 @@
+{
+  "id": "475bf40c-9b93-45e7-8473-827fb63d681c",
+  "title": {
+    "pl": "Zintegrowana Platforma Edukacyjna (ZPE)",
+    "en": "Integrated Educational Platform (ZPE)"
+  },
+  "summaryShort": {
+    "pl": "Bezpłatna platforma z dziesiątkami tysięcy e-materiałów, scenariuszy lekcji i e-podręczników dla szkół.",
+    "en": "A free platform with tens of thousands of e-materials, lesson plans and e-textbooks for schools."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "e-learning",
+      "label": {
+        "pl": "E-learning",
+        "en": "E-learning"
+      }
+    },
+    {
+      "slug": "teaching-materials",
+      "label": {
+        "pl": "Materiały dydaktyczne",
+        "en": "Teaching materials"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Zintegrowana Platforma Edukacyjna (ZPE)",
+    "type": "public_institution",
+    "url": "https://zpe.gov.pl",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "ZPE oferuje interaktywne materiały, wsparcie kształcenia zawodowego i językowego, modułowe e-podręczniki, scenariusze zajęć oraz materiały dla uczniów o zróżnicowanych potrzebach. Podstawowe zasoby są dostępne dla każdego, a pełne funkcje po zalogowaniu danymi ze szkoły. Strona nie nazywa operatora platformy. Streszczenie napisane przez model na podstawie strony.",
+    "en": "ZPE offers interactive materials, support for vocational and language learning, modular e-textbooks, lesson plans and materials for pupils with varied needs. Basic resources are open to everyone, and the full functions need a login issued by the school. The page does not name the platform's operator. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "c47a70fd-8c53-4d26-a11a-b461f554e8b1"
+    ],
+    "evidenceIds": [],
+    "method": null,
+    "methodText": null,
+    "value": "in_practice"
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": false,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Bezpłatna platforma ogólnopolska, z której korzystają szkoły, z dziesiątkami tysięcy e-materiałów.",
+      "en": "A free national platform used by schools, with tens of thousands of e-materials."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Nauczanie domowe i szkoły za granicą (wg modelu)",
+      "en": "Home schooling and schools abroad (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Zintegrowana Platforma Edukacyjna (ZPE)",
+    "url": "https://zpe.gov.pl"
+  },
+  "sources": [
+    {
+      "id": "c47a70fd-8c53-4d26-a11a-b461f554e8b1",
+      "type": "crawl",
+      "name": "zpe.gov.pl: Czym jest ZPE",
+      "url": "https://zpe.gov.pl/o-zpe",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "ZPE to kompleksowy ekosystem edukacyjny, który oferuje dziesiątki tysięcy bezpłatnych e‑materiałów … Podstawowe zasoby platformy są dostępne dla każdego … Udostępniamy bogatą bazę gotowych scenariuszy lekcji i poradników metodycznych",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

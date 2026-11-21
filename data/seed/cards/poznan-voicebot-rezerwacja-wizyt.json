@@ -1,0 +1,176 @@
+{
+  "id": "11b3a6e1-c738-4d7d-8489-5798fed6bd6b",
+  "title": {
+    "pl": "Voicebot do rezerwacji wizyt w Urzędzie Miasta Poznania",
+    "en": "Voicebot for booking visits at the Poznań city office"
+  },
+  "summaryShort": {
+    "pl": "Voicebot przez telefon rozpoznaje sprawę i prowadzi mieszkańca przez rezerwację wizyty w urzędzie.",
+    "en": "A phone voicebot recognises the matter and guides the resident through booking an office visit."
+  },
+  "area": "administrative",
+  "tags": [
+    {
+      "slug": "voicebot",
+      "label": {
+        "pl": "Voicebot",
+        "en": "Voicebot"
+      }
+    },
+    {
+      "slug": "e-government",
+      "label": {
+        "pl": "E-administracja",
+        "en": "E-government"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Urząd Miasta Poznania",
+    "type": "local_government",
+    "url": "https://www.poznan.pl",
+    "region": "WP"
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Od lutego 2024 r. mieszkańcy Poznania mogą umówić wizytę przez voicebota na miejskiej infolinii. Robot rozpoznaje sprawę, pyta o lokalizację i termin, a potwierdzenie przychodzi SMS-em. Obsługuje trzy działy urzędu; gdy nie zrozumie rozmówcy, łączy z pracownikiem infolinii. Streszczenie napisane przez model na podstawie strony.",
+    "en": "Since February 2024 Poznań residents can book a visit through a voicebot on the city hotline. The robot recognises the matter, asks for the location and date, and confirms by SMS. It serves three departments of the office; when it does not understand the caller, it connects to a hotline employee. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "ad83e3ff-312d-4a34-aab8-fbf135f51c64"
+    ],
+    "evidenceIds": [],
+    "method": null,
+    "methodText": null,
+    "value": "in_practice"
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": false,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Voicebot umawiający wizyty w urzędzie, dostępny telefonicznie od 2024 r. Mieszkańcy mogą już z niego korzystać.",
+      "en": "A voicebot that books office visits, available by phone since 2024. Residents can already use it."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Infolinie i urzędy innych miast (wg modelu)",
+      "en": "Hotlines and offices of other cities (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Urząd Miasta Poznania",
+    "url": "https://www.poznan.pl"
+  },
+  "sources": [
+    {
+      "id": "ad83e3ff-312d-4a34-aab8-fbf135f51c64",
+      "type": "crawl",
+      "name": "poznan.pl (Urząd Miasta Poznania): W urzędzie miasta wizytę zarezerwuje robot (27.02.2024)",
+      "url": "https://www.poznan.pl/mim/info/news/w-urzedzie-miasta-wizyte-zarezerwuje-robot,223816.html",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Poznaniacy i poznanianki mogą już korzystać z nowej usługi. Teraz na wizytę w urzędzie umówić ich może voicebot, który sam rozpozna sprawę i przeprowadzi przez cały proces rezerwacji … Obecnie mieszkańcy w ten sposób mogą zarezerwować wizytę do Wydziału Spraw Obywatelskich i Uprawnień Komunikacyjnych, Urzędu Stanu Cywilnego oraz Wydziału Gospodarki Komunalnej",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ed6d54c1-ae5f-49c1-acef-025eeb670047",
+      "metric": "departments_served",
+      "label": {
+        "pl": "Działy obsługiwane przez voicebota rezerwującego wizyty",
+        "en": "Departments served by the booking voicebot"
+      },
+      "value": 3,
+      "unit": "departments",
+      "sourceId": "ad83e3ff-312d-4a34-aab8-fbf135f51c64",
+      "query": "Read from the page https://www.poznan.pl/mim/info/news/w-urzedzie-miasta-wizyte-zarezerwuje-robot,223816.html. Quoted text: \"Wydziału Spraw Obywatelskich i Uprawnień Komunikacyjnych, Urzędu Stanu Cywilnego oraz Wydziału Gospodarki Komunalnej\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

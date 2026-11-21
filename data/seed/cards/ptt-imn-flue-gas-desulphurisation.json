@@ -1,0 +1,185 @@
+{
+  "id": "89142fb4-455f-4e49-b10a-70c318b9ab46",
+  "title": {
+    "pl": "Sposób i urządzenie do odsiarczania spalin z kotłów na pył węglowy",
+    "en": "Method and device for desulphurising flue gas from pulverised-coal boilers"
+  },
+  "summaryShort": {
+    "pl": "Opatentowany sposób odsiarczania spalin wapieniem i recyrkulowanym popiołem w reaktorze.",
+    "en": "A patented flue gas desulphurisation method using limestone and recycled ash in a reactor."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "flue-gas-cleaning",
+      "label": {
+        "pl": "Oczyszczanie spalin",
+        "en": "Flue gas cleaning"
+      }
+    },
+    {
+      "slug": "energy",
+      "label": {
+        "pl": "Energetyka",
+        "en": "Energy"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Sieć Badawcza Łukasiewicz – Instytut Metali Nieżelaznych",
+    "type": "research_institute",
+    "url": "http://www.imn.gliwice.pl",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "concept",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 2,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Łukasiewicz – Instytut Metali Nieżelaznych oferuje do licencjonowania sposób odsiarczania spalin kotłowych z użyciem kamienia wapiennego jako sorbentu. Wpis podkreśla wysoką skuteczność przy ograniczonym nadmiarze sorbentu, ale nie podaje wyników badań ani numeru patentu. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "The Łukasiewicz Institute of Non-Ferrous Metals offers for licensing a method of desulphurising boiler flue gas using limestone as a sorbent. The listing stresses high efficiency with limited excess sorbent, but gives no test results and no patent number. Summary written by the model from the listing."
+  },
+  "implementationLevelDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "d54555b1-eabf-4d6d-a632-dac60b392257"
+    ],
+    "evidenceIds": [
+      "3d2651dd-3708-4484-8f7c-9a5ddcb25da5"
+    ],
+    "method": "Listing describes a patented method with claimed effectiveness but reports no tests or plant use. Lowest level the text supports. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis opisuje opatentowaną metodę z deklarowaną skutecznością, ale nie podaje testów ani zastosowania w instalacji. Najniższy poziom, jaki wynika z tekstu. Do potwierdzenia przez recenzenta.",
+      "en": "Listing describes a patented method with claimed effectiveness but reports no tests or plant use. Lowest level the text supports. Reviewer to confirm."
+    },
+    "value": "concept"
+  },
+  "trlDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "d54555b1-eabf-4d6d-a632-dac60b392257"
+    ],
+    "evidenceIds": [
+      "3d2651dd-3708-4484-8f7c-9a5ddcb25da5"
+    ],
+    "method": "No TRL in the listing. Only the method and its claimed advantages are described, which reads as a formulated concept (TRL 2). Reviewer to confirm.",
+    "methodText": {
+      "pl": "We wpisie brak TRL. Opisano tylko metodę i jej deklarowane zalety, co odpowiada sformułowanej koncepcji (TRL 2). Do potwierdzenia przez recenzenta.",
+      "en": "No TRL in the listing. Only the method and its claimed advantages are described, which reads as a formulated concept (TRL 2). Reviewer to confirm."
+    },
+    "applicable": true,
+    "value": 2
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Opatentowana metoda oferowana do licencjonowania. Wpis nie podaje zastosowań w instalacjach, więc dostępność nie została wykazana.",
+      "en": "A patented method offered for licensing. The listing reports no plant use, so availability is not shown."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Elektrociepłownie i kotłownie przemysłowe (wg wpisu)",
+      "en": "Combined heat and power plants and industrial boiler houses (per the listing)"
+    }
+  ],
+  "owner": {
+    "name": "Sieć Badawcza Łukasiewicz – Instytut Metali Nieżelaznych",
+    "url": "http://www.imn.gliwice.pl"
+  },
+  "sources": [
+    {
+      "id": "d54555b1-eabf-4d6d-a632-dac60b392257",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Sposób odsiarczania spalin kotłowych, zwłaszcza z kotłów opalanych pyłem węglowym",
+      "url": "http://ptt.arp.pl/bazy/sposób-odsiarczania-spalin-kotłowych-zwłaszcza-z-kotłów-opalanych-pyłem-węglowym-i-urządzenie-do-odsiarczania-spalin-kotłowych-zwłaszcza-z-kotłów-opalanych-pyłem-węglowym/",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Sposób odsiarczania spalin kotłowych, zwłaszcza z kotłów opalanych pyłem węglowym, obejmujący stosowanie jako sorbenta kamienia wapiennego … Patent charakteryzuje wysoka skuteczność odsiarczania przy jednoczesnym ograniczonym nadmiarze stosowanego sorbentu … Forma ochrony Wynalazek",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "3d2651dd-3708-4484-8f7c-9a5ddcb25da5",
+      "metric": "protection_form",
+      "label": {
+        "pl": "Forma ochrony",
+        "en": "Form of protection"
+      },
+      "value": "Wynalazek",
+      "unit": null,
+      "sourceId": "d54555b1-eabf-4d6d-a632-dac60b392257",
+      "query": "Read from the page http://ptt.arp.pl/bazy/sposób-odsiarczania-spalin-kotłowych-zwłaszcza-z-kotłów-opalanych-pyłem-węglowym-i-urządzenie-do-odsiarczania-spalin-kotłowych-zwłaszcza-z-kotłów-opalanych-pyłem-węglowym/. Quoted text: \"Forma ochrony Wynalazek\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

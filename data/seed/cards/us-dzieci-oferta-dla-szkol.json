@@ -1,0 +1,189 @@
+{
+  "id": "17efb70f-dbe7-4f62-b0d1-79504af76904",
+  "title": {
+    "pl": "Uniwersytet Śląski Dzieci: wykłady z pokazami i warsztaty dla szkół",
+    "en": "University of Silesia for Children: lectures with demonstrations and workshops for schools"
+  },
+  "summaryShort": {
+    "pl": "Szkoły mogą zamawiać wykłady z pokazami eksperymentów oraz warsztaty laboratoryjne w Katowicach.",
+    "en": "Schools can order lectures with experiment demonstrations and laboratory workshops in Katowice."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "science-outreach",
+      "label": {
+        "pl": "Popularyzacja nauki",
+        "en": "Science outreach"
+      }
+    },
+    {
+      "slug": "experiments",
+      "label": {
+        "pl": "Eksperymenty",
+        "en": "Experiments"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Uniwersytet Śląski w Katowicach",
+    "type": "university",
+    "url": "https://dzieci.us.edu.pl",
+    "region": "SL"
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Uniwersytet Śląski Dzieci i Uniwersytet Otwarty UŚ zapraszają szkoły wszystkich stopni oraz przedszkola na wykłady, warsztaty i laboratoria na zamówienie. Wykład kosztuje 20 zł od osoby, warsztaty 25 zł od osoby; zajęcia odbywają się w środy w Katowicach. Streszczenie napisane przez model na podstawie strony.",
+    "en": "The University of Silesia for Children and the UŚ Open University invite schools of all levels and kindergartens to order lectures, workshops and laboratory classes. A lecture costs PLN 20 per person and a workshop PLN 25 per person; classes run on Wednesdays in Katowice. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "636091fa-1d87-4d71-b456-b66a800956aa"
+    ],
+    "evidenceIds": [],
+    "method": null,
+    "methodText": null,
+    "value": "in_practice"
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": false,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Szkoły mogą zamawiać wykłady i warsztaty odpłatnie. Oferta jest opisana jako dostępna przez cały rok szkolny.",
+      "en": "Lectures and workshops can be ordered by schools for a fee. The offer is described as running during the whole school year."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Szkoły podstawowe i przedszkola w regionie (wg modelu)",
+      "en": "Primary schools and kindergartens in the region (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Uniwersytet Śląski w Katowicach",
+    "url": "https://dzieci.us.edu.pl/oferta-dla-szkol-i-przedszkoli"
+  },
+  "sources": [
+    {
+      "id": "636091fa-1d87-4d71-b456-b66a800956aa",
+      "type": "crawl",
+      "name": "Uniwersytet Śląski Dzieci: Oferta dla szkół i przedszkoli",
+      "url": "https://dzieci.us.edu.pl/oferta-dla-szkol-i-przedszkoli",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Uniwersytet Śląski Dzieci oraz Uniwersytet Otwarty UŚ zapraszają w czasie całego roku szkolnego na WYKŁADY z pokazami, WARSZTATY i LABORATORIA na indywidualne ZAMÓWIENIE dla szkół wszystkich stopni oraz przedszkoli … Koszt wykładu - 20 zł od osoby za jednogodzinny wykład … Koszt - 25 zł od osoby dla grupy nie mniejszej niż 15 osób",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "03584d4d-a3c2-4f46-8b9d-e9c771e677df",
+      "metric": "lecture_price",
+      "label": {
+        "pl": "Cena wykładu od osoby",
+        "en": "Price of a lecture per person"
+      },
+      "value": 20,
+      "unit": "PLN",
+      "sourceId": "636091fa-1d87-4d71-b456-b66a800956aa",
+      "query": "Read from the page https://dzieci.us.edu.pl/oferta-dla-szkol-i-przedszkoli. Quoted text: \"Koszt wykładu - 20 zł od osoby za jednogodzinny wykład\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    },
+    {
+      "id": "9ec28f28-1ef0-442f-ac80-b11a0aa7dadb",
+      "metric": "workshop_price",
+      "label": {
+        "pl": "Cena warsztatów od osoby",
+        "en": "Price of a workshop per person"
+      },
+      "value": 25,
+      "unit": "PLN",
+      "sourceId": "636091fa-1d87-4d71-b456-b66a800956aa",
+      "query": "Read from the page https://dzieci.us.edu.pl/oferta-dla-szkol-i-przedszkoli. Quoted text: \"Koszt - 25 zł od osoby dla grupy nie mniejszej niż 15 osób\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

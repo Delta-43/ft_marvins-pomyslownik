@@ -1,0 +1,195 @@
+{
+  "id": "42ba1a02-168e-4ac7-912c-907b19fc15b0",
+  "title": {
+    "pl": "Elastyczne podłoża do miniaturowej diagnostyki medycznej (Lab-on-a-Foil)",
+    "en": "Flexible substrates for miniature medical diagnostics (Lab-on-a-Foil)"
+  },
+  "summaryShort": {
+    "pl": "Elastyczne folie z kontrolowaną zwilżalnością zastępują sztywne płytki 96- i 384-dołkowe w testach w kropli.",
+    "en": "Flexible foils with controlled wettability replace rigid 96- and 384-well plates in droplet tests."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "medical-diagnostics",
+      "label": {
+        "pl": "Diagnostyka medyczna",
+        "en": "Medical diagnostics"
+      }
+    },
+    {
+      "slug": "advanced-materials",
+      "label": {
+        "pl": "Materiały zaawansowane",
+        "en": "Advanced materials"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Politechnika Warszawska",
+    "type": "university",
+    "url": "https://www.pw.edu.pl/",
+    "region": "MZ"
+  },
+  "implementationLevel": {
+    "value": "testing",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 5,
+    "basis": "confirmed"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Politechnika Warszawska oferuje technologię jednowarstwowych matryc foliowych, na których strefy testowe wyznacza wyłącznie zwilżalność powierzchni. Wpis deklaruje TRL 5 i zgłoszenie wynalazku; wśród linków podaje numer P.441974 z wyszukiwarki Urzędu Patentowego, którego nie udało się sprawdzić. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "Warsaw University of Technology offers single-layer foil matrices on which test zones are set only by surface wettability. The listing declares TRL 5 and a patent application; among its links it gives number P.441974 from the Patent Office search, which could not be checked. Summary written by the model from the listing."
+  },
+  "implementationLevelDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "0c1fb35b-f300-4a2d-8981-6c5208c5ccc5"
+    ],
+    "evidenceIds": [
+      "3f42edee-944e-448a-abf3-ca45b764e97a"
+    ],
+    "method": "Listing declares TRL 5 (validation in an environment close to the real one). Mapped to 'testing' by rule. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis deklaruje TRL 5 (walidacja w środowisku zbliżonym do rzeczywistego). Zgodnie z regułą przypisano poziom „testowanie”. Do potwierdzenia przez recenzenta.",
+      "en": "Listing declares TRL 5 (validation in an environment close to the real one). Mapped to 'testing' by rule. Reviewer to confirm."
+    },
+    "value": "testing"
+  },
+  "trlDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "0c1fb35b-f300-4a2d-8981-6c5208c5ccc5"
+    ],
+    "evidenceIds": [
+      "3f42edee-944e-448a-abf3-ca45b764e97a"
+    ],
+    "method": null,
+    "methodText": null,
+    "applicable": true,
+    "value": 5
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Złożono zgłoszenie patentowe i zadeklarowano TRL 5. Wpis nie wskazuje, że produkt jest już dostępny lub używany.",
+      "en": "A patent application has been filed and TRL 5 is declared. The listing does not show that the product is already available or in use."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Producenci testów diagnostycznych i laboratoria (wg wpisu)",
+      "en": "Makers of diagnostic tests and laboratories (per the listing)"
+    }
+  ],
+  "owner": {
+    "name": "Politechnika Warszawska",
+    "url": "https://www.pw.edu.pl/"
+  },
+  "sources": [
+    {
+      "id": "0c1fb35b-f300-4a2d-8981-6c5208c5ccc5",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Elastyczne podłoża i mikromacierze o kontrolowanej zwilżalności powierzchni do miniaturowej diagnostyki medycznej (Lab-on-a-Foil)",
+      "url": "http://ptt.arp.pl/bazy/elastyczne-podłoża-i-mikromacierze-o-kontrolowanej-zwilżalności-powierzchni-do-miniaturowej-diagnostyki-medycznej-lab-on-a-foil/",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Oferujemy innowacyjną technologię wytwarzania elastycznych, jednowarstwowych matryc przeznaczonych do realizacji szybkich testów diagnostycznych i medycznych w formacie mikromacierzowym … Lokalizacja Warszawa, woj. mazowieckie … Forma ochrony Zgłoszenie wynalazku Poziom gotowości technologicznej TRL 5 … https://ewyszukiwarka.pue.uprp.gov.pl/search/pwp-details/P.441974",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "3f42edee-944e-448a-abf3-ca45b764e97a",
+      "metric": "declared_trl",
+      "label": {
+        "pl": "Poziom gotowości technologicznej podany we wpisie",
+        "en": "Technology readiness level declared in the listing"
+      },
+      "value": 5,
+      "unit": null,
+      "sourceId": "0c1fb35b-f300-4a2d-8981-6c5208c5ccc5",
+      "query": "Read from the page http://ptt.arp.pl/bazy/elastyczne-podłoża-i-mikromacierze-o-kontrolowanej-zwilżalności-powierzchni-do-miniaturowej-diagnostyki-medycznej-lab-on-a-foil/. Quoted text: \"Poziom gotowości technologicznej TRL 5\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    },
+    {
+      "id": "1d3cb7a4-8925-4370-82cb-e983173c9885",
+      "metric": "patent_application_number",
+      "label": {
+        "pl": "Numer zgłoszenia patentowego",
+        "en": "Patent application number"
+      },
+      "value": "P.441974",
+      "unit": null,
+      "sourceId": "0c1fb35b-f300-4a2d-8981-6c5208c5ccc5",
+      "query": "Read from the page http://ptt.arp.pl/bazy/elastyczne-podłoża-i-mikromacierze-o-kontrolowanej-zwilżalności-powierzchni-do-miniaturowej-diagnostyki-medycznej-lab-on-a-foil/. Quoted text: \"https://ewyszukiwarka.pue.uprp.gov.pl/search/pwp-details/P.441974\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}
