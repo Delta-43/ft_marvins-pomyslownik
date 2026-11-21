@@ -108,30 +108,27 @@ body { background: #F4EEE6; }
   border: 1px solid rgb(255 255 255 / 0.14);
   box-shadow: 0 1px 0 rgb(255 255 255 / 0.18) inset, 0 30px 60px -20px rgb(20 20 20 / 0.45);
 }
-/* Buttons: flat colours as in the brand components page (Komponenty), no gradient, with a soft drop shadow. */
+/* Buttons: flat, as in the brand components page (Komponenty). No gradient, no shadow. */
 @utility btn-primary {
   background: #1B3F8F;
   color: #F7F2EB;
   border: none;
-  box-shadow: 0 8px 22px -6px rgb(27 63 143 / 0.6);
-  transition: background-color 160ms ease, box-shadow 160ms ease;
-  &:hover { background: #14306E; box-shadow: 0 12px 28px -6px rgb(27 63 143 / 0.7); }
+  transition: background-color 160ms ease;
+  &:hover { background: #14306E; }
 }
 @utility btn-secondary {
   background: #FFFFFF;
   color: #141414;
   border: 1.5px solid #141414;
-  box-shadow: 0 8px 22px -8px rgb(20 20 20 / 0.25);
-  transition: background-color 160ms ease, box-shadow 160ms ease;
-  &:hover { background: #F7F2EB; box-shadow: 0 12px 28px -8px rgb(20 20 20 / 0.3); }
+  transition: background-color 160ms ease;
+  &:hover { background: #F7F2EB; }
 }
 @utility btn-accent {
   background: #FFD93D;
   color: #141414;
   border: none;
-  box-shadow: 0 8px 22px -6px rgb(245 204 31 / 0.6);
-  transition: background-color 160ms ease, box-shadow 160ms ease;
-  &:hover { background: #F5CC1F; box-shadow: 0 12px 28px -6px rgb(245 204 31 / 0.7); }
+  transition: background-color 160ms ease;
+  &:hover { background: #F5CC1F; }
 }
 /* Full-width top and bottom strips: white glass, dark text. */
 @utility glass-bar {
