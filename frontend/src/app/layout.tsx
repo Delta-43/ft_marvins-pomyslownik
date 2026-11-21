@@ -3,17 +3,27 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Pomysłownik!",
-  description: "Discover existing Polish innovations, with sources and honest assessments.",
+  description: "Odkrywaj istniejące polskie innowacje, ze źródłami i uczciwą oceną.",
 };
 
+// Fonts: Lato (display), Atkinson Hyperlegible Next (body), Roboto Serif (technical values: scores, counts, TRL, dates, code),
+// Atkinson Hyperlegible Mono (landing page labels, as in the brand design). All SIL OFL, EUPL-compatible.
+const FONTS =
+  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Roboto+Serif:opsz,wght@8..144,300..600&family=Lato:wght@400;700&display=swap";
+
+// Root layout: shared by every route. The page chrome lives in the route groups:
+// (app)/layout.tsx for the app, and the landing page brings its own header and footer.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pl">
-      <body>
-        <a className="skip-link" href="#main">Przejdź do treści / Skip to content</a>
-        <main id="main" tabIndex={-1} className="mx-auto max-w-5xl px-4 py-8">
-          {children}
-        </main>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="stylesheet" href={FONTS} />
+      </head>
+      <body className="min-h-screen flex flex-col">
+        <a className="skip-link" href="#main">Przejdź do treści</a>
+        {children}
       </body>
     </html>
   );
