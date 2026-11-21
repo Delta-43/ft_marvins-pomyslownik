@@ -1,5 +1,7 @@
 # Tasks: Pomysłownik! (team ft_marvins)
 
+> **All tasks which are complete according to teammate files or other places should be marked with strikethrough** (`| ~~ID~~ | ~~Task~~ **Done: Name** |`) - {Philip Organisational Decision}
+
 > Research notes and the translated task files are kept outside this repository. Ask Delta if you need them.
 
 
@@ -22,7 +24,7 @@ Tasks have no fixed owner here. To take a task, add its ID to your own file in `
 
 ## Working rules
 
-1. **Claim tasks in `team/`.** Add the task ID to your own file and mark it `[~]`. Mark `[x]` when done.
+1. **Claim tasks in `team/`.** Add the task ID to your own file and mark it `[~]`. Mark `[x]` when done. Then strike the task through in this file with **Done: Name** (see the note at the top).
 2. **Contract first.** Change `openapi.yaml` in a pull request. The backend owner and a frontend developer agree before merge. Lint it with `docker run --rm -v "$PWD/docs/api":/spec -w /spec redocly/cli lint openapi.yaml`.
 3. **No secrets in git.** The repo becomes public. Use `.env` (ignored). Never paste API keys in chat or commits.
 4. **Sign-in first.** No card data on any page or endpoint without a session.
@@ -52,15 +54,15 @@ Sleep in shifts after M2. Two people stay awake at any time.
 
 | ID | Task | Depends | Est | Done when | Req |
 |---|---|---|---|---|---|
-| ~~P1~~ | ~~Compose files, env example, mock profile~~ | — | — | **Done.** `compose.yaml`, `compose.prod.yaml`, `.env.example`. `docker compose --profile mock up` serves the mock (tested) | — |
-| ~~P2~~ | ~~Backend Dockerfile (multi-stage, non-root, healthcheck that matches the base image)~~ | B1 | 0.5 h | `docker compose --profile full build api` succeeds. `/health` returns 200 in the container | — |
-| ~~P3~~ | ~~Frontend Dockerfile (Next.js standalone build, build arg for the API URL)~~ | F0 | 0.5 h | `docker compose --profile full build web` succeeds. Page loads on port 3000 | — |
-| ~~P4~~ | ~~Staging: whole stack up on this machine~~ | P2, P3 | 0.5 h | `docker compose --profile full up --build` starts db, api, worker, web. Frontend shows seed cards | — |
-| ~~P5~~ | ~~Deploy to delta-server and tunnel~~ | P4 | 1 h | Same stack runs on delta-server with `compose.prod.yaml`. Tunnel reaches the API. Browser on another network loads the site with no CORS errors. Use the `managing-ssh-mesh` skill for host work | F20 |
-| ~~P6~~ | ~~Smoke test script~~ | P4 | 0.5 h | One command checks `/health`, a search, a card, CORS and the admin 401. Run it after every deploy | — |
+| ~~P1~~ | ~~Compose files, env example, mock profile~~ **Done: Delta** | — | — | **Done.** `compose.yaml`, `compose.prod.yaml`, `.env.example`. `docker compose --profile mock up` serves the mock (tested) | — |
+| ~~P2~~ | ~~Backend Dockerfile (multi-stage, non-root, healthcheck that matches the base image)~~ **Done: Delta** | B1 | 0.5 h | `docker compose --profile full build api` succeeds. `/health` returns 200 in the container | — |
+| ~~P3~~ | ~~Frontend Dockerfile (Next.js standalone build, build arg for the API URL)~~ **Done: Delta** | F0 | 0.5 h | `docker compose --profile full build web` succeeds. Page loads on port 3000 | — |
+| ~~P4~~ | ~~Staging: whole stack up on this machine~~ **Done: Delta** | P2, P3 | 0.5 h | `docker compose --profile full up --build` starts db, api, worker, web. Frontend shows seed cards | — |
+| ~~P5~~ | ~~Deploy to delta-server and tunnel~~ **Done: Delta** | P4 | 1 h | Same stack runs on delta-server with `compose.prod.yaml`. Tunnel reaches the API. Browser on another network loads the site with no CORS errors. Use the `managing-ssh-mesh` skill for host work | F20 |
+| ~~P6~~ | ~~Smoke test script~~ **Done: Delta** | P4 | 0.5 h | One command checks `/health`, a search, a card, CORS and the admin 401. Run it after every deploy | — |
 | P7 | CI: contract lint, image builds, licence scan | P2, P3 | 1 h | Pull request checks pass. Licence scan lists no incompatible dependency | rules §4 |
 | P8 | Repository hygiene | — | 1 h | Stale README replaced. `LICENSE` is EUPL-1.2. No AI files in the repo. `.env` ignored. Data-protection note added | F17 |
-| ~~P9~~ | ~~Reproducible data: `make seed` or one command loads seed into a fresh database~~ | B3 | 0.5 h | A fresh clone plus one command gives a populated app | F20 |
+| ~~P9~~ | ~~Reproducible data: `make seed` or one command loads seed into a fresh database~~ **Done: Delta** | B3 | 0.5 h | A fresh clone plus one command gives a populated app | F20 |
 
 ## Backend (B)
 
@@ -68,21 +70,21 @@ Fixed order: B1 → B2 → B3 → B4 → B5 → B6 → B7. Do not start B6 befor
 
 | ID | Task | Depends | Est | Done when | Req |
 |---|---|---|---|---|---|
-| ~~B1~~ | ~~API skeleton: FastAPI app, config, error envelope, request ids, CORS from `CORS_ORIGINS`, `/health`~~ | — | 1 h | Matches `Error` shape in the contract. `/health` reports database state | F20 |
-| ~~B2~~ | ~~Database schema and migrations: cards, organisations, tags, sources, evidence, status history, events, collect runs, with vector and trigram columns~~ | B1 | 1.5 h | Migrations run on an empty database in the container. Tables map to the contract fields | F1, F7 |
-| ~~B3~~ | ~~Seed loader and read endpoints (behind sign-in once B12 exists; until then accept any token): `cards`, `cards/{id}`, `facets`, `audiences`, `sources`, `stats/overview` from seed files. **Unblocks the frontend**~~ | B2, R2 | 2.5 h | Responses validate against the contract. Frontend can use the real API | F13, F15, F20 |
-| ~~B4~~ | ~~Search: full text, trigram, filters, sort, pagination. `compare`. `similar` (trigram first)~~ | B3 | 2.5 h | `GET /cards?q=…&area=…` filters and sorts correctly. Polish text with and without diacritics matches (`unaccent`). Compare returns aligned rows | F10, F15 |
-| ~~B5~~ | ~~Scoring engine and validator: implementation level, TRL, innovativeness, application potential, credibility, confidence. Every number from evidence rows~~ | B3 | 3 h | Same input gives same scores. A card with no evidence returns `insufficientData: true`. Validator rejects a model text containing a number not in the evidence (unit test) | F8–F12, F14 |
-| ~~B6a~~ | ~~Collector: API adapter (OpenAlex, with key) producing cards and evidence~~ Built as: RAD-on API produces cards (no key), OpenAlex adds evidence for innovativeness | B5 | 2 h | One real item becomes a card with sources and evidence | F5, F6 |
-| ~~B6b~~ | ~~Collector: web crawler with robots check, rate limit, snapshots, HTML to text, AI extraction with the source passage~~ | B5 | 3 h | One real school, council or transfer-centre page becomes a card. Every extracted field stores the quoted passage | F5, F6 |
-| ~~B6c~~ | ~~Collector: PDF text extraction and AI extraction~~ | B6b | 1.5 h | One real report PDF becomes a card or enriches one | F6 |
-| ~~B6d~~ | ~~Oslo inclusion check~~ | B6b | 0.5 h | Each card has the three Oslo flags and a pass or fail | F3 |
-| ~~B7~~ | ~~Refresh job and runs: scheduled loop, recheck known cards, status history, stale flag, `admin/collect-runs` with idempotency key and single-flight (`run_in_progress`)~~ | B6a | 2 h | A refresh changes one card's status and writes history. A repeated request with the same key returns the same run | F7 |
-| ~~B8~~ | ~~Events and usage stats: `POST /events` (dedupe by `eventId`), `GET /stats/usage`, hide counts under 5, rate limit~~ | B3 | 1 h | No free text, no IP stored. Duplicate event stored once | F16, F17 |
-| ~~B9~~ | ~~Admin token and `Idempotency-Key` handling~~ | B7 | 0.5 h | Missing token returns 401. Wrong token returns 403 | task §5 |
+| ~~B1~~ | ~~API skeleton: FastAPI app, config, error envelope, request ids, CORS from `CORS_ORIGINS`, `/health`~~ **Done: Delta** | — | 1 h | Matches `Error` shape in the contract. `/health` reports database state | F20 |
+| ~~B2~~ | ~~Database schema and migrations: cards, organisations, tags, sources, evidence, status history, events, collect runs, with vector and trigram columns~~ **Done: Delta** | B1 | 1.5 h | Migrations run on an empty database in the container. Tables map to the contract fields | F1, F7 |
+| ~~B3~~ | ~~Seed loader and read endpoints (behind sign-in once B12 exists; until then accept any token): `cards`, `cards/{id}`, `facets`, `audiences`, `sources`, `stats/overview` from seed files. **Unblocks the frontend**~~ **Done: Delta** | B2, R2 | 2.5 h | Responses validate against the contract. Frontend can use the real API | F13, F15, F20 |
+| ~~B4~~ | ~~Search: full text, trigram, filters, sort, pagination. `compare`. `similar` (trigram first)~~ **Done: Delta** | B3 | 2.5 h | `GET /cards?q=…&area=…` filters and sorts correctly. Polish text with and without diacritics matches (`unaccent`). Compare returns aligned rows | F10, F15 |
+| ~~B5~~ | ~~Scoring engine and validator: implementation level, TRL, innovativeness, application potential, credibility, confidence. Every number from evidence rows~~ **Done: Delta** | B3 | 3 h | Same input gives same scores. A card with no evidence returns `insufficientData: true`. Validator rejects a model text containing a number not in the evidence (unit test) | F8–F12, F14 |
+| ~~B6a~~ | ~~Collector: API adapter (OpenAlex, with key) producing cards and evidence~~ **Done: Delta** Built as: RAD-on API produces cards (no key), OpenAlex adds evidence for innovativeness | B5 | 2 h | One real item becomes a card with sources and evidence | F5, F6 |
+| ~~B6b~~ | ~~Collector: web crawler with robots check, rate limit, snapshots, HTML to text, AI extraction with the source passage~~ **Done: Delta** | B5 | 3 h | One real school, council or transfer-centre page becomes a card. Every extracted field stores the quoted passage | F5, F6 |
+| ~~B6c~~ | ~~Collector: PDF text extraction and AI extraction~~ **Done: Delta** | B6b | 1.5 h | One real report PDF becomes a card or enriches one | F6 |
+| ~~B6d~~ | ~~Oslo inclusion check~~ **Done: Delta** | B6b | 0.5 h | Each card has the three Oslo flags and a pass or fail | F3 |
+| ~~B7~~ | ~~Refresh job and runs: scheduled loop, recheck known cards, status history, stale flag, `admin/collect-runs` with idempotency key and single-flight (`run_in_progress`)~~ **Done: Delta** | B6a | 2 h | A refresh changes one card's status and writes history. A repeated request with the same key returns the same run | F7 |
+| ~~B8~~ | ~~Events and usage stats: `POST /events` (dedupe by `eventId`), `GET /stats/usage`, hide counts under 5, rate limit~~ **Done: Delta** | B3 | 1 h | No free text, no IP stored. Duplicate event stored once | F16, F17 |
+| ~~B9~~ | ~~Admin token and `Idempotency-Key` handling~~ **Done: Delta** | B7 | 0.5 h | Missing token returns 401. Wrong token returns 403 | task §5 |
 | B10 | Embeddings similarity (optional) | B4 | 2 h | `similar` uses embeddings. Skip if behind schedule | F10 |
-| ~~B11~~ | ~~Contract test against the running API (schemathesis or similar)~~ | B3 | 1 h | Run in CI or by hand. No schema violations on the read endpoints | — |
-| ~~B12~~ | ~~**Sign-in:** `auth/providers`, `register`, `login`, `logout`, `me` (get, patch, delete), session tokens with expiry, sandbox provider with a few demo identities, terms check, every protected route returns 401 without a session, rate limit on register and login~~ | B1, B2 | 2.5 h | Contract tests pass for the Auth tag. No card endpoint answers without a session. Deleting an account removes its personal data | F17 |
+| ~~B11~~ | ~~Contract test against the running API (schemathesis or similar)~~ **Done: Delta** | B3 | 1 h | Run in CI or by hand. No schema violations on the read endpoints | — |
+| ~~B12~~ | ~~**Sign-in:** `auth/providers`, `register`, `login`, `logout`, `me` (get, patch, delete), session tokens with expiry, sandbox provider with a few demo identities, terms check, every protected route returns 401 without a session, rate limit on register and login~~ **Done: Delta** | B1, B2 | 2.5 h | Contract tests pass for the Auth tag. No card endpoint answers without a session. Deleting an account removes its personal data | F17 |
 
 ## Research and verification (R)
 
@@ -90,8 +92,8 @@ Research output goes straight into the app, so the format matters. The seed form
 
 | ID | Task | Depends | Est | Done when | Req |
 |---|---|---|---|---|---|
-| ~~R1~~ | ~~**Source list and rules check.** For each source we plan to use: URL, access method (API, crawl, document), licence or terms, robots rules, key needed~~ | — | 2 h | A table in `research/` with a go or no-go per source. Crawl only sources marked go | F5, rules §4 |
-| ~~R2~~ | ~~**Seed set, first 10 cards** (3 technological, 4 educational, 3 administrative) in the contract format, with source URLs and quoted passages~~ | R1 | 3 h | Valid JSON that passes the contract schema. The backend can load it. Due by 21:00 | F2, F13 |
+| ~~R1~~ | ~~**Source list and rules check.** For each source we plan to use: URL, access method (API, crawl, document), licence or terms, robots rules, key needed~~ **Done: Delta** | — | 2 h | A table in `research/` with a go or no-go per source. Crawl only sources marked go | F5, rules §4 |
+| ~~R2~~ | ~~**Seed set, first 10 cards** (3 technological, 4 educational, 3 administrative) in the contract format, with source URLs and quoted passages~~ **Done: Delta** | R1 | 3 h | Valid JSON that passes the contract schema. The backend can load it. Due by 21:00 | F2, F13 |
 | R3 | **Two deep use cases** chosen and fully documented: one technological (patent or research), one educational or administrative (page plus PDF) | R1 | 2 h | Each has 3 or more sources, quoted passages and a note on where the confirmed facts come from | task §6 |
 | R4 | **Seed set, grow to 40 to 60 cards** across the three areas | R2 | 5 h | Cards cover all areas. Several different regions of Poland. At least 10 with Polish IP | F1, F2, F19 |
 | R5 | **Verify.** A second look at every "confirmed" field: the source says it. Mark wrong ones | R2, R4 | continuous | No card has a "confirmed" field the source does not support. A list of corrections sent to the backend developer | F14 |
@@ -99,7 +101,7 @@ Research output goes straight into the app, so the format matters. The seed form
 | R7 | **Ask the mentors:** (1) Does the FAQ govern where it differs from the earlier talk (no submission form, login optional, no introductions)? (2) Are early stages such as concept and prototype wanted? (3) Their own definitions and weights for the five criteria. (4) Two real examples for the demo. (5) Sources that must not be crawled. (6) Is the Polish-IP goal about patents only? (7) What would PCI do with anonymous usage numbers? | — | 1 h | Answers written down, with the mentor's role and the time asked | F8–F12 |
 | R8 | Methodology text (plain Polish and English): the five criteria and how each is computed | R7 | 1.5 h | Reviewed by the backend developer. Used on the methodology page | F8–F12 |
 | R9 | Regional context numbers: three or four GUS BDL indicators per region, as evidence rows | R1 | 1.5 h | CSV or JSON of indicator, value, unit, year, source | F11 |
-| ~~R10~~ | ~~Register the OpenAlex key (free) and hand it to the backend developer through a safe channel~~ | — | 0.2 h | Key is in the backend `.env`. Not in chat logs or git | F5 |
+| ~~R10~~ | ~~Register the OpenAlex key (free) and hand it to the backend developer through a safe channel~~ **Done: Delta** | — | 0.2 h | Key is in the backend `.env`. Not in chat logs or git | F5 |
 
 ## Frontend (F)
 
@@ -109,7 +111,7 @@ Start now, on the mock. Switch to the real API at M1 (done on branch `Philip`).
 
 | ID | Task | Depends | Est | Done when | Req |
 |---|---|---|---|---|---|
-| ~~F0~~ | ~~**Scaffold:** Next.js, TypeScript, Tailwind, i18n (Polish first, English toggle), design tokens, typed API client from the contract, layout with skip link, error and loading components~~ | — | 2 h | App runs with `docker compose --profile mock up` plus `npm run dev`. Types generated. Other frontend tasks can start from it | F20 |
+| ~~F0~~ | ~~**Scaffold:** Next.js, TypeScript, Tailwind, i18n (Polish first, English toggle), design tokens, typed API client from the contract, layout with skip link, error and loading components~~ **Done: Delta** | — | 2 h | App runs with `docker compose --profile mock up` plus `npm run dev`. Types generated. Other frontend tasks can start from it | F20 |
 | F1 | **Home:** search box, six audience presets, overview numbers, "how it works" strip | F0 | 2 h | Preset sets filters and goes to results. Overview numbers come from `/stats/overview` | F4, F18, F20 |
 | F2 | **Results:** list, filters from `/facets`, sort, pagination, active filter chips, select cards for compare | F0 | 3 h | Every filter works with keyboard. Empty, loading and error states designed | F15 |
 | F3 | **Card page:** description, area, implementation level, TRL, scores with confidence, **Confirmed and Estimate labels**, sources with quoted passages, evidence drawer, similar cards, history, link to the owner | F0 | 4 h | A number never appears without a source link or a "not enough data" note. Labels do not rely on colour alone | F13, F14 |
