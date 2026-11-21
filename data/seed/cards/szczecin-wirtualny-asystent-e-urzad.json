@@ -1,0 +1,176 @@
+{
+  "id": "ae1d863d-5e1f-41ac-9c37-340fcf46e7fa",
+  "title": {
+    "pl": "Wirtualny Asystent AI w e-Urzędzie Szczecina",
+    "en": "AI Virtual Assistant in Szczecin's e-Office"
+  },
+  "summaryShort": {
+    "pl": "Bezpłatny czat AI działa całą dobę, bez logowania, i podpowiada dokumenty, opłaty i terminy spraw urzędowych.",
+    "en": "A free AI chat works around the clock with no login and suggests documents, fees and deadlines for office matters."
+  },
+  "area": "administrative",
+  "tags": [
+    {
+      "slug": "chatbot",
+      "label": {
+        "pl": "Czat dla mieszkańców",
+        "en": "Resident chatbot"
+      }
+    },
+    {
+      "slug": "e-government",
+      "label": {
+        "pl": "E-administracja",
+        "en": "E-government"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Urząd Miasta Szczecin",
+    "type": "local_government",
+    "url": "https://szczecin.eu",
+    "region": "ZP"
+  },
+  "implementationLevel": {
+    "value": "pilot",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Wirtualny Asystent w serwisie e-Urząd pomaga znaleźć informacje o sprawach załatwianych w magistracie, ale nie przyjmuje wniosków i nie sprawdza statusu spraw. Działa w ramach pilotażu; wdrożenie kosztowało niespełna 100 tys. zł. Strona nie podaje daty publikacji. Streszczenie napisane przez model na podstawie strony.",
+    "en": "The Virtual Assistant in the e-Urząd service helps find information on matters handled at the city office, but does not accept applications or check case status. It runs as a pilot; the rollout cost just under PLN 100,000. The page gives no publication date. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "88be2251-e3c8-47d0-a280-2c33f9fd915a"
+    ],
+    "evidenceIds": [],
+    "method": null,
+    "methodText": null,
+    "value": "pilot"
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Czat AI w e-urzędzie, bezpłatny i dostępny całą dobę, w fazie pilotażu; mieszkańcy już z niego korzystają. Istotnie różni się od wcześniejszej obsługi przez formularze i infolinię (ocena).",
+      "en": "A free 24/7 AI chat in the city's e-office, in a pilot that residents already use. It differs significantly from the earlier service through forms and the helpline (an estimate)."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Inne urzędy miast i gmin (wg modelu)",
+      "en": "Other city and municipal offices (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Urząd Miasta Szczecin",
+    "url": "https://szczecin.eu"
+  },
+  "sources": [
+    {
+      "id": "88be2251-e3c8-47d0-a280-2c33f9fd915a",
+      "type": "crawl",
+      "name": "wiadomosci.szczecin.eu (Szczecin): Szczecin uruchomił Wirtualnego Asystenta AI. Jak korzystać z bezpłatnego czatu w e-Urzędzie?",
+      "url": "https://wiadomosci.szczecin.eu/uk/artykul/mieszkancy/szczecin-uruchomil-wirtualnego-asystenta-ai-jak-korzystac-z-bezplatnego-czatu-w-e-urzedzie",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Mieszkańcy Szczecina mogą już korzystać z Wirtualnego Asystenta dostępnego w serwisie e-Urząd … Bezpłatny czat AI działa przez całą dobę, nie wymaga logowania i pomaga znaleźć informacje dotyczące spraw załatwianych w magistracie … AI działa na razie w ramach pilotażu … Wdrożenie usługi kosztowało niespełna 100 tys. zł",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "67a11fc9-f2e2-4396-af76-bca62ba52c53",
+      "metric": "implementation_cost_upper",
+      "label": {
+        "pl": "Koszt wdrożenia (poniżej)",
+        "en": "Implementation cost (upper bound)"
+      },
+      "value": 100000,
+      "unit": "PLN",
+      "sourceId": "88be2251-e3c8-47d0-a280-2c33f9fd915a",
+      "query": "Read from the page https://wiadomosci.szczecin.eu/uk/artykul/mieszkancy/szczecin-uruchomil-wirtualnego-asystenta-ai-jak-korzystac-z-bezplatnego-czatu-w-e-urzedzie. Quoted text: \"Wdrożenie usługi kosztowało niespełna 100 tys. zł\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

@@ -1,0 +1,195 @@
+{
+  "id": "70903afa-f66c-4719-b175-1fd4a04f65ad",
+  "title": {
+    "pl": "Technologie wodorowe w motoryzacji: badania zbiorników i konwersja napędu",
+    "en": "Hydrogen technologies in automotive: tank testing and drive conversion"
+  },
+  "summaryShort": {
+    "pl": "Instytut oferuje badania zbiorników wodoru i pojazdów oraz konwersję napędu na wodorowy.",
+    "en": "The institute offers testing of hydrogen tanks and vehicles and conversion of vehicle drives to hydrogen."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "hydrogen",
+      "label": {
+        "pl": "Wodór",
+        "en": "Hydrogen"
+      }
+    },
+    {
+      "slug": "electromobility",
+      "label": {
+        "pl": "Elektromobilność",
+        "en": "Electromobility"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Sieć Badawcza Łukasiewicz – Przemysłowy Instytut Motoryzacji",
+    "type": "research_institute",
+    "url": "https://pimot.lukasiewicz.gov.pl/",
+    "region": "MZ"
+  },
+  "implementationLevel": {
+    "value": "testing",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 4,
+    "basis": "confirmed"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Wpis Łukasiewicz – Przemysłowego Instytutu Motoryzacji wymienia usługi: badania mechaniczne zbiorników wodorowych, badania pojazdów zasilanych wodorem, konwersję napędu z konwencjonalnego na wodorowy oraz projekt jednostki rozdziału mocy między ogniwem paliwowym a baterią. Wpis deklaruje TRL 4 i ochronę jako strzeżone know-how. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "A listing by the Łukasiewicz Automotive Industry Institute names services: mechanical tests of hydrogen tanks, tests of hydrogen-powered vehicles, conversion of a drive from conventional to hydrogen, and design of a unit that shares power between a fuel cell and a battery. The listing declares TRL 4 and protection as guarded know-how. Summary written by the model from the listing."
+  },
+  "implementationLevelDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "4d2ab4d6-82a0-4de5-8a96-e937f38b9e45"
+    ],
+    "evidenceIds": [
+      "fdc84921-ece9-4de2-86fc-b017fd5b46be"
+    ],
+    "method": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis deklaruje TRL 4 (walidacja w warunkach laboratoryjnych). Zgodnie z regułą przypisano poziom „testowanie”. Do potwierdzenia przez recenzenta.",
+      "en": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm."
+    },
+    "value": "testing"
+  },
+  "trlDetail": {
+    "basis": "confirmed",
+    "sourceIds": [
+      "4d2ab4d6-82a0-4de5-8a96-e937f38b9e45"
+    ],
+    "evidenceIds": [
+      "fdc84921-ece9-4de2-86fc-b017fd5b46be"
+    ],
+    "method": null,
+    "methodText": null,
+    "applicable": true,
+    "value": 4
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": false,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Oferowane są usługi, ale wpis nie pokazuje, co jest nowe w porównaniu z dotychczasowymi badaniami pojazdów wodorowych.",
+      "en": "Services are offered, but the listing does not show what is new compared with existing hydrogen vehicle testing."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Producenci autobusów i maszyn roboczych (wg wpisu: integracja ogniw paliwowych)",
+      "en": "Bus and work-machine makers (per the listing: fuel cell integration)"
+    }
+  ],
+  "owner": {
+    "name": "Sieć Badawcza Łukasiewicz – Przemysłowy Instytut Motoryzacji",
+    "url": "https://pimot.lukasiewicz.gov.pl/"
+  },
+  "sources": [
+    {
+      "id": "4d2ab4d6-82a0-4de5-8a96-e937f38b9e45",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Technologie wodorowe w motoryzacji",
+      "url": "http://ptt.arp.pl/bazy/technologie-wodorowe-w-motoryzacji/",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Łukasiewicz- Przemysłowy Instytut Motoryzacji oferuje usługi w zakresie: 1. Badań mechanicznych zbiorników wodorowych przeznaczonych do stosowania w pojazdach. … 3. Konwersji napędu pojazdu z konwencjonalnego na wodorowy. … Lokalizacja Warszawa, woj. mazowieckie … Forma ochrony Strzeżone know-how Poziom gotowości technologicznej TRL 4",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "fdc84921-ece9-4de2-86fc-b017fd5b46be",
+      "metric": "declared_trl",
+      "label": {
+        "pl": "Poziom gotowości technologicznej podany we wpisie",
+        "en": "Technology readiness level declared in the listing"
+      },
+      "value": 4,
+      "unit": null,
+      "sourceId": "4d2ab4d6-82a0-4de5-8a96-e937f38b9e45",
+      "query": "Read from the page http://ptt.arp.pl/bazy/technologie-wodorowe-w-motoryzacji/. Quoted text: \"Poziom gotowości technologicznej TRL 4\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    },
+    {
+      "id": "a60a9f3f-f4a9-4e23-8764-51a32b9bf69d",
+      "metric": "protection_form",
+      "label": {
+        "pl": "Forma ochrony",
+        "en": "Form of protection"
+      },
+      "value": "Strzeżone know-how",
+      "unit": null,
+      "sourceId": "4d2ab4d6-82a0-4de5-8a96-e937f38b9e45",
+      "query": "Read from the page http://ptt.arp.pl/bazy/technologie-wodorowe-w-motoryzacji/. Quoted text: \"Forma ochrony Strzeżone know-how\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

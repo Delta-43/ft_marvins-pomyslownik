@@ -1,18 +1,28 @@
 """Innovation Radar API. The contract is docs/api/openapi.yaml. Change the contract first."""
 import uuid
+from contextlib import asynccontextmanager
 
+import psycopg
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import errors
 from .config import settings
-from .db import check_database
-from .routers import admin, cards, events, reference, stats
+from .db import check_database, close_pool, one
+from .routers import admin, auth, cards, events, reference, stats
+from .services.cards import iso
 
-app = FastAPI(title="Pomysłownik! API", version=settings.version, docs_url="/docs", redoc_url=None)
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    yield
+    close_pool()
+
+
+app = FastAPI(title="Pomysłownik! API", version=settings.version, docs_url="/docs", redoc_url=None, lifespan=lifespan)
 errors.install(app)
 
-app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origin_list, allow_methods=["GET", "POST", "OPTIONS"],
+app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origin_list, allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
                    allow_headers=["*"], expose_headers=["X-Request-Id", "Retry-After"])
 
 
@@ -27,9 +37,16 @@ async def request_id(request: Request, call_next):
 @app.get("/health")
 def health():
     db_up = check_database()
+    last = None
+    if db_up:
+        try:
+            row = one("SELECT max(finished_at) AS t FROM collect_runs WHERE mode = 'refresh' AND status = 'succeeded'")
+            last = iso(row["t"]) if row else None
+        except psycopg.Error:
+            last = None
     return {"status": "ok" if db_up else "degraded", "version": settings.version,
-            "database": "up" if db_up else "down", "lastRefreshAt": None}
+            "database": "up" if db_up else "down", "lastRefreshAt": last}
 
 
-for router in (cards.router, reference.router, stats.router, events.router, admin.router):
+for router in (auth.router, cards.router, reference.router, stats.router, events.router, admin.router):
     app.include_router(router, prefix="/api/v1")

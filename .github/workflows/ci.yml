@@ -1,26 +1,82 @@
 name: ci
+# Required checks for merging into main: contract, backend, frontend, images, licences.
 on:
   pull_request:
   push:
     branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker run --rm -v "$PWD/docs/api":/spec -w /spec redocly/cli lint openapi.yaml
+      - name: Lint the API contract
+        run: docker run --rm -v "$PWD/docs/api":/spec -w /spec redocly/cli lint openapi.yaml
+
   backend:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env: { POSTGRES_DB: radar, POSTGRES_USER: radar, POSTGRES_PASSWORD: ci-only-password }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U radar -d radar" --health-interval 5s --health-timeout 5s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://radar:ci-only-password@localhost:5432/radar
+      ADMIN_TOKEN: ci-only-admin-token-not-a-secret-0123456789
+      SEED_DIR: ../data/seed
+      SOURCES_DIR: ../data/sources
+      CACHE_DIR: /tmp/pomyslownik-cache
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }
+        with: { python-version: "3.12", cache: pip, cache-dependency-path: backend/requirements-dev.txt }
       - run: pip install -r backend/requirements-dev.txt
-      - run: cd backend && ruff check . && python -m pytest
+      - name: Lint
+        run: cd backend && ruff check .
+      - name: Migrate and load the seed cards (also checks the language and consistency rules)
+        run: cd backend && python -m app.migrate && python -m app.seed
+      - name: Tests, including the contract test on every card
+        run: cd backend && python -m pytest -q
+
   frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 22 }
+        with: { node-version: 22, cache: npm, cache-dependency-path: frontend/package-lock.json }
       - run: cd frontend && npm ci && npm run api:types && npm run typecheck && npm run build
+
+  images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the backend image
+        run: docker build -t pomyslownik-api:ci ./backend
+      - name: Build the frontend image
+        run: docker build -t pomyslownik-web:ci --build-arg NEXT_PUBLIC_API_BASE_URL=https://demo.delta43.net ./frontend
+
+  licences:
+    # The repo is EUPL-1.2. Dependencies must be MIT, BSD, Apache-2.0, ISC or EUPL-compatible (TASKS rule 5).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Python runtime dependencies
+        run: |
+          python -m venv /tmp/lic && . /tmp/lic/bin/activate
+          pip install -q -r backend/requirements.txt
+          python scripts/licence_check.py
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: "Frontend production dependencies (LGPL allowed: the sharp image library binary, EUPL-compatible)"
+        run: |
+          cd frontend && npm ci --omit=dev
+          npx --yes license-checker-rseidelsohn@4.4.2 --production --summary \
+            --failOn "GPL-2.0;GPL-3.0;AGPL-3.0;AGPL-1.0;SSPL-1.0;BUSL-1.1;CC-BY-NC-4.0"

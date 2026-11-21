@@ -1,0 +1,165 @@
+{
+  "id": "c5d9baf9-a1e2-4097-a4d0-31b48deb219d",
+  "title": {
+    "pl": "Ekonomiczny Uniwersytet Dziecięcy",
+    "en": "Economic Children's University"
+  },
+  "summaryShort": {
+    "pl": "Warsztaty uczelni dla uczniów klas 5 i 6, w których dzieci uczą się ekonomii przez role i symulacje.",
+    "en": "University workshops for pupils in grades 5 and 6 where children learn economics through roles and simulations."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "economics-education",
+      "label": {
+        "pl": "Edukacja ekonomiczna",
+        "en": "Economics education"
+      }
+    },
+    {
+      "slug": "university-outreach",
+      "label": {
+        "pl": "Uczelnia dla uczniów",
+        "en": "University outreach"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Politechnika Gdańska, Wydział Zarządzania i Ekonomii",
+    "type": "university",
+    "url": "https://pg.edu.pl",
+    "region": "PM"
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Program Wydziału Zarządzania i Ekonomii Politechniki Gdańskiej popularyzuje wiedzę ekonomiczną wśród dzieci. Na zajęciach uczniowie wcielają się m.in. w kierowników zespołów, negocjatorów i inwestorów giełdowych; program obejmuje też spotkania dla rodziców. Strona nie podaje daty ani liczby uczestników. Streszczenie napisane przez model na podstawie strony.",
+    "en": "A programme of the Faculty of Management and Economics at Gdańsk University of Technology spreads economic knowledge among children. In class, pupils take roles such as team leaders, negotiators and stock investors; the programme also includes meetings for parents. The page gives no date or participant numbers. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "9624b0d5-13a8-4f09-980c-e12bdda63894"
+    ],
+    "evidenceIds": [],
+    "method": "The page describes the programme offer in the present tense but gives no date or edition. Read as in practice. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Strona opisuje ofertę programu w czasie teraźniejszym, ale nie podaje daty ani edycji. Przyjęto poziom „wdrożone w praktyce”. Do potwierdzenia przez recenzenta.",
+      "en": "The page describes the programme offer in the present tense but gives no date or edition. Read as in practice. Reviewer to confirm."
+    },
+    "value": "in_practice"
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": false,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Program uczelni dla uczniów klas 5 i 6. Strona nie ma daty, więc nie wykazano, czy program jest obecnie dostępny.",
+      "en": "A university programme for pupils in grades 5 and 6. The page is undated, so current availability is not shown."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Wydziały ekonomiczne innych uczelni i szkoły podstawowe (wg modelu)",
+      "en": "Economics faculties at other universities and primary schools (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Politechnika Gdańska, Wydział Zarządzania i Ekonomii",
+    "url": "https://zie.pg.edu.pl/wydarzenia-wzie/ekonomiczny-uniwersytet-dzieciecy"
+  },
+  "sources": [
+    {
+      "id": "9624b0d5-13a8-4f09-980c-e12bdda63894",
+      "type": "crawl",
+      "name": "Politechnika Gdańska, Wydział Zarządzania i Ekonomii: Ekonomiczny Uniwersytet Dziecięcy",
+      "url": "https://zie.pg.edu.pl/wydarzenia-wzie/ekonomiczny-uniwersytet-dzieciecy",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "EUD ma na celu popularyzację wiedzy i budowanie świadomości ekonomicznej wśród dzieci już od najmłodszych lat … Oferta edukacyjna Uniwersytetu skierowana jest do uczniów klas piątych i szóstych szkół podstawowych … Podczas warsztatów mali studenci wcielają się w rozmaite role",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

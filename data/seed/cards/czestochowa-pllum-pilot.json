@@ -1,0 +1,165 @@
+{
+  "id": "f0bf6591-8c21-4218-bfd5-6160356bf42d",
+  "title": {
+    "pl": "Pilotaż modelu PLLuM w Urzędzie Miasta Częstochowy",
+    "en": "PLLuM language model pilot at the Częstochowa city office"
+  },
+  "summaryShort": {
+    "pl": "Miasto ma testować polski model językowy do pism urzędowych, streszczeń i analizy zapytań mieszkańców.",
+    "en": "The city is to test the Polish language model for official letters, summaries and analysis of residents' questions."
+  },
+  "area": "administrative",
+  "tags": [
+    {
+      "slug": "language-model",
+      "label": {
+        "pl": "Polski model językowy",
+        "en": "Polish language model"
+      }
+    },
+    {
+      "slug": "e-government",
+      "label": {
+        "pl": "E-administracja",
+        "en": "E-government"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Urząd Miasta Częstochowy",
+    "type": "local_government",
+    "url": null,
+    "region": "SL"
+  },
+  "implementationLevel": {
+    "value": "concept",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Komunikat Ministerstwa Cyfryzacji z 8 sierpnia 2025 r. zapowiada pilotaż modelu PLLuM w częstochowskim urzędzie na podstawie listu intencyjnego. Model ma wspierać urzędników w pismach, streszczeniach i analizie zapytań, a urząd udostępni wiedzę do dalszego doskonalenia modelu. Strona nie podaje wyników. Streszczenie napisane przez model na podstawie strony.",
+    "en": "A Ministry of Digital Affairs notice of 8 August 2025 announces a PLLuM pilot at the Częstochowa office under a letter of intent. The model is to help officials with letters, summaries and analysis of questions, and the office will share knowledge to improve the model. The page reports no results. Summary written by the model from the page."
+  },
+  "implementationLevelDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "98c87562-2a17-4a2e-8aee-078da0e8b6b3"
+    ],
+    "evidenceIds": [],
+    "method": "The 8 August 2025 page says a pilot will be launched under a letter of intent. It does not say the pilot has started. Read as concept. Reviewer to confirm with a later source.",
+    "methodText": {
+      "pl": "Strona z 8 sierpnia 2025 r. podaje, że w ramach listu intencyjnego zostanie uruchomiony pilotaż. Nie mówi, że pilotaż już ruszył. Przyjęto poziom „koncepcja”. Do potwierdzenia przez recenzenta na podstawie późniejszego źródła.",
+      "en": "The 8 August 2025 page says a pilot will be launched under a letter of intent. It does not say the pilot has started. Read as concept. Reviewer to confirm with a later source."
+    },
+    "value": "concept"
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Zapowiedziano pilotaż, ale nie podano jeszcze, że ruszył. Nie wykazano dostępności ani użycia.",
+      "en": "A pilot is announced but not yet reported as running. It is not shown to be available or in use."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Inne urzędy miast i gmin (wg modelu)",
+      "en": "Other city and municipal offices (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Urząd Miasta Częstochowy",
+    "url": "https://www.gov.pl/web/cyfryzacja/polski-model-jezykowy-pllum-trafi-do-samorzadu"
+  },
+  "sources": [
+    {
+      "id": "98c87562-2a17-4a2e-8aee-078da0e8b6b3",
+      "type": "crawl",
+      "name": "gov.pl, Ministerstwo Cyfryzacji: Polski model językowy PLLuM trafi do samorządu (08.08.2025)",
+      "url": "https://www.gov.pl/web/cyfryzacja/polski-model-jezykowy-pllum-trafi-do-samorzadu",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "W Częstochowie uruchomiony zostanie pilotaż polskiego modelu językowego PLLuM w administracji samorządowej przy wsparciu Ministerstwa Cyfryzacji … Sztuczna inteligencja wesprze urzędników m.in. w tworzeniu pism urzędowych, streszczaniu dokumentów oraz w analizie zapytań od obywateli … Częstochowa jest pierwszym samorządem w Polsce, który rozpoczyna pilotaż tego rozwiązania",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null
+}

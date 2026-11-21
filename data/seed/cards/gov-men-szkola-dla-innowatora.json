@@ -1,0 +1,316 @@
+{
+  "id": "85c8eb04-5102-48d0-bc8f-cd4cf4d48130",
+  "title": {
+    "pl": "Szkoła dla innowatora: pilotaż uczenia kompetencji proinnowacyjnych",
+    "en": "School for an Innovator: pilot teaching innovation skills"
+  },
+  "summaryShort": {
+    "pl": "Pilotaż w 20 szkołach podstawowych testuje model nauczania kreatywności, ryzyka i współpracy.",
+    "en": "A pilot in 20 primary schools tests a model for teaching creativity, risk-taking and teamwork."
+  },
+  "area": "educational",
+  "tags": [
+    {
+      "slug": "innovation-skills",
+      "label": {
+        "pl": "Kompetencje proinnowacyjne",
+        "en": "Pro-innovation skills"
+      }
+    },
+    {
+      "slug": "primary-education",
+      "label": {
+        "pl": "Szkoła podstawowa",
+        "en": "Primary school"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Ministerstwo Edukacji Narodowej",
+    "type": "public_institution",
+    "url": "https://www.gov.pl/web/edukacja",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "pilot",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T19:47:34Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Wspólna inicjatywa ministerstw przedsiębiorczości i edukacji. Strona z 2019 r. opisuje cele pilotażu, 20 szkół podstawowych, dotację do 10 mln zł i realizację od października 2019 do sierpnia 2022. Raport z ewaluacji końcowej (2022) potwierdza, że pilotaż się odbył: niemal 76% uczniów osiągnęło wzrost kompetencji proinnowacyjnych. Streszczenie napisane przez model na podstawie źródeł.",
+    "en": "A joint initiative of the entrepreneurship and education ministries. The 2019 page describes the pilot's aims, 20 primary schools, a grant of up to PLN 10 million and a run from October 2019 to August 2022. The final evaluation report (2022) confirms the pilot took place: almost 76% of pupils improved their pro-innovation skills. Summary written by the model from the sources."
+  },
+  "implementationLevelDetail": {
+    "value": "pilot",
+    "basis": "confirmed",
+    "sourceIds": [
+      "d738f49f-13a3-5ea5-b73e-2152746864b0"
+    ],
+    "evidenceIds": [],
+    "method": null,
+    "methodText": null
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Pilotaż w 20 szkołach przeprowadzono (raport z ewaluacji, 2022). Nowy i istotnie różny model nauczania. Źródła nie mówią, że model jest dziś dostępny dla innych szkół, więc warunek dostępności nie jest spełniony.",
+      "en": "The pilot ran in 20 schools (evaluation report, 2022). A new and significantly different teaching model. The sources do not say the model is available to other schools today, so the availability condition is not met."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Szkoły ponadpodstawowe, kuratoria, ośrodki doskonalenia nauczycieli (wg modelu)",
+      "en": "Secondary schools, education boards, teacher training centres (model estimate)"
+    }
+  ],
+  "owner": {
+    "name": "Ministerstwo Edukacji Narodowej",
+    "url": "https://www.gov.pl/web/edukacja"
+  },
+  "sources": [
+    {
+      "id": "6cbc7c6f-523e-4fc6-8117-f9c40dfe8d4a",
+      "type": "crawl",
+      "name": "gov.pl, Ministerstwo Edukacji Narodowej: W sierpniu rusza konkurs na operatora projektu „Szkoła dla innowatora” (26.07.2019)",
+      "url": "https://www.gov.pl/web/edukacja/szkola-dla-innowatora",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "passage": "Wypracowanie i przetestowanie rozwiązań służących kształtowaniu i rozwijaniu kompetencji proinnowacyjnych w systemie oświaty … Podczas pilotażu, w wybranych 20 szkołach podstawowych, zostanie przetestowany model nauczania kompetencji proinnowacyjnych … Wartość grantu nie może przekroczyć 10 mln zł",
+      "license": null,
+      "passageLang": "pl"
+    },
+    {
+      "id": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "type": "document",
+      "name": "Dokument PDF: Raport z ewaluacji końcowej projektu Szkoła dla innowatora (CEO, 2022)",
+      "url": "https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf",
+      "retrievedAt": "2026-11-21T21:27:00Z",
+      "passage": "Wydaje się, że przynajmniej część szkół z pilotażowej edycji „Szkoły dla Innowatora” będzie mogła w przyszłości odgrywać rolę instytucji goszczących. … Do projektu zakwalifikowano dwadzieścia szkół. … Patrząc globalnie na wszystkich uczniów można zauważyć, że zdecydowana większość – niemal 76% – osiągnęła wzrosty kompetencji proinnowacyjnych.",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "19995419-bb8b-4f12-8559-de0393d59e76",
+      "metric": "pilot_schools",
+      "value": 20,
+      "unit": "schools",
+      "sourceId": "6cbc7c6f-523e-4fc6-8117-f9c40dfe8d4a",
+      "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-dla-innowatora. Quoted text: \"w wybranych 20 szkołach podstawowych\"",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Szkoły objęte pilotażem",
+        "en": "Schools in the pilot"
+      }
+    },
+    {
+      "id": "5cfa79ed-a804-4835-ad56-56e208a6a88e",
+      "metric": "grant_cap",
+      "value": 10000000,
+      "unit": "PLN",
+      "sourceId": "6cbc7c6f-523e-4fc6-8117-f9c40dfe8d4a",
+      "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-dla-innowatora. Quoted text: \"Wartość grantu nie może przekroczyć 10 mln zł\"",
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Maksymalna wartość grantu",
+        "en": "Maximum grant value"
+      }
+    },
+    {
+      "id": "b9447f41-ddb2-476d-8fa6-dc10a7d0abef",
+      "metric": "development_line_skills",
+      "label": {
+        "en": "Number of skills in the development lines",
+        "pl": "Liczba umiejętności w liniach rozwoju"
+      },
+      "value": 18,
+      "unit": null,
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"Struktura linii rozwoju opiera się na 18 umiejętnościach, pogrupowanych w pięć wiązek kompetencji proinnowacyjnych.\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    },
+    {
+      "id": "e65f9312-da8c-4621-b31d-1fdc963abc08",
+      "metric": "matched_measurements",
+      "label": {
+        "en": "Number of correctly matched measurements",
+        "pl": "Liczba poprawnie dopasowanych pomiarów"
+      },
+      "value": 441,
+      "unit": null,
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"Ogółem zgromadzono 441 poprawnie dopasowanych pomiarów na 452 uczniów na listach\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    },
+    {
+      "id": "cd57f606-80dc-4dfe-a78f-2a86c64fdf12",
+      "metric": "mean_direction_index",
+      "label": {
+        "en": "Mean value of the change direction index",
+        "pl": "Średnia wartość wskaźnika kierunkowego zmiany"
+      },
+      "value": 0.376,
+      "unit": null,
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"uzyskuje średnią wartość 0,376 (SD=0,35)\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    },
+    {
+      "id": "4ec4f5d6-3e4b-4a4f-9ca4-6f7f656f2ebb",
+      "metric": "share_students_improved",
+      "label": {
+        "en": "Share of pupils whose innovation skills improved",
+        "pl": "Odsetek uczniów ze wzrostem kompetencji proinnowacyjnych"
+      },
+      "value": 76,
+      "unit": "%",
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"niemal 76% – osiągnęła wzrosty kompetencji proinnowacyjnych\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    },
+    {
+      "id": "122dc2aa-c1b9-4c36-877b-3f726f9896f9",
+      "metric": "share_students_no_change",
+      "label": {
+        "en": "Share of pupils with no change",
+        "pl": "Odsetek uczniów bez zmiany"
+      },
+      "value": 17,
+      "unit": "%",
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"U 17% nie zaobserwowaliśmy zmiany\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    },
+    {
+      "id": "5a30f42a-fdd7-4f85-8cd0-4a074f01a49b",
+      "metric": "space_redesign_grant_per_school",
+      "label": {
+        "en": "Space redesign funding per school",
+        "pl": "Środki na re-aranżację przestrzeni na szkołę"
+      },
+      "value": 49,
+      "unit": "tys.",
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"Każda ze szkół biorących udział w projekcie otrzymała 49 tys. na re-aranżację przestrzeni szkolnej.\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    },
+    {
+      "id": "927ee6a3-104e-4420-a514-1cb9eea9ced1",
+      "metric": "training_rated_good_or_better",
+      "label": {
+        "en": "Share of training ratings of good or better",
+        "pl": "Odsetek ocen szkoleń „dobra” lub wyższych"
+      },
+      "value": 93,
+      "unit": "%",
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"93% wybrało oceny „dobrą” lub wyższe\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    },
+    {
+      "id": "56972f0a-5317-4bf7-b628-dbfa32f5372e",
+      "metric": "training_rated_practical",
+      "label": {
+        "en": "Share rating the training as practical",
+        "pl": "Odsetek uznających szkolenia za praktyczne"
+      },
+      "value": 88,
+      "unit": "%",
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"88% respondentów uznało odbyte szkolenia za praktyczne.\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    },
+    {
+      "id": "6290c80e-78c5-4359-8f52-100976dd549a",
+      "metric": "training_surveys_collected",
+      "label": {
+        "en": "Number of training surveys collected",
+        "pl": "Liczba ankiet szkoleniowych"
+      },
+      "value": 1888,
+      "unit": null,
+      "sourceId": "d738f49f-13a3-5ea5-b73e-2152746864b0",
+      "query": "Read from https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf. Quoted text: \"Są one oparte na 1888 ankietach zebranych w trakcie projektu wśród nauczycieli i dyrektorów.\"",
+      "retrievedAt": "2026-11-21T21:08:27Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T19:47:34Z",
+  "statusChangedAt": null
+}

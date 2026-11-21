@@ -1,0 +1,12 @@
+{
+  "_comment": "What a 'collect' run gathers. Limits keep each run short and the model spend small. Edit and redeploy to change.",
+  "max_new_per_run": 6,
+  "ptt": {"max_new": 3, "max_pages_read": 40, "owner_types": ["Jednostka naukowa", "Instytut naukowo - badawczy"]},
+  "radon": {"title_words": ["technologia", "innowacyjn", "wdrożenie"], "since_year": 2019, "max_new": 2},
+  "pages": [],
+  "documents": [
+    {"url": "https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf",
+     "title": "Raport z ewaluacji końcowej projektu Szkoła dla innowatora (CEO, 2022)",
+     "enrich_card": "85c8eb04-5102-48d0-bc8f-cd4cf4d48130"}
+  ]
+}

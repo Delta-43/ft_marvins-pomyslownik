@@ -1,4 +1,4 @@
-# Tasks: Innovation Radar
+# Tasks: Pomysłownik! (team ft_marvins)
 
 > **All tasks which are complete according to teammate files or other places should be marked with strikethrough** (`| ~~ID~~ | ~~Task~~ **Done: Name** |`) - {Philip Organisational Decision}
 
@@ -8,6 +8,8 @@
 Written 2026-11-21 17:30 CET. Deadline as told by Delta: **2026-11-22 11:00**. Plan: `PLAN.md`. Requirement IDs (F1 to F20): `REQUIREMENTS.md`.
 Contract: `docs/api/openapi.yaml`. Frontend start guide: `docs/FRONTEND-START.md`.
 
+**Status 2026-11-21 23:11:** done items are struck through. The backend is complete and live (API `https://demo.delta43.net`, web `https://pomyslownik.delta43.net`, both on delta-server). Latest backend and contract: branch `backend/b3-b12-scaffold`, not yet merged into `main`. M0 to M3 are reached. Research now: Karrie and Andrei.
+
 ## Tracks
 
 Tasks have no fixed owner here. To take a task, add its ID to your own file in `team/` and mark it `[~]`. Ownership and progress live in those files.
@@ -15,7 +17,7 @@ Tasks have no fixed owner here. To take a task, add its ID to your own file in `
 | Track | Task IDs | Notes |
 |---|---|---|
 | Platform and containers | P1 to P9 | Compose, Dockerfiles, deployment, CI, repository hygiene |
-| Backend | B1 to B12 | API, database, scoring, collectors, refresh. One person, so the order below is fixed |
+| Backend | B1 to B12 | API, database, scoring, collectors, refresh. All done and live except B10 (optional) |
 | Research and verification | R1 to R10 | Manual review. Curates and verifies seed data and every "confirmed" field |
 | Frontend | F0 to F11 | Three developers. F0 first, then F11, F1/F2, F3/F4 and F5 to F8 in parallel |
 | QA, slides, video | Q1 to Q3, S1 to S5 | Starts once the demo path exists |
@@ -35,10 +37,10 @@ Tasks have no fixed owner here. To take a task, add its ID to your own file in `
 
 | Time | Milestone | Gate |
 |---|---|---|
-| 18:30 | **M0 Kickoff done** | Contract merged. Mock runs. Frontend scaffold started. Seed format agreed. Dockerfiles stubbed |
-| 22:00 | **M1 Real API on seed data** | `api` serves cards, card detail, facets, audiences, sources, overview from seed. Frontend runs on staging against it |
-| 01:30 | **M2 Search, compare, scores** | Search and filters, compare, scoring with evidence. First deploy on delta-server with the tunnel working |
-| 04:30 | **M3 Collectors and refresh** | API, crawl and PDF collectors. Refresh with status change. Admin run endpoint |
+| ~~18:30~~ | ~~**M0 Kickoff done**~~ | Contract merged. Mock runs. Frontend scaffold started. Seed format agreed. Dockerfiles stubbed |
+| ~~22:00~~ | ~~**M1 Real API on seed data**~~ | `api` serves cards, card detail, facets, audiences, sources, overview from seed. Frontend runs on staging against it |
+| ~~01:30~~ | ~~**M2 Search, compare, scores**~~ | Search and filters, compare, scoring with evidence. First deploy on delta-server with the tunnel working |
+| ~~04:30~~ | ~~**M3 Collectors and refresh**~~ | API, crawl and PDF collectors. Refresh with status change. Admin run endpoint |
 | 06:30 | **Feature freeze** | Only fixes after this |
 | 08:00 | Video and slides | Recording and deck |
 | 10:00 | Final checks | Licence, README, clean repo, submit |
@@ -52,15 +54,15 @@ Sleep in shifts after M2. Two people stay awake at any time.
 
 | ID | Task | Depends | Est | Done when | Req |
 |---|---|---|---|---|---|
-| P1 | Compose files, env example, mock profile | — | — | **Done.** `compose.yaml`, `compose.prod.yaml`, `.env.example`. `docker compose --profile mock up` serves the mock (tested) | — |
+| ~~P1~~ | ~~Compose files, env example, mock profile~~ **Done: Delta** | — | — | **Done.** `compose.yaml`, `compose.prod.yaml`, `.env.example`. `docker compose --profile mock up` serves the mock (tested) | — |
 | ~~P2~~ | ~~Backend Dockerfile (multi-stage, non-root, healthcheck that matches the base image)~~ **Done: Delta** | B1 | 0.5 h | `docker compose --profile full build api` succeeds. `/health` returns 200 in the container | — |
 | ~~P3~~ | ~~Frontend Dockerfile (Next.js standalone build, build arg for the API URL)~~ **Done: Delta** | F0 | 0.5 h | `docker compose --profile full build web` succeeds. Page loads on port 3000 | — |
 | ~~P4~~ | ~~Staging: whole stack up on this machine~~ **Done: Delta** | P2, P3 | 0.5 h | `docker compose --profile full up --build` starts db, api, worker, web. Frontend shows seed cards | — |
 | ~~P5~~ | ~~Deploy to delta-server and tunnel~~ **Done: Delta** | P4 | 1 h | Same stack runs on delta-server with `compose.prod.yaml`. Tunnel reaches the API. Browser on another network loads the site with no CORS errors. Use the `managing-ssh-mesh` skill for host work | F20 |
-| P6 | Smoke test script | P4 | 0.5 h | One command checks `/health`, a search, a card, CORS and the admin 401. Run it after every deploy | — |
+| ~~P6~~ | ~~Smoke test script~~ **Done: Delta** | P4 | 0.5 h | One command checks `/health`, a search, a card, CORS and the admin 401. Run it after every deploy | — |
 | P7 | CI: contract lint, image builds, licence scan | P2, P3 | 1 h | Pull request checks pass. Licence scan lists no incompatible dependency | rules §4 |
 | P8 | Repository hygiene | — | 1 h | Stale README replaced. `LICENSE` is EUPL-1.2. No AI files in the repo. `.env` ignored. Data-protection note added | F17 |
-| P9 | Reproducible data: `make seed` or one command loads seed into a fresh database | B3 | 0.5 h | A fresh clone plus one command gives a populated app | F20 |
+| ~~P9~~ | ~~Reproducible data: `make seed` or one command loads seed into a fresh database~~ **Done: Delta** | B3 | 0.5 h | A fresh clone plus one command gives a populated app | F20 |
 
 ## Backend (B)
 
@@ -73,7 +75,7 @@ Fixed order: B1 → B2 → B3 → B4 → B5 → B6 → B7. Do not start B6 befor
 | ~~B3~~ | ~~Seed loader and read endpoints (behind sign-in once B12 exists; until then accept any token): `cards`, `cards/{id}`, `facets`, `audiences`, `sources`, `stats/overview` from seed files. **Unblocks the frontend**~~ **Done: Delta** | B2, R2 | 2.5 h | Responses validate against the contract. Frontend can use the real API | F13, F15, F20 |
 | ~~B4~~ | ~~Search: full text, trigram, filters, sort, pagination. `compare`. `similar` (trigram first)~~ **Done: Delta** | B3 | 2.5 h | `GET /cards?q=…&area=…` filters and sorts correctly. Polish text with and without diacritics matches (`unaccent`). Compare returns aligned rows | F10, F15 |
 | ~~B5~~ | ~~Scoring engine and validator: implementation level, TRL, innovativeness, application potential, credibility, confidence. Every number from evidence rows~~ **Done: Delta** | B3 | 3 h | Same input gives same scores. A card with no evidence returns `insufficientData: true`. Validator rejects a model text containing a number not in the evidence (unit test) | F8–F12, F14 |
-| ~~B6a~~ | ~~Collector: API adapter (OpenAlex, with key) producing cards and evidence~~ **Done: Delta** | B5 | 2 h | One real item becomes a card with sources and evidence | F5, F6 |
+| ~~B6a~~ | ~~Collector: API adapter (OpenAlex, with key) producing cards and evidence~~ **Done: Delta** Built as: RAD-on API produces cards (no key), OpenAlex adds evidence for innovativeness | B5 | 2 h | One real item becomes a card with sources and evidence | F5, F6 |
 | ~~B6b~~ | ~~Collector: web crawler with robots check, rate limit, snapshots, HTML to text, AI extraction with the source passage~~ **Done: Delta** | B5 | 3 h | One real school, council or transfer-centre page becomes a card. Every extracted field stores the quoted passage | F5, F6 |
 | ~~B6c~~ | ~~Collector: PDF text extraction and AI extraction~~ **Done: Delta** | B6b | 1.5 h | One real report PDF becomes a card or enriches one | F6 |
 | ~~B6d~~ | ~~Oslo inclusion check~~ **Done: Delta** | B6b | 0.5 h | Each card has the three Oslo flags and a pass or fail | F3 |
@@ -95,19 +97,21 @@ Research output goes straight into the app, so the format matters. The seed form
 | R3 | **Two deep use cases** chosen and fully documented: one technological (patent or research), one educational or administrative (page plus PDF) | R1 | 2 h | Each has 3 or more sources, quoted passages and a note on where the confirmed facts come from | task §6 |
 | R4 | **Seed set, grow to 40 to 60 cards** across the three areas | R2 | 5 h | Cards cover all areas. Several different regions of Poland. At least 10 with Polish IP | F1, F2, F19 |
 | R5 | **Verify.** A second look at every "confirmed" field: the source says it. Mark wrong ones | R2, R4 | continuous | No card has a "confirmed" field the source does not support. A list of corrections sent to the backend developer | F14 |
-| R6 | Read the PFR Technology Transfer Platform in a browser and write 10 lines: what it lists, who posts, what is missing | — | 0.5 h | Note in `research/`. Changes the pitch wording if needed | — |
+| R6 | Read the Technology Transfer Platform (PTT, run by ARP, not PFR; ptt.arp.pl is reachable and crawlable) in a browser and write 10 lines: what it lists, who posts, what is missing | — | 0.5 h | Note in `research/`. Changes the pitch wording if needed | — |
 | R7 | **Ask the mentors:** (1) Does the FAQ govern where it differs from the earlier talk (no submission form, login optional, no introductions)? (2) Are early stages such as concept and prototype wanted? (3) Their own definitions and weights for the five criteria. (4) Two real examples for the demo. (5) Sources that must not be crawled. (6) Is the Polish-IP goal about patents only? (7) What would PCI do with anonymous usage numbers? | — | 1 h | Answers written down, with the mentor's role and the time asked | F8–F12 |
 | R8 | Methodology text (plain Polish and English): the five criteria and how each is computed | R7 | 1.5 h | Reviewed by the backend developer. Used on the methodology page | F8–F12 |
 | R9 | Regional context numbers: three or four GUS BDL indicators per region, as evidence rows | R1 | 1.5 h | CSV or JSON of indicator, value, unit, year, source | F11 |
-| R10 | Register the OpenAlex key (free) and hand it to the backend developer through a safe channel | — | 0.2 h | Key is in the backend `.env`. Not in chat logs or git | F5 |
+| ~~R10~~ | ~~Register the OpenAlex key (free) and hand it to the backend developer through a safe channel~~ **Done: Delta** | — | 0.2 h | Key is in the backend `.env`. Not in chat logs or git | F5 |
 
 ## Frontend (F)
 
-Start now, on the mock. Switch to the real API at M1. Follow `docs/FRONTEND-START.md` (states to design, accessibility checklist, generated types).
+Start now, on the mock. Switch to the real API at M1 (done on branch `Philip`).
+
+**Agreed flow (design team, 23:00):** landing with graphics and logo on the left and the sign-in panel on the right; after sign-in the window slides open to the search screen (nav bar on top, search bar, latest tags as chips under it); results with filters and sort in a left column and collapsed cards with a short summary; a click expands a card in place with the full details, still scrollable. This replaces the home layout in F1 and the separate sign-in page in F11. Mockups and review: see the design agent's report. Follow `docs/FRONTEND-START.md` (states to design, accessibility checklist, generated types).
 
 | ID | Task | Depends | Est | Done when | Req |
 |---|---|---|---|---|---|
-| F0 | **Scaffold:** Next.js, TypeScript, Tailwind, i18n (Polish first, English toggle), design tokens, typed API client from the contract, layout with skip link, error and loading components | — | 2 h | App runs with `docker compose --profile mock up` plus `npm run dev`. Types generated. Other frontend tasks can start from it | F20 |
+| ~~F0~~ | ~~**Scaffold:** Next.js, TypeScript, Tailwind, i18n (Polish first, English toggle), design tokens, typed API client from the contract, layout with skip link, error and loading components~~ **Done: Delta** | — | 2 h | App runs with `docker compose --profile mock up` plus `npm run dev`. Types generated. Other frontend tasks can start from it | F20 |
 | F1 | **Home:** search box, six audience presets, overview numbers, "how it works" strip | F0 | 2 h | Preset sets filters and goes to results. Overview numbers come from `/stats/overview` | F4, F18, F20 |
 | F2 | **Results:** list, filters from `/facets`, sort, pagination, active filter chips, select cards for compare | F0 | 3 h | Every filter works with keyboard. Empty, loading and error states designed | F15 |
 | F3 | **Card page:** description, area, implementation level, TRL, scores with confidence, **Confirmed and Estimate labels**, sources with quoted passages, evidence drawer, similar cards, history, link to the owner | F0 | 4 h | A number never appears without a source link or a "not enough data" note. Labels do not rely on colour alone | F13, F14 |

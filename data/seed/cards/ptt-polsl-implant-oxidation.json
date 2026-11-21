@@ -1,0 +1,199 @@
+{
+  "id": "35c8b62b-42c8-4a34-a0b1-422b110f02a7",
+  "title": {
+    "pl": "Modyfikacja warstwy wierzchniej implantów tytanowych do trwałego zrostu z kością",
+    "en": "Surface modification of titanium implants for permanent bonding to bone"
+  },
+  "summaryShort": {
+    "pl": "Wysokonapięciowe utlenianie tworzy na tytanie cienką warstwę tlenkową, która ma przyspieszać zrost z kością.",
+    "en": "High-voltage oxidation forms a thin oxide layer on titanium that is meant to speed bonding to bone."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "implants",
+      "label": {
+        "pl": "Implanty",
+        "en": "Implants"
+      }
+    },
+    {
+      "slug": "nanotechnology",
+      "label": {
+        "pl": "Nanotechnologia",
+        "en": "Nanotechnology"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Centrum Inkubacji i Transferu Technologii Politechniki Śląskiej",
+    "type": "university",
+    "url": "http://www.citt.polsl.pl",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "prototype",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 4,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-21T20:55:29Z",
+  "stale": false,
+  "sourceCount": 1,
+  "relevance": null,
+  "summary": {
+    "pl": "Centrum Inkubacji i Transferu Technologii Politechniki Śląskiej oferuje modyfikację powierzchni implantów z tytanu lub jego stopów. Wpis podaje grubość warstwy 3,5–9,5 µm i powołuje się na patent P.225227. Numeru nie udało się sprawdzić w bazie Urzędu Patentowego, więc karta nie jest oznaczona jako polskie IP. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "The Incubation and Technology Transfer Centre of the Silesian University of Technology offers surface modification of implants made of titanium or its alloys. The listing gives a layer thickness of 3.5 to 9.5 µm and cites patent P.225227. The number could not be checked in the Patent Office database, so the card is not marked as Polish IP. Summary written by the model from the listing."
+  },
+  "implementationLevelDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "7c04d597-c87f-4393-985f-75b16c93fafe"
+    ],
+    "evidenceIds": [
+      "1f688d55-32fa-48a3-98b8-ea9b55c7cedd"
+    ],
+    "method": "Listing describes coated samples with measured layer thickness and adhesion. No TRL is stated. Read as a laboratory prototype. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis opisuje próbki z powłoką o zmierzonej grubości i przyczepności. Brak TRL. Przyjęto prototyp laboratoryjny. Do potwierdzenia przez recenzenta.",
+      "en": "Listing describes coated samples with measured layer thickness and adhesion. No TRL is stated. Read as a laboratory prototype. Reviewer to confirm."
+    },
+    "value": "prototype"
+  },
+  "trlDetail": {
+    "basis": "estimate",
+    "sourceIds": [
+      "7c04d597-c87f-4393-985f-75b16c93fafe"
+    ],
+    "evidenceIds": [
+      "1f688d55-32fa-48a3-98b8-ea9b55c7cedd"
+    ],
+    "method": "No TRL in the listing. Coated samples with measured thickness are described, which reads as laboratory validation (TRL 4). Reviewer to confirm.",
+    "methodText": {
+      "pl": "We wpisie brak TRL. Opisano próbki z powłoką o zmierzonej grubości, co odpowiada walidacji laboratoryjnej (TRL 4). Do potwierdzenia przez recenzenta.",
+      "en": "No TRL in the listing. Coated samples with measured thickness are described, which reads as laboratory validation (TRL 4). Reviewer to confirm."
+    },
+    "applicable": true,
+    "value": 4
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Metoda jest chroniona patentem i oferowana do licencjonowania. Wpis nie wskazuje, że jest dostępna lub stosowana przez inne podmioty.",
+      "en": "The method is protected by a patent and offered for licensing. The listing does not show that it is available or used by others."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Producenci implantów stomatologicznych i weterynaryjnych (wg wpisu)",
+      "en": "Makers of dental and veterinary implants (per the listing)"
+    }
+  ],
+  "owner": {
+    "name": "Centrum Inkubacji i Transferu Technologii Politechniki Śląskiej",
+    "url": "http://www.citt.polsl.pl"
+  },
+  "sources": [
+    {
+      "id": "7c04d597-c87f-4393-985f-75b16c93fafe",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Modyfikacja warstwy wierzchniej implantów przeznaczonych do trwałego zrostu z kością",
+      "url": "http://ptt.arp.pl/bazy/modyfikacja-warstwy-wierzchniej-implantów-przeznaczonych-do-trwałego-zrostu-z-kością/",
+      "retrievedAt": "2026-11-21T20:55:29Z",
+      "passage": "Modyfikacja warstwy wierzchniej implantów, wykonanych z tytanu lub jego stopu, trwale łączących się z kością polegająca na zastosowaniu procesu wysokonapięciowego utleniania … Warstwy ceramiczne wytworzone metodą zgodną z patentem 225227 charakteryzują się dość niską grubością (3,5 - 9,5 µm) … Technologia modyfikacji tytanu i jego stopów wg patentu P.225227 … Forma ochrony Wynalazek Strzeżone know-how",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "1f688d55-32fa-48a3-98b8-ea9b55c7cedd",
+      "metric": "coating_thickness",
+      "label": {
+        "pl": "Grubość warstwy ceramicznej",
+        "en": "Thickness of the ceramic layer"
+      },
+      "value": "3,5 - 9,5",
+      "unit": "µm",
+      "sourceId": "7c04d597-c87f-4393-985f-75b16c93fafe",
+      "query": "Read from the page http://ptt.arp.pl/bazy/modyfikacja-warstwy-wierzchniej-implantów-przeznaczonych-do-trwałego-zrostu-z-kością/. Quoted text: \"dość niską grubością (3,5 - 9,5 µm)\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    },
+    {
+      "id": "252d35c6-f922-4eb5-bc9e-e176175a6c82",
+      "metric": "patent_number",
+      "label": {
+        "pl": "Numer patentu",
+        "en": "Patent number"
+      },
+      "value": "P.225227",
+      "unit": null,
+      "sourceId": "7c04d597-c87f-4393-985f-75b16c93fafe",
+      "query": "Read from the page http://ptt.arp.pl/bazy/modyfikacja-warstwy-wierzchniej-implantów-przeznaczonych-do-trwałego-zrostu-z-kością/. Quoted text: \"wg patentu P.225227\"",
+      "retrievedAt": "2026-11-21T20:55:29Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T20:55:29Z",
+  "statusChangedAt": null,
+  "polishIpStatus": "stated"
+}

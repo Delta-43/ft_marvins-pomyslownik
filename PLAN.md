@@ -1,4 +1,4 @@
-# Innovation Radar: build plan (v4)
+# Pomysłownik!: build plan (v4, status updated 2026-11-21 23:11)
 
 > Research notes and the translated task files are kept outside this repository. Ask Delta if you need them.
 
@@ -9,7 +9,7 @@ Earlier versions: `archive/`. Research: `research/01` to `04`. Evidence tags: **
 
 ## 1. The product
 
-**Innovation Radar** is a public web app that **automatically collects existing Polish innovations** from open sources, turns each into one **innovation card**, **assesses** it, and lets anyone **search, filter and compare** cards. It refreshes on a schedule.
+**Pomysłownik!** (working name earlier: Innovation Radar) is a public web app that **automatically collects existing Polish innovations** from open sources, turns each into one **innovation card**, **assesses** it, and lets anyone **search, filter and compare** cards. It refreshes on a schedule.
 
 The organisers' FAQ governs (`task_files/en/03-faq-clarification.md`):
 - Three areas: **technological, educational, administrative**. Definition from the Oslo Manual 2018.
@@ -62,11 +62,11 @@ These are the points that decide the score. Everything else is secondary.
 | | Staging (this machine) | Production (delta-server) |
 |---|---|---|
 | Command | `docker compose --profile full up --build` | `docker compose -f compose.yaml -f compose.prod.yaml --profile full up -d --build` |
-| Ports | Published on localhost | Bound to `127.0.0.1` only. The tunnel exposes the API (and the web app if served there) |
+| Ports | Published on localhost | Bound to the LAN address 192.168.0.43 (`API_BIND`, `WEB_BIND`), API on 8000, web on 3010 (Gitea uses 3000). Cloudflare tunnel: `demo.delta43.net` → API, `pomyslownik.delta43.net` → web |
 | Secrets | `.env`, never committed | `.env` on the server, never committed |
 | Data | Seed files, `make seed` | Same seed, then live collectors |
 
-Deployment steps use the `managing-ssh-mesh` skill (cross-host work, `delta-server` alias). The tunnel host name is not decided yet. Set `CORS_ORIGINS` and `NEXT_PUBLIC_API_BASE_URL` once it is.
+Deployment steps use the `managing-ssh-mesh` skill (cross-host work, `delta-server` alias). ~~The tunnel host name is not decided yet.~~ Decided and live: see Ports. The checkout on delta-server is `/data/projects/hacknation/ft_marvins-pomyslownik`.
 
 ## 4. Assessment (definitions to validate with a mentor)
 
@@ -84,10 +84,10 @@ Weights are not final. Every score is labelled indicative and links to its evide
 
 | Method | Examples | Status |
 |---|---|---|
-| API | OpenAlex (needs a free key), EU Funding and Tenders, data.europa.eu, GUS BDL for regional numbers | Work without or with a free key (V) |
-| Crawl | Incubators, transfer centres, university, school and council pages | To build. Check robots and terms first |
-| Document | PDF reports and project descriptions | To build |
-| Unreliable today | UPRP, RSPO, KRS (maintenance page) | Seed by hand. Cache |
+| API | RAD-on open data (research projects → cards, no key), OpenAlex (counts of similar Polish works → innovativeness evidence, key), UPRP statistics API (aggregates, no key), GUS BDL, dane.gov.pl | Live and tested (V). Checks in `research/01-sources.md` |
+| Crawl | PTT, the technology transfer platform of ARP (robots allow, Crawl-delay 5); gov.pl, city and university pages | Live (V). Robots and Crawl-delay respected, snapshots cached |
+| Document | PDF reports (new card, or enrich a card) | Live (V): the 2022 evaluation report of "Szkoła dla innowatora" |
+| Not used | PW repository and PPM (robots Disallow /), PBN (institution token), CORDIS search (robots), UPRP e-Wyszukiwarka (our key returns 401) | Seed by hand only |
 
 Do not scrape Google Scholar (no official API). Use OpenAlex and say so in the pitch. The demo runs from the cache. Karrie verifies sources and every "confirmed" field in the seed set.
 
@@ -106,7 +106,7 @@ Do not scrape Google Scholar (no official API). Use OpenAlex and say so in the p
 ## 7. Stack
 
 - **Frontend:** Next.js, TypeScript, Tailwind, accessible primitives (Radix or React Aria), Polish and English, types generated from the contract.
-- **Backend (proposed, to confirm):** Python and FastAPI, one image for `api` and `worker`. Collectors with `httpx`, an HTML parser and PDF text extraction. Claude for structured extraction and explanations. Scheduled loop in the worker.
+- **Backend (built):** Python and FastAPI, one image for `api` and `worker`. Collectors with `httpx`, selectolax (lexbor) and pypdf. Claude (`claude-opus-5-5`, structured output, server-side refusal fallbacks) for extraction only; explanations are templates, numbers come from evidence. Scheduled refresh every 24 h in the worker.
 - **Database:** PostgreSQL with pgvector, `pg_trgm`, `unaccent`. No built-in Polish stemmer (R, check early).
 - **Licences:** the repo is released under EUPL-1.2, so every dependency must be MIT, BSD, Apache-2.0 or EUPL-compatible. Check with a licence scan in CI. Check the licence of the embedding model and any Bielik model before use.
 
@@ -135,16 +135,16 @@ Required: title, problem and solution text, how it works, **PDF with at most 10 
 
 ## 10. Decisions needed now
 
-1. Backend language: Python and FastAPI as proposed, or TypeScript?
-2. Claude API key for extraction and explanations: whose, and the spending limit?
-3. Tunnel host name and whether the web app is also served from delta-server.
-4. Which embedding model, or skip embeddings and use trigram similarity only?
-5. Which two use cases?
+1. ~~Backend language: Python and FastAPI as proposed, or TypeScript?~~ Python and FastAPI.
+2. ~~Claude API key for extraction and explanations: whose~~ Delta's key, on the server. Spending limit: still to set.
+3. ~~Tunnel host name and whether the web app is also served from delta-server.~~ `demo.delta43.net` (API) and `pomyslownik.delta43.net` (web), both from delta-server.
+4. ~~Which embedding model, or skip embeddings and use trigram similarity only?~~ Trigram plus shared tags for now; embeddings (B10) optional.
+5. Which two use cases? Candidates: technological "Lab-on-a-Foil" (Politechnika Warszawska, PTT listing with application P.441974, OpenAlex evidence); educational "Szkoła dla innowatora" (gov.pl page plus the 2022 evaluation PDF).
 
 ## 11. Not yet verified
 
 - Official deadline and the final jury criteria text.
-- PFR Technology Transfer Platform (HTTP 403).
-- Terms and robots rules per crawled site.
+- ~~PFR Technology Transfer Platform (HTTP 403).~~ It is PTT, run by ARP; readable and crawlable.
+- Terms and robots rules per crawled site. Robots: checked for every site we crawl. Terms and licences: still unknown for PTT and RAD-on.
 - Licences: embedding model, Kohesio export, Lens.org, EEN keyword codes.
-- Whether `pgvector/pgvector:pg16` pulls and runs here (not pulled yet).
+- ~~Whether `pgvector/pgvector:pg16` pulls and runs here (not pulled yet).~~ Runs here and on delta-server.
