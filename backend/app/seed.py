@@ -11,7 +11,7 @@ import sys
 
 from .config import settings
 from .db import connection
-from .services.i18n import consistency_problems, problems
+from .services.i18n import consistency_problems, problems, sentence_case
 
 
 def _prov(detail: dict) -> dict:
@@ -95,7 +95,7 @@ def load_card(conn, card: dict) -> None:
     for t in tags:
         conn.execute("""INSERT INTO tags (slug, label_pl, label_en) VALUES (%s,%s,%s)
                         ON CONFLICT (slug) DO UPDATE SET label_pl = EXCLUDED.label_pl, label_en = EXCLUDED.label_en""",
-                     (t["slug"], t["label"].get("pl"), t["label"].get("en")))
+                     (t["slug"], sentence_case(t["label"].get("pl")), sentence_case(t["label"].get("en"))))
         conn.execute("INSERT INTO card_tags (card_id, tag_slug) VALUES (%s,%s) ON CONFLICT DO NOTHING", (card["id"], t["slug"]))
     for s in card["sources"]:
         conn.execute("""INSERT INTO card_sources (card_id, source_id, retrieved_at, passage, passage_lang) VALUES (%s,%s,%s,%s,%s)
