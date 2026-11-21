@@ -97,10 +97,10 @@ function SignInPanel() {
       id="logowanie"
       tabIndex={-1}
       aria-labelledby="h-logowanie"
-      className="box-border flex w-full flex-col gap-5 rounded-3xl border border-krawedz bg-white p-6 text-[1.125rem] leading-[1.55] text-atrament outline-none"
+      className="box-border flex w-full flex-col gap-7 rounded-3xl border border-krawedz bg-white p-[clamp(1.5rem,3vw,3rem)] text-[1.25rem] leading-[1.55] text-atrament outline-none"
     >
       <div className="flex flex-col gap-1">
-        <h2 id="h-logowanie" className="m-0 font-display text-[2rem] leading-[1.1] font-bold tracking-[-0.01em]">Zaloguj się</h2>
+        <h2 id="h-logowanie" className="m-0 font-display text-[clamp(2.25rem,3.5vw,3.25rem)] leading-[1.1] font-bold tracking-[-0.01em]">Zaloguj się</h2>
         <p className="m-0 text-kamien">Wybierz sposób logowania</p>
       </div>
       <div className="flex flex-col gap-2.5">
@@ -108,7 +108,7 @@ function SignInPanel() {
           id="sandbox-btn"
           href={SIGN_IN}
           aria-describedby="sandbox-help"
-          className="flex min-h-11 w-full items-center gap-3 rounded-full bg-granat px-[22px] py-1.5 text-left text-base leading-[1.3] font-bold text-papier no-underline hover:bg-[#14306E] hover:text-papier"
+          className="flex min-h-14 w-full items-center gap-3 rounded-full bg-granat px-5 py-2 text-left text-base leading-[1.3] sm:min-h-16 sm:px-7 sm:text-[1.125rem] font-bold text-papier no-underline hover:bg-[#14306E] hover:text-papier"
         >
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" className="flex-none">
             <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="8.5" r="3.5" /><path d="M5 20c.9-3.8 3.6-5.8 7-5.8s6.1 2 7 5.8" /></g>
@@ -116,7 +116,7 @@ function SignInPanel() {
           <span className="flex-1">Kontynuuj z tożsamością testową</span>
           <span className={`flex-none rounded-md bg-papier px-2 py-0.5 text-sm font-medium tracking-[0.06em] text-atrament ${MONO}`}>TEST</span>
         </Link>
-        <p id="sandbox-help" className="m-0 text-base text-kamien">To nie jest weryfikacja krajowa. Służy wyłącznie do wersji demonstracyjnej.</p>
+        <p id="sandbox-help" className="m-0 text-[1.0625rem] text-kamien">To nie jest weryfikacja krajowa. Służy wyłącznie do wersji demonstracyjnej.</p>
       </div>
       <hr className="m-0 border-0 border-t border-krawedz" />
       <p className="m-0 flex flex-wrap items-center gap-1.5">
@@ -124,13 +124,13 @@ function SignInPanel() {
         <Link href={REGISTER} className="rounded font-bold text-granat underline underline-offset-4 hover:text-atrament">Zarejestruj się</Link>
       </p>
       {/* Info message (DESIGN.md 6): icon, bold lead word, Granat 1.5px border on #EEF1F8, radius 16, padding 16. */}
-      <div className="flex gap-3 rounded-2xl border-[1.5px] border-granat bg-[#EEF1F8] p-4">
+      <div className="flex gap-3 rounded-2xl border-[1.5px] border-granat bg-[#EEF1F8] p-5">
         <svg viewBox="0 0 20 20" width="22" height="22" aria-hidden="true" className="mt-0.5 flex-none">
           <circle cx="10" cy="10" r="10" fill="#1B3F8F" /><circle cx="10" cy="5.8" r="1.3" fill="#FFFFFF" /><path d="M10 9v5.5" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" />
         </svg>
-        <p className="m-0 text-base"><strong>Informacja.</strong> Karty są dostępne po zalogowaniu. Chronimy własność intelektualną autorów.</p>
+        <p className="m-0 text-[1.0625rem]"><strong>Informacja.</strong> Karty są dostępne po zalogowaniu. Chronimy własność intelektualną autorów.</p>
       </div>
-      <ul className="m-0 flex list-none flex-wrap gap-x-[18px] gap-y-2 p-0 text-base">
+      <ul className="m-0 flex list-none flex-wrap gap-x-[18px] gap-y-2 p-0 text-[1.0625rem]">
         <li><a href="#regulamin" className="rounded text-atrament underline underline-offset-[0.2em] hover:text-granat">Regulamin</a></li>
         <li><a href="#deklaracja-dostepnosci" className="rounded text-atrament underline underline-offset-[0.2em] hover:text-granat">Deklaracja dostępności</a></li>
       </ul>
@@ -149,8 +149,10 @@ export default function LandingPage() {
         <main id="main" tabIndex={-1} className="outline-none">
           {/* Hero */}
           <section aria-labelledby="h1" className="relative overflow-hidden">
-            <div className={`${WRAP} flex min-h-svh flex-wrap gap-[clamp(2rem,4vw,4rem)] pt-[clamp(2rem,5vw,4rem)]`}>
-              <div className="flex min-w-0 flex-[7_1_34rem] flex-col">
+            {/* Grid: desktop = text and art on the left, sign-in panel on the right from the top;
+                narrow screens = text, then the sign-in panel, then the art (so the panel comes early). */}
+            <div className={`${WRAP} grid min-h-svh grid-cols-1 content-start gap-x-[clamp(2rem,4vw,4rem)] gap-y-8 pt-[clamp(2rem,5vw,4rem)] pb-[clamp(2rem,5vw,4rem)] min-[1080px]:grid-cols-[minmax(0,7fr)_minmax(0,6fr)] min-[1080px]:grid-rows-[auto_1fr] min-[1080px]:gap-y-0`}>
+              <div className="flex min-w-0 flex-col min-[1080px]:col-start-1 min-[1080px]:row-start-1">
                 <p className="m-0 text-sm font-bold tracking-[0.18em]">PLATFORMA DLA INNOWATORÓW</p>
                 <h1 id="h1" className="mt-5 mb-0 pt-[0.06em] font-display text-[clamp(3.5rem,9vw,9rem)] leading-[1.1] font-bold tracking-[-0.01em] [text-wrap:balance]">
                   Tu pomysły znajdują ludzi.
@@ -158,10 +160,12 @@ export default function LandingPage() {
                 <p className="mt-7 mb-0 max-w-[60ch] text-[clamp(1.125rem,1.4vw,1.375rem)] leading-[1.55] [text-wrap:pretty]">
                   Pomysłownik! łączy zespoły uczelni, laboratoria, właścicieli patentów i startupy w całej Polsce. Zobacz, kto pracuje nad tym, czego szukasz, i jak do niego dotrzeć.
                 </p>
-                <HeroArt />
               </div>
-              <div className="flex min-w-0 flex-[5_1_22rem] flex-col justify-center pb-[clamp(2rem,5vw,4rem)]">
+              <div className="min-w-0 min-[1080px]:col-start-2 min-[1080px]:row-span-2 min-[1080px]:row-start-1">
                 <SignInPanel />
+              </div>
+              <div className="flex min-w-0 flex-col min-[1080px]:col-start-1 min-[1080px]:row-start-2">
+                <HeroArt />
               </div>
             </div>
             <p aria-hidden="true" className={`absolute top-1/2 right-2.5 m-0 hidden -translate-y-1/2 rotate-180 text-sm tracking-[0.2em] whitespace-nowrap text-kamien [writing-mode:vertical-rl] min-[1080px]:block ${MONO}`}>
