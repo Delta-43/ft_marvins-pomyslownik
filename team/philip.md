@@ -22,7 +22,7 @@ Work outside the task list:
 
 ## Doing now
 
-Since 22:06: keyboard and accessibility check of the sign-in and results flow.
+Since 00:16: F2 (results): sort, active filter chips. Branch `Philip` is up to date with `main`.
 
 ## Blockers
 
@@ -43,3 +43,6 @@ Since 22:06: keyboard and accessibility check of the sign-in and results flow.
 | 23:47 | **F0 done.** Loading, error, 404 and global-error screens in PL and EN. Whole site run against the mock API, every page OK |
 | 23:54 | **F1 done.** Overview numbers, main-audience preset, presets carry their filters, "how it works" strip, PL and EN |
 | 23:55 | F2: multi-select filters fixed. Lists are now sent to the API comma-separated, as the contract says (a repeated `area=` only kept the last value, so two areas showed one area's cards). Facet counts now follow the search and filters. Unknown filter values in the URL are dropped instead of causing a 422. Tested on the live API: Technological + Educational = 20 (was 8) |
+| 00:05 | Merged `main` into `Philip`: the team's design restored (route groups `(app)` and `(landing)`, new landing page with hero video, logo v2, favicon). Kept all of Philip's frontend work (i18n, F0, F1, F2 fix, live API pages); moved pages unchanged in content |
+| 00:12 | Landing page in Polish and English, PL/EN switch at the top right of the hero and in the footer (dark variant) |
+| 00:16 | Merged the latest `main` again (TASKS status, Alban's file, unused landing images removed). Every page checked in PL and EN, typecheck clean. `Philip` level with `main` |
