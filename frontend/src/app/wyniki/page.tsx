@@ -11,27 +11,52 @@ type Facets = { data: Record<"area" | "implementationLevel", FacetOption[]> };
 type CardList = { data: Schemas["CardSummary"][]; meta: Schemas["PageMeta"] };
 
 const PAGE = 12;
-const list = (v: string | string[] | undefined) => (Array.isArray(v) ? v : v ? [v] : []);
+
+// Values the API accepts (type-checked against the contract). Anything else in our URL is dropped, so a stale or
+// hand-edited link never turns into a 422 from the backend.
+const AREAS = ["technological", "educational", "administrative"] as const satisfies readonly Schemas["Area"][];
+const LEVELS = ["concept", "prototype", "testing", "pilot", "in_practice"] as const satisfies readonly Schemas["ImplementationLevel"][];
+const AUDIENCES = [
+  "investors_business", "public_bodies", "universities", "schools", "startups_enterprises", "inventors",
+] as const satisfies readonly Schemas["AudienceId"][];
+
+/** Values of a filter from our own URL. Accepts repeated params (`area=a&area=b`, what an HTML form sends) and
+ *  comma lists (`area=a,b`), keeps only allowed values, without duplicates, in a stable order. */
+function list<T extends string>(v: string | string[] | undefined, allowed: readonly T[]): T[] {
+  const raw = (Array.isArray(v) ? v : v ? [v] : []).flatMap((s) => s.split(",")).map((s) => s.trim());
+  return allowed.filter((a) => raw.includes(a));
+}
 
 // "Search Results" frame: GET /api/v1/cards with filters from /facets. Signed-in only (proxy + API session).
 export default async function ResultsPage({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
   const [t, tErr, locale] = await Promise.all([getTranslations("results"), getTranslations("errors"), getLocale()]);
   const q = sp.q?.trim() ?? "";
-  const areas = list(sp.area);
-  const levels = list(sp.implementationLevel);
-  const page = Math.max(1, Number(sp.strona) || 1);
+  const areas = list(sp.area, AREAS);
+  const levels = list(sp.implementationLevel, LEVELS);
+  const audience = list(sp.audience, AUDIENCES)[0];
+  const page = Math.max(1, Math.floor(Number(sp.strona)) || 1);
 
-  // Filters as they appear in our own URL (used for "back here after sign-in" and paging).
+  // Filters as they appear in our own URL: repeated params, as the filter form submits them without JavaScript.
+  // Used for "back here after sign-in" and paging.
   const filters = new URLSearchParams();
   if (q) filters.set("q", q);
   areas.forEach((a) => filters.append("area", a));
   levels.forEach((l) => filters.append("implementationLevel", l));
-  if (sp.audience) filters.set("audience", sp.audience);
+  if (audience) filters.set("audience", audience);
 
-  const query = new URLSearchParams(filters);
-  query.set("limit", String(PAGE));
-  query.set("offset", String((page - 1) * PAGE));
+  // The same filters for the API. The contract uses comma-separated lists (`area=a,b`, explode: false); the backend
+  // reads a repeated param as its last value only, so lists must be joined here. /facets takes the same filters,
+  // so its counts match the results (the backend leaves out a facet's own filter when counting it).
+  const apiFilters = new URLSearchParams();
+  if (q) apiFilters.set("q", q);
+  if (areas.length) apiFilters.set("area", areas.join(","));
+  if (levels.length) apiFilters.set("implementationLevel", levels.join(","));
+  if (audience) apiFilters.set("audience", audience);
+
+  const cardsQuery = new URLSearchParams(apiFilters);
+  cardsQuery.set("limit", String(PAGE));
+  cardsQuery.set("offset", String((page - 1) * PAGE));
 
   const here = `/wyniki?${filters}${page > 1 ? `&strona=${page}` : ""}`;
   let cards: CardList | null = null;
@@ -39,8 +64,8 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
   let error: ApiError | null = null;
   try {
     [cards, facets] = await Promise.all([
-      authed<CardList>(`/api/v1/cards?${query}`, here),
-      authed<Facets>("/api/v1/facets", here).then((r) => r.data),
+      authed<CardList>(`/api/v1/cards?${cardsQuery}`, here),
+      authed<Facets>(`/api/v1/facets?${apiFilters}`, here).then((r) => r.data),
     ]);
   } catch (e) {
     if (!(e instanceof ApiError)) throw e; // let Next.js handle redirects and real crashes
@@ -61,13 +86,13 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
       <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">
         <form action="/wyniki" aria-label={t("filtersLabel")} className="glass h-fit space-y-6 rounded-[var(--radius-card)] p-5">
           {q && <input type="hidden" name="q" value={q} />}
-          {sp.audience && <input type="hidden" name="audience" value={sp.audience} />}
+          {audience && <input type="hidden" name="audience" value={audience} />}
           {facets && ([["area", t("area"), areas], ["implementationLevel", t("level"), levels]] as const).map(([key, name, chosen]) => (
             <fieldset key={key}>
               <legend className="mb-2 font-bold">{name}</legend>
               {facets[key].map((o) => (
                 <label key={o.value} className="flex items-center gap-2 py-0.5">
-                  <input type="checkbox" name={key} value={o.value} defaultChecked={chosen.includes(o.value)} className="accent-granat" />
+                  <input type="checkbox" name={key} value={o.value} defaultChecked={(chosen as readonly string[]).includes(o.value)} className="accent-granat" />
                   <span className="flex-1">{pick(o.label, locale)}</span>
                   <span className="font-tech text-xs tabular-nums text-kamien">{o.count}</span>
                 </label>

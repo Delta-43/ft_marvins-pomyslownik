@@ -42,3 +42,4 @@ Since 22:06: keyboard and accessibility check of the sign-in and results flow.
 | 23:36 | PL/EN language switch (footer, bottom right) and the whole site in Polish and English from `messages/*.json`. Tested on a production build: switch, persistence across pages and sign-in, every page in both languages, no JS errors |
 | 23:47 | **F0 done.** Loading, error, 404 and global-error screens in PL and EN. Whole site run against the mock API, every page OK |
 | 23:54 | **F1 done.** Overview numbers, main-audience preset, presets carry their filters, "how it works" strip, PL and EN |
+| 23:55 | F2: multi-select filters fixed. Lists are now sent to the API comma-separated, as the contract says (a repeated `area=` only kept the last value, so two areas showed one area's cards). Facet counts now follow the search and filters. Unknown filter values in the URL are dropped instead of causing a 422. Tested on the live API: Technological + Educational = 20 (was 8) |
