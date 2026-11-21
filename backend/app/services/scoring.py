@@ -5,6 +5,7 @@ Every number a score uses is an evidence row (metric, value, unit, source, query
 text is built from a template that only contains numbers from those rows (see validator.py).
 The weights are indicative, not final (PLAN.md section 4). They are written down here and on the methodology page.
 """
+import math
 from dataclasses import dataclass, field
 from urllib.parse import urlparse
 
@@ -35,6 +36,7 @@ class Facts:
     source_evidence_count: int  # evidence rows that came from the sources themselves (numbers the source states)
     pool_size: int             # other cards compared
     top_similarities: list[float] = field(default_factory=list)  # best matches among the pool, 0..1
+    similar_publications: int | None = None  # OpenAlex count of similar works by Polish institutions, when known
 
 
 @dataclass
@@ -74,19 +76,36 @@ def credibility(f: Facts) -> Result:
 
 
 def innovativeness(f: Facts) -> Result:
+    """Distance to the closest cards in the database; when OpenAlex data exists, also how crowded the field is."""
+    pubs_known = f.similar_publications is not None
     method = {"en": "100 minus the mean similarity (as a percentage) of the three closest other cards in the database. "
-                    "Needs at least 5 other cards to compare with. Indicative.",
+                    "Needs at least 5 other cards to compare with. "
+                    + ("When OpenAlex counts similar publications by Polish institutions, 60% of the score comes from the distance and 40% from "
+                       "how few such publications exist (0 works gives 100, 1000 or more gives 0, on a log scale). " if pubs_known else "")
+                    + "Indicative.",
               "pl": "100 minus średnie podobieństwo (w procentach) trzech najbliższych innych kart w bazie. "
-                    "Wymaga co najmniej 5 innych kart do porównania. Wynik orientacyjny."}
-    metrics = ["compared_cards", "mean_top3_similarity_pct"]
+                    "Wymaga co najmniej 5 innych kart do porównania. "
+                    + ("Gdy OpenAlex podaje liczbę podobnych publikacji polskich instytucji, 60% wyniku to odległość, a 40% to rzadkość takich "
+                       "publikacji (0 prac daje 100, 1000 lub więcej daje 0, w skali logarytmicznej). " if pubs_known else "")
+                    + "Wynik orientacyjny."}
+    metrics = ["compared_cards", "mean_top3_similarity_pct"] + (["similar_polish_publications_count"] if pubs_known else [])
     if f.pool_size < MIN_POOL or not f.top_similarities:
         return Result(None, "low", True, f.pool_size, metrics, method, None)
     top = sorted(f.top_similarities, reverse=True)[:3]
     mean_pct = round(sum(top) / len(top) * 100)
-    v = max(0, min(100, 100 - mean_pct))
-    expl = {"en": f"Compared with {f.pool_size} other cards; the three closest are on average {mean_pct}% similar. Score {v} of 100.",
-            "pl": f"Porównano z {f.pool_size} innymi kartami; trzy najbliższe są średnio podobne w {mean_pct}%. Wynik {v} ze 100."}
-    return Result(v, _conf(f.pool_size, 10, 30), False, f.pool_size, metrics, method, expl)
+    distance = max(0, min(100, 100 - mean_pct))
+    if pubs_known:
+        rarity = 100 * (1 - min(math.log10(1 + f.similar_publications) / 3, 1))
+        v = round(0.6 * distance + 0.4 * rarity)
+        expl = {"en": f"Compared with {f.pool_size} other cards; the three closest are on average {mean_pct}% similar. "
+                      f"OpenAlex finds {f.similar_publications} similar works by Polish institutions. Score {v} of 100.",
+                "pl": f"Porównano z {f.pool_size} innymi kartami; trzy najbliższe są średnio podobne w {mean_pct}%. "
+                      f"OpenAlex znajduje {f.similar_publications} podobnych prac polskich instytucji. Wynik {v} ze 100."}
+    else:
+        v = distance
+        expl = {"en": f"Compared with {f.pool_size} other cards; the three closest are on average {mean_pct}% similar. Score {v} of 100.",
+                "pl": f"Porównano z {f.pool_size} innymi kartami; trzy najbliższe są średnio podobne w {mean_pct}%. Wynik {v} ze 100."}
+    return Result(v, _conf(f.pool_size + (10 if pubs_known else 0), 10, 30), False, f.pool_size, metrics, method, expl)
 
 
 def application_potential(f: Facts) -> Result:
@@ -118,6 +137,7 @@ def metric_values(f: Facts) -> dict[str, float | int | bool]:
         "has_owner_contact": f.has_owner_contact, "sector_count": f.sector_count,
         "source_evidence_count": f.source_evidence_count, "compared_cards": f.pool_size,
         "mean_top3_similarity_pct": round(sum(top) / len(top) * 100) if top else 0,
+        **({"similar_polish_publications_count": f.similar_publications} if f.similar_publications is not None else {}),
     }
 
 
@@ -133,6 +153,7 @@ METRIC_LABELS = {
     "source_evidence_count": ("Liczby podane przez źródło", "Numbers stated by the source"),
     "compared_cards": ("Liczba porównanych kart", "Number of cards compared"),
     "mean_top3_similarity_pct": ("Średnie podobieństwo trzech najbliższych kart (%)", "Mean similarity of the three closest cards (%)"),
+    "similar_polish_publications_count": ("Liczba podobnych publikacji polskich instytucji (OpenAlex)", "Similar publications by Polish institutions (OpenAlex)"),
 }
 
 

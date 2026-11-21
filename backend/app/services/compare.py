@@ -8,6 +8,8 @@ from ..db import one, rows
 from .cards import SUMMARY_COLS, Filters, iso, summary  # noqa: F401
 from .i18n import NO, NO_DATA, NOT_APPLICABLE, YES, label
 
+LEVELS_SET = {"concept", "prototype", "testing", "pilot", "in_practice"}
+
 
 def _cards(ids: list[UUID]) -> list[dict]:
     found = rows(f"""SELECT {SUMMARY_COLS} FROM cards c JOIN organisations o ON o.id = c.organisation_id WHERE c.id = ANY(%(ids)s)""",
@@ -85,4 +87,22 @@ def history(card_id: UUID) -> list[dict]:
         raise HTTPException(status_code=404, detail="Card not found.")
     data = rows("SELECT at, field, from_value, to_value, source_id FROM status_history WHERE card_id = %s ORDER BY at DESC", (card_id,))
     return [{"at": iso(r["at"]), "field": r["field"], "from": r["from_value"], "to": r["to_value"],
+             "fromLabel": change_label(r["field"], r["from_value"]), "toLabel": change_label(r["field"], r["to_value"]),
              "sourceId": str(r["source_id"]) if r["source_id"] else None} for r in data]
+
+
+SOURCE_STATES = {
+    "source_ok": {"pl": "źródło potwierdza opis", "en": "source confirms the description"},
+    "source_changed": {"pl": "źródło zmieniło treść, wymaga przeglądu", "en": "source text changed, needs review"},
+    "source_unavailable": {"pl": "źródło niedostępne", "en": "source unavailable"},
+}
+
+
+def change_label(field: str, value: str | None) -> dict | None:
+    if value is None:
+        return None
+    if field == "implementationLevel" and value in LEVELS_SET:
+        return label(value)
+    if field == "other" and value in SOURCE_STATES:
+        return SOURCE_STATES[value]
+    return {"pl": value, "en": value}

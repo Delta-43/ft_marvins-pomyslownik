@@ -1285,8 +1285,16 @@ components:
       properties:
         at: { type: string, format: date-time }
         field: { type: string, enum: [implementationLevel, trl, organisation, other] }
-        from: { type: [string, 'null'] }
-        to: { type: [string, 'null'] }
+        from: { type: [string, 'null'], description: 'Machine value: a level id, a TRL number, or a source state (source_ok, source_changed, source_unavailable). Show `fromLabel`.' }
+        to: { type: [string, 'null'], description: 'Machine value, as for `from`. Show `toLabel`.' }
+        fromLabel:
+          oneOf:
+            - { $ref: '#/components/schemas/LocalizedText' }
+            - { type: 'null' }
+        toLabel:
+          oneOf:
+            - { $ref: '#/components/schemas/LocalizedText' }
+            - { type: 'null' }
         sourceId: { type: [string, 'null'], format: uuid }
 
     CompareRow:
@@ -1470,3 +1478,8 @@ components:
             cardsUpdated: { type: integer, minimum: 0 }
             statusChanges: { type: integer, minimum: 0 }
             errors: { type: integer, minimum: 0 }
+            cardsChecked: { type: integer, minimum: 0, description: Cards whose sources were re-read (refresh). }
+        changedCardIds:
+          type: array
+          description: Cards added, updated or with a status change in this run. Open them to show the change.
+          items: { type: string, format: uuid }

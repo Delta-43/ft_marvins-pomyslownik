@@ -34,7 +34,7 @@ def test_list_filter_and_detail():
     assert first["relevance"] is None and first["scores"]["credibility"] is not None
     d = client.get(f"/api/v1/cards/{first['id']}", headers=AUTH).json()["data"]
     assert d["sources"] and d["trlDetail"]["basis"] in ("confirmed", "estimate")
-    assert all(s["passage"] for s in d["sources"])
+    assert all(s["passage"] for s in d["sources"] if s["type"] != "api")  # API numbers carry no passage
 
 
 def test_search_without_diacritics_and_unknown_card():

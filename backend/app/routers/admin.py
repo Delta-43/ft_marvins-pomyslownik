@@ -37,7 +37,7 @@ def run_json(r: dict) -> dict:
     return {"id": str(r["id"]), "mode": r["mode"], "status": r["status"], "startedAt": iso(r["started_at"]),
             "finishedAt": iso(r["finished_at"]),
             "summary": {"cardsAdded": r["cards_added"], "cardsUpdated": r["cards_updated"],
-                        "statusChanges": r["status_changes"], "errors": r["errors"]},
+                        "statusChanges": r["status_changes"], "errors": r["errors"], "cardsChecked": r["cards_checked"]},
             "changedCardIds": [str(i) for i in r["changed_card_ids"]]}
 
 
@@ -51,8 +51,9 @@ def start_run(body: StartRun, response: Response, idempotency_key: str = Header(
         return {"data": run_json(existing)}
     try:
         with connection() as conn:
-            run = conn.execute("INSERT INTO collect_runs (mode, idempotency_key, request_hash) VALUES (%s,%s,%s) RETURNING *",
-                               (body.mode, idempotency_key, digest)).fetchone()
+            run = conn.execute("""INSERT INTO collect_runs (mode, idempotency_key, request_hash, source_ids)
+                                  VALUES (%s,%s,%s,%s) RETURNING *""",
+                               (body.mode, idempotency_key, digest, [str(i) for i in body.sourceIds] if body.sourceIds else None)).fetchone()
     except psycopg.errors.UniqueViolation as exc:
         # The single-flight index: a run is already queued or running.
         raise ApiError(409, "run_in_progress", "A run is already queued or running. Wait for it to finish.") from exc

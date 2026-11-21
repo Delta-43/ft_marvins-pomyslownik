@@ -10,7 +10,7 @@ RUN pip install -r requirements.txt
 COPY app ./app
 COPY migrations ./migrations
 COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh && useradd --system --uid 10001 radar
+RUN chmod +x entrypoint.sh && useradd --system --uid 10001 radar && mkdir -p /srv/data/cache && chown radar /srv/data/cache
 USER radar
 
 EXPOSE 8000

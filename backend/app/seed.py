@@ -54,6 +54,12 @@ def load_card(conn, card: dict) -> None:
     search_text = " ".join(filter(None, [title.get("pl"), title.get("en"), short.get("pl"), short.get("en"),
                                          summary.get("pl"), summary.get("en"), org["name"]]
                                         + [f"{t['label'].get('pl', '')} {t['label'].get('en', '')}" for t in tags]))
+    # Keep what a person or a refresh learned about this card: its first-seen date and its status history.
+    old = conn.execute("SELECT first_seen_at FROM cards WHERE id = %s", (card["id"],)).fetchone()
+    history = conn.execute("SELECT at, field, from_value, to_value, source_id FROM status_history WHERE card_id = %s",
+                           (card["id"],)).fetchall()
+    if old:
+        card = {**card, "firstSeenAt": old["first_seen_at"].strftime("%Y-%m-%dT%H:%M:%SZ")}
     conn.execute("DELETE FROM cards WHERE id = %s", (card["id"],))
     conn.execute(
         """INSERT INTO cards (id, title_pl, title_en, summary_short_pl, summary_short_en, summary_pl, summary_en, area,
@@ -81,6 +87,11 @@ def load_card(conn, card: dict) -> None:
     for s in card["sources"]:
         conn.execute("INSERT INTO card_sources (card_id, source_id, retrieved_at, passage, passage_lang) VALUES (%s,%s,%s,%s,%s)",
                      (card["id"], remap[s["id"]], s["retrievedAt"], s.get("passage"), s.get("passageLang")))
+    for h in history:
+        conn.execute("INSERT INTO status_history (card_id, at, field, from_value, to_value, source_id) VALUES (%s,%s,%s,%s,%s,%s)",
+                     (card["id"], h["at"], h["field"], h["from_value"], h["to_value"], h["source_id"]))
+    if history:
+        conn.execute("UPDATE cards SET status_changed_at = %s WHERE id = %s", (max(h["at"] for h in history), card["id"]))
     for e in card["evidence"]:
         conn.execute("""INSERT INTO evidence (id, card_id, metric, label, value, unit, source_id, query, retrieved_at)
                         VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
@@ -99,7 +110,8 @@ def main() -> int:
             load_card(conn, json.loads(f.read_text(encoding="utf-8")))
             print("loaded", f.name)
     print(f"{len(files)} cards loaded")
-    from . import score
+    from . import enrich, score
+    enrich.main(close=False)  # OpenAlex evidence for technological cards (skipped without a key)
     score.main()
     return 0
 
