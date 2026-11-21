@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     seed_dir: str = "../data/seed"
     sources_dir: str = "../data/sources"  # targets.json; in the container: /srv/data/sources
     refresh_hours: int = 24  # the worker queues a refresh run this often. 0 turns the schedule off
-    cache_dir: str = "../data/cache"  # source snapshots (not in git); in the container: /srv/data/cache  # in the container: /srv/data/seed (mounted)
+    cache_dir: str = "../data/cache"  # source snapshots (not in git); in the container: /srv/data/cache
     version: str = "1.0.0-draft.2"
 
     @property

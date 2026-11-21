@@ -2,6 +2,7 @@
 import datetime as dt
 from typing import Literal
 
+import psycopg
 from fastapi import APIRouter, Depends, Response
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -11,7 +12,10 @@ from ..security import SESSION_HOURS, RateLimiter, current_user, hash_token, new
 from ..services.cards import iso
 
 router = APIRouter(tags=["Auth"])
-limited = Depends(RateLimiter(limit=15, window=60))
+# Two limits. Per address: high, because every sign-in on the deployed site arrives from the one web server.
+# Per identity: low, so nobody can hammer one account.
+limited = Depends(RateLimiter(limit=300, window=60))
+per_identity = RateLimiter(limit=10, window=60)
 session = Depends(current_user)
 
 Role = Literal["investors_business", "public_bodies", "universities", "schools", "startups_enterprises", "inventors"]
@@ -78,22 +82,27 @@ def providers():
 
 @router.post("/auth/register", status_code=201, dependencies=[limited])
 def register(body: RegisterRequest):
+    per_identity.hit(("register", body.providerSubject.strip().lower()))
     if not body.acceptedTerms:
         raise ApiError(422, "terms_not_accepted", "You must accept the terms of use to register.")
     subject = body.providerSubject.strip().lower()
     with connection() as conn:
         if conn.execute("SELECT 1 FROM users WHERE provider = %s AND provider_subject = %s", (body.provider, subject)).fetchone():
             raise ApiError(409, "account_exists", "An account already exists for this identity. Sign in instead.")
-        user = conn.execute(
-            """INSERT INTO users (provider, provider_subject, email, display_name, role, affiliation_name, affiliation_type,
-                 interests, consent_to_contact, terms_accepted_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s, now()) RETURNING *""",
-            (body.provider, subject, body.email, body.displayName, body.role, body.affiliation.name, body.affiliation.type,
-             body.interests, body.consentToContact)).fetchone()
+        try:
+            user = conn.execute(
+                """INSERT INTO users (provider, provider_subject, email, display_name, role, affiliation_name, affiliation_type,
+                     interests, consent_to_contact, terms_accepted_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s, now()) RETURNING *""",
+                (body.provider, subject, body.email, body.displayName, body.role, body.affiliation.name, body.affiliation.type,
+                 body.interests, body.consentToContact)).fetchone()
+        except psycopg.errors.UniqueViolation as exc:  # two registrations for one identity at the same moment
+            raise ApiError(409, "account_exists", "An account already exists for this identity. Sign in instead.") from exc
     return {"data": open_session(user)}
 
 
 @router.post("/auth/login", dependencies=[limited])
 def login(body: LoginRequest):
+    per_identity.hit(("login", body.providerSubject.strip().lower()))
     user = one("SELECT * FROM users WHERE provider = %s AND provider_subject = %s", (body.provider, body.providerSubject.strip().lower()))
     if not user:
         raise ApiError(404, "registration_required", "No account for this identity. Register first.")

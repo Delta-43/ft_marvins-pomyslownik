@@ -91,8 +91,11 @@ def extract(text: str, *, url: str, source_name: str, hint: str = "") -> Extract
     if len(text) > 1_200_000:
         raise ValueError(f"source text of {url} is too long ({len(text)} characters); split it first")
     prompt = f"Source: {source_name}\nURL: {url}\n{hint}\n\n<source_text>\n{text}\n</source_text>"
-    response = _client().messages.parse(
+    # Server-side fallbacks: if a safety classifier declines, the API re-runs the request on a fallback model
+    # inside the same call ("default" routes by refusal category). A refusal that survives the chain is an error.
+    response = _client().beta.messages.parse(
         model=MODEL, max_tokens=16000, system=SYSTEM, output_config={"effort": "medium"},
+        betas=["server-side-fallback-2026-07-01"], fallbacks="default",
         messages=[{"role": "user", "content": prompt}], output_format=Extraction)
     if response.stop_reason == "refusal":
         raise RuntimeError(f"model declined to extract {url}")

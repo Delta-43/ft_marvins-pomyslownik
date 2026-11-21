@@ -54,13 +54,17 @@ def load_card(conn, card: dict) -> None:
     search_text = " ".join(filter(None, [title.get("pl"), title.get("en"), short.get("pl"), short.get("en"),
                                          summary.get("pl"), summary.get("en"), org["name"]]
                                         + [f"{t['label'].get('pl', '')} {t['label'].get('en', '')}" for t in tags]))
-    # Keep what a person or a refresh learned about this card: its first-seen date and its status history.
-    old = conn.execute("SELECT first_seen_at FROM cards WHERE id = %s", (card["id"],)).fetchone()
-    history = conn.execute("SELECT at, field, from_value, to_value, source_id FROM status_history WHERE card_id = %s",
-                           (card["id"],)).fetchall()
-    if old:
-        card = {**card, "firstSeenAt": old["first_seen_at"].strftime("%Y-%m-%dT%H:%M:%SZ")}
-    conn.execute("DELETE FROM cards WHERE id = %s", (card["id"],))
+    # Upsert, never delete: usage events, status history, refresh results and sources that other steps attached
+    # (PDF reports, OpenAlex) all hang off the card row and must survive a re-load.
+    params = {"id": card["id"], "t_pl": title.get("pl"), "t_en": title.get("en"), "ss_pl": short.get("pl"), "ss_en": short.get("en"),
+              "s_pl": summary.get("pl"), "s_en": summary.get("en"), "area": card["area"], "org_id": org_id,
+              "own_n": card["owner"]["name"], "own_u": card["owner"]["url"], "region": org.get("region"),
+              "lvl": impl["value"], "lvl_p": json.dumps(fix(_prov(impl))), "trl_ok": trl["applicable"], "trl": trl["value"],
+              "trl_p": json.dumps(fix(_prov(trl))), "assess": json.dumps(assessment),
+              "si": scores["innovativeness"], "sa": scores["applicationPotential"], "sc": scores["credibility"],
+              "oslo": json.dumps(card["oslo"]), "could": json.dumps(card["couldAlsoBeUsedIn"]), "pip": card["polishIp"],
+              "first": card["firstSeenAt"], "checked": card["lastCheckedAt"], "changed": card.get("statusChangedAt"),
+              "search": search_text}
     conn.execute(
         """INSERT INTO cards (id, title_pl, title_en, summary_short_pl, summary_short_en, summary_pl, summary_en, area,
              organisation_id, owner_name, owner_url, region, implementation_level, implementation_prov,
@@ -68,33 +72,38 @@ def load_card(conn, card: dict) -> None:
              oslo, could_also_be_used_in, polish_ip, first_seen_at, last_checked_at, status_changed_at, search_text)
            VALUES (%(id)s,%(t_pl)s,%(t_en)s,%(ss_pl)s,%(ss_en)s,%(s_pl)s,%(s_en)s,%(area)s,%(org_id)s,%(own_n)s,%(own_u)s,
              %(region)s,%(lvl)s,%(lvl_p)s,%(trl_ok)s,%(trl)s,%(trl_p)s,%(assess)s,%(si)s,%(sa)s,%(sc)s,%(oslo)s,%(could)s,
-             %(pip)s,%(first)s,%(checked)s,%(changed)s, lower(public.immutable_unaccent(%(search)s::text)))""",
-        {"id": card["id"], "t_pl": title.get("pl"), "t_en": title.get("en"), "ss_pl": short.get("pl"), "ss_en": short.get("en"),
-         "s_pl": summary.get("pl"), "s_en": summary.get("en"), "area": card["area"], "org_id": org_id,
-         "own_n": card["owner"]["name"], "own_u": card["owner"]["url"], "region": org.get("region"),
-         "lvl": impl["value"], "lvl_p": json.dumps(fix(_prov(impl))), "trl_ok": trl["applicable"], "trl": trl["value"],
-         "trl_p": json.dumps(fix(_prov(trl))), "assess": json.dumps(assessment),
-         "si": scores["innovativeness"], "sa": scores["applicationPotential"], "sc": scores["credibility"],
-         "oslo": json.dumps(card["oslo"]), "could": json.dumps(card["couldAlsoBeUsedIn"]), "pip": card["polishIp"],
-         "first": card["firstSeenAt"], "checked": card["lastCheckedAt"], "changed": card.get("statusChangedAt"),
-         "search": search_text})
+             %(pip)s,%(first)s,%(checked)s,%(changed)s, lower(public.immutable_unaccent(%(search)s::text)))
+           ON CONFLICT (id) DO UPDATE SET
+             title_pl = EXCLUDED.title_pl, title_en = EXCLUDED.title_en, summary_short_pl = EXCLUDED.summary_short_pl,
+             summary_short_en = EXCLUDED.summary_short_en, summary_pl = EXCLUDED.summary_pl, summary_en = EXCLUDED.summary_en,
+             area = EXCLUDED.area, organisation_id = EXCLUDED.organisation_id, owner_name = EXCLUDED.owner_name,
+             owner_url = EXCLUDED.owner_url, region = EXCLUDED.region, implementation_level = EXCLUDED.implementation_level,
+             implementation_prov = EXCLUDED.implementation_prov, trl_applicable = EXCLUDED.trl_applicable, trl = EXCLUDED.trl,
+             trl_prov = EXCLUDED.trl_prov, oslo = EXCLUDED.oslo, could_also_be_used_in = EXCLUDED.could_also_be_used_in,
+             polish_ip = EXCLUDED.polish_ip, search_text = EXCLUDED.search_text,
+             last_checked_at = GREATEST(cards.last_checked_at, EXCLUDED.last_checked_at),
+             status_changed_at = COALESCE(cards.status_changed_at, EXCLUDED.status_changed_at)""", params)
+    # first_seen_at and the scores stay as they are on an update (score.py recomputes the scores).
 
+    own = list(remap.values())
+    conn.execute("DELETE FROM card_tags WHERE card_id = %s", (card["id"],))
+    conn.execute("DELETE FROM evidence WHERE card_id = %s AND source_id = ANY(%s::uuid[]) AND query NOT LIKE 'Scoring engine%%'",
+                 (card["id"], own))
     for t in tags:
         conn.execute("""INSERT INTO tags (slug, label_pl, label_en) VALUES (%s,%s,%s)
                         ON CONFLICT (slug) DO UPDATE SET label_pl = EXCLUDED.label_pl, label_en = EXCLUDED.label_en""",
                      (t["slug"], t["label"].get("pl"), t["label"].get("en")))
-        conn.execute("INSERT INTO card_tags (card_id, tag_slug) VALUES (%s,%s)", (card["id"], t["slug"]))
+        conn.execute("INSERT INTO card_tags (card_id, tag_slug) VALUES (%s,%s) ON CONFLICT DO NOTHING", (card["id"], t["slug"]))
     for s in card["sources"]:
-        conn.execute("INSERT INTO card_sources (card_id, source_id, retrieved_at, passage, passage_lang) VALUES (%s,%s,%s,%s,%s)",
+        conn.execute("""INSERT INTO card_sources (card_id, source_id, retrieved_at, passage, passage_lang) VALUES (%s,%s,%s,%s,%s)
+                        ON CONFLICT (card_id, source_id) DO UPDATE SET retrieved_at = EXCLUDED.retrieved_at,
+                          passage = EXCLUDED.passage, passage_lang = EXCLUDED.passage_lang""",
                      (card["id"], remap[s["id"]], s["retrievedAt"], s.get("passage"), s.get("passageLang")))
-    for h in history:
-        conn.execute("INSERT INTO status_history (card_id, at, field, from_value, to_value, source_id) VALUES (%s,%s,%s,%s,%s,%s)",
-                     (card["id"], h["at"], h["field"], h["from_value"], h["to_value"], h["source_id"]))
-    if history:
-        conn.execute("UPDATE cards SET status_changed_at = %s WHERE id = %s", (max(h["at"] for h in history), card["id"]))
     for e in card["evidence"]:
         conn.execute("""INSERT INTO evidence (id, card_id, metric, label, value, unit, source_id, query, retrieved_at)
-                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                        ON CONFLICT (id) DO UPDATE SET metric = EXCLUDED.metric, label = EXCLUDED.label, value = EXCLUDED.value,
+                          unit = EXCLUDED.unit, source_id = EXCLUDED.source_id, query = EXCLUDED.query""",
                      (e["id"], card["id"], e["metric"], json.dumps(e["label"]), json.dumps(e["value"]), e.get("unit"),
                       remap.get(e["sourceId"], e["sourceId"]), e["query"], e["retrievedAt"]))
 

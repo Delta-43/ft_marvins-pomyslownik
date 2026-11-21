@@ -55,7 +55,12 @@ def start_run(body: StartRun, response: Response, idempotency_key: str = Header(
                                   VALUES (%s,%s,%s,%s) RETURNING *""",
                                (body.mode, idempotency_key, digest, [str(i) for i in body.sourceIds] if body.sourceIds else None)).fetchone()
     except psycopg.errors.UniqueViolation as exc:
-        # The single-flight index: a run is already queued or running.
+        # Either the same key raced in a moment earlier (replay it), or the single-flight index: a run is already active.
+        again = one("SELECT * FROM collect_runs WHERE idempotency_key = %s", (idempotency_key,))
+        if again:
+            if again["request_hash"] != digest:
+                raise ApiError(409, "idempotency_conflict", "This Idempotency-Key was already used with a different request.") from exc
+            return {"data": run_json(again)}
         raise ApiError(409, "run_in_progress", "A run is already queued or running. Wait for it to finish.") from exc
     return {"data": run_json(run)}
 

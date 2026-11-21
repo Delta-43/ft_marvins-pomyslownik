@@ -36,20 +36,32 @@ def current_user(authorization: str | None = Header(default=None)) -> dict:
 require_session = current_user
 
 
+def client_address(request: Request) -> str:
+    """The caller's address. Behind the Cloudflare tunnel, CF-Connecting-IP is set by Cloudflare itself and cannot be
+    chosen by the client. X-Forwarded-For is never trusted: a client can put anything in it."""
+    return request.headers.get("cf-connecting-ip") or (request.client.host if request.client else "?")
+
+
 class RateLimiter:
-    """Sliding window per client and route, in memory. Enough for one API process."""
+    """Sliding window, in memory (one API process). Old keys are pruned so memory stays bounded."""
 
     def __init__(self, limit: int, window: int):
         self.limit, self.window, self.hits = limit, window, defaultdict(deque)
+        self._calls = 0
 
-    def __call__(self, request: Request) -> None:
-        # Behind the tunnel the peer is the proxy, so use the forwarded address when present.
-        fwd = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
-        key = (fwd or (request.client.host if request.client else "?"), request.url.path)
-        now, q = time.monotonic(), self.hits[key]
+    def hit(self, key) -> None:
+        now = time.monotonic()
+        self._calls += 1
+        if self._calls % 500 == 0 or len(self.hits) > 20_000:
+            for k in [k for k, q in self.hits.items() if not q or now - q[-1] > self.window]:
+                del self.hits[k]
+        q = self.hits[key]
         while q and now - q[0] > self.window:
             q.popleft()
         if len(q) >= self.limit:
             raise ApiError(429, "rate_limited", "Too many attempts. Wait a moment and try again.",
                            {"Retry-After": str(int(self.window - (now - q[0])) + 1)})
         q.append(now)
+
+    def __call__(self, request: Request) -> None:
+        self.hit((client_address(request), request.url.path))

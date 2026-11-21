@@ -2,13 +2,15 @@
 import uuid
 from contextlib import asynccontextmanager
 
+import psycopg
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import errors
 from .config import settings
-from .db import check_database, close_pool
+from .db import check_database, close_pool, one
 from .routers import admin, auth, cards, events, reference, stats
+from .services.cards import iso
 
 
 @asynccontextmanager
@@ -35,8 +37,15 @@ async def request_id(request: Request, call_next):
 @app.get("/health")
 def health():
     db_up = check_database()
+    last = None
+    if db_up:
+        try:
+            row = one("SELECT max(finished_at) AS t FROM collect_runs WHERE mode = 'refresh' AND status = 'succeeded'")
+            last = iso(row["t"]) if row else None
+        except psycopg.Error:
+            last = None
     return {"status": "ok" if db_up else "degraded", "version": settings.version,
-            "database": "up" if db_up else "down", "lastRefreshAt": None}
+            "database": "up" if db_up else "down", "lastRefreshAt": last}
 
 
 for router in (auth.router, cards.router, reference.router, stats.router, events.router, admin.router):

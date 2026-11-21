@@ -1,4 +1,5 @@
 """Database access: one lazy connection pool, dict rows."""
+import threading
 from contextlib import contextmanager
 
 import psycopg
@@ -8,6 +9,7 @@ from psycopg_pool import ConnectionPool
 from .config import settings
 
 _pool: ConnectionPool | None = None
+_lock = threading.Lock()
 
 
 def check_database() -> bool:
@@ -25,8 +27,10 @@ def check_database() -> bool:
 def pool() -> ConnectionPool:
     global _pool
     if _pool is None:
-        _pool = ConnectionPool(settings.database_url, min_size=1, max_size=8, open=True,
-                               kwargs={"row_factory": dict_row}, timeout=5)
+        with _lock:  # sync endpoints run in a thread pool: build the pool once
+            if _pool is None:
+                _pool = ConnectionPool(settings.database_url, min_size=1, max_size=8, open=True,
+                                       kwargs={"row_factory": dict_row}, timeout=5)
     return _pool
 
 

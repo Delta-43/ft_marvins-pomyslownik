@@ -11,7 +11,7 @@ from pypdf import PdfReader
 
 from ..db import connection
 from . import fetch
-from .build import build_card
+from .build import _passage_lang, build_card
 from .extract import NotAnInnovation, extract, level_supported, norm, number_in, on_page
 
 MAX_CHARS = 1_200_000  # about 400k tokens, inside the 1M context. Longer documents are refused, not cut, so nothing is silently lost.
@@ -64,9 +64,10 @@ def enrich_with_pdf(card_id: str, url: str, *, title: str, offline: bool = False
                         ON CONFLICT (url) DO UPDATE SET last_collected_at = EXCLUDED.last_collected_at""",
                      (sid, name, url, meta["retrieved_at"]))
         sid = str(conn.execute("SELECT id FROM sources WHERE url = %s", (url,)).fetchone()["id"])
-        conn.execute("""INSERT INTO card_sources (card_id, source_id, retrieved_at, passage, passage_lang) VALUES (%s,%s,%s,%s,'pl')
-                        ON CONFLICT (card_id, source_id) DO UPDATE SET passage = EXCLUDED.passage, retrieved_at = EXCLUDED.retrieved_at""",
-                     (card_id, sid, meta["retrieved_at"], passage))
+        conn.execute("""INSERT INTO card_sources (card_id, source_id, retrieved_at, passage, passage_lang) VALUES (%s,%s,%s,%s,%s)
+                        ON CONFLICT (card_id, source_id) DO UPDATE SET passage = EXCLUDED.passage, retrieved_at = EXCLUDED.retrieved_at,
+                          passage_lang = EXCLUDED.passage_lang""",
+                     (card_id, sid, meta["retrieved_at"], passage, _passage_lang(passage) if passage else None))
         conn.execute("DELETE FROM evidence WHERE card_id = %s AND source_id = %s", (card_id, sid))
         for f in x.facts:
             if on_page(f.quote, text) and number_in(f.quote, f.value) and f.label.pl.strip() and f.label.en.strip():

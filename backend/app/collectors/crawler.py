@@ -51,9 +51,12 @@ def ptt_owner_type(text: str) -> str | None:
     return m.group(1).strip() if m else None
 
 
-def collect_url(url: str, *, offline: bool = False, kind: str = "page") -> dict:
-    """Fetch one page and turn it into a card. kind is 'ptt' or 'page'."""
-    html, meta = fetch.get(url, offline=offline)
+def collect_url(url: str, *, offline: bool = False, kind: str = "page", html: bytes | None = None, retrieved_at: str | None = None) -> dict:
+    """Fetch one page (or use html already fetched) and turn it into a card. kind is 'ptt' or 'page'."""
+    if html is None:
+        html, meta = fetch.get(url, offline=offline)
+    else:
+        meta = {"retrieved_at": retrieved_at or fetch.now_iso()}
     text = ptt_listing_text(html) if kind == "ptt" else page_text(html)
     if len(text) < 200:
         raise ValueError(f"too little text on {url}")

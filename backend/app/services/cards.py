@@ -82,8 +82,9 @@ class Filters:
             for i, word in enumerate(self.q.split()[:8]):
                 w = word.lower().replace("%", "").replace("_", "")
                 # A word matches when it appears in the accent-free text or is close to a word in it (typos).
-                c.append(f"(c.search_text LIKE %(w{i})s OR word_similarity(lower(public.immutable_unaccent(%(v{i})s)), c.search_text) > 0.55)")
-                p[f"w{i}"], p[f"v{i}"] = "%" + w + "%", w
+                c.append(f"(c.search_text LIKE '%%' || lower(public.immutable_unaccent(%(v{i})s)) || '%%' "
+                         f"OR word_similarity(lower(public.immutable_unaccent(%(v{i})s)), c.search_text) > 0.55)")
+                p[f"v{i}"] = w  # accents are removed in SQL, the same way search_text was built
             p["q"] = self.q
         return " AND ".join(c), p
 

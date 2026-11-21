@@ -13,6 +13,7 @@ import pathlib
 import anthropic
 import httpx
 import psycopg
+from pypdf.errors import PyPdfError
 
 from . import enrich, score
 from .collectors import crawler, documents, fetch, radon
@@ -22,7 +23,8 @@ from .config import settings
 from .db import connection
 
 log = logging.getLogger("pipeline")
-ITEM_ERRORS = (httpx.HTTPError, ValueError, RuntimeError, KeyError, fetch.Blocked, anthropic.APIError, psycopg.Error, FileNotFoundError)
+ITEM_ERRORS = (httpx.HTTPError, ValueError, RuntimeError, KeyError, fetch.Blocked, anthropic.APIError, psycopg.Error,
+               FileNotFoundError, PyPdfError)
 
 
 class Run:
@@ -55,6 +57,17 @@ def known_ids() -> set[str]:
         return {str(r["id"]) for r in conn.execute("SELECT id FROM cards").fetchall()}
 
 
+def skipped() -> set[str]:
+    with connection() as conn:
+        return {r["url"] for r in conn.execute("SELECT url FROM skipped_sources").fetchall()}
+
+
+def remember_skip(url: str, reason: str) -> None:
+    with connection() as conn:
+        conn.execute("""INSERT INTO skipped_sources (url, reason) VALUES (%s,%s)
+                        ON CONFLICT (url) DO UPDATE SET reason = EXCLUDED.reason, skipped_at = now()""", (url, reason[:300]))
+
+
 def linked(card_id: str, url: str) -> bool:
     with connection() as conn:
         return bool(conn.execute("""SELECT 1 FROM card_sources cs JOIN sources s ON s.id = cs.source_id
@@ -78,12 +91,12 @@ def _keep(run: Run, card: dict) -> None:
 def collect(run: Run) -> None:
     t = targets()
     budget = int(t.get("max_new_per_run", 6))
-    ids = known_ids()
+    ids, skip = known_ids(), skipped()
 
     for doc in t.get("documents", []):
         target = doc.get("enrich_card") or card_id_for(doc["url"])
-        if linked(target, doc["url"]):
-            continue  # already read. A refresh run re-checks it
+        if linked(target, doc["url"]) or doc["url"] in skip:
+            continue  # already read (a refresh run re-checks it) or judged not to be an innovation
         try:
             if doc.get("enrich_card"):
                 out = documents.enrich_with_pdf(doc["enrich_card"], doc["url"], title=doc["title"])
@@ -95,6 +108,9 @@ def collect(run: Run) -> None:
             elif budget > 0:
                 _keep(run, documents.collect_pdf(doc["url"], title=doc["title"]))
                 budget -= 1
+        except NotAnInnovation as exc:
+            remember_skip(doc["url"], str(exc))
+            run.note(f"document skipped {doc['url']}: {exc}")
         except ITEM_ERRORS as exc:
             run.errors += 1
             run.note(f"document failed {doc['url']}: {type(exc).__name__}: {exc}")
@@ -102,24 +118,31 @@ def collect(run: Run) -> None:
     ptt = t.get("ptt") or {}
     if ptt and budget > 0:
         want, read = min(int(ptt.get("max_new", 3)), budget), 0
-        urls_all = sorted(crawler.ptt_listing_urls(), key=lambda u: hashlib.sha256(u.encode()).hexdigest())
+        try:
+            urls_all = sorted(crawler.ptt_listing_urls(), key=lambda u: hashlib.sha256(u.encode()).hexdigest())
+        except ITEM_ERRORS as exc:  # PTT down must not stop RAD-on, pages and scoring
+            urls_all = []
+            run.errors += 1
+            run.note(f"PTT sitemap failed: {type(exc).__name__}: {exc}")
         for url in urls_all:
             if want <= 0 or read >= int(ptt.get("max_pages_read", 40)):
                 break
-            if card_id_for(url) in ids:
+            if card_id_for(url) in ids or url in skip:
                 continue
             try:
                 read += 1
-                html, _ = fetch.get(url)
+                html, meta = fetch.get(url)
                 text = crawler.ptt_listing_text(html)
                 owner = crawler.ptt_owner_type(text)
                 has_trl = "TRL " in text.split("Poziom gotowości technologicznej")[-1][:40]
                 if owner not in ptt.get("owner_types", []) or not has_trl:
+                    remember_skip(url, f"filtered: owner type {owner!r}, TRL stated: {has_trl}")
                     continue
-                _keep(run, crawler.collect_url(url, kind="ptt"))
+                _keep(run, crawler.collect_url(url, kind="ptt", html=html, retrieved_at=meta["retrieved_at"]))
                 want -= 1
                 budget -= 1
             except NotAnInnovation as exc:
+                remember_skip(url, str(exc))
                 run.note(f"PTT skipped {url}: {exc}")
             except ITEM_ERRORS as exc:
                 run.errors += 1
@@ -140,7 +163,7 @@ def collect(run: Run) -> None:
             for p in projects:
                 if want <= 0:
                     break
-                if card_id_for(radon.record_url(p)) in ids:
+                if card_id_for(radon.record_url(p)) in ids or radon.record_url(p) in skip:
                     continue
                 try:
                     _keep(run, radon.collect_project(p, retrieved_at=fetch.now_iso()))
@@ -148,18 +171,20 @@ def collect(run: Run) -> None:
                     want -= 1
                     budget -= 1
                 except NotAnInnovation as exc:
+                    remember_skip(radon.record_url(p), str(exc))
                     run.note(f"RAD-on skipped {p.get('uid')}: {exc}")
                 except ITEM_ERRORS as exc:
                     run.errors += 1
                     run.note(f"RAD-on failed {p.get('uid')}: {type(exc).__name__}: {exc}")
 
     for page in t.get("pages", []):
-        if budget <= 0 or card_id_for(page) in ids:
+        if budget <= 0 or card_id_for(page) in ids or page in skip:
             continue
         try:
             _keep(run, crawler.collect_url(page, kind="page"))
             budget -= 1
         except NotAnInnovation as exc:
+            remember_skip(page, str(exc))
             run.note(f"page skipped {page}: {exc}")
         except ITEM_ERRORS as exc:
             run.errors += 1
