@@ -69,7 +69,11 @@
     "basis": "estimate",
     "sourceIds": [],
     "evidenceIds": [],
-    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
   },
   "assessment": {
     "innovativeness": {
@@ -81,7 +85,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "applicationPotential": {
       "value": null,
@@ -92,7 +100,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "credibility": {
       "value": null,
@@ -103,7 +115,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     }
   },
   "oslo": {
@@ -113,6 +129,7 @@
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
+      "pl": "Zrealizowany projekt ogólnopolski z opublikowanymi liczbami uczestników. To konkurs ograniczony w czasie, więc może nie zostać powtórzony.",
       "en": "A delivered national project with published participation numbers. It is a time-limited contest, so it may not be repeated."
     }
   },
@@ -134,7 +151,8 @@
       "url": "https://www.gov.pl/web/edukacja/szkola-miedzypokoleniowa-cyfrowy-swiat-polaczyl-tysiace-uczniow-i-seniorow-gala-finalowa-w-kprm",
       "retrievedAt": "2026-11-21T19:47:34Z",
       "passage": "do udziału zgłosiło się 1554 szkoły z całej Polski, uczniowie i nauczyciele zorganizowali ponad 5,5 tysiąca warsztatów, 10 349 seniorów … 11 260 uczniów wcieliło się w rolę mentorów … Jej celem było zorganizowanie warsztatów, podczas których uczniowie oraz nauczyciele uczyli seniorów obsługi internetu",
-      "license": null
+      "license": null,
+      "passageLang": "pl"
     }
   ],
   "evidence": [
@@ -145,7 +163,11 @@
       "unit": "schools",
       "sourceId": "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30",
       "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-miedzypokoleniowa-cyfrowy-swiat-polaczyl-tysiace-uczniow-i-seniorow-gala-finalowa-w-kprm. Quoted text: \"zgłosiło się 1554 szkoły\"",
-      "retrievedAt": "2026-11-21T19:47:34Z"
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Szkoły, które się zgłosiły",
+        "en": "Schools that applied"
+      }
     },
     {
       "id": "31ea57a7-5874-4ced-a25b-cce999834a7d",
@@ -154,7 +176,11 @@
       "unit": "people",
       "sourceId": "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30",
       "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-miedzypokoleniowa-cyfrowy-swiat-polaczyl-tysiace-uczniow-i-seniorow-gala-finalowa-w-kprm. Quoted text: \"10 349 seniorów\"",
-      "retrievedAt": "2026-11-21T19:47:34Z"
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Seniorzy uczestniczący w warsztatach",
+        "en": "Seniors who took part"
+      }
     },
     {
       "id": "03010987-71fc-415e-bc2e-c065699a588e",
@@ -163,7 +189,11 @@
       "unit": "people",
       "sourceId": "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30",
       "query": "Read from the page https://www.gov.pl/web/edukacja/szkola-miedzypokoleniowa-cyfrowy-swiat-polaczyl-tysiace-uczniow-i-seniorow-gala-finalowa-w-kprm. Quoted text: \"11 260 uczniów wcieliło się w rolę mentorów\"",
-      "retrievedAt": "2026-11-21T19:47:34Z"
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Uczniowie w roli mentorów",
+        "en": "Pupils who acted as mentors"
+      }
     }
   ],
   "firstSeenAt": "2026-11-21T19:47:34Z",

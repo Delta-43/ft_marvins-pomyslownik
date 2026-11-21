@@ -11,13 +11,17 @@ import sys
 
 from .config import settings
 from .db import close_pool, connection
+from .services.i18n import problems
 
 
 def _prov(detail: dict) -> dict:
-    return {k: detail.get(k) for k in ("basis", "sourceIds", "evidenceIds", "method")}
+    return {k: detail.get(k) for k in ("basis", "sourceIds", "evidenceIds", "method", "methodText")}
 
 
 def load_card(conn, card: dict) -> None:
+    bad = problems(card)
+    if bad:
+        raise ValueError(f"card {card.get('id')} breaks the language rule (needs Polish and English): {', '.join(bad)}")
     org = card["organisation"]
     org_id = conn.execute(
         """INSERT INTO organisations (name, type, url, region) VALUES (%s,%s,%s,%s)
@@ -75,12 +79,12 @@ def load_card(conn, card: dict) -> None:
                      (t["slug"], t["label"].get("pl"), t["label"].get("en")))
         conn.execute("INSERT INTO card_tags (card_id, tag_slug) VALUES (%s,%s)", (card["id"], t["slug"]))
     for s in card["sources"]:
-        conn.execute("INSERT INTO card_sources (card_id, source_id, retrieved_at, passage) VALUES (%s,%s,%s,%s)",
-                     (card["id"], remap[s["id"]], s["retrievedAt"], s.get("passage")))
+        conn.execute("INSERT INTO card_sources (card_id, source_id, retrieved_at, passage, passage_lang) VALUES (%s,%s,%s,%s,%s)",
+                     (card["id"], remap[s["id"]], s["retrievedAt"], s.get("passage"), s.get("passageLang")))
     for e in card["evidence"]:
-        conn.execute("""INSERT INTO evidence (id, card_id, metric, value, unit, source_id, query, retrieved_at)
-                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""",
-                     (e["id"], card["id"], e["metric"], json.dumps(e["value"]), e.get("unit"),
+        conn.execute("""INSERT INTO evidence (id, card_id, metric, label, value, unit, source_id, query, retrieved_at)
+                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
+                     (e["id"], card["id"], e["metric"], json.dumps(e["label"]), json.dumps(e["value"]), e.get("unit"),
                       remap.get(e["sourceId"], e["sourceId"]), e["query"], e["retrievedAt"]))
 
 

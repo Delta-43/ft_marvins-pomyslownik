@@ -63,7 +63,11 @@
     "evidenceIds": [
       "c0cd0866-8db9-4cb7-b793-7ee81b523968"
     ],
-    "method": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm."
+    "method": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis deklaruje TRL 4 (walidacja w warunkach laboratoryjnych). Zgodnie z regułą przypisano poziom „testowanie”. Do potwierdzenia przez recenzenta.",
+      "en": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm."
+    }
   },
   "trlDetail": {
     "applicable": true,
@@ -87,7 +91,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "applicationPotential": {
       "value": null,
@@ -98,7 +106,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "credibility": {
       "value": null,
@@ -109,7 +121,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     }
   },
   "oslo": {
@@ -119,6 +135,7 @@
     "availableOrInUse": false,
     "basis": "estimate",
     "note": {
+      "pl": "Oferowane do licencjonowania, ze zgłoszeniem patentowym i TRL 4, ale nie wykazano dostępności ani użycia. Nie spełnia trzeciego warunku Oslo.",
       "en": "Offered for licensing with a patent application and TRL 4, but not shown to be available or in use. Failed on the third Oslo condition."
     }
   },
@@ -140,7 +157,8 @@
       "url": "http://ptt.arp.pl/bazy/sposób-biodegradacji-zanieczyszczeń-ropopochodnych-z-gleby-wspomagany-surfaktantami-naturalnymi/",
       "retrievedAt": "2026-11-21T20:05:00Z",
       "passage": "Istotą technologii jest sposób usuwania zanieczyszczeń substancjami ropopochodnymi, który polega na tym, że do zanieczyszczonego układu wprowadza się ekstrakt z buraka cukrowego … Zgłoszenie wynalazku … Poziom gotowości technologicznej TRL 4",
-      "license": null
+      "license": null,
+      "passageLang": "pl"
     }
   ],
   "evidence": [
@@ -151,7 +169,11 @@
       "unit": "TRL",
       "sourceId": "85035362-137e-4323-81d2-5ba0ce3c795a",
       "query": "Read from the listing page http://ptt.arp.pl/bazy/sposób-biodegradacji-zanieczyszczeń-ropopochodnych-z-gleby-wspomagany-surfaktantami-naturalnymi/. Quoted text: \"Poziom gotowości technologicznej TRL 4\"",
-      "retrievedAt": "2026-11-21T20:05:00Z"
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Poziom gotowości technologicznej podany we wpisie",
+        "en": "Technology readiness level declared in the listing"
+      }
     },
     {
       "id": "40b22ca7-9658-4e76-9948-59c35592d798",
@@ -160,7 +182,11 @@
       "unit": "mg/ml",
       "sourceId": "85035362-137e-4323-81d2-5ba0ce3c795a",
       "query": "Read from the listing page http://ptt.arp.pl/bazy/sposób-biodegradacji-zanieczyszczeń-ropopochodnych-z-gleby-wspomagany-surfaktantami-naturalnymi/. Quoted text: \"stwierdzono zawartość saponin w ekstrakcie z buraka na poziomie 10 mg/ml\"",
-      "retrievedAt": "2026-11-21T20:05:00Z"
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Zawartość saponin w ekstrakcie",
+        "en": "Saponin content in the extract"
+      }
     },
     {
       "id": "1743209c-2b19-4746-80f2-d8bf7392de56",
@@ -169,7 +195,11 @@
       "unit": "count",
       "sourceId": "85035362-137e-4323-81d2-5ba0ce3c795a",
       "query": "Read from the listing page http://ptt.arp.pl/bazy/sposób-biodegradacji-zanieczyszczeń-ropopochodnych-z-gleby-wspomagany-surfaktantami-naturalnymi/. Quoted text: \"Zidentyfikowano 9 saponin triterpenoidowych\"",
-      "retrievedAt": "2026-11-21T20:05:00Z"
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Liczba zidentyfikowanych saponin",
+        "en": "Number of saponins identified"
+      }
     }
   ],
   "firstSeenAt": "2026-11-21T20:05:00Z",

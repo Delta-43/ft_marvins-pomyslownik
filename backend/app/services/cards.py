@@ -8,6 +8,8 @@ from fastapi import HTTPException
 
 from ..config import settings
 from ..db import one, rows
+from .i18n import label as fixed_label
+from .i18n import region_label
 
 AREAS = {"technological", "educational", "administrative"}
 LEVELS = ["concept", "prototype", "testing", "pilot", "in_practice"]
@@ -78,8 +80,10 @@ class Filters:
         if self.q:
             # Basic text match: every word must appear in the accent-free text. Task B4 adds ranking and typo tolerance.
             for i, word in enumerate(self.q.split()[:8]):
-                c.append(f"c.search_text LIKE %(w{i})s")
-                p[f"w{i}"] = "%" + word.lower().replace("%", "").replace("_", "") + "%"
+                w = word.lower().replace("%", "").replace("_", "")
+                # A word matches when it appears in the accent-free text or is close to a word in it (typos).
+                c.append(f"(c.search_text LIKE %(w{i})s OR word_similarity(lower(public.immutable_unaccent(%(v{i})s)), c.search_text) > 0.55)")
+                p[f"w{i}"], p[f"v{i}"] = "%" + w + "%", w
             p["q"] = self.q
         return " AND ".join(c), p
 
@@ -142,9 +146,9 @@ def get_card(card_id: UUID) -> dict:
             {"id": card_id, "fresh": settings.freshness_days})
     if not r:
         raise HTTPException(status_code=404, detail="Card not found.")
-    sources = rows("""SELECT s.id, s.type, s.name, s.url, s.license, cs.retrieved_at, cs.passage
+    sources = rows("""SELECT s.id, s.type, s.name, s.url, s.license, cs.retrieved_at, cs.passage, cs.passage_lang
                       FROM card_sources cs JOIN sources s ON s.id = cs.source_id WHERE cs.card_id = %s ORDER BY s.name""", (card_id,))
-    evidence = rows("SELECT id, metric, value, unit, source_id, query, retrieved_at FROM evidence WHERE card_id = %s ORDER BY metric", (card_id,))
+    evidence = rows("SELECT id, metric, label, value, unit, source_id, query, retrieved_at FROM evidence WHERE card_id = %s ORDER BY metric", (card_id,))
     card = summary(r)
     card.update({
         "summary": loc(r["summary_pl"], r["summary_en"]),
@@ -155,8 +159,9 @@ def get_card(card_id: UUID) -> dict:
         "couldAlsoBeUsedIn": r["could_also_be_used_in"],
         "owner": {"name": r["owner_name"], "url": r["owner_url"]},
         "sources": [{"id": str(s["id"]), "type": s["type"], "name": s["name"], "url": s["url"],
-                     "retrievedAt": iso(s["retrieved_at"]), "passage": s["passage"], "license": s["license"]} for s in sources],
-        "evidence": [{"id": str(e["id"]), "metric": e["metric"], "value": e["value"], "unit": e["unit"],
+                     "retrievedAt": iso(s["retrieved_at"]), "passage": s["passage"], "passageLang": s["passage_lang"],
+                     "license": s["license"]} for s in sources],
+        "evidence": [{"id": str(e["id"]), "metric": e["metric"], "label": e["label"], "value": e["value"], "unit": e["unit"],
                       "sourceId": str(e["source_id"]), "query": e["query"], "retrievedAt": iso(e["retrieved_at"])} for e in evidence],
         "firstSeenAt": iso(r["first_seen_at"]),
         "statusChangedAt": iso(r["status_changed_at"]),
@@ -176,15 +181,11 @@ def facets(f: Filters) -> dict:
                     WHERE {f.where(skip='tag')[0]} GROUP BY t.slug, t.label_pl, t.label_en ORDER BY 4 DESC, 1 LIMIT 50""", f.where(skip="tag")[1])
     regions = [r for r in count("c.region", "region") if r["value"]][:50]
     pip = {r["value"]: r["count"] for r in count("c.polish_ip", "polish")}
-    names = {"technological": ("Technologiczne", "Technological"), "educational": ("Edukacyjne", "Educational"),
-             "administrative": ("Administracyjne", "Administrative"), "concept": ("Koncepcja", "Concept"),
-             "prototype": ("Prototyp", "Prototype"), "testing": ("Testy", "Testing"), "pilot": ("Pilotaż", "Pilot"),
-             "in_practice": ("W praktyce", "In practice")}
-    opt = lambda k, n: {"value": k, "label": loc(*names[k]), "count": n}
+    opt = lambda k, n: {"value": k, "label": fixed_label(k), "count": n}
     return {
         "area": [opt(k, area.get(k, 0)) for k in ("technological", "educational", "administrative")],
         "implementationLevel": [opt(k, level.get(k, 0)) for k in LEVELS],
         "tag": [{"value": t["value"], "label": loc(t["label_pl"], t["label_en"]), "count": t["count"]} for t in tags],
-        "region": [{"value": r["value"], "label": {"en": r["value"]}, "count": r["count"]} for r in regions],
+        "region": [{"value": r["value"], "label": region_label(r["value"]), "count": r["count"]} for r in regions],
         "polishIp": {"true": pip.get(True, 0), "false": pip.get(False, 0)},
     }

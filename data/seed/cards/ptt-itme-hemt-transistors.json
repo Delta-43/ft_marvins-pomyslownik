@@ -64,7 +64,11 @@
       "3c5cc1a3-1d06-4a02-9690-da93aca718df",
       "1a0045e2-a53d-4138-a54d-2ebde263e071"
     ],
-    "method": "Listing reports several series of working transistors with measured parameters but gives no TRL. Read as a laboratory prototype. Reviewer to confirm."
+    "method": "Listing reports several series of working transistors with measured parameters but gives no TRL. Read as a laboratory prototype. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis wymienia kilka serii działających tranzystorów ze zmierzonymi parametrami, ale nie podaje TRL. Przyjęto prototyp laboratoryjny. Do potwierdzenia przez recenzenta.",
+      "en": "Listing reports several series of working transistors with measured parameters but gives no TRL. Read as a laboratory prototype. Reviewer to confirm."
+    }
   },
   "trlDetail": {
     "applicable": true,
@@ -77,7 +81,11 @@
       "3c5cc1a3-1d06-4a02-9690-da93aca718df",
       "1a0045e2-a53d-4138-a54d-2ebde263e071"
     ],
-    "method": "No TRL in the listing. Measured parameters on repeatable series read as validation in laboratory conditions (TRL 4 in the listing's own glossary). Reviewer to confirm."
+    "method": "No TRL in the listing. Measured parameters on repeatable series read as validation in laboratory conditions (TRL 4 in the listing's own glossary). Reviewer to confirm.",
+    "methodText": {
+      "pl": "We wpisie brak TRL. Zmierzone parametry w powtarzalnych seriach uznano za walidację w warunkach laboratoryjnych (TRL 4 według słowniczka z samego wpisu). Do potwierdzenia przez recenzenta.",
+      "en": "No TRL in the listing. Measured parameters on repeatable series read as validation in laboratory conditions (TRL 4 in the listing's own glossary). Reviewer to confirm."
+    }
   },
   "assessment": {
     "innovativeness": {
@@ -89,7 +97,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "applicationPotential": {
       "value": null,
@@ -100,7 +112,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "credibility": {
       "value": null,
@@ -111,7 +127,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     }
   },
   "oslo": {
@@ -121,6 +141,7 @@
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
+      "pl": "Sprawne tranzystory o zmierzonych parametrach są oferowane w ramach usług produkcyjnych i badawczych.",
       "en": "Working transistors with measured parameters are offered for production and research services."
     }
   },
@@ -142,7 +163,8 @@
       "url": "http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/",
       "retrievedAt": "2026-11-21T20:05:00Z",
       "passage": "Tranzystory wykazują wzmocnienie 16dB w paśmie S i 10 dB w paśmie X. Napięcie przebicia tranzystorów wynosi 80V. … Wykonano wiele serii tranzystorów małej mocy. … Forma ochrony Strzeżone know-how",
-      "license": null
+      "license": null,
+      "passageLang": "pl"
     }
   ],
   "evidence": [
@@ -153,7 +175,11 @@
       "unit": "dB",
       "sourceId": "92e336cf-297f-4779-bbef-5f183f6622e4",
       "query": "Read from the listing page http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/. Quoted text: \"wzmocnienie 16dB w paśmie S\"",
-      "retrievedAt": "2026-11-21T20:05:00Z"
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Wzmocnienie w paśmie S",
+        "en": "Gain in the S band"
+      }
     },
     {
       "id": "d1c97c02-003c-4137-9c9b-87c7315115ef",
@@ -162,7 +188,11 @@
       "unit": "dB",
       "sourceId": "92e336cf-297f-4779-bbef-5f183f6622e4",
       "query": "Read from the listing page http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/. Quoted text: \"10 dB w paśmie X\"",
-      "retrievedAt": "2026-11-21T20:05:00Z"
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Wzmocnienie w paśmie X",
+        "en": "Gain in the X band"
+      }
     },
     {
       "id": "1a0045e2-a53d-4138-a54d-2ebde263e071",
@@ -171,7 +201,11 @@
       "unit": "V",
       "sourceId": "92e336cf-297f-4779-bbef-5f183f6622e4",
       "query": "Read from the listing page http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/. Quoted text: \"Napięcie przebicia tranzystorów wynosi 80V\"",
-      "retrievedAt": "2026-11-21T20:05:00Z"
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Napięcie przebicia",
+        "en": "Breakdown voltage"
+      }
     },
     {
       "id": "a3200b32-72ce-47a3-b221-c8b52848061d",
@@ -180,7 +214,11 @@
       "unit": "nm",
       "sourceId": "92e336cf-297f-4779-bbef-5f183f6622e4",
       "query": "Read from the listing page http://ptt.arp.pl/bazy/technologia-mikrofalowych-tranzystorów-hemt-dla-potrzeb-radiolokacji/. Quoted text: \"bramką o długości 500nm\"",
-      "retrievedAt": "2026-11-21T20:05:00Z"
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Długość bramki",
+        "en": "Gate length"
+      }
     }
   ],
   "firstSeenAt": "2026-11-21T20:05:00Z",

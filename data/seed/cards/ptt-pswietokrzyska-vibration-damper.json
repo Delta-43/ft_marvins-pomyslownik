@@ -63,7 +63,11 @@
     "evidenceIds": [
       "993bee2d-ca4e-4f44-b6a6-94446ad3ba0c"
     ],
-    "method": "Listing describes the design but gives no TRL and reports no tests. Lowest level the text supports. Reviewer to confirm."
+    "method": "Listing describes the design but gives no TRL and reports no tests. Lowest level the text supports. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Wpis opisuje konstrukcję, ale nie podaje TRL i nie wspomina o testach. Najniższy poziom, jaki wynika z tekstu. Do potwierdzenia przez recenzenta.",
+      "en": "Listing describes the design but gives no TRL and reports no tests. Lowest level the text supports. Reviewer to confirm."
+    }
   },
   "trlDetail": {
     "applicable": true,
@@ -75,7 +79,11 @@
     "evidenceIds": [
       "993bee2d-ca4e-4f44-b6a6-94446ad3ba0c"
     ],
-    "method": "No TRL in the listing. Only a formulated design is described (TRL 2 in the listing's glossary: 'Sformułowano koncepcję technologii'). Reviewer to confirm."
+    "method": "No TRL in the listing. Only a formulated design is described (TRL 2 in the listing's glossary: 'Sformułowano koncepcję technologii'). Reviewer to confirm.",
+    "methodText": {
+      "pl": "We wpisie brak TRL. Opisano tylko sformułowaną konstrukcję (TRL 2 w słowniczku wpisu: „Sformułowano koncepcję technologii”). Do potwierdzenia przez recenzenta.",
+      "en": "No TRL in the listing. Only a formulated design is described (TRL 2 in the listing's glossary: 'Sformułowano koncepcję technologii'). Reviewer to confirm."
+    }
   },
   "assessment": {
     "innovativeness": {
@@ -87,7 +95,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "applicationPotential": {
       "value": null,
@@ -98,7 +110,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "credibility": {
       "value": null,
@@ -109,7 +125,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     }
   },
   "oslo": {
@@ -119,6 +139,7 @@
     "availableOrInUse": false,
     "basis": "estimate",
     "note": {
+      "pl": "Brak dowodów na zbudowanie lub przetestowanie urządzenia, więc nie wykazano jego dostępności ani użycia.",
       "en": "No evidence of a built or tested device, so it is not shown to be available or in use."
     }
   },
@@ -140,7 +161,8 @@
       "url": "http://ptt.arp.pl/bazy/urządzenie-elektromagnetyczne-do-tłumienia-drgań-mechanicznych/",
       "retrievedAt": "2026-11-21T20:05:00Z",
       "passage": "Przedmiotem oferty jest urządzenie elektromagnetyczne do tłumienia drgań mechanicznych. … Forma ochrony Wynalazek … Siła tłumiąca ruch elementu mechanicznego może być w łatwy sposób regulowana",
-      "license": null
+      "license": null,
+      "passageLang": "pl"
     }
   ],
   "evidence": [
@@ -151,7 +173,11 @@
       "unit": null,
       "sourceId": "67386b40-0c9b-4bfa-96ff-052df35d6b10",
       "query": "Read from the listing page http://ptt.arp.pl/bazy/urządzenie-elektromagnetyczne-do-tłumienia-drgań-mechanicznych/. Quoted text: \"Forma ochrony Wynalazek\"",
-      "retrievedAt": "2026-11-21T20:05:00Z"
+      "retrievedAt": "2026-11-21T20:05:00Z",
+      "label": {
+        "pl": "Forma ochrony",
+        "en": "Form of protection"
+      }
     }
   ],
   "firstSeenAt": "2026-11-21T20:05:00Z",

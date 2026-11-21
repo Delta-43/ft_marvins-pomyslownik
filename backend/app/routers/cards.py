@@ -1,10 +1,11 @@
 """Cards: list/search, one card. Similar and history come with tasks B4 and B7."""
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..security import require_session
 from ..services import cards as svc
+from ..services import compare as cmp
 
 router = APIRouter(tags=["Cards"], dependencies=[Depends(require_session)])
 
@@ -24,3 +25,22 @@ def search_cards(q: str | None = Query(None, max_length=200), area: str | None =
 @router.get("/cards/{cardId}")
 def get_card(cardId: UUID):
     return {"data": svc.get_card(cardId)}
+
+
+@router.get("/cards/{cardId}/similar")
+def similar(cardId: UUID, limit: int = Query(5, ge=1, le=20)):
+    return {"data": cmp.similar(cardId, limit)}
+
+
+@router.get("/cards/{cardId}/history")
+def history(cardId: UUID):
+    return {"data": cmp.history(cardId)}
+
+
+@router.get("/compare")
+def compare(ids: str = Query(...)):
+    try:
+        parsed = [UUID(i.strip()) for i in ids.split(",") if i.strip()]
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail="ids must be comma separated card ids.") from exc
+    return {"data": cmp.compare(parsed)}

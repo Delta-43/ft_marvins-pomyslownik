@@ -61,7 +61,11 @@
       "e21cc52f-71a2-4f51-899b-14391e7b7e79"
     ],
     "evidenceIds": [],
-    "method": "The page describes a finished project (2018 to 2021) with classes held and sample outcomes listed. Read as in practice. The page does not say whether the classes continue."
+    "method": "The page describes a finished project (2018 to 2021) with classes held and sample outcomes listed. Read as in practice. The page does not say whether the classes continue.",
+    "methodText": {
+      "pl": "Strona opisuje zakończony projekt (2018–2021) z przeprowadzonymi zajęciami i przykładowymi efektami. Przyjęto poziom „wdrożone w praktyce”. Strona nie podaje, czy zajęcia są kontynuowane.",
+      "en": "The page describes a finished project (2018 to 2021) with classes held and sample outcomes listed. Read as in practice. The page does not say whether the classes continue."
+    }
   },
   "trlDetail": {
     "applicable": false,
@@ -69,7 +73,11 @@
     "basis": "estimate",
     "sourceIds": [],
     "evidenceIds": [],
-    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
   },
   "assessment": {
     "innovativeness": {
@@ -81,7 +89,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "applicationPotential": {
       "value": null,
@@ -92,7 +104,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "credibility": {
       "value": null,
@@ -103,7 +119,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     }
   },
   "oslo": {
@@ -113,6 +133,7 @@
     "availableOrInUse": false,
     "basis": "estimate",
     "note": {
+      "pl": "Projekt realizowany w latach 2018–2021, zajęcia się odbyły. Strona nie podaje, czy oferta jest nadal dostępna.",
       "en": "Project run 2018 to 2021 with classes delivered. Whether the offer is still available today is not stated."
     }
   },
@@ -134,7 +155,8 @@
       "url": "https://www.gov.pl/web/ncbr/akademia-mlodego-studenta",
       "retrievedAt": "2026-11-21T19:47:34Z",
       "passage": "Głównym celem wynikającym z realizacji zajęć w ramach projektu Akademia Młodego Studenta była aktywizacja dzieci i młodzieży z jeleniogórskich szkół … Wartość dofinansowania 395 111,36 zł … Okres realizacji projektu 15.10.2018 r. - 31.07.2021 r.",
-      "license": null
+      "license": null,
+      "passageLang": "pl"
     }
   ],
   "evidence": [
@@ -145,7 +167,11 @@
       "unit": "PLN",
       "sourceId": "e21cc52f-71a2-4f51-899b-14391e7b7e79",
       "query": "Read from the page https://www.gov.pl/web/ncbr/akademia-mlodego-studenta. Quoted text: \"Wartość dofinansowania 395 111,36 zł\"",
-      "retrievedAt": "2026-11-21T19:47:34Z"
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Przyznane dofinansowanie",
+        "en": "Funding awarded"
+      }
     },
     {
       "id": "6da43c80-0141-4de3-ba12-ccf60365a819",
@@ -154,7 +180,11 @@
       "unit": "PLN",
       "sourceId": "e21cc52f-71a2-4f51-899b-14391e7b7e79",
       "query": "Read from the page https://www.gov.pl/web/ncbr/akademia-mlodego-studenta. Quoted text: \"Wartość projektu 419 291,84 zł\"",
-      "retrievedAt": "2026-11-21T19:47:34Z"
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Wartość projektu",
+        "en": "Project value"
+      }
     }
   ],
   "firstSeenAt": "2026-11-21T19:47:34Z",

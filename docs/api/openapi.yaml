@@ -1004,7 +1004,7 @@ components:
 
     LocalizedText:
       type: object
-      description: At least one language is present.
+      description: Text for people. The backend refuses to load or create any card text that lacks Polish or English, so both languages are present. The UI still falls back to the other language if one is empty.
       minProperties: 1
       properties:
         pl: { type: string }
@@ -1064,7 +1064,12 @@ components:
           items: { type: string, format: uuid }
         method:
           type: [string, 'null']
-          description: Required when `basis` is `estimate`. Short plain-language description of how it was made.
+          description: Required when `basis` is `estimate`. Short plain-language description of how it was made. English. Kept for compatibility, so show `methodText` when it is present.
+        methodText:
+          oneOf:
+            - { $ref: '#/components/schemas/LocalizedText' }
+            - { type: 'null' }
+          description: The same text in Polish and English. Use this in the UI. The screen is 100% Polish or 100% English.
 
     ImplementationLevelField:
       allOf:
@@ -1238,7 +1243,11 @@ components:
         retrievedAt: { type: string, format: date-time }
         passage:
           type: [string, 'null']
-          description: The quoted passage the fact came from. Null for pure API numbers.
+          description: The quoted passage the fact came from, exactly as the source wrote it (usually Polish). Show it as a quotation with the language set in `passageLang`. Null for pure API numbers.
+        passageLang:
+          type: [string, 'null']
+          enum: [pl, en, null]
+          description: Language of the quoted passage. The UI sets `lang` on the quotation, so a screen reader and the spell checker treat it correctly.
         license: { type: [string, 'null'] }
 
     SourceSummary:
@@ -1258,7 +1267,12 @@ components:
       required: [id, metric, value, unit, sourceId, query, retrievedAt]
       properties:
         id: { type: string, format: uuid }
-        metric: { type: string, examples: [similar_publications_count] }
+        metric: { type: string, examples: [similar_publications_count], description: 'Machine name. Do not show it. Show `label`.' }
+        label:
+          oneOf:
+            - { $ref: '#/components/schemas/LocalizedText' }
+            - { type: 'null' }
+          description: Name of the metric in Polish and English. Null only for evidence made before this field existed.
         value: { type: [number, string, boolean] }
         unit: { type: [string, 'null'] }
         sourceId: { type: string, format: uuid }
@@ -1291,7 +1305,7 @@ components:
             required: [cardId, display, basis]
             properties:
               cardId: { type: string, format: uuid }
-              display: { type: string, description: Ready-to-show text. }
+              display: { $ref: '#/components/schemas/LocalizedText', description: 'Ready-to-show text in Polish and English. Show the language the user chose, never a mix.' }
               raw: { type: [number, string, boolean, 'null'] }
               basis: { oneOf: [{ $ref: '#/components/schemas/Basis' }, { type: 'null' }] }
               isBest: { type: boolean, description: True for the highest value in a numeric row. }

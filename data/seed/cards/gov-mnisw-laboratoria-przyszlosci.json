@@ -20,7 +20,7 @@
     {
       "slug": "stem",
       "label": {
-        "pl": "STEM i nauki techniczne",
+        "pl": "Nauki ścisłe i techniczne (STEM)",
         "en": "STEM"
       }
     }
@@ -61,7 +61,11 @@
       "ca5de875-c2ba-4414-ae70-8ea3dff8990a"
     ],
     "evidenceIds": [],
-    "method": "The 2021 page announces funding and says equipment will reach schools from 1 September 2022. It does not report delivery. Read as in practice because the programme was launched nationally. Reviewer to confirm with a later source."
+    "method": "The 2021 page announces funding and says equipment will reach schools from 1 September 2022. It does not report delivery. Read as in practice because the programme was launched nationally. Reviewer to confirm with a later source.",
+    "methodText": {
+      "pl": "Strona z 2021 r. zapowiada finansowanie i podaje, że sprzęt trafi do szkół od 1 września 2022 r. Nie potwierdza dostaw. Przyjęto poziom „wdrożone w praktyce”, bo program ruszył w całym kraju. Do potwierdzenia przez recenzenta na podstawie późniejszego źródła.",
+      "en": "The 2021 page announces funding and says equipment will reach schools from 1 September 2022. It does not report delivery. Read as in practice because the programme was launched nationally. Reviewer to confirm with a later source."
+    }
   },
   "trlDetail": {
     "applicable": false,
@@ -69,7 +73,11 @@
     "basis": "estimate",
     "sourceIds": [],
     "evidenceIds": [],
-    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
   },
   "assessment": {
     "innovativeness": {
@@ -81,7 +89,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "applicationPotential": {
       "value": null,
@@ -92,7 +104,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     },
     "credibility": {
       "value": null,
@@ -103,7 +119,11 @@
       "sourceIds": [],
       "evidenceIds": [],
       "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
-      "explanation": null
+      "explanation": null,
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      }
     }
   },
   "oslo": {
@@ -113,6 +133,7 @@
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
+      "pl": "Finansowany program ogólnopolski z opublikowanym katalogiem wyposażenia. Strona z 2021 r. nie pokazuje, czy sprzęt dotarł do szkół.",
       "en": "A funded national programme with a published equipment catalogue. Delivery is not shown on this 2021 page."
     }
   },
@@ -134,7 +155,8 @@
       "url": "https://www.gov.pl/web/nauka/laboratoria-przyszlosci--najwieksze-w-historii-wsparcie-dla-wszystkich-szkol-podstawowych-w-polsce",
       "retrievedAt": "2026-11-21T19:47:34Z",
       "passage": "samorządy prowadzące około 12 000 szkół podstawowych w całej Polsce otrzymają środki finansowe na zakup nowoczesnych narzędzi wspierających odkrywanie talentów i rozwijanie kompetencji przyszłości … Na wsparcie szkół Rząd przeznaczy łącznie ponad 1 miliard złotych … Drukarki 3D, mikrokontrolery, roboty, sprzęt do nagrań i inne nowoczesne wyposażenie",
-      "license": null
+      "license": null,
+      "passageLang": "pl"
     }
   ],
   "evidence": [
@@ -145,7 +167,11 @@
       "unit": "schools",
       "sourceId": "ca5de875-c2ba-4414-ae70-8ea3dff8990a",
       "query": "Read from the page https://www.gov.pl/web/nauka/laboratoria-przyszlosci--najwieksze-w-historii-wsparcie-dla-wszystkich-szkol-podstawowych-w-polsce. Quoted text: \"samorządy prowadzące około 12 000 szkół podstawowych\"",
-      "retrievedAt": "2026-11-21T19:47:34Z"
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Szkoły objęte programem",
+        "en": "Schools covered by the programme"
+      }
     },
     {
       "id": "39a9dc7c-16b7-4746-85ae-966ec80ba0ef",
@@ -154,7 +180,11 @@
       "unit": "PLN",
       "sourceId": "ca5de875-c2ba-4414-ae70-8ea3dff8990a",
       "query": "Read from the page https://www.gov.pl/web/nauka/laboratoria-przyszlosci--najwieksze-w-historii-wsparcie-dla-wszystkich-szkol-podstawowych-w-polsce. Quoted text: \"ponad 1 miliard złotych\"",
-      "retrievedAt": "2026-11-21T19:47:34Z"
+      "retrievedAt": "2026-11-21T19:47:34Z",
+      "label": {
+        "pl": "Planowane finansowanie (co najmniej)",
+        "en": "Planned funding (at least)"
+      }
     }
   ],
   "firstSeenAt": "2026-11-21T19:47:34Z",
