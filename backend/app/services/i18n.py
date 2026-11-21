@@ -87,3 +87,66 @@ def consistency_problems(card: dict) -> list[str]:
         if p.get("basis") == "estimate" and not p.get("method"):
             out.append(f"{key} is an estimate without a method")
     return out
+
+
+def sentence_case(text: str) -> str:
+    """Tag labels start with a capital letter in both languages ("Odmulanie zbiorników", "E-administracja")."""
+    t = (text or "").strip()
+    return t[:1].upper() + t[1:] if t else t
+
+
+# Units as the sources write them, with names in both languages. Symbols (%, dB, kg) are the same in both.
+UNITS = {
+    "ankiet": ("ankiet", "surveys"), "ankiety": ("ankiety", "surveys"), "osób": ("osób", "people"), "osoby": ("osoby", "people"),
+    "szkół": ("szkół", "schools"), "szkoły": ("szkoły", "schools"), "szkoły podstawowe": ("szkoły podstawowe", "primary schools"),
+    "uczniów": ("uczniów", "pupils"), "seniorów": ("seniorów", "seniors"), "warsztatów": ("warsztatów", "workshops"),
+    "dni": ("dni", "days"), "lat": ("lat", "years"), "godzin": ("godzin", "hours"), "tys.": ("tys.", "thousand"),
+    "mln zł": ("mln zł", "PLN million"), "zł": ("zł", "PLN"), "PLN": ("zł", "PLN"), "tys. zł": ("tys. zł", "PLN thousand"),
+    "works": ("prac", "works"), "count": ("szt.", "items"), "people": ("osób", "people"), "schools": ("szkół", "schools"),
+    "pupils": ("uczniów", "pupils"), "TRL": ("TRL", "TRL"),
+}
+
+
+def unit_label(unit: str | None) -> dict | None:
+    if not unit:
+        return None
+    pl, en = UNITS.get(unit.strip(), UNITS.get(unit.strip().lower(), (unit.strip(), unit.strip())))
+    return {"pl": pl, "en": en}
+
+
+# Source names start with a fixed prefix that we wrote; the rest is the source's own title (kept as written, like a quote).
+SOURCE_PREFIXES = [
+    ("Platforma Transferu Technologii (ARP): ", "Platforma Transferu Technologii (ARP): ", "Technology Transfer Platform (ARP): "),
+    ("Dokument PDF: ", "Dokument PDF: ", "PDF document: "),
+    ("RAD-on (OPI PIB), projekt badawczy: ", "RAD-on (OPI PIB), projekt badawczy: ", "RAD-on (OPI PIB), research project: "),
+    ("OpenAlex: wyszukiwanie podobnych prac / similar works search", "OpenAlex: wyszukiwanie podobnych prac", "OpenAlex: similar works search"),
+]
+
+
+def source_name_text(name: str) -> dict:
+    for prefix, pl, en in SOURCE_PREFIXES:
+        if name.startswith(prefix):
+            rest = name[len(prefix):]
+            return {"pl": pl + rest, "en": en + rest}
+    return {"pl": name, "en": name}
+
+
+LICENCES = {
+    "CC0": ({"pl": "CC0 (domena publiczna)", "en": "CC0 (public domain)"}, "https://creativecommons.org/publicdomain/zero/1.0/"),
+    "RAD-on open data (OPI PIB). Terms: radon.nauka.gov.pl": (
+        {"pl": "Otwarte dane RAD-on (OPI PIB), warunki na stronie serwisu", "en": "RAD-on open data (OPI PIB), terms on the service's site"},
+        "https://radon.nauka.gov.pl"),
+}
+
+
+def licence_label(licence: str | None) -> tuple[dict | None, str | None]:
+    if not licence:
+        return None, None
+    label, url = LICENCES.get(licence, ({"pl": licence, "en": licence}, None))
+    return label, url
+
+
+def split_organisation(name: str) -> tuple[str, str | None]:
+    """'Politechnika Koszalińska; Wydział Mechaniczny' -> ('Politechnika Koszalińska', 'Wydział Mechaniczny')."""
+    head, _, rest = (name or "").partition(";")
+    return head.strip(), (rest.strip() or None)

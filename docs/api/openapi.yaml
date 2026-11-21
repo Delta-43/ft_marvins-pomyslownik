@@ -250,6 +250,7 @@ paths:
         - { name: polishIp, in: query, description: Only cards based on Polish IP., schema: { type: boolean } }
         - { name: minCredibility, in: query, schema: { type: integer, minimum: 0, maximum: 100 } }
         - { name: includeStale, in: query, schema: { type: boolean, default: true } }
+        - { name: polishIpStatus, in: query, style: form, explode: false, description: 'Comma separated, for example `confirmed,stated`.', schema: { type: array, items: { type: string, enum: [confirmed, stated, unknown] } } }
         - name: sort
           in: query
           schema:
@@ -404,7 +405,7 @@ paths:
       tags: [Reference]
       operationId: getFacets
       summary: Filter options with counts for the current filters
-      description: Accepts the same filter parameters as `/api/v1/cards` (not `sort`, `limit`, `offset`). The `tag` and `region` lists return at most the 50 largest options.
+      description: Accepts the same filter parameters as `/api/v1/cards` (not `sort`, `limit`, `offset`), so the counts match the list. The `tag` and `region` lists return at most the 50 largest options.
       parameters:
         - { name: q, in: query, schema: { type: string, maxLength: 200 } }
         - { name: area, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/Area' } } }
@@ -413,6 +414,11 @@ paths:
         - { name: region, in: query, schema: { type: string, maxLength: 10 } }
         - { name: audience, in: query, schema: { $ref: '#/components/schemas/AudienceId' } }
         - { name: polishIp, in: query, schema: { type: boolean } }
+        - { name: trlMin, in: query, schema: { type: integer, minimum: 1, maximum: 9 } }
+        - { name: trlMax, in: query, schema: { type: integer, minimum: 1, maximum: 9 } }
+        - { name: minCredibility, in: query, schema: { type: integer, minimum: 0, maximum: 100 } }
+        - { name: includeStale, in: query, schema: { type: boolean, default: true } }
+        - { name: polishIpStatus, in: query, style: form, explode: false, schema: { type: array, items: { type: string, enum: [confirmed, stated, unknown] } } }
       responses:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
@@ -431,6 +437,7 @@ paths:
                       implementationLevel: { type: array, items: { $ref: '#/components/schemas/FacetOption' } }
                       tag: { type: array, items: { $ref: '#/components/schemas/FacetOption' } }
                       region: { type: array, items: { $ref: '#/components/schemas/FacetOption' } }
+                      polishIpStatus: { type: array, items: { $ref: '#/components/schemas/FacetOption' } }
                       polishIp:
                         type: object
                         required: ['true', 'false']
@@ -458,6 +465,36 @@ paths:
                   data:
                     type: array
                     items: { $ref: '#/components/schemas/Audience' }
+
+  /api/v1/tags:
+    get:
+      tags: [Reference]
+      operationId: listTags
+      summary: Tags with their card counts, newest first by default
+      description: '`sort=recent` puts the tags of the most recently found cards first, for the chips under the search bar. `sort=count` puts the most used first.'
+      parameters:
+        - { name: sort, in: query, schema: { type: string, enum: [recent, count], default: recent } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 12 } }
+      responses:
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '200':
+          description: Tags.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      required: [slug, label, count, lastSeenAt]
+                      properties:
+                        slug: { type: string }
+                        label: { $ref: '#/components/schemas/LocalizedText' }
+                        count: { type: integer, minimum: 1 }
+                        lastSeenAt: { type: string, format: date-time, description: When the newest card with this tag was first found. }
 
   /api/v1/sources:
     get:
@@ -1045,7 +1082,8 @@ components:
       type: object
       required: [name, type]
       properties:
-        name: { type: string }
+        name: { type: string, description: 'The organisation itself, for example Politechnika Koszalińska.' }
+        unit: { type: [string, 'null'], description: 'A faculty or department when the source names one, for example Wydział Mechaniczny.' }
         type: { $ref: '#/components/schemas/OrganisationType' }
         url: { type: [string, 'null'], format: uri }
         region: { type: [string, 'null'], description: 'Region code, for example PK.' }
@@ -1248,6 +1286,15 @@ components:
         passage:
           type: [string, 'null']
           description: The quoted passage the fact came from, exactly as the source wrote it (usually Polish). Show it as a quotation with the language set in `passageLang`. Null for pure API numbers.
+        nameText:
+          allOf: [{ $ref: '#/components/schemas/LocalizedText' }]
+          description: The source name in Polish and English. The part after the colon is the source's own title, kept as written.
+        licenseLabel:
+          oneOf:
+            - { $ref: '#/components/schemas/LocalizedText' }
+            - { type: 'null' }
+          description: The licence in Polish and English. Null when the source states none.
+        licenseUrl: { type: [string, 'null'], format: uri }
         passageLang:
           type: [string, 'null']
           enum: [pl, en, null]
@@ -1262,6 +1309,7 @@ components:
         type: { $ref: '#/components/schemas/SourceType' }
         name: { type: string }
         url: { type: string, format: uri }
+        nameText: { $ref: '#/components/schemas/LocalizedText' }
         lastCollectedAt: { type: [string, 'null'], format: date-time }
         cardCount: { type: integer, minimum: 0 }
         license: { type: [string, 'null'] }
@@ -1278,7 +1326,11 @@ components:
             - { type: 'null' }
           description: Name of the metric in Polish and English. Null only for evidence made before this field existed.
         value: { type: [number, string, boolean] }
-        unit: { type: [string, 'null'] }
+        unit: { type: [string, 'null'], description: As the source writes it. Show `unitLabel`. }
+        unitLabel:
+          oneOf:
+            - { $ref: '#/components/schemas/LocalizedText' }
+            - { type: 'null' }
         sourceId: { type: string, format: uuid }
         query: { type: string, description: The query or call that produced the value. }
         retrievedAt: { type: string, format: date-time }

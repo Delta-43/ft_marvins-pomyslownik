@@ -26,13 +26,14 @@ Status: `[ ]` to do, `[~]` in progress, `[x]` done, `[!]` blocked (say why in Bl
 
 ## Doing now
 
-Backend complete and live. Waiting for decisions: Karrie's seed corrections, polishIpStatus contract field.
+Backend complete and live on `main`. Design-review data requests shipped (`/tags`, facet filters, labels in both languages).
 
 ## Blockers
 
 - Polish IP: patent numbers stated by sources are not verified, because the UPRP register needs a working e-Profil key (ours returns 401). `polishIp` stays false until verified.
 - Scoring weights are indicative. Mentors' definitions (R7) would replace them.
 - For Philip (fixed 22:40): sign-in rate limit is now 300/min per address plus 10/min per identity, so the web server no longer hits it. `/compare`, `/cards/{id}/similar`, `/cards/{id}/history`, `/events` and `/stats/usage` are live. New optional fields: `methodText`, `Evidence.label`, `Source.passageLang`, `CountItem.label`, `StatusChange.fromLabel/toLabel`, `CollectRun.changedCardIds`; compare cells' `display` is now `{pl, en}`.
+- For the frontend (design review requests, live): `GET /api/v1/tags?sort=recent|count&limit=` for the chips under the search bar; `/facets` accepts every `/cards` filter (`trlMin`, `trlMax`, `minCredibility`, `includeStale`, `polishIpStatus`) and returns `polishIpStatus` options; `/cards?polishIpStatus=stated,confirmed`; `Organisation.unit`; `Source.nameText`, `licenseLabel`, `licenseUrl`; `Evidence.unitLabel`; tag labels start with a capital. Use `polishIpStatus` for the Polish-IP filter: `polishIp` is true only when verified, so it is false on every card today.
 
 ## Log
 
@@ -45,3 +46,4 @@ Backend complete and live. Waiting for decisions: Karrie's seed corrections, pol
 | 2026-11-21 22:10 | Backend live: API https://demo.delta43.net (→ delta-server 192.168.0.43:8000), web https://pomyslownik.delta43.net (→ :3010). 10 real cards seeded. Branch `backend/b3-b12-scaffold` pushed. Karrie's first review: research articles correct, stories summarised correctly. |
 | 2026-11-21 22:26 | Live on delta-server: B4, B5, B8 (earlier this evening), then B6a-d, B7, B11: collectors (PTT, RAD-on, PDF, OpenAlex), refresh worker every 24 h, contract test. Language rule enforced (every user-visible text in Polish and English). Claude and OpenAlex keys set in the server .env. Earlier log times are approximate. |
 | 2026-11-21 22:43 | Code review (10 findings) fixed and live: re-seed keeps events, history and attached PDFs; collectors remember skipped sources; rate limit no longer trusts X-Forwarded-For; register/admin races handled. 72 tests pass; contract test passes against the live server for all 27 cards. |
+| 2026-11-21 23:32 | Karrie's corrections applied, Oslo/Polish-IP rules enforced, CI with real database, image builds and licence scan required for `main` (branch protection on). Design-review data requests live. Server tracks `main`. |

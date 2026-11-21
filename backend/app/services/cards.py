@@ -9,7 +9,13 @@ from fastapi import HTTPException
 from ..config import settings
 from ..db import one, rows
 from .i18n import label as fixed_label
-from .i18n import region_label
+from .i18n import (
+    licence_label,
+    region_label,
+    source_name_text,
+    split_organisation,
+    unit_label,
+)
 
 AREAS = {"technological", "educational", "administrative"}
 LEVELS = ["concept", "prototype", "testing", "pilot", "in_practice"]
@@ -39,7 +45,7 @@ class Filters:
     """Parsed filter parameters shared by /cards and /facets. An explicit filter overrides the audience preset."""
 
     def __init__(self, q=None, area=None, implementationLevel=None, trlMin=None, trlMax=None, tag=None, region=None,
-                 audience=None, polishIp=None, minCredibility=None, includeStale=True):
+                 audience=None, polishIp=None, minCredibility=None, includeStale=True, polishIpStatus=None):
         preset: dict = {}
         if audience:
             found = next((a for a in audiences() if a["id"] == audience), None)
@@ -56,6 +62,7 @@ class Filters:
         self.polish_ip = polishIp if polishIp is not None else preset.get("polishIp")
         self.min_cred = minCredibility if minCredibility is not None else preset.get("minCredibility")
         self.include_stale = includeStale
+        self.ip_status = _csv("polishIpStatus", polishIpStatus, {"confirmed", "stated", "unknown"})
 
     def where(self, skip: str | None = None) -> tuple[str, dict]:
         c, p = ["TRUE"], {"fresh": settings.freshness_days}
@@ -73,6 +80,8 @@ class Filters:
             c.append("c.region = %(region)s"); p["region"] = self.region
         if self.polish_ip is not None and skip != "polish":
             c.append("c.polish_ip = %(pip)s"); p["pip"] = self.polish_ip
+        if self.ip_status and skip != "ipstatus":
+            c.append("c.polish_ip_status = ANY(%(ips)s)"); p["ips"] = self.ip_status
         if self.min_cred is not None:
             c.append("c.score_credibility >= %(min_cred)s"); p["min_cred"] = self.min_cred
         if not self.include_stale:
@@ -102,6 +111,11 @@ SUMMARY_COLS = """
 """
 
 
+def _organisation(r: dict) -> dict:
+    name, unit = split_organisation(r["org_name"])
+    return {"name": name, "unit": unit, "type": r["org_type"], "url": r["org_url"], "region": r["org_region"]}
+
+
 def summary(r: dict, relevance: float | None = None) -> dict:
     return {
         "id": str(r["id"]),
@@ -109,7 +123,7 @@ def summary(r: dict, relevance: float | None = None) -> dict:
         "summaryShort": loc(r["summary_short_pl"], r["summary_short_en"]),
         "area": r["area"],
         "tags": [{"slug": t["slug"], "label": loc(t["label_pl"], t["label_en"])} for t in r["tags"]],
-        "organisation": {"name": r["org_name"], "type": r["org_type"], "url": r["org_url"], "region": r["org_region"]},
+        "organisation": _organisation(r),
         "implementationLevel": {"value": r["implementation_level"], "basis": r["level_basis"]},
         "trl": {"applicable": r["trl_applicable"], "value": r["trl"], "basis": r["trl_basis"]},
         "scores": {"innovativeness": r["score_innovativeness"], "applicationPotential": r["score_application"],
@@ -160,10 +174,11 @@ def get_card(card_id: UUID) -> dict:
         "oslo": r["oslo"],
         "couldAlsoBeUsedIn": r["could_also_be_used_in"],
         "owner": {"name": r["owner_name"], "url": r["owner_url"]},
-        "sources": [{"id": str(s["id"]), "type": s["type"], "name": s["name"], "url": s["url"],
+        "sources": [{"id": str(s["id"]), "type": s["type"], "name": s["name"], "nameText": source_name_text(s["name"]), "url": s["url"],
                      "retrievedAt": iso(s["retrieved_at"]), "passage": s["passage"], "passageLang": s["passage_lang"],
-                     "license": s["license"]} for s in sources],
-        "evidence": [{"id": str(e["id"]), "metric": e["metric"], "label": e["label"], "value": e["value"], "unit": e["unit"],
+                     "license": s["license"], "licenseLabel": licence_label(s["license"])[0], "licenseUrl": licence_label(s["license"])[1]}
+                    for s in sources],
+        "evidence": [{"id": str(e["id"]), "metric": e["metric"], "label": e["label"], "value": e["value"], "unit": e["unit"], "unitLabel": unit_label(e["unit"]),
                       "sourceId": str(e["source_id"]), "query": e["query"], "retrievedAt": iso(e["retrieved_at"])} for e in evidence],
         "firstSeenAt": iso(r["first_seen_at"]),
         "statusChangedAt": iso(r["status_changed_at"]),
@@ -183,6 +198,10 @@ def facets(f: Filters) -> dict:
                     WHERE {f.where(skip='tag')[0]} GROUP BY t.slug, t.label_pl, t.label_en ORDER BY 4 DESC, 1 LIMIT 50""", f.where(skip="tag")[1])
     regions = [r for r in count("c.region", "region") if r["value"]][:50]
     pip = {r["value"]: r["count"] for r in count("c.polish_ip", "polish")}
+    ips = {r["value"]: r["count"] for r in count("c.polish_ip_status", "ipstatus")}
+    ips_labels = {"confirmed": {"pl": "Potwierdzona", "en": "Confirmed"},
+                  "stated": {"pl": "Deklarowana przez źródło, niezweryfikowana", "en": "Declared by the source, not verified"},
+                  "unknown": {"pl": "Brak informacji", "en": "No information"}}
     opt = lambda k, n: {"value": k, "label": fixed_label(k), "count": n}
     return {
         "area": [opt(k, area.get(k, 0)) for k in ("technological", "educational", "administrative")],
@@ -190,4 +209,15 @@ def facets(f: Filters) -> dict:
         "tag": [{"value": t["value"], "label": loc(t["label_pl"], t["label_en"]), "count": t["count"]} for t in tags],
         "region": [{"value": r["value"], "label": region_label(r["value"]), "count": r["count"]} for r in regions],
         "polishIp": {"true": pip.get(True, 0), "false": pip.get(False, 0)},
+        "polishIpStatus": [{"value": k, "label": ips_labels[k], "count": ips.get(k, 0)} for k in ("confirmed", "stated", "unknown")],
     }
+
+
+def tags(sort: str, limit: int) -> list[dict]:
+    """Tags with the number of cards and when the newest card with that tag was first seen."""
+    order = "last_seen DESC, count DESC, t.slug" if sort == "recent" else "count DESC, last_seen DESC, t.slug"
+    data = rows(f"""SELECT t.slug, t.label_pl, t.label_en, count(c.id) AS count, max(c.first_seen_at) AS last_seen
+                    FROM tags t JOIN card_tags ct ON ct.tag_slug = t.slug JOIN cards c ON c.id = ct.card_id
+                    GROUP BY t.slug, t.label_pl, t.label_en ORDER BY {order} LIMIT %(limit)s""", {"limit": limit})
+    return [{"slug": r["slug"], "label": loc(r["label_pl"], r["label_en"]), "count": r["count"], "lastSeenAt": iso(r["last_seen"])}
+            for r in data]
