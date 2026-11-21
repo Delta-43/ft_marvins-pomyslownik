@@ -273,8 +273,8 @@
     "no": "nie",
     "explanation": "Uzasadnienie",
     "similarTitle": "Podobne rozwiązania",
-    "similarIntro": "Najbliższe karty w bazie. Podobieństwo obliczone ze wspólnych słów kluczowych i tagów, nie przez model.",
-    "similarity": "Podobieństwo: {value}%",
+    "similarIntro": "Najbliższe karty w bazie, od najbardziej podobnej. Podobieństwo liczone ze wspólnych słów kluczowych i tagów, nie przez model. Każda karta opisuje inne rozwiązanie, więc nawet najbliższe dopasowania mają zwykle poniżej 30%.",
+    "similarity": "{value}% podobieństwa",
     "similarNone": "Brak podobnych kart w bazie.",
     "similarUnavailable": "Nie udało się wczytać podobnych kart.",
     "historyTitle": "Historia zmian",
@@ -287,7 +287,8 @@
       "other": "Źródło"
     },
     "historyEmptyValue": "brak",
-    "statusChanged": "ostatnia zmiana statusu:"
+    "statusChanged": "ostatnia zmiana statusu:",
+    "similarRank": "{rank, selectordinal, other {#.}} najbliższa w bazie"
   },
   "profile": {
     "title": "Profil",

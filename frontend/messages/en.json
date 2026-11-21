@@ -273,8 +273,8 @@
     "no": "no",
     "explanation": "Explanation",
     "similarTitle": "Similar solutions",
-    "similarIntro": "The closest cards in the database. Similarity is computed from shared keywords and tags, not by the model.",
-    "similarity": "Similarity: {value}%",
+    "similarIntro": "The closest cards in the database, most similar first. Similarity is computed from shared keywords and tags, not by the model. Every card describes a different solution, so even the closest matches are usually below 30%.",
+    "similarity": "{value}% similar",
     "similarNone": "No similar cards in the database.",
     "similarUnavailable": "Could not load similar cards.",
     "historyTitle": "Change history",
@@ -287,7 +287,8 @@
       "other": "Source"
     },
     "historyEmptyValue": "none",
-    "statusChanged": "last status change:"
+    "statusChanged": "last status change:",
+    "similarRank": "{rank, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} closest in the database"
   },
   "profile": {
     "title": "Profile",

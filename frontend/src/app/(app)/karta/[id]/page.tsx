@@ -210,11 +210,14 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
           <p className="mt-3 text-sm text-kamien">{t("similarNone")}</p>
         ) : (
           <ul className="mt-3 grid gap-3 md:grid-cols-2">
-            {similar.map(({ card: c, similarity }) => (
+            {similar.map(({ card: c, similarity }, i) => (
               <li key={c.id} className="lift flex flex-col gap-1.5 rounded-2xl bg-white/60 p-4 ring-1 ring-white/80">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <AreaChip area={c.area} />
-                  <span className="font-tech text-xs font-semibold tabular-nums text-kamien">{t("similarity", { value: Math.round(similarity * 100) })}</span>
+                  <span className="text-right text-xs text-kamien">
+                    <span className="block font-tech font-semibold tabular-nums text-atrament">{t("similarity", { value: Math.round(similarity * 100) })}</span>
+                    <span className="block">{t("similarRank", { rank: i + 1 })}</span>
+                  </span>
                 </div>
                 <Link href={`/karta/${c.id}`} className="font-bold text-atrament">{pick(c.title, locale)}</Link>
                 <span className="text-xs text-kamien">{c.organisation.name}</span>
