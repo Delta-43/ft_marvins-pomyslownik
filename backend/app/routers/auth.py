@@ -41,6 +41,7 @@ class RegisterRequest(BaseModel):
     interests: list[str] = Field(max_length=20)
     acceptedTerms: bool
     consentToContact: bool = False
+    preferredLanguage: Literal["pl", "en", "uk"] | None = None
 
 
 class LoginRequest(BaseModel):
@@ -55,13 +56,16 @@ class UpdateMeRequest(BaseModel):
     affiliation: Affiliation | None = None
     interests: list[str] | None = Field(default=None, max_length=20)
     consentToContact: bool | None = None
+    preferredLanguage: Literal["pl", "en", "uk"] | None = None
 
 
 def user_json(u: dict) -> dict:
     return {"id": str(u["id"]), "email": u["email"], "displayName": u["display_name"], "role": u["role"],
             "affiliation": {"name": u["affiliation_name"], "type": u["affiliation_type"]}, "interests": list(u["interests"]),
             "identityVerified": False,  # the sandbox never verifies identity. Only a real provider may set this
-            "provider": u["provider"], "consentToContact": u["consent_to_contact"], "createdAt": iso(u["created_at"])}
+            "provider": u["provider"], "consentToContact": u["consent_to_contact"], "createdAt": iso(u["created_at"]),
+            "assuranceLevel": "none" if u["provider"] == "sandbox_id" else "substantial",
+            **({"preferredLanguage": u["preferred_language"]} if u.get("preferred_language") else {})}
 
 
 def open_session(user: dict) -> dict:
@@ -101,9 +105,10 @@ def register(body: RegisterRequest):
         try:
             user = conn.execute(
                 """INSERT INTO users (provider, provider_subject, email, display_name, role, affiliation_name, affiliation_type,
-                     interests, consent_to_contact, terms_accepted_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s, now()) RETURNING *""",
+                     interests, consent_to_contact, preferred_language, terms_accepted_at)
+                   VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, now()) RETURNING *""",
                 (body.provider, subject, body.email, body.displayName, body.role, body.affiliation.name, body.affiliation.type,
-                 body.interests, body.consentToContact)).fetchone()
+                 body.interests, body.consentToContact, body.preferredLanguage)).fetchone()
         except psycopg.errors.UniqueViolation as exc:  # two registrations for one identity at the same moment
             raise ApiError(409, "account_exists", "An account already exists for this identity. Sign in instead.") from exc
     return {"data": open_session(user)}
@@ -150,6 +155,8 @@ def update_me(body: UpdateMeRequest, user: dict = session):
         sets.append("interests = %(i)s"); p["i"] = body.interests
     if "consentToContact" in changes and body.consentToContact is not None:
         sets.append("consent_to_contact = %(c)s"); p["c"] = body.consentToContact
+    if "preferredLanguage" in changes:  # null clears the preference
+        sets.append("preferred_language = %(pl)s"); p["pl"] = body.preferredLanguage
     updated = one(f"UPDATE users SET {', '.join(sets)} WHERE id = %(id)s RETURNING *", p) if sets else user
     return {"data": user_json(updated)}
 

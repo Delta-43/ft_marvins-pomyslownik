@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     # Shared sandbox identities used by the demo (comma separated). They skip the per-identity sign-in limit, because
     # a whole jury signs in as one of them, and they cannot be deleted (known gap G1, docs/api/CONTRACT-REVIEW.md).
     demo_identities: str = "demo-jury"
+    supported_languages: str = "pl,en,uk"
+    public_web_url: str = "https://pomyslownik.delta43.net"  # links to card pages in relatedWork  # first one is the default and the fallback (B15)
+    translate_batch: int = 40  # texts per translation call in the worker
 
     @property
     def demo_identity_set(self) -> set[str]:

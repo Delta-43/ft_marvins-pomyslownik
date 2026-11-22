@@ -65,3 +65,23 @@ def test_evidence_origin_and_query_text():
     r = query_text('Read from the page https://example.invalid/a. Quoted text: "Masa 8 kg"')
     assert r["pl"] == 'Odczytane ze źródła https://example.invalid/a. Cytat: "Masa 8 kg"' and evidence_origin('Read from x') == "source"
     assert query_text("GET https://api.openalex.org/works?search=x (meta.count)")["en"].startswith("Result count of the OpenAlex query")
+
+
+@needs_db
+def test_facets_return_selected_values_with_labels_at_zero():
+    """B18: a selected tag or region with no matching card still comes back with its label."""
+    from app.main import app
+    c = TestClient(app)
+    r = c.post("/api/v1/auth/register", json={"provider": "sandbox_id", "providerSubject": f"fac-{uuid.uuid4().hex[:8]}",
+                                               "email": "f@example.invalid", "role": "schools",
+                                               "affiliation": {"name": "T", "type": "school"}, "interests": [], "acceptedTerms": True})
+    h = {"Authorization": f"Bearer {r.json()['data']['token']}"}
+    try:
+        tag = c.get("/api/v1/tags?limit=1", headers=h).json()["data"][0]["slug"]
+        d = c.get(f"/api/v1/facets?q=zzzz-no-match-zzzz&tag={tag}&region=OP", headers=h).json()["data"]
+        t = next(x for x in d["tag"] if x["value"] == tag)
+        assert t["count"] == 0 and t["label"]["pl"] and t["label"]["en"]
+        op = next(x for x in d["region"] if x["value"] == "OP")
+        assert op["count"] == 0 and op["label"]["pl"] == "Opolskie" and op["label"]["en"] == "Opole"
+    finally:
+        c.delete("/api/v1/me", headers=h)

@@ -8,6 +8,7 @@ from fastapi import HTTPException
 
 from ..config import settings
 from ..db import one, rows
+from .i18n import REGIONS as REGION_CODES
 from .i18n import (
     evidence_origin,
     licence_label,
@@ -197,6 +198,16 @@ def get_card(card_id: UUID) -> dict:
                       "origin": evidence_origin(e["query"]), "queryText": query_text(e["query"])} for e in evidence],
         "firstSeenAt": iso(r["first_seen_at"]),
         "statusChangedAt": iso(r["status_changed_at"]),
+        # A related card's title follows the requested language; an outside work keeps its own title (titleLang).
+        "relatedWork": [{"kind": w["kind"], "cardId": str(w["card_ref"]) if w["card_ref"] else None,
+                         "title": loc(w["ref_pl"], w["ref_en"]) if w["card_ref"] else w["title"],
+                         "titleLang": None if w["card_ref"] else w["title_lang"], "url": w["url"],
+                         "organisation": {"name": w["org_name"], "region": w["org_region"], "contactUrl": w["contact_url"]} if w["org_name"] else None,
+                         "year": w["year"], "similarity": float(w["similarity"]), "sharedTags": list(w["shared_tags"]),
+                         "basis": "estimate", "source": w["source"], "foundAt": iso(w["found_at"])}
+                        for w in rows("""SELECT rw.*, c.title_pl AS ref_pl, c.title_en AS ref_en FROM related_work rw
+                                         LEFT JOIN cards c ON c.id = rw.card_ref WHERE rw.card_id = %s
+                                         ORDER BY rw.similarity DESC, rw.id""", (card_id,))],
     })
     return card
 
@@ -218,11 +229,25 @@ def facets(f: Filters) -> dict:
                   "stated": {"pl": "Deklarowana przez źródło, niezweryfikowana", "en": "Declared by the source, not verified"},
                   "unknown": {"pl": "Brak informacji", "en": "No information"}}
     opt = lambda k, n: {"value": k, "label": fixed_label(k), "count": n}
+    # B18: every selected value comes back with its label, even at count 0, so the frontend never invents a label.
+    tag_list = [{"value": t["value"], "label": loc(t["label_pl"], t["label_en"]), "count": t["count"]} for t in tags]
+    missing = [s for s in f.tag if s not in {t["value"] for t in tag_list}]
+    if missing:  # selected but outside the top 50, or with no match: count them directly, with the same filters
+        where, p = f.where(skip="tag")
+        counted = {r["slug"]: r["count"] for r in rows(f"""SELECT ct.tag_slug AS slug, count(DISTINCT c.id) AS count FROM cards c
+                    JOIN card_tags ct ON ct.card_id = c.id WHERE {where} AND ct.tag_slug = ANY(%(missing)s) GROUP BY 1""",
+                                                         {**p, "missing": missing})}
+        known = {r["slug"]: r for r in rows("SELECT slug, label_pl, label_en FROM tags WHERE slug = ANY(%s)", (missing,))}
+        tag_list += [{"value": s, "label": loc(known[s]["label_pl"], known[s]["label_en"]), "count": counted.get(s, 0)}
+                     for s in missing if s in known]
+    region_list = [{"value": r["value"], "label": region_label(r["value"]), "count": r["count"]} for r in regions]
+    if f.region and f.region in REGION_CODES and f.region not in {r["value"] for r in region_list}:
+        region_list.append({"value": f.region, "label": region_label(f.region), "count": 0})
     return {
         "area": [opt(k, area.get(k, 0)) for k in ("technological", "educational", "administrative")],
         "implementationLevel": [opt(k, level.get(k, 0)) for k in LEVELS],
-        "tag": [{"value": t["value"], "label": loc(t["label_pl"], t["label_en"]), "count": t["count"]} for t in tags],
-        "region": [{"value": r["value"], "label": region_label(r["value"]), "count": r["count"]} for r in regions],
+        "tag": tag_list,
+        "region": region_list,
         "polishIp": {"true": pip.get(True, 0), "false": pip.get(False, 0)},
         "polishIpStatus": [{"value": k, "label": ips_labels[k], "count": ips.get(k, 0)} for k in ("confirmed", "stated", "unknown")],
     }
