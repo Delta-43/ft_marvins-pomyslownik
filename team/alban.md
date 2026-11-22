@@ -14,10 +14,11 @@ Status: `[ ]` to do, `[~]` in progress, `[x]` done, `[!]` blocked (say why in Bl
 - [x] `TASKS.md` status update at 00:05, checked against the team files, branches, CI and the live servers (PR #7).
 - [x] **Brand charter** (no task ID). `docs/design/` (identity board, components board, tokens, logo set) and `DESIGN.md` on `main`. Lato for headings, Atkinson Hyperlegible for text, no em dashes.
 - [x] `TASKS.md` status check after PR #29 (branch `tasks/status-1122`).
+- [~] **D1** PCI and Podkarpackie palette: `DESIGN.md` and `tokens.css`, every pair checked for contrast, colour-blindness check on the category colours (branch `design/d1-pci-palette`).
 
 ## Doing now
 
-Since PR #29 (04:07): `TASKS.md` status check against `main`, the open branches and the live servers, and this file (branch `tasks/status-1122`).
+Since 04:45: **D1** PCI palette (branch `design/d1-pci-palette`).
 
 ## Blockers
 
