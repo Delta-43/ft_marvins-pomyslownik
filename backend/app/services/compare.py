@@ -47,6 +47,8 @@ def compare(ids: list[UUID]) -> dict:
         t = c["trl"]
         if not t["applicable"]:
             return NOT_APPLICABLE, None, t["basis"]
+        if t["value"] is None:  # a technology card whose TRL nobody could establish
+            return NO_DATA, None, t["basis"]
         return {"pl": str(t["value"]), "en": str(t["value"])}, t["value"], t["basis"]
 
     rows_ = [
