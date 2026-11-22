@@ -6,13 +6,13 @@ import { api, ApiError, type Schemas } from "@/lib/api";
 import { getToken, SESSION_COOKIE } from "@/lib/session";
 import { DEMO_COOKIE, FIRST_AUDIENCE_COOKIE } from "@/lib/cookie";
 import { clearDraft, EMAIL_RE, saveDraft, type Draft, type DraftField, type FieldError } from "@/lib/draft";
+import { safeLocalPath } from "@/lib/redirect";
 
 type Session = { data: Schemas["Session"] };
 
 /** Only allow redirects to our own pages (no open redirect via ?next=). */
 function safeNext(next: FormDataEntryValue | null): string {
-  const path = typeof next === "string" ? next : "";
-  return path.startsWith("/") && !path.startsWith("//") ? path : "/szukaj";
+  return safeLocalPath(next);
 }
 const str = (v: FormDataEntryValue | null): string => (typeof v === "string" ? v.trim() : "");
 
