@@ -18,6 +18,18 @@ Contract: `docs/api/openapi.yaml`. Frontend start guide: `docs/FRONTEND-START.md
 Findings and decisions: `docs/MENTOR-FEEDBACK-2026-11-22.md`. Contract draft 3 (`1.1.0-draft.3`) is on branch `docs/mentor-feedback-2026-11-22`; it is additive, and the live API passes the contract test against it.
 Priority before the 06:30 feature freeze: **B15 + F13** (Ukrainian, chosen by the server), **F15 + F16** (WCAG 2.2 and ARIA fixes), **D1 + F17** (PCI colours), **B17 + F20** (related work on the card). The real login.gov.pl adapter (B14) is after the hackathon, and the pitch says so.
 
+**Status 2026-11-22, after PR #29 (merged 04:07): checked by Alban** against `main`, the open branches and the live servers.
+- **Production web** `https://pomyslownik.delta43.net` now serves the real landing page. The scaffold blocker above is fixed. The live API `/health` still reports `version: 1.0.0-draft.2`. Delta: check whether the server runs PR #29 (B15, B17, B18) or the version string is just not bumped.
+- **Done but not merged:**
+  - `feat/b16-registry-licence` (PR #30): B16, EUPL-1.2 `LICENSE`, README. `main` has no `LICENSE` yet, and the submission needs one.
+  - `research/r7-r8-task-status`: R3 showcases, R8 methodology text, R7 questions, R4/R6/R9 closed. It merges into `main` without conflicts.
+  - `Philip` (8 commits): Roboto Cyrillic fallback (part of F13), motion flow, search bar, landing tweaks, and a palette change (see D1).
+- **Palette decision needed before F17 or merging `Philip`.** `Philip` commit `ed6a4e6` makes Granat `#0085CC` the colour for buttons, links and focus. That is 3.61:1 on Papier and 4.02:1 with white, below the 4.5:1 WCAG AA needs for normal text. D1 asks for PCI Navy `#001A49` and Deep blue `#035487` as main colours, with `#0085CC` → `#6BB437` as decoration only.
+- **"Now" tasks with no sign in the code on `main`:** F13 (no `messages/uk.json`, no `Accept-Language`), F15 (`scroll-padding-top` only on the landing page), F16 (no `aria-expanded`), D1, F17, F19, F20, R11.
+- **Not started:** F5 to F10, Q1 to Q4, S1 to S5. Slides, video and submission text were planned for 08:00.
+- **No tasks claimed yet:** Andrei, Karrie and Przemek have nothing in their `team/` files. Research work is on the research branch under "Slimalke".
+- **Suggested order:** merge PR #30 (`LICENSE`) and the research branch, decide the palette, then F15, F16 and F19 before the freeze, then slides and video.
+
 ## Tracks
 
 Tasks have no fixed owner here. To take a task, add its ID to your own file in `team/` and mark it `[~]`. Ownership and progress live in those files.
@@ -150,7 +162,7 @@ Source: mentor review, points 1 to 10. Requirement IDs M1 to M10 (`REQUIREMENTS.
 | F14 | **Display settings.** Text size (100, 125, 150%), contrast mode (standard, high, low), kept in a cookie and rendered by the server. Follow `prefers-contrast` and `forced-colors`. High contrast: solid surfaces, no glass blur, 2 px borders, underlined links | Should | D1 | 2 h | Each mode passes 4.5:1 for text. Works by keyboard. No flash of the wrong theme | M3 |
 | F15 | **WCAG 2.2 fixes** (§3): `scroll-padding-top` under the sticky app header (2.4.11), 24 px minimum targets (2.5.8), solid search focus ring (1.4.11), help link in the same footer place (3.2.6), paste allowed and no puzzle at sign-in (3.3.8). Test 200% text and 320 CSS px width | Now | — | 1.5 h | Each item checked on the demo path and noted in the accessibility statement | M3 |
 | F16 | **ARIA pass** (§4): disclosure buttons with `aria-expanded` for cards that expand in place, named `nav` landmarks, `fieldset`/`legend` for filters, live result count, labelled search input, `lang` on language names, focus to `h1` after navigation | Now | — | 1.5 h | axe shows no serious issues. A screen reader (NVDA or VoiceOver) completes the demo path | M4 |
-| D1 | **PCI and Podkarpackie palette** (§5). Update `DESIGN.md` and `tokens.css`: PCI Navy `#001A49`, Deep blue `#035487`, Mist surfaces, Podkarpackie green `#027641` for success, blue-to-green band `#0085CC` → `#6BB437` as decoration. Check every pair for contrast. Simulate colour blindness on the category colours | Now | — | 1 h | Token table with contrast numbers merged. Alban agrees | M5, M3 |
+| D1 | **PCI and Podkarpackie palette** (§5). Update `DESIGN.md` and `tokens.css`: PCI Navy `#001A49`, Deep blue `#035487`, Mist surfaces, Podkarpackie green `#027641` for success, blue-to-green band `#0085CC` → `#6BB437` as decoration. Check every pair for contrast. Simulate colour blindness on the category colours. **Open question (2026-11-22):** branch `Philip` uses `#0085CC` as the main colour instead, which fails 4.5:1 for text (see the status note at the top) | Now | — | 1 h | Token table with contrast numbers merged. Alban agrees | M5, M3 |
 | F17 | Apply D1 tokens in `globals.css` and components. Replace Papier backgrounds, Granat buttons and links | Now | D1 | 1 h | No old hex value left in `frontend/src`. axe contrast check passes | M5 |
 | D2 | **Type scale and layout** (§6): one fluid scale (ratio 1.25, `clamp()`), body 17 px, line length 60 to 75 characters, one primary action per screen, glass blur only on the landing art | Should | D1 | 1 h | `DESIGN.md` §3 and §4 updated | M6 |
 | F18 | Apply D2 on the app pages (search, results, card, compare) | Should | D2 | 1.5 h | Headings follow the scale on phone and desktop. Results readable at 320 px | M6, M7 |
