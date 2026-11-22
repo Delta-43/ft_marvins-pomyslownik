@@ -14,17 +14,17 @@ Status: `[ ]` to do, `[~]` in progress, `[x]` done, `[!]` blocked (say why in Bl
 - [x] `TASKS.md` status update at 00:05, checked against the team files, branches, CI and the live servers (PR #7).
 - [x] **Brand charter** (no task ID). `docs/design/` (identity board, components board, tokens, logo set) and `DESIGN.md` on `main`. Lato for headings, Atkinson Hyperlegible for text, no em dashes.
 - [x] `TASKS.md` status check after PR #29 (branch `tasks/status-1122`).
-- [~] **D1** PCI and Podkarpackie palette: `DESIGN.md` and `tokens.css`, every pair checked for contrast, colour-blindness check on the category colours (branch `design/d1-pci-palette`).
+- [x] **D1** PCI and Podkarpackie palette (PR #34). `DESIGN.md` §2 and `docs/design/tokens.css` v2: Granat = PCI Navy `#001A49`, Głębia `#035487` for links and focus, Mgła surfaces, white Papier, Stal borders, Tak `#027641`, blue-to-green band as decoration only. Every text and UI pair measured (WCAG formula). Colour-blindness simulation: Patenty moved to `#E3EDA0`, because it merged with Startupy under deuteranopia (ΔE 7.7, now 13.8). Tokens are not yet applied in `frontend/src` (that is F17).
 
 ## Doing now
 
-Since 04:45: **D1** PCI palette (branch `design/d1-pci-palette`).
+D1 done (PR #34). Free for the next task.
 
 ## Blockers
 
 - ~~For Delta: production web `https://pomyslownik.delta43.net` still serves the old scaffold page.~~ Fixed: it serves the real landing page now.
 - For whoever owns `DESIGN.md`: section 1 (Logo) still describes the old "P" sygnet. It should describe the new logotype and symbol.
-- For Philip and Delta (D1): the palette must be decided before F17 or merging `Philip`. `Philip` commit `ed6a4e6` uses `#0085CC` for buttons and links, which fails 4.5:1 for text. D1 proposes PCI Navy `#001A49` / Deep blue `#035487`.
+- For Philip (PR #32): D1 is done in PR #34 with PCI Navy `#001A49` and Deep blue `#035487`. PR #32 also changes `DESIGN.md` and `tokens.css` (Granat to `#0085CC`, which fails 4.5:1 for text), so the two PRs touch the same lines. Please drop the palette part of `ed6a4e6`, or rebase on #34 once it is merged.
 
 ## Log
 
@@ -42,3 +42,5 @@ Since 04:45: **D1** PCI palette (branch `design/d1-pci-palette`).
 | 23:55 | PR #6 merged into `main` (all five checks green) |
 | 00:05 | `TASKS.md` status update (PR #7) |
 | after 04:07 | `TASKS.md` status check after PR #29: open branches, palette conflict, open "Now" tasks (branch `tasks/status-1122`) |
+| 04:45 | Took D1 (PCI palette), draft PR #34 |
+| later | D1 done: palette v2 in `DESIGN.md` and `tokens.css`, contrast and colour-blindness checked |

@@ -12,13 +12,13 @@ This file is the design reference for every Pomysłownik screen. The source of t
 | `docs/design/support.js` | Runtime the `.dc.html` boards load. Open the boards in a browser to view them |
 
 > **Display font is Lato.** The boards default to Lato (Regular 400 + Bold 700), and all headings use Lato Bold 700.
-> Three items in `docs/design/` are older than this change and still name Fraunces: `tokens.css` (`--font-display`), the screenshot, and the wordmark text inside the logo SVGs.
+> The screenshot and the wordmark text inside the logo SVGs are older than this and still show Fraunces.
 > Where they disagree with this file, follow this file. The logo SVGs are artwork: use them as they are, and convert the text to curves before printing.
 
-Interface copy is in Polish, English and (from task F13) Ukrainian. Each screen is in one language only. Example content on screens is marked `[PRZYKŁAD]`.
+> **Palette v2 (task D1, 2026-11-22): PCI and Podkarpackie colours.** Section 2 is the source of truth. The `.dc.html` boards still show the v1 palette (Granat `#1B3F8F`, Papier `#F7F2EB`). Follow this file, not the boards.
+> Still pending from the mentor feedback: one fluid type scale (D2), Roboto for Cyrillic (F13), high and low contrast modes (F14). Details: `docs/MENTOR-FEEDBACK-2026-11-22.md` §5 and §6.
 
-> **Pending change (mentor feedback, 2026-11-22).** The palette moves towards PCI and Podkarpackie colours (PCI Navy `#001A49`, Deep blue `#035487`, blue-to-green band `#0085CC` → `#6BB437`), the type scale becomes one fluid scale, Roboto is added for Cyrillic, and high and low contrast modes are added.
-> Proposal with measured contrast: `docs/MENTOR-FEEDBACK-2026-11-22.md` §5 and §6. Tasks D1, D2, F14, F17, F18. Until D1 is merged, the tables below still apply.
+Interface copy is in Polish, English and (from task F13) Ukrainian. Each screen is in one language only. Example content on screens is marked `[PRZYKŁAD]`.
 
 ---
 
@@ -31,8 +31,8 @@ Interface copy is in Polish, English and (from task F13) Ukrainian. Each screen 
 
 | Variant | File | Use |
 |---|---|---|
-| Primary | `pomyslownik-logo-podstawowe.svg` | Granat sygnet + Atrament text on Papier |
-| Reversed | `pomyslownik-logo-odwrocone.svg` | Iskra sygnet + Papier text on Atrament |
+| Primary | `pomyslownik-logo-podstawowe.svg` | Granat sygnet + Atrament text on white |
+| Reversed | `pomyslownik-logo-odwrocone.svg` | Iskra sygnet + white text on Granat |
 | Mono black / white | `pomyslownik-logo-mono-czarne.svg` / `-mono-biale.svg` | One-colour print |
 | Sygnet | `pomyslownik-sygnet.svg` | Standalone mark |
 | Favicon | `favicon-16.svg`, `favicon-32.svg` | Browser tab |
@@ -40,49 +40,72 @@ Interface copy is in Polish, English and (from task F13) Ukrainian. Each screen 
 
 - **Clear space:** X on every side, where X = sygnet height / 4.
 - **Minimum size:** full logo 120 px wide; sygnet/favicon 16 px.
-- **Do:** logo on Papier, logo on Atrament, sygnet as an app icon.
+- **Do:** logo on white or Mgła, logo on Granat, sygnet as an app icon.
 - **Don't:** change the colours, skew or stretch it, add effects (shadow, glow), or write it in capitals (POMYSŁOWNIK).
 
 ## 2. Colour
+
+Palette v2 (task D1) follows Podkarpackie Centrum Innowacji (PCI) and the Podkarpackie region. The colours were measured on pcinn.org and podkarpackie.pl (mentor feedback §5).
+Every contrast number below uses the WCAG 2.x formula. AA needs 4.5:1 for normal text, 3:1 for large text (24 px, or 18.66 px bold) and 3:1 for focus rings, borders of controls and icons.
 
 ### Core palette
 
 | Token | Name | Hex | Role | Contrast |
 |---|---|---|---|---|
-| `--color-papier` | Papier | `#F7F2EB` | Backgrounds | n/a |
-| `--color-atrament` | Atrament | `#141414` | Text, main elements | 16.54:1 on Papier |
-| `--color-granat` | Granat | `#1B3F8F` | Accent, buttons, links, focus | 8.75:1 on Papier |
-| `--color-iskra` | Iskra | `#FFD93D` | Highlights. Only on Atrament or under Atrament text. **Never text on a light background** | 13.37:1 with Atrament |
-| `--color-kamien` | Kamień | `#5A544D` | Secondary text | 6.71:1 on Papier |
-| `--color-krawedz` | Krawędź | `#DDD5C8` | Card borders | n/a |
+| `--color-papier` | Papier | `#FFFFFF` | Page and card background (was `#F7F2EB`) | n/a |
+| `--color-mgla` | Mgła | `#E7EFF5` | Section backgrounds, search field, keyword pills, info messages. PCI light surface | Atrament 15.85:1, Granat 14.52:1 |
+| `--color-mgla-2` | Mgła 2 | `#DEE7EF` | Second surface: hover on secondary buttons, count pills, disabled buttons | Atrament 14.72:1, Kamień 5.97:1 |
+| `--color-atrament` | Atrament | `#141414` | Body text, icons, outlines of secondary buttons | 18.42:1 on white |
+| `--color-granat` | Granat | `#001A49` | **PCI Navy.** Headings, primary buttons, header and footer surfaces, dark panels, logo (was `#1B3F8F`) | 16.88:1 on white, white text 16.88:1 |
+| `--color-glebia` | Głębia | `#035487` | **PCI Deep blue.** Links, text buttons, focus ring, active nav and tab underline, primary hover, checkbox accent | 8.01:1 on white, 6.89:1 on Mgła, white text 8.01:1 |
+| `--color-blekit` | Błękit | `#0177FD` | PCI Bright blue. Large text (24 px and up), icons, borders. **Never small text** | 4.15:1 on white |
+| `--color-iskra` | Iskra | `#FFD93D` | The one warm accent. Highlights on Granat, or behind Atrament text. **Never text on a light background** | 12.25:1 on Granat, 13.37:1 with Atrament |
+| `--color-kamien` | Kamień | `#5A544D` | Secondary text, input borders | 7.47:1 on white, 6.43:1 on Mgła |
+| `--color-stal` | Stal | `#98AEC5` | PCI Steel. Card borders and dividers (decoration), muted text on Granat | 2.28:1 on white, 7.39:1 on Granat |
+| `--color-krawedz` | Krawędź | `#98AEC5` | Card borders. Same value as Stal (was `#DDD5C8`); the old name is kept so existing code still works | 2.28:1 on white |
 
-**Proportions:** Papier 60%, Atrament 25%, Granat 10%, Iskra 5%.
+**Regional band** (`--gradient-pasmo`): `linear-gradient(90deg, #0085CC, #6BB437)`, the PCI logo blue flowing into green, like the Podkarpackie "przestrzeń otwarta" hill. Use it as one thin band (4 px) at the top of the header and on the landing art. **Decoration only: never put text on it, and never use `#0085CC` (4.02:1 on white) or `#6BB437` (2.56:1) for text, buttons, links or focus.** `#6BB437` may appear on Granat (6.60:1) as decoration.
+
+**Proportions:** Papier and Mgła 60%, Atrament 20%, Granat and Głębia 15%, Iskra and the band 5%.
 
 ### Category colours (always shown with an icon and a name)
 
-| Token | Category | Hex |
+| Token | Category | Hex | Atrament text on it |
+|---|---|---|---|
+| `--color-uczelnie` | Uczelnie (universities) | `#A9DCE6` | 12.34:1 |
+| `--color-patenty` | Patenty (patents) | `#E3EDA0` (was `#D6E6A3`) | 14.81:1 |
+| `--color-laboratoria` | Laboratoria (labs) | `#CDB8F0` | 10.27:1 |
+| `--color-startupy` | Startupy (startups) | `#F7C6A8` | 11.93:1 |
+
+**Colour-blindness check** (Machado 2009 simulation, CIE76 ΔE between the closest pair; under 10 can look alike):
+
+| Vision | v1 closest pair | v2 closest pair |
 |---|---|---|
-| `--color-uczelnie` | Uczelnie (universities) | `#A9DCE6` |
-| `--color-patenty` | Patenty (patents) | `#D6E6A3` |
-| `--color-laboratoria` | Laboratoria (labs) | `#CDB8F0` |
-| `--color-startupy` | Startupy (startups) | `#F7C6A8` |
+| Normal | Patenty/Startupy 31.4 | Patenty/Startupy 33.0 |
+| Protanopia | Patenty/Startupy 16.2 | Uczelnie/Laboratoria 20.8 |
+| Deuteranopia | **Patenty/Startupy 7.7 (fail)** | Uczelnie/Laboratoria 13.6 (Patenty/Startupy now 13.8) |
+| Tritanopia | Patenty/Laboratoria 15.6 | Patenty/Laboratoria 17.2 |
+
+Patenty moved to a lighter, yellower green (ΔE 6.1 in normal vision) so it no longer merges with Startupy under deuteranopia. The icon and the name still carry the meaning; colour only helps.
 
 ### Status and support colours
 
-| Use | Hex |
-|---|---|
-| Success / "Tak" (`--color-tak`) | `#1F7A45`, background `#EDF5EF` |
-| Error / "Nie" (`--color-nie`) | `#B42318`, background `#FBEDEB` |
-| Info | border `#1B3F8F`, background `#EEF1F8` |
-| Warning | border `#141414`, background `#FFF6CC`, Iskra triangle icon |
-| Granat hover | `#14306E` |
-| Iskra hover | `#F5CC1F` |
-| Disabled | background `#E9E2D7`, text `#5A544D` |
-| Surface (cards, sections) | `#FFFFFF` |
-| Dark-surface divider / code bg | `#3A3733` / `#2A2826` |
-| Muted text on Atrament | `#E4DDD2` |
+| Use | Value | Contrast |
+|---|---|---|
+| Success / "Tak" (`--color-tak`) | `#027641` Podkarpackie green (was `#1F7A45`), background `#E6F2EC` | 5.72:1 on white, 4.98:1 on its background |
+| Error / "Nie" (`--color-nie`) | `#B42318`, background `#FBEDEB` | 6.57:1 on white, 5.77:1 on its background |
+| Info | border Głębia, background Mgła | Atrament text 15.85:1 |
+| Warning | border Atrament, background `#FFF6CC`, Iskra triangle with Atrament outline. On white, a warning icon may use Podkarpackie orange `#EF6D00` (3.06:1, icons and large text only) | Atrament text 16.94:1 |
+| Granat hover (primary button) | Głębia `#035487` | white text 8.01:1 |
+| Link hover | Granat `#001A49` | 16.88:1 |
+| Iskra hover | `#F5CC1F` | Atrament text 11.88:1 |
+| Disabled | background Mgła 2, text Kamień | 5.97:1 (exempt, still readable) |
+| Surface (cards) | white on Mgła sections, or white with a Stal border | n/a |
+| On Granat surfaces | text white (16.88:1), muted text Stal (7.39:1), links and focus Iskra (12.25:1), dividers Głębia (decoration) | |
 
 Status is always icon + word. Colour is never the only signal.
+
+**Pairs that must not be used:** Głębia on Granat for text or focus (2.11:1); Bright blue on Granat for small text (4.07:1, large text and icons only); `#0085CC` for any text or control (4.02:1 on white); `#6BB437` on a light background (2.56:1 on white); Iskra on white or Mgła; text on the regional band.
 
 ## 3. Typography
 
@@ -108,7 +131,8 @@ Status is always icon + word. Colour is never the only signal.
 
 - Body leading 1.5–1.6 (`--leading-body: 1.55`). Heading leading ≥ 1.1.
 - Sub-headings inside a section (h3 labels): body font, 15px, weight 700.
-- Section headings carry a Granat number prefix, for example `01.` (Iskra on Atrament surfaces).
+- Headings are Granat on light surfaces and white on Granat surfaces. Body text stays Atrament.
+- Section headings carry a Głębia number prefix, for example `01.` (Iskra on Granat surfaces).
 - Big numbers (stat + source): Lato Bold 44px, then a body label, then a mono 14px Kamień source line such as `Źródło: POL-on · 30.09.2026 · metodologia`.
 
 ## 4. Shape, spacing, focus
@@ -119,16 +143,17 @@ Status is always icon + word. Colour is never the only signal.
 | Result card radius | 20px; messages 16px; inputs 12px; tooltip 12px; avatar tile 14px |
 | `--radius-pill` | 999px: buttons, chips, tags, search |
 | `--radius-icon` | 22% (app icon) |
-| `--border-card` | 1px solid Krawędź |
+| `--border-card` | 1px solid Krawędź (Stal) |
 | `--space-1…6` | 4 / 8 / 12 / 16 / 20 / 24 px. Card gap 20px, card and board padding 24px |
-| Focus | `outline: 3px solid #1B3F8F; outline-offset: 2px` on `:focus-visible` |
+| Focus | `outline: 3px solid #035487; outline-offset: 2px` on `:focus-visible` (Głębia, 8.01:1 on white). On Granat surfaces use Iskra `#FFD93D` (12.25:1) |
 
 ## 5. Graphic elements
 
-- **Radar arcs:** concentric Papier rings on Atrament, fading out, with one Iskra arc.
+- **Regional band:** the 4 px blue-to-green band (`--gradient-pasmo`) at the top of the header. Decoration only.
+- **Radar arcs:** concentric white rings on Granat, fading out, with one Iskra arc.
 - **55° split:** Granat/Iskra diagonal at the sygnet angle.
-- **Connection network:** Atrament nodes and lines on Papier, with a central Granat node.
-- **3D sygnet:** rounded Granat tile (gradient `#2A55B0 → #1B3F8F → #14306E`) on a soft Papier surface. Use it for illustration only, never as the logo.
+- **Connection network:** Atrament nodes and lines on white or Mgła, with a central Głębia node.
+- **3D sygnet:** rounded tile (gradient Głębia `#035487` → Granat `#001A49`) on a soft Mgła surface. Use it for illustration only, never as the logo.
 
 ## 6. Components
 
@@ -138,34 +163,34 @@ Rules from `Komponenty.dc.html`. All sizes are in px.
 
 | Kind | Style |
 |---|---|
-| Primary | Granat bg, Papier text, bold, pill, padding 0 22. Hover `#14306E` |
-| Secondary | White bg, 1.5px Atrament border, Atrament text. Hover Papier |
-| Text link button | Granat, bold, underline offset 4. Hover Atrament |
+| Primary | Granat bg, white text, bold, pill, padding 0 22. Hover Głębia |
+| Secondary | White bg, 1.5px Atrament border, Atrament text. Hover Mgła 2 |
+| Text link button | Głębia, bold, underline offset 4. Hover Granat |
 | Highlight (events) | Iskra bg, Atrament text. Hover `#F5CC1F` |
-| Icon button | 44 circle; Atrament fill with Papier icon, or white with 1.5px Atrament border |
+| Icon button | 44 circle; Granat fill with white icon, or white with 1.5px Atrament border |
 | Small | height 36, padding 0 16, 15px |
 | Card action | height 40, padding 0 18, trailing arrow icon |
-| Disabled | `#E9E2D7` bg, Kamień text |
+| Disabled | Mgła 2 bg, Kamień text |
 
 ### Forms
 
 - The label is always above the field and bold. Hint text is 14px Kamień.
 - Input/select: height 48, 1.5px Kamień border, radius 12, padding 0 14, white bg.
 - Error: 2px `#B42318` border, `aria-invalid`, and a message that starts with **"Błąd:"** plus an error icon, in bold 14px red. Never colour alone.
-- Search: pill, height 56, 1.5px Kamień border, Papier bg, leading search icon, primary "Szukaj" button inside. Placeholder: "Szukaj zespołów, patentów, laboratoriów…".
-- Checkbox/radio: 20px, `accent-color: #1B3F8F`, min row height 28, grouped in a `fieldset` with a `legend`.
-- Switch: 48×28 track with a 1.5px Granat border, 19px knob, and a visible state word next to it. `role="switch"`.
+- Search: pill, height 56, 1.5px Kamień border, Mgła bg, leading search icon, primary "Szukaj" button inside. Placeholder: "Szukaj zespołów, patentów, laboratoriów…". Focus ring solid Głębia, never a transparent tint.
+- Checkbox/radio: 20px, `accent-color: #035487` (Głębia), min row height 28, grouped in a `fieldset` with a `legend`.
+- Switch: 48×28 track with a 1.5px Głębia border, 19px knob, and a visible state word next to it. `role="switch"`.
 
 ### Tags and badges
 
-- **Category chip (filter):** pill, height 44, 30px Atrament circle with a Papier icon, then the name. When on: category colour bg, 2px Atrament border, check mark. When off: white bg, 1.5px Kamień border. `aria-pressed`.
+- **Category chip (filter):** pill, height 44, 30px Atrament circle with a white icon, then the name. When on: category colour bg, 2px Atrament border, check mark. When off: white bg, 1.5px Kamień border. `aria-pressed`.
 - **Category tag (on card):** height 28, category bg, 20px Atrament icon circle, 14px bold.
 - **Data status**, always icon + word:
-  - *Potwierdzone* (confirmed): Atrament bg, Papier check icon.
+  - *Potwierdzone* (confirmed): Atrament bg, white check icon and text (18.42:1).
   - *~ Szacunek* (estimate): 1.5px dashed Atrament border, mono `~`.
   - *Nieaktualne* (stale): 1.5px Kamień border, Kamień clock icon.
   - *Nowe* (new): Iskra bg, Atrament dot.
-- **Keywords:** height 30, Papier bg, 1px Krawędź border, 15px regular. Overflow shown as `+N`.
+- **Keywords:** height 30, Mgła bg, 1px Krawędź border, 15px regular. Overflow shown as `+N`.
 
 Category icons (16×16, stroke 1.6–1.8, round caps/joins):
 
@@ -179,15 +204,16 @@ Category icons (16×16, stroke 1.6–1.8, round caps/joins):
 ### Result cards
 
 Order inside a card: category tag (+ `[PRZYKŁAD]` when it is example data), title (Lato Bold 22), who · where (Kamień), data status, mono source with date, then one primary action plus a "Zapisz" (save) toggle.
-Card: white, 1px Krawędź border, radius 20, padding 20, gap 12. Hover border Kamień. Grid `minmax(300px, 1fr)`, gap 20. Startup cards add a 48px Atrament tile with Iskra initials.
+Card: white, 1px Krawędź border, radius 20, padding 20, gap 12. Hover border Kamień. Grid `minmax(300px, 1fr)`, gap 20. Title in Granat. Startup cards add a 48px Granat tile with Iskra initials.
 
 ### Navigation
 
-- **Top bar:** min height 64, white, 1px Krawędź border, radius 16. Sygnet + wordmark (22px), then links, then search icon button and avatar.
-- **Active item:** bold + 3px Granat underline, never colour alone. Hover adds a Krawędź underline.
-- **Tabs:** height 46, 3px Granat underline when selected, mono count pill on Papier.
+- **Top bar:** min height 64, white, 1px Krawędź border, radius 16, with the 4 px regional band on top. Sygnet + wordmark (22px), then links, then search icon button and avatar.
+- **Active item:** bold + 3px Głębia underline, never colour alone. Hover adds a Krawędź underline.
+- **Tabs:** height 46, 3px Głębia underline when selected, mono count pill on Mgła 2.
 - **Breadcrumb:** `/` separators in Kamień; current item bold with `aria-current="page"`.
-- **Pagination:** 44 circles; current page Atrament bg with Papier text; others white with Krawędź border; mono numbers.
+- **Pagination:** 44 circles; current page Granat bg with white text; others white with Krawędź border; mono numbers.
+- **Footer:** Granat surface, white text, Stal for secondary text, Iskra links and focus.
 
 ### Messages
 
@@ -195,12 +221,12 @@ Every message has an icon, a bold lead word and a colour. Tone: concrete and fri
 
 | Kind | Lead word | Border / bg |
 |---|---|---|
-| Info | **Informacja.** | Granat / `#EEF1F8` |
-| Success | **Gotowe.** | `#1F7A45` / `#EDF5EF` |
+| Info | **Informacja.** | Głębia / Mgła |
+| Success | **Gotowe.** | `#027641` / `#E6F2EC` |
 | Warning | **Uwaga.** | Atrament / `#FFF6CC` |
 | Error | **Błąd.** | `#B42318` / `#FBEDEB` |
 
-- **Tooltip:** Atrament bg, Papier text, radius 12, 15px, Iskra link, `role="tooltip"`.
+- **Tooltip:** Granat bg, white text, radius 12, 15px, Iskra link, `role="tooltip"`.
 - **Empty state:** 1px dashed Kamień border, radius 20, radar illustration, Lato Bold 22 title ("Nic nie znaleźliśmy dla „…”"), a hint, and a secondary "Wyczyść filtry" button.
 
 ## 7. Voice and positioning
@@ -227,7 +253,7 @@ The reference boards in `docs/design/` still contain em dashes (for example "Tak
 
 1. Use only the official logo files.
 2. Keep the clear space.
-3. Stick to the palette and the 60/25/10/5 proportions.
+3. Stick to the palette and the 60/20/15/5 proportions. The blue-to-green band is decoration only.
 4. Lato for headings, Atkinson Hyperlegible for everything else.
 5. Colour is never the only carrier of information.
 6. Tone: concrete, friendly, reliable.

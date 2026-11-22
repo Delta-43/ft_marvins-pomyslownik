@@ -1,32 +1,53 @@
-/* Pomysłownik — tokeny marki v1.0 (1rem = 16px) */
+/* Pomysłownik: tokeny marki v2.0, paleta PCI i Podkarpackie (zadanie D1). 1rem = 16px.
+   Kontrast liczony wzorem WCAG 2.x. Pełna tabela: DESIGN.md §2. */
 :root {
   /* Kolory podstawowe */
-  --color-papier: #F7F2EB;    /* tła */
-  --color-atrament: #141414;  /* tekst, elementy główne · 16,54:1 na Papierze */
-  --color-granat: #1B3F8F;    /* akcent, przyciski, linki, fokus · 8,75:1 na Papierze */
-  --color-iskra: #FFD93D;     /* wyróżnienia · tylko na Atramencie lub pod tekstem Atramentu */
-  --color-kamien: #5A544D;    /* tekst drugorzędny · 6,71:1 na Papierze */
-  --color-krawedz: #DDD5C8;   /* obramowania kart */
-  /* Kolory kategorii (zawsze z ikoną) */
+  --color-papier: #FFFFFF;    /* tło strony i kart (v1: #F7F2EB) */
+  --color-mgla: #E7EFF5;      /* sekcje, pole wyszukiwania, komunikat "Informacja" · Atrament 15,85:1 */
+  --color-mgla-2: #DEE7EF;    /* druga powierzchnia, przyciski nieaktywne · Kamień 5,97:1 */
+  --color-atrament: #141414;  /* tekst · 18,42:1 na bieli */
+  --color-granat: #001A49;    /* PCI Navy: nagłówki, przyciski główne, nagłówek i stopka · 16,88:1 na bieli (v1: #1B3F8F) */
+  --color-glebia: #035487;    /* PCI Deep blue: linki, fokus, podkreślenie aktywnej pozycji · 8,01:1 na bieli */
+  --color-blekit: #0177FD;    /* PCI Bright blue: tylko duży tekst (24px+), ikony, obramowania · 4,15:1 */
+  --color-iskra: #FFD93D;     /* jedyny ciepły akcent · tylko na Granacie (12,25:1) lub pod tekstem Atramentu (13,37:1) */
+  --color-kamien: #5A544D;    /* tekst drugorzędny, obramowania pól · 7,47:1 na bieli */
+  --color-stal: #98AEC5;      /* PCI Steel: obramowania kart, linie · tekst drugorzędny na Granacie 7,39:1 */
+  --color-krawedz: var(--color-stal); /* obramowania kart (v1: #DDD5C8), nazwa zostaje dla zgodności */
+
+  /* Pasmo regionalne: niebieski PCI przechodzi w zieleń. Tylko dekoracja, nigdy pod tekstem */
+  --color-pasmo-od: #0085CC;
+  --color-pasmo-do: #6BB437;
+  --gradient-pasmo: linear-gradient(90deg, var(--color-pasmo-od), var(--color-pasmo-do));
+  --pasmo-height: 0.25rem;    /* 4px */
+
+  /* Kolory kategorii (zawsze z ikoną i nazwą) · Atrament na każdym ≥ 10,27:1 */
   --color-uczelnie: #A9DCE6;
-  --color-patenty: #D6E6A3;
+  --color-patenty: #E3EDA0;   /* v1: #D6E6A3, zmieniony: przy deuteranopii zlewał się ze Startupami */
   --color-laboratoria: #CDB8F0;
   --color-startupy: #F7C6A8;
+
   /* Statusy (zawsze ikona + słowo) */
-  --color-tak: #1F7A45;
-  --color-nie: #B42318;
+  --color-tak: #027641;       /* zieleń Podkarpackie · 5,72:1 na bieli (v1: #1F7A45) */
+  --color-tak-tlo: #E6F2EC;   /* "Tak" na tym tle 4,98:1 */
+  --color-nie: #B42318;       /* 6,57:1 na bieli */
+  --color-nie-tlo: #FBEDEB;   /* "Nie" na tym tle 5,77:1 */
+  --color-uwaga-tlo: #FFF6CC; /* komunikat "Uwaga", Atrament 16,94:1 */
+  --color-pomarancz: #EF6D00; /* ikony ostrzeżeń na bieli · 3,06:1, nigdy mały tekst */
+
+  /* Najechanie */
+  --color-granat-hover: var(--color-glebia); /* przycisk główny, biały tekst 8,01:1 */
+  --color-iskra-hover: #F5CC1F;              /* Atrament 11,88:1 */
 
   /* Typografia */
-  --font-display: "Fraunces", Georgia, serif;
+  --font-display: "Lato", "Segoe UI", Arial, sans-serif;
   --font-body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
   --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, monospace;
-  --font-display-settings: "opsz" 72, "SOFT" 50, "WONK" 0;
-  --text-min: 1rem;           /* 16px — tekst ciągły */
-  --text-small: 0.875rem;     /* 14px — podpisy, metadane */
+  --text-min: 1rem;           /* 16px, tekst ciągły */
+  --text-small: 0.875rem;     /* 14px, podpisy, metadane */
   --text-h3: 1.5rem;
   --text-h2: 2rem;
   --text-h1: 3rem;
-  --leading-body: 1.55;       /* 1,5–1,6 */
+  --leading-body: 1.55;       /* 1,5 do 1,6 */
   --leading-heading: 1.1;     /* ≥ 1,1 */
   --tracking-display: -0.01em;
 
@@ -44,14 +65,15 @@
   --space-5: 1.25rem;         /* odstęp między kartami */
   --space-6: 1.5rem;          /* margines planszy, padding kart */
 
-  /* Fokus: 3px Granat, odstęp 2px */
+  /* Fokus: 3px Głębia, odstęp 2px (8,01:1 na bieli). Na Granacie: Iskra (12,25:1) */
   --focus-ring-width: 0.1875rem;
   --focus-ring-offset: 0.125rem;
-  --focus-ring: var(--focus-ring-width) solid var(--color-granat);
+  --focus-ring: var(--focus-ring-width) solid var(--color-glebia);
+  --focus-ring-on-dark: var(--focus-ring-width) solid var(--color-iskra);
 
   /* Logo */
-  --logo-min-width: 7.5rem;   /* 120px — logo pełne */
-  --symbol-min-size: 1rem;    /* 16px — sygnet / favicon */
+  --logo-min-width: 7.5rem;   /* 120px, logo pełne */
+  --symbol-min-size: 1rem;    /* 16px, sygnet / favicon */
   --logo-angle: 55deg;        /* kąt linii łączącej węzły sygnetu */
 }
 :focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
