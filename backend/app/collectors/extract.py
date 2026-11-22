@@ -122,7 +122,7 @@ def number_in(quote: str, value: float) -> bool:
     return v in {f.rstrip("0").rstrip(".") if "." in f else f for f in found}
 
 
-# "The model proposes, the rules confirm" (PLAN.md section 4). A level counts as stated by the source only when the
+# "The model proposes, the rules confirm". A level counts as stated by the source only when the
 # quoted words contain a word that signals that level. Otherwise the level stays an estimate.
 LEVEL_WORDS = {
     "concept": r"koncepc|pomys|założe|concept|idea",

@@ -1,4 +1,4 @@
-// Automated accessibility run (TASKS.md A7, issue #41): axe-core, a keyboard pass and reflow, in headless Chrome.
+// Automated accessibility run (issue #41): axe-core, a keyboard pass and reflow, in headless Chrome.
 //
 // axe-core is not a dependency of the app. Install it anywhere outside the repo and point the script at it:
 //   npm install axe-core --prefix /tmp/axe

@@ -25,7 +25,7 @@ export function FlowClient({ busyLabel }: { busyLabel?: string }) {
         e.preventDefault();
         const fd = new FormData(form);
         const q = (fd.get("q") as string | null)?.trim() ?? "";
-        // The first search after registration also carries the role as the audience (SearchForm, TASKS.md A10).
+        // The first search after registration also carries the role as the audience (SearchForm).
         const u = new URLSearchParams();
         if (q) u.set("q", q);
         for (const name of ["audience", "pierwsze"]) { const v = fd.get(name); if (typeof v === "string" && v) u.set(name, v); }

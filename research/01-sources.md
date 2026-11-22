@@ -2,7 +2,7 @@
 
 Checked 2026-11-21 about 19:10 CET from this machine, with `curl` and web search. Scope for now: records published by institutions (ministries, offices, universities, agencies). No individual-person pages yet.
 
-**What this draft is built from.** Karrie's list, `PLAN.md` §5, `TASKS.md`, and live checks today. The earlier research notes (`research/03` etc.) are kept outside the repo and were **not available to me**, so they are not merged in. Delta: send them and I will merge them.
+**What this draft is built from.** the team's source list and live checks made on 2026-11-22.
 
 **How to read "Go".** Go means technically reachable today and no rule found that forbids our use. It does **not** mean a lawyer cleared the terms. Licence columns say "not found" where I did not find a statement. Every "Verified" below is something I ran. "Reported" is from a search result I did not open.
 
@@ -58,7 +58,7 @@ Checked 2026-11-21 about 19:10 CET from this machine, with `curl` and web search
 - Not tested: field structure of a full listing (the page I read was mostly navigation and a glossary). Check one real listing in a browser (R6).
 
 ### 5 and 6. PW repository and PPM: No-go for crawling
-- Both run the same repository software. `robots.txt` is `User-agent: *` `Disallow: /` and allows only Googlebot. Crawling it would break robots rules (`PLAN.md` risk table: "Respect robots").
+- Both run the same repository software. `robots.txt` is `User-agent: *` `Disallow: /` and allows only Googlebot. Crawling it would break robots rules.
 - The site states an API exists. Per Karrie's note, documentation and a key come after an email to `api@omegapsir.io` with personal data and a justification. **I did not send that email.** It shares personal information with a third party, so Delta must decide who writes it and what to say.
 - Karrie's three PW links (publications, research data, PhD theses of one unit) are good for a manual look. Hand-pick records for seed cards and cite the page.
 
@@ -83,14 +83,14 @@ Not verified by me, only seen in search results:
 - University transfer-office databases: University of Warsaw (`oferta.uw.edu.pl`, UOTT), University of Gdańsk (CTT), Wrocław UST (WCTT). Check `robots.txt` and terms per site first.
 - PACTT national catalogue. One secondary source mentions it. Unconfirmed.
 - EPO Espacenet OPS and Lens.org for patents. Terms and keys not checked.
-- EU Funding and Tenders and data.europa.eu (named in `PLAN.md`). Not re-checked today.
+- EU Funding and Tenders and data.europa.eu. Not re-checked today.
 - NCN funded-project data. Nothing found.
 
 ## What this changes in the plan
 1. **Backend (B6a):** the first API adapter can be **RAD-on** (no key, works now), not only OpenAlex. Add UPRP statistics for the Polish-IP view. GUS BDL for regional numbers.
 2. **Crawler (B6b):** use **PTT** as the first crawl target. Respect `Crawl-delay: 5`.
 3. **PW and PPM:** seed by hand from the pages Karrie found. No crawler.
-4. **`PLAN.md` §5** says UPRP, RSPO, KRS are unreliable. UPRP statistics work today. RSPO and KRS were not retested.
+4. The earlier plan said UPRP, RSPO, KRS are unreliable. UPRP statistics work today. RSPO and KRS were not retested.
 
 ## Needs a human decision
 1. Who e-mails `api@omegapsir.io`, with whose personal data. Not worth it unless the team wants PW data beyond hand-picked records.

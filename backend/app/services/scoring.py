@@ -3,7 +3,7 @@
 Same input gives the same output. With too little evidence the answer is insufficientData = True, not a guess.
 Every number a score uses is an evidence row (metric, value, unit, source, query, date), and every explanation
 text is built from a template that only contains numbers from those rows (see validator.py).
-The weights are indicative, not final (PLAN.md section 4). They are written down here and on the methodology page.
+The weights are indicative, not final. They are written down here and on the methodology page.
 """
 import math
 from dataclasses import dataclass, field

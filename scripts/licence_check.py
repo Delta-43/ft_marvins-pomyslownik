@@ -1,4 +1,4 @@
-"""Licence check of the installed Python packages (TASKS rule 5, P7). Run inside the environment to check.
+"""Licence check of the installed Python packages. Run inside the environment to check.
 
 Reads License-Expression (PEP 639), then the trove classifiers, then the License field, so new-style
 packages are not reported as unknown. Fails on licences that are not compatible with EUPL-1.2 for our use.

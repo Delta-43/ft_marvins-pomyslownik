@@ -4,7 +4,7 @@ import { fitter } from "@/components/Fit";
 import { FIRST_SEARCH_PARAM } from "@/lib/cookie";
 
 /** The search bar: one object on the search and results screens (56 px pill, the primary button inside). A plain GET form.
- *  `firstAudience`: the role chosen at registration, sent as the audience of the first search (TASKS.md A10). */
+ *  `firstAudience`: the role chosen at registration, sent as the audience of the first search. */
 export async function SearchForm({ q = "", autoFocus = false, firstAudience }: { q?: string; autoFocus?: boolean; firstAudience?: string }) {
   const t = await getTranslations("find");
   const ft = await fitter("find");
