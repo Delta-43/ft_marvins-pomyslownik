@@ -102,7 +102,7 @@ UNITS = {
     "szkół": ("szkół", "schools"), "szkoły": ("szkoły", "schools"), "szkoły podstawowe": ("szkoły podstawowe", "primary schools"),
     "uczniów": ("uczniów", "pupils"), "seniorów": ("seniorów", "seniors"), "warsztatów": ("warsztatów", "workshops"),
     "rozmów": ("rozmów", "calls"), "dni": ("dni", "days"), "lat": ("lat", "years"), "godzin": ("godzin", "hours"), "tys.": ("tys.", "thousand"),
-    "mln zł": ("mln zł", "PLN million"), "zł": ("zł", "PLN"), "PLN": ("zł", "PLN"), "tys. zł": ("tys. zł", "PLN thousand"),
+    "mln": ("mln", "million"), "mln zł": ("mln zł", "PLN million"), "zł": ("zł", "PLN"), "PLN": ("zł", "PLN"), "tys. zł": ("tys. zł", "PLN thousand"),
     "works": ("prac", "works"), "count": ("szt.", "items"), "people": ("osób", "people"), "schools": ("szkół", "schools"),
     "pupils": ("uczniów", "pupils"), "TRL": ("TRL", "TRL"),
 }
@@ -138,6 +138,8 @@ def source_name_text(name: str) -> dict:
 
 LICENCES = {
     "CC0": ({"pl": "CC0 (domena publiczna)", "en": "CC0 (public domain)"}, "https://creativecommons.org/publicdomain/zero/1.0/"),
+    "CC BY-SA 4.0": ({"pl": "CC BY-SA 4.0 (uznanie autorstwa, na tych samych warunkach)", "en": "CC BY-SA 4.0 (attribution, share-alike)"},
+                     "https://creativecommons.org/licenses/by-sa/4.0/deed.pl"),
     "RAD-on open data (OPI PIB). Terms: radon.nauka.gov.pl": (
         {"pl": "Otwarte dane RAD-on (OPI PIB), warunki na stronie serwisu", "en": "RAD-on open data (OPI PIB), terms on the service's site"},
         "https://radon.nauka.gov.pl"),
