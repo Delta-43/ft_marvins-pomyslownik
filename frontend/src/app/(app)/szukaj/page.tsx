@@ -95,11 +95,11 @@ export default async function SearchPage() {
       <section aria-labelledby="overview-h" className="w-full">
         <h2 id="overview-h" className="mb-4" style={{ fontSize: "1.5rem" }}>{t("overviewTitle")}</h2>
         {overview ? (
-          <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
             {stats.map((s) => (
-              <div key={s.label} className="glass flex flex-col-reverse gap-1 rounded-[var(--radius-card)] p-5">
+              <div key={s.label} className="glass flex min-w-0 flex-col-reverse gap-1 rounded-[var(--radius-card)] p-4 sm:p-5">
                 <dt className="text-sm text-kamien">{s.label}</dt>
-                <dd className="font-tech text-3xl font-semibold tabular-nums">
+                <dd className="font-tech text-2xl font-semibold tabular-nums break-words sm:text-3xl">
                   {s.iso ? <time dateTime={s.iso}>{s.value}</time> : s.value}
                 </dd>
               </div>

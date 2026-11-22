@@ -15,7 +15,8 @@
     "signIn": "Sign in",
     "components": "Components",
     "identity": "Brand identity",
-    "footer": "Pomysłownik! · Hacknation 2026 · project preview, sample data"
+    "footer": "Pomysłownik! · Hacknation 2026 · project preview, sample data",
+    "menu": "Menu"
   },
   "language": {
     "label": "Site language",
@@ -252,7 +253,9 @@
     "pageEmpty": "This page of results is empty.",
     "firstPage": "Go to the first page",
     "pageOf": "Page {page} of {pages}",
-    "removeFilterNamed": "Remove filter: {label}"
+    "removeFilterNamed": "Remove filter: {label}",
+    "showFilters": "Filters{count, plural, =0 {} other { (#)}}",
+    "hideFilters": "Close filters"
   },
   "card": {
     "back": "← Results",

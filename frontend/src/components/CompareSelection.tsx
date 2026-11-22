@@ -102,7 +102,8 @@ export function CompareBar() {
         e.preventDefault();
         if (ready) router.push(`/porownaj?ids=${selection.map((s) => s.id).join(",")}`);
       }}
-      className="glass-strong sticky bottom-4 z-30 mt-6 flex flex-wrap items-center gap-3 rounded-[var(--radius-card)] p-4"
+      // Sticks to the bottom of the screen only while something is selected; otherwise it is a plain hint after the list.
+      className={`glass-strong z-30 mt-6 flex flex-wrap items-center gap-3 rounded-[var(--radius-card)] p-3 sm:p-4 ${hydrated && selection.length > 0 ? "sticky bottom-3 sm:bottom-4" : ""}`}
     >
       <h2 id="compare-h" className="sr-only">{t("heading")}</h2>
       {/* Count and limit are announced politely when they change. */}
@@ -112,15 +113,15 @@ export function CompareBar() {
       </p>
 
       {hydrated && selection.length > 0 && (
-        <ul className="flex flex-wrap gap-2" aria-label={t("chosenLabel")}>
+        <ul className="flex w-full flex-wrap gap-2 max-sm:max-h-24 max-sm:overflow-y-auto sm:w-auto" aria-label={t("chosenLabel")}>
           {selection.map((s) => (
-            <li key={s.id} className="flex max-w-64 items-center gap-1 rounded-full bg-white/70 py-1 pl-3 pr-1 text-sm ring-1 ring-white/80">
+            <li key={s.id} className="flex max-w-full items-center gap-1 sm:max-w-64 rounded-full bg-white/70 py-1 pl-3 pr-1 text-sm ring-1 ring-white/80">
               <span className="truncate" title={s.title}>{s.title}</span>
               <button
                 type="button"
                 onClick={() => write(selection.filter((x) => x.id !== s.id))}
                 aria-label={t("remove", { title: s.title })}
-                className="cursor-pointer rounded-full px-2 leading-6 hover:bg-atrament/10"
+                className="inline-flex min-h-8 min-w-8 cursor-pointer items-center justify-center rounded-full hover:bg-atrament/10"
               >
                 <span aria-hidden="true">×</span>
               </button>
@@ -129,9 +130,9 @@ export function CompareBar() {
         </ul>
       )}
 
-      <div className="ml-auto flex items-center gap-2">
+      <div className="flex w-full items-center justify-end gap-2 sm:ml-auto sm:w-auto">
         {hydrated && selection.length > 0 && (
-          <button type="button" onClick={() => write([])} className="cursor-pointer rounded-full px-3 py-2 text-sm">
+          <button type="button" onClick={() => write([])} className="min-h-11 cursor-pointer whitespace-nowrap rounded-full px-3 text-sm">
             {t("clear")}
           </button>
         )}
@@ -140,7 +141,7 @@ export function CompareBar() {
           // Without JS the button always submits the ticked boxes. With JS it waits for at least two cards.
           aria-disabled={hydrated && !ready ? true : undefined}
           aria-describedby={hydrated && !ready ? "compare-need" : undefined}
-          className="btn-primary cursor-pointer rounded-full px-5 py-2 font-bold aria-disabled:cursor-not-allowed aria-disabled:opacity-60"
+          className="btn-primary min-h-11 cursor-pointer whitespace-nowrap rounded-full px-5 font-bold aria-disabled:cursor-not-allowed aria-disabled:opacity-60"
         >
           {t("go")}
         </button>

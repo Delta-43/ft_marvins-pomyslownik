@@ -105,6 +105,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
       ? [{ key: "audience", label: t("chipAudience", { name: pick(audiences.find((a) => a.id === s.audience)?.label, locale) || s.audience }), href: href({ audience: undefined }) }]
       : []),
   ];
+  const activeFilters = chips.filter((c) => c.key !== "q").length;
   const clearAll = s.sort && s.sort !== "relevance" ? `/wyniki?sort=${s.sort}` : "/wyniki";
 
   const errorText = error
@@ -114,10 +115,21 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
     : "";
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
       <SearchBar defaultValue={s.q} />
-      <div className="mt-8 grid gap-8 lg:grid-cols-[260px_1fr]">
-        <form id="filters" action="/wyniki" aria-label={t("filtersLabel")} className="glass h-fit space-y-6 rounded-[var(--radius-card)] p-5">
+      {/* Phones and tablets: the filter panel opens with this link (CSS :target, so it works without JavaScript). */}
+      <a
+        href="#filters"
+        className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-white/80 px-4 py-2 font-bold text-atrament no-underline ring-1 ring-atrament/20 lg:hidden"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+        </svg>
+        {t("showFilters", { count: activeFilters })}
+      </a>
+      <div className="mt-5 grid grid-cols-1 gap-8 lg:mt-8 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <form id="filters" action="/wyniki" aria-label={t("filtersLabel")} className="glass hidden h-fit scroll-mt-20 space-y-6 rounded-[var(--radius-card)] p-5 target:block lg:block">
+          <a href="#results-h" className="float-right -mr-1 -mt-1 inline-flex min-h-11 items-center rounded-full px-3 text-sm lg:hidden">{t("hideFilters")}</a>
           {s.q && <input type="hidden" name="q" value={s.q} />}
           {s.audience && <input type="hidden" name="audience" value={s.audience} />}
 
@@ -201,10 +213,10 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
           </div>
         </form>
 
-        <section aria-labelledby="results-h">
+        <section aria-labelledby="results-h" className="min-w-0">
           <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h1 id="results-h" style={{ fontSize: "1.5rem" }}>{s.q ? t("titleFor", { q: s.q }) : t("titleAll")}</h1>
+              <h1 id="results-h" tabIndex={-1} className="scroll-mt-20" style={{ fontSize: "1.5rem" }}>{s.q ? t("titleFor", { q: s.q }) : t("titleAll")}</h1>
               {cards && <p className="font-tech text-sm tabular-nums text-kamien">{t("count", { count: total })}</p>}
             </div>
             {/* Part of the filter form (form="filters"), so sorting keeps the filters and filtering keeps the sort. */}

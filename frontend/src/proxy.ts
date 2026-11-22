@@ -12,13 +12,13 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(login);
   }
 
-  // Results: redirect to the clean URL (no empty selects, default sort or invalid values) before the page streams,
-  // so the address bar shows exactly the filters that are applied. Done here, because a redirect from inside a
-  // streamed page arrives after its loading skeleton.
+  // Results: redirect to the clean URL (no empty selects, default sort or invalid values) before the page renders,
+  // so the address bar shows exactly the filters that are applied. A real 307, also without JavaScript.
   if (request.nextUrl.pathname === "/wyniki") {
     const canonical = canonicalResultsHref(request.nextUrl.searchParams);
     if (canonical) return NextResponse.redirect(new URL(canonical, request.url));
   }
+
   return NextResponse.next();
 }
 

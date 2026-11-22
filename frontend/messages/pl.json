@@ -15,7 +15,8 @@
     "signIn": "Zaloguj się",
     "components": "Komponenty",
     "identity": "Identyfikacja",
-    "footer": "Pomysłownik! · Hacknation 2026 · podgląd projektu, dane przykładowe"
+    "footer": "Pomysłownik! · Hacknation 2026 · podgląd projektu, dane przykładowe",
+    "menu": "Menu"
   },
   "language": {
     "label": "Język strony",
@@ -252,7 +253,9 @@
     "pageEmpty": "Ta strona wyników jest pusta.",
     "firstPage": "Przejdź do pierwszej strony",
     "pageOf": "Strona {page} z {pages}",
-    "removeFilterNamed": "Usuń filtr: {label}"
+    "removeFilterNamed": "Usuń filtr: {label}",
+    "showFilters": "Filtry{count, plural, =0 {} other { (#)}}",
+    "hideFilters": "Zamknij filtry"
   },
   "card": {
     "back": "← Wyniki",
