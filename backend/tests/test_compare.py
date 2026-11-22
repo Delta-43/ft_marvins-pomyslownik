@@ -73,3 +73,15 @@ def test_card_detail_is_bilingual(auth):
             assert prov["methodText"]["pl"] and prov["methodText"]["en"]
         if prov.get("explanation"):
             assert prov["explanation"]["pl"] and prov["explanation"]["en"]
+
+
+def test_compare_never_shows_none_as_text(auth):
+    ids_all = [c["id"] for c in client.get("/api/v1/cards?limit=100", headers=auth).json()["data"]]
+    for i in range(0, len(ids_all) - 1, 4):
+        chunk = ids_all[i:i + 4]
+        if len(chunk) < 2:
+            continue
+        d = client.get(f"/api/v1/compare?ids={','.join(chunk)}", headers=auth).json()["data"]
+        for row in d["rows"]:
+            for cell in row["cells"]:
+                assert "None" not in (cell["display"]["pl"], cell["display"]["en"]), (row["key"], cell)
