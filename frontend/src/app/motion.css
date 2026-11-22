@@ -63,6 +63,9 @@ html:active-view-transition-type(opening)::view-transition-new(search-examples) 
 ::view-transition-old(results-area):not(:only-child) { display: none; }
 ::view-transition-new(results-area):not(:only-child) { animation: none; }
 
+/* The two card moves are keyed on an attribute the results client sets on <html> right before it navigates
+   (data-move="card-open" / "card-close"), not on view-transition types: production builds drop the type on these
+   same-route navigations, so the card only faded. */
 /* A card grows in place from its tile to the visible part of the column (380 ms) and shrinks back (240 ms).
    These two moves need the tile measured first, so they run only for the typed navigations `card-open` and
    `card-close`. Every other way a card or the list appears or leaves (a deep link, a filter change with a card open,
@@ -74,12 +77,12 @@ html:active-view-transition-type(opening)::view-transition-new(search-examples) 
 ::view-transition-new(card-detail), ::view-transition-old(card-detail) { mix-blend-mode: plus-lighter; }
 ::view-transition-new(card-detail) { animation: 150ms linear both vt-in; }
 ::view-transition-old(card-detail) { animation: 150ms linear both vt-out; }
-html:active-view-transition-type(card-open)::view-transition-new(card-detail):only-child { animation: 380ms var(--ease-out) both vt-card-grow, 120ms linear both vt-in; }
-html:active-view-transition-type(card-open)::view-transition-old(results-list):only-child { animation: 160ms ease-in 100ms both vt-out; }
-html:active-view-transition-type(card-close)::view-transition-old(card-detail):only-child { animation: 240ms var(--ease-out) both vt-card-shrink; }
-html:active-view-transition-type(card-close)::view-transition-new(results-list):only-child { animation: none; }
+html[data-move="card-open"]::view-transition-new(card-detail):only-child { animation: 380ms var(--ease-out) both vt-card-grow, 120ms linear both vt-in; }
+html[data-move="card-open"]::view-transition-old(results-list):only-child { animation: 160ms ease-in 100ms both vt-out; }
+html[data-move="card-close"]::view-transition-old(card-detail):only-child { animation: 240ms var(--ease-out) both vt-card-shrink; }
+html[data-move="card-close"]::view-transition-new(results-list):only-child { animation: none; }
 html:active-view-transition-type(search)::view-transition-new(card-detail):only-child { animation: 280ms var(--ease-out) 80ms both vt-rise; }
-html:active-view-transition-type(card-open)::view-transition-group(search-bar), html:active-view-transition-type(card-close)::view-transition-group(search-bar) { animation-duration: 0s; }
+html[data-move="card-open"]::view-transition-group(search-bar), html[data-move="card-close"]::view-transition-group(search-bar) { animation-duration: 0s; }
 
 /* Opening: the app window sweeps open over the hero from the hero's inner edge; the logo flies to the nav. */
 html:active-view-transition-type(opening)::view-transition-old(landing-window) { animation: 720ms linear both vt-hold; }

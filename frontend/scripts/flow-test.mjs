@@ -7,6 +7,7 @@ import { join } from "node:path";
 const out = process.argv[2]; mkdirSync(out, { recursive: true });
 const port = 9900 + Math.floor(Math.random() * 90);
 const chrome = spawn("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", ["--headless=new", `--remote-debugging-port=${port}`, "--no-first-run", "--hide-scrollbars", "--user-data-dir=" + mkdtempSync(join(tmpdir(), "pomyslownik-flow-")), "about:blank"], { stdio: "ignore" });
+const BASE = process.env.BASE || "http://localhost:3000";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 let ws, id = 0; const pending = new Map(); const errors = [];
 for (let i = 0; i < 50; i++) { try { const l = await (await fetch(`http://127.0.0.1:${port}/json`)).json(); const p = l.find((t) => t.type === "page"); if (p) { ws = new WebSocket(p.webSocketDebuggerUrl); break; } } catch {} await sleep(200); }
@@ -33,9 +34,9 @@ for (const [vp, w, h, mobile] of [["desktop", 1440, 900, false], ["phone", 390, 
   await send("Network.clearBrowserCookies");
   await send("Emulation.setEmulatedMedia", { features: [] });
   await send("Emulation.setDeviceMetricsOverride", { width: w, height: h, deviceScaleFactor: 1, mobile });
-  await send("Page.navigate", { url: "http://localhost:3000/szukaj" }); await sleep(2500);
+  await send("Page.navigate", { url: BASE + "/szukaj" }); await sleep(2500);
   let s = await state(); check("gate sends a visitor to the landing", s.path.startsWith("/?next="), s.path);
-  await send("Page.navigate", { url: "http://localhost:3000/" }); await sleep(3000);
+  await send("Page.navigate", { url: BASE + "/" }); await sleep(3000);
   // 1. sign in (action 1)
   let a = await withAnims(`document.querySelector('button[name=mode][value=demo]').click()`);
   await sleep(1500); s = await state();
@@ -89,22 +90,22 @@ for (const [vp, w, h, mobile] of [["desktop", 1440, 900, false], ["phone", 390, 
   for (const [code, word] of [["en", "What do you need?"], ["uk", "Що ви шукаєте?"], ["pl", "Czego szukasz?"]]) {
     await ev(`(() => { const d = document.querySelector('details.menu'); d.open = true; d.querySelector('button[value=${code}]').click(); })()`); await sleep(2500);
     s = await state(); check(`language ${code}`, s.h1 === word && s.lang === code, `${s.lang} "${s.h1}"`);
-    if (code === "uk") { await send("Page.navigate", { url: "http://localhost:3000/wyniki" }); await sleep(3000); await shot(`${vp}-flow-uk`); const t = await ev("[...document.querySelectorAll('.card-open')].map(e => e.innerText).join(' | ')"); const cyr = t.split(" | ").filter((x) => /[а-яіїє]/i.test(x)).length; check("card text in Ukrainian", cyr > 0, cyr + " of " + t.split(" | ").length + " titles in Cyrillic"); await send("Page.navigate", { url: "http://localhost:3000/szukaj" }); await sleep(2500); }
+    if (code === "uk") { await send("Page.navigate", { url: BASE + "/wyniki" }); await sleep(3000); await shot(`${vp}-flow-uk`); const t = await ev("[...document.querySelectorAll('.card-open')].map(e => e.innerText).join(' | ')"); const cyr = t.split(" | ").filter((x) => /[а-яіїє]/i.test(x)).length; check("card text in Ukrainian", cyr > 0, cyr + " of " + t.split(" | ").length + " titles in Cyrillic"); await send("Page.navigate", { url: BASE + "/szukaj" }); await sleep(2500); }
   }
   // other pages
   for (const [path, h1] of [["/zrodla", "Źródła"], ["/profil", "Profil"], ["/regulamin", "Regulamin"], ["/dostepnosc", null], ["/metodologia", null]]) {
-    await send("Page.navigate", { url: "http://localhost:3000" + path }); await sleep(2200); s = await state();
+    await send("Page.navigate", { url: BASE + path }); await sleep(2200); s = await state();
     const sw = await ev("document.documentElement.scrollWidth");
     check(`page ${path}`, s.path === path && !!s.h1 && (h1 === null || s.h1 === h1) && sw <= w, `"${s.h1}" width ${sw}`);
   }
   // reduced motion: only short fades
   await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
-  await send("Page.navigate", { url: "http://localhost:3000/wyniki" }); await sleep(3000);
+  await send("Page.navigate", { url: BASE + "/wyniki" }); await sleep(3000);
   a = await withAnims(`document.querySelector('.card-open').click()`);
   check("reduced motion: card cross-fades only", a.length > 0 && a.every((x) => /=vt-(in|out)\/150$/.test(x) || x.startsWith("group(") || x.startsWith("::view-transition=") || x.includes("-ua-mix-blend")), a.filter((x) => !/=vt-(in|out)\/150$/.test(x) && !x.startsWith("group(") && !x.includes("-ua-mix-blend")).join(" "));
   await send("Emulation.setEmulatedMedia", { features: [] });
   // no-JS path of the card URL and the redirect
-  await send("Page.navigate", { url: "http://localhost:3000/karta/00000000-0000-0000-0000-000000000000" }); await sleep(2500); s = await state();
+  await send("Page.navigate", { url: BASE + "/karta/00000000-0000-0000-0000-000000000000" }); await sleep(2500); s = await state();
   check("/karta/<id> redirects to the in-place card", s.path.startsWith("/wyniki?karta="), s.path.slice(0, 40));
 }
 const real = [...new Set(errors)].filter((e) => !e.includes("[api] GET /api/v1/cards/00000000"));
