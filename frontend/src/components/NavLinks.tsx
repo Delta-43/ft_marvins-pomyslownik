@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 /** Main navigation links. Client-side only to mark the current page with `aria-current`. */
-export function NavLinks({ items }: { items: { href: string; label: string; match: string[]; types?: string[] }[] }) {
+export function NavLinks({ items }: { items: { href: string; label: React.ReactNode; match: string[]; types?: string[] }[] }) {
   const path = usePathname();
   return (
     <ul className="navlinks" role="list">

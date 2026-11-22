@@ -197,7 +197,9 @@
     "label": "Szukaj innowacji",
     "placeholder": "Np. czatbot w urzędzie",
     "submit": "Szukaj",
-    "tags": "Najnowsze tagi"
+    "tags": "Najnowsze tagi",
+    "examples": "Przykładowe karty",
+    "examplesNote": "Dwie karty wybrane do pokazu: fakty potwierdzone obok deklaracji, patenty z linkami, dowody z datami."
   },
   "res": {
     "metaTitle": "Wyniki",
@@ -366,7 +368,18 @@
     "owner": "Strona właściciela",
     "missingTitle": "Nie ma takiej karty",
     "missingText": "Karta mogła zostać wycofana albo link jest niepełny.",
-    "j_history": "Historia"
+    "j_history": "Historia",
+    "evD": "Data",
+    "area_technological": "Technologiczne",
+    "area_educational": "Edukacyjne",
+    "area_administrative": "Administracyjne",
+    "lvl_concept": "Koncepcja",
+    "lvl_prototype": "Prototyp",
+    "lvl_testing": "Testy",
+    "lvl_pilot": "Pilotaż",
+    "lvl_in_practice": "W praktyce",
+    "ipShort": "Polska IP",
+    "foldShow": "Pokaż lub ukryj"
   },
   "srcs": {
     "title": "Źródła",

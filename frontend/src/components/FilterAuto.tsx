@@ -32,10 +32,19 @@ export function FilterAuto({ formId }: { formId: string }) {
       timer = window.setTimeout(() => { waiting.current = false; go(true); }, el instanceof HTMLSelectElement ? 400 : 0);
     };
     // "Pokaż wyniki" / "Filtruj": apply and close the sheet.
-    const onSubmit = (e: Event) => { e.preventDefault(); window.clearTimeout(timer); go(false); };
+    const onSubmit = (e: Event) => { e.preventDefault(); form.closest(".results-area")?.removeAttribute("data-sheet"); window.clearTimeout(timer); go(false); };
+    // Pager, removable chips and "Wyczyść filtry" are links: navigate them in the same transition so the list dips too.
+    const onLink = (e: MouseEvent) => {
+      const a = e.target instanceof Element ? e.target.closest<HTMLAnchorElement>(".active-chips a, .pager a, .fhead a.btn-text") : null;
+      if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      const href = a.getAttribute("href");
+      if (href) start(() => router.push(href, { scroll: !!a.closest(".pager") }));
+    };
+    document.addEventListener("click", onLink, true);
     document.addEventListener("change", onChange);
     form.addEventListener("submit", onSubmit);
-    return () => { window.clearTimeout(timer); document.removeEventListener("change", onChange); form.removeEventListener("submit", onSubmit); };
+    return () => { window.clearTimeout(timer); document.removeEventListener("click", onLink, true); document.removeEventListener("change", onChange); form.removeEventListener("submit", onSubmit); };
   }, [formId, router]);
   // The list dips while the server answers.
   useEffect(() => { document.getElementById(formId)?.closest(".results-area")?.toggleAttribute("data-busy", pending); }, [formId, pending]);

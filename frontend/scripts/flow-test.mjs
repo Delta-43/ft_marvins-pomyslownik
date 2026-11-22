@@ -17,7 +17,7 @@ const ev = async (expr) => { const r = await send("Runtime.evaluate", { expressi
 await send("Page.enable"); await send("Runtime.enable"); await send("Network.enable");
 let fails = 0;
 const check = (name, ok, detail = "") => { if (!ok) fails++; console.log((ok ? "  ok   " : "  FAIL ") + name + (detail ? "  " + detail : "")); };
-const state = async () => JSON.parse(await ev("JSON.stringify({ path: location.pathname + location.search, title: document.title, focus: (document.activeElement?.id || document.activeElement?.className || document.activeElement?.tagName || '').toString().slice(0, 30), h1: document.querySelector('h1')?.textContent.slice(0, 50), lang: document.documentElement.lang })"));
+const state = async () => JSON.parse(await ev("JSON.stringify({ path: location.pathname + location.search, title: document.title, focus: (document.activeElement?.id || document.activeElement?.className || document.activeElement?.tagName || '').toString().slice(0, 30), h1: document.querySelector('h1')?.innerText.slice(0, 50), lang: document.documentElement.lang })"));
 // Run an action and collect the view-transition animations that start in the next 400 ms.
 const withAnims = async (action) => {
   await ev(`(() => { window.__a = new Set(); const t0 = performance.now(); const tick = () => { for (const a of document.getAnimations()) { const p = a.effect?.pseudoElement; if (p && p.startsWith("::view-transition")) window.__a.add(p.replace("::view-transition-", "") + "=" + a.animationName + "/" + a.effect.getTiming().duration); } if (performance.now() - t0 < 1500) requestAnimationFrame(tick); }; requestAnimationFrame(tick); })()`);
@@ -86,10 +86,10 @@ for (const [vp, w, h, mobile] of [["desktop", 1440, 900, false], ["phone", 390, 
   s = await state(); check("Szukaj returns to search", s.path === "/szukaj", s.path);
   check("results → search: bar glides back", has(a, "group(search-bar)"));
   // languages
-  for (const [code, word] of [["en", "What are you looking for?"], ["uk", "Що ви шукаєте?"], ["pl", "Czego szukasz?"]]) {
+  for (const [code, word] of [["en", "What do you need?"], ["uk", "Що ви шукаєте?"], ["pl", "Czego szukasz?"]]) {
     await ev(`(() => { const d = document.querySelector('details.menu'); d.open = true; d.querySelector('button[value=${code}]').click(); })()`); await sleep(2500);
     s = await state(); check(`language ${code}`, s.h1 === word && s.lang === code, `${s.lang} "${s.h1}"`);
-    if (code === "uk") { await send("Page.navigate", { url: "http://localhost:3000/wyniki" }); await sleep(3000); await shot(`${vp}-flow-uk`); const t = await ev("[...document.querySelectorAll('.card-open')].map(e => e.textContent).join(' | ')"); const cyr = t.split(" | ").filter((x) => /[а-яіїє]/i.test(x)).length; check("card text in Ukrainian", cyr > 0, cyr + " of " + t.split(" | ").length + " titles in Cyrillic"); await send("Page.navigate", { url: "http://localhost:3000/szukaj" }); await sleep(2500); }
+    if (code === "uk") { await send("Page.navigate", { url: "http://localhost:3000/wyniki" }); await sleep(3000); await shot(`${vp}-flow-uk`); const t = await ev("[...document.querySelectorAll('.card-open')].map(e => e.innerText).join(' | ')"); const cyr = t.split(" | ").filter((x) => /[а-яіїє]/i.test(x)).length; check("card text in Ukrainian", cyr > 0, cyr + " of " + t.split(" | ").length + " titles in Cyrillic"); await send("Page.navigate", { url: "http://localhost:3000/szukaj" }); await sleep(2500); }
   }
   // other pages
   for (const [path, h1] of [["/zrodla", "Źródła"], ["/profil", "Profil"], ["/regulamin", "Regulamin"], ["/dostepnosc", null], ["/metodologia", null]]) {

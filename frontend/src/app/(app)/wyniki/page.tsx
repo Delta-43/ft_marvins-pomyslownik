@@ -12,6 +12,7 @@ import { SearchForm } from "@/components/SearchForm";
 import { text } from "@/lib/api";
 import { attempt, getAudiences, getCard, getCompare, getFacets, getHistory, getSimilar, isFailure, listCards, PAGE_SIZE, type Failure } from "@/lib/data";
 import { pageOf, parse, resultsHref, viewOf, type Search, type State } from "@/lib/results-url";
+import { fitter } from "@/components/Fit";
 
 const SWATCH: Record<string, string> = { technological: "var(--color-laboratoria)", educational: "var(--color-uczelnie)", administrative: "var(--color-patenty)" };
 const SORTS = ["recent", "relevance", "innovativeness", "applicationPotential", "credibility"] as const;
@@ -44,12 +45,14 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
   const page = pageOf(sp);
   const view = viewOf(sp);
   const [t, tk, ts, locale] = await Promise.all([getTranslations("res"), getTranslations("kard"), getTranslations("shell"), getLocale()]);
+  const [ft, ftk] = await Promise.all([fitter("res"), fitter("kard")]);
 
-  const [facets, audiences, list, card] = await Promise.all([
+  const [facets, audiences, list, card, hist] = await Promise.all([
     attempt(getFacets(s, PATH)),
     attempt(getAudiences(PATH)),
     view.karta ? null : attempt(listCards(s, page, PATH)),
     view.karta ? attempt(getCard(view.karta, PATH)) : null,
+    view.karta ? attempt(getHistory(view.karta, PATH)) : null,
   ]);
 
   // The open card's neighbours: cards the backend already linked as related work, else the most similar ones.
@@ -57,10 +60,10 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
   if (card && !isFailure(card)) {
     void recordEvent("card_viewed", { cardId: card.id, area: card.area });
     const related = (card.relatedWork ?? []).filter((w) => w.kind === "card" && w.cardId).map((w) => w.cardId as string);
-    const [similar, hist] = await Promise.all([related.length ? null : attempt(getSimilar(card.id, PATH)), attempt(getHistory(card.id, PATH))]);
+    const similar = related.length ? null : await attempt(getSimilar(card.id, PATH));
     const others = (related.length ? related : similar && !isFailure(similar) ? similar.map((x) => x.card.id) : []).filter((id) => id !== card.id).slice(0, 3);
     if (others.length) { const c = await attempt(getCompare([card.id, ...others], PATH)); compare = isFailure(c) ? null : c; }
-    history = isFailure(hist) ? null : hist;
+    history = !hist || isFailure(hist) ? null : hist;
   } else if (list && !isFailure(list) && s.q && page === 1) {
     void recordEvent("search_performed", { audience: s.audience });
   }
@@ -87,20 +90,20 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
   s.tags.forEach((v) => chips.push([t("chipTag", { x: tagLabels[v] ?? v }), resultsHref({ ...s, tags: s.tags.filter((x) => x !== v) })]));
 
   const trlOptions = [<option key="" value="">{t("any")}</option>, ...[1, 2, 3, 4, 5, 6, 7, 8, 9].map((v) => <option key={v} value={v}>{v}</option>)];
-  const countSr = <span className="sr-only">{t("countSr")}</span>;
+  const countSr = <span className="sr-only">{ft("countSr")}</span>;
   const failure = (e: Failure, retryHref: string, forCard = false) => (
     <div className="empty">
-      <h1 id={forCard ? "dTitle" : "rTitle"} tabIndex={-1}>{t("errTitle")}</h1>
+      <h1 id={forCard ? "dTitle" : "rTitle"} tabIndex={-1}>{ft("errTitle")}</h1>
       <div className="msg msg-err" role="alert">
         <Icon name="alert" />
         <div className="msg-body">
-          <p><b>{t("errLead")}</b> {e.status === 429 ? t("rateText") : t("errText")}</p>
-          {e.requestId && <p className="mono reqid">{t("reqId")}: {e.requestId}</p>}
+          <p><b>{ft("errLead")}</b> {e.status === 429 ? t("rateText") : t("errText")}</p>
+          {e.requestId && <p className="mono reqid">{ft("reqId")}: {e.requestId}</p>}
         </div>
       </div>
       <p className="actions">
-        <Link className="btn btn-secondary btn-sm" href={retryHref}>{t("retry")}</Link>
-        {forCard && <Link className="btn btn-text btn-sm" href={listHref}>{tk("back")}</Link>}
+        <Link className="btn btn-secondary btn-sm" href={retryHref}>{ft("retry")}</Link>
+        {forCard && <Link className="btn btn-text btn-sm" href={listHref}>{ftk("back")}</Link>}
       </p>
     </div>
   );
@@ -125,14 +128,14 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
           {/* The sort select is only on the list view; keep the choice when a filter changes while a card is open. */}
           {(card || !total) && s.sort && <input type="hidden" name="sort" value={s.sort} />}
           <div className="fhead">
-            <h2 id="fTitle" tabIndex={-1}>{t("filters")}</h2>
-            <Link className="btn btn-text btn-sm" href={resultsHref(cleared)} scroll={false}>{t("clear")}</Link>
+            <h2 id="fTitle" tabIndex={-1}>{ft("filters")}</h2>
+            <Link className="btn btn-text btn-sm" href={resultsHref(cleared)} scroll={false}>{ft("clear")}</Link>
             <Link className="icon-btn close" href={listHref} scroll={false} aria-label={t("close")}><Icon name="x" /></Link>
           </div>
-          <p className="fnote auto-note">{t("autoNote")}</p>
+          <p className="fnote auto-note">{ft("autoNote")}</p>
 
           {aud.length > 0 && (
-            <label className="fsel"><span>{t("audience")}</span>
+            <label className="fsel"><span>{ft("audience")}</span>
               <select name="audience" defaultValue={s.audience ?? ""}>
                 <option value="">{t("everyone")}</option>
                 {aud.map((a) => <option key={a.id} value={a.id}>{text(a.label, locale)}</option>)}
@@ -143,7 +146,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
           {f && (
             <>
               <fieldset>
-                <legend className="legend">{t("area")}</legend>
+                <legend className="legend">{ft("area")}</legend>
                 {f.area.map((o) => (
                   <label className={o.count === 0 ? "opt zero" : "opt"} key={o.value}>
                     <input type="checkbox" name="area" value={o.value} defaultChecked={(s.areas as string[]).includes(o.value)} />
@@ -153,7 +156,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
                 ))}
               </fieldset>
               <fieldset>
-                <legend className="legend">{t("level")}</legend>
+                <legend className="legend">{ft("level")}</legend>
                 {f.implementationLevel.map((o) => (
                   <label className={o.count === 0 ? "opt zero" : "opt"} key={o.value}>
                     <input type="checkbox" name="implementationLevel" value={o.value} defaultChecked={(s.levels as string[]).includes(o.value)} />
@@ -165,16 +168,16 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
           )}
 
           <fieldset>
-            <legend className="legend">{t("trl")}</legend>
+            <legend className="legend">{ft("trl")}</legend>
             <div className="frow">
-              <label className="fsel"><span>{t("from")}</span><select name="trlMin" defaultValue={s.trlMin ?? ""}>{trlOptions}</select></label>
-              <label className="fsel"><span>{t("to")}</span><select name="trlMax" defaultValue={s.trlMax ?? ""}>{trlOptions}</select></label>
+              <label className="fsel"><span>{ft("from")}</span><select name="trlMin" defaultValue={s.trlMin ?? ""}>{trlOptions}</select></label>
+              <label className="fsel"><span>{ft("to")}</span><select name="trlMax" defaultValue={s.trlMax ?? ""}>{trlOptions}</select></label>
             </div>
-            <p className="fnote">{t("trlNote")}</p>
+            <p className="fnote">{ft("trlNote")}</p>
           </fieldset>
 
           {f && f.region.length > 0 && (
-            <label className="fsel"><span>{t("region")}</span>
+            <label className="fsel"><span>{ft("region")}</span>
               <select name="region" defaultValue={s.region ?? ""}>
                 <option value="">{t("allRegions")}</option>
                 {f.region.map((r) => <option key={r.value} value={r.value}>{text(r.label, locale)} ({r.count})</option>)}
@@ -182,7 +185,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
             </label>
           )}
 
-          <label className="fsel"><span>{t("minCred")}</span>
+          <label className="fsel"><span>{ft("minCred")}</span>
             <select name="minCredibility" defaultValue={s.minCred ?? ""}>
               <option value="">{t("anyCred")}</option>
               {[25, 50, 75].map((v) => <option key={v} value={v}>{v}/100</option>)}
@@ -190,7 +193,7 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
           </label>
 
           <label className="switch-row">
-            <span>{t("ip")}</span>
+            <span>{ft("ip")}</span>
             <span className="switch">
               <input type="checkbox" role="switch" name="polishIpStatus" value="confirmed" defaultChecked={s.pip.includes("confirmed")} />
               <span className="track"><span className="knob" /></span>
@@ -198,8 +201,8 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
             </span>
           </label>
 
-          <button type="submit" className="btn btn-primary btn-sm apply">{t("apply")}</button>
-          <button type="submit" className="btn btn-primary apply-phone">{total == null ? t("apply") : t("show", { n: total })}</button>
+          <button type="submit" className="btn btn-primary btn-sm apply">{ft("apply")}</button>
+          <button type="submit" className="btn btn-primary apply-phone">{total == null ? ft("apply") : ft("show", { n: total })}</button>
         </form>
 
         <div className="results-col">
@@ -210,9 +213,9 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
             isFailure(card) ? (
               card.status === 404 ? (
                 <div className="empty">
-                  <h1 id="dTitle" tabIndex={-1}>{tk("missingTitle")}</h1>
-                  <p>{tk("missingText")}</p>
-                  <Link className="btn btn-secondary" href={listHref}><Icon name="back" />{tk("back")}</Link>
+                  <h1 id="dTitle" tabIndex={-1}>{ftk("missingTitle")}</h1>
+                  <p>{ftk("missingText")}</p>
+                  <Link className="btn btn-secondary" href={listHref}><Icon name="back" />{ftk("back")}</Link>
                 </div>
               ) : failure(card, resultsHref(s, page, { karta: view.karta }), true)
             ) : (
@@ -222,12 +225,12 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
           ) : list && isFailure(list) ? failure(list, listHref) : list && (
             <div className="list-wrap">
               <div className="rhead">
-                <h1 id="rTitle" tabIndex={-1}>{t("count", { n: list.meta.total })}{s.q && <span className="q"> {t("forQ", { q: s.q })}</span>}</h1>
+                <h1 id="rTitle" tabIndex={-1}>{ft("count", { n: list.meta.total })}{s.q && <span className="q"> {ft("forQ", { q: s.q })}</span>}</h1>
                 <Link className="btn btn-secondary btn-sm filters-btn" href={`${resultsHref(s, page, { filtry: true })}#filtry`} scroll={false}>
-                  <Icon name="filter" />{t("filters")}{chips.length > 0 && <span className="count-pill"><span className="sr-only">{t("activeSr")}</span>{chips.length}</span>}
+                  <Icon name="filter" />{ft("filters")}{chips.length > 0 && <span className="count-pill"><span className="sr-only">{ft("activeSr")}</span>{chips.length}</span>}
                 </Link>
                 {list.meta.total > 1 && (
-                  <label className="sort">{t("sort")}
+                  <label className="sort">{ft("sort")}
                     <select name="sort" form="filtry" defaultValue={sort}>
                       {SORTS.filter((v) => v !== "relevance" || s.q).map((v) => <option key={v} value={v}>{t(`sort_${v}`)}</option>)}
                     </select>
@@ -245,13 +248,13 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
                 <div className="empty">
                   <h2>{s.q ? (chips.length ? t("emptyQF", { q: s.q }) : t("emptyQ", { q: s.q })) : t("emptyF")}</h2>
                   <p>{chips.length > 0 ? t("emptyHint") : t("emptyHintQ")}</p>
-                  {chips.length > 0 ? <Link className="btn btn-secondary" href={resultsHref(cleared)} scroll={false}>{t("clear")}</Link>
-                    : <Link className="btn btn-secondary" href="/wyniki">{t("showAll")}</Link>}
+                  {chips.length > 0 ? <Link className="btn btn-secondary" href={resultsHref(cleared)} scroll={false}>{ft("clear")}</Link>
+                    : <Link className="btn btn-secondary" href="/wyniki">{ft("showAll")}</Link>}
                 </div>
               ) : list.data.length === 0 ? (
                 <div className="empty">
-                  <h2>{t("emptyPage")}</h2>
-                  <Link className="btn btn-secondary" href={resultsHref(s, 1)}>{t("firstPage")}</Link>
+                  <h2>{ft("emptyPage")}</h2>
+                  <Link className="btn btn-secondary" href={resultsHref(s, 1)}>{ft("firstPage")}</Link>
                 </div>
               ) : (
                 <ol className="list" role="list">
@@ -260,16 +263,16 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
               )}
               {pages > 1 && (
                 <nav className="pager" aria-label={t("pages")}>
-                  {page > 1 && <Link className="pager-step" href={resultsHref(s, page - 1)} rel="prev">{t("prev")}</Link>}
+                  {page > 1 && <Link className="pager-step" href={resultsHref(s, page - 1)} rel="prev">{ft("prev")}</Link>}
                   <ul role="list">
                     {window7.map((n, i) => (
                       <li key={n}>
                         {i > 0 && n - window7[i - 1] > 1 && <span className="gap" aria-hidden="true">…</span>}
-                        {n === page ? <b aria-current="page"><span className="sr-only">{t("pageCurrent", { n })}</span><span aria-hidden="true">{n}</span></b> : <Link href={resultsHref(s, n)} aria-label={t("page", { n })}>{n}</Link>}
+                        {n === page ? <b aria-current="page"><span className="sr-only">{ft("pageCurrent", { n })}</span><span aria-hidden="true">{n}</span></b> : <Link href={resultsHref(s, n)} aria-label={t("page", { n })}>{n}</Link>}
                       </li>
                     ))}
                   </ul>
-                  {page < pages && <Link className="pager-step" href={resultsHref(s, page + 1)} rel="next">{t("next")}</Link>}
+                  {page < pages && <Link className="pager-step" href={resultsHref(s, page + 1)} rel="next">{ft("next")}</Link>}
                 </nav>
               )}
             </div>

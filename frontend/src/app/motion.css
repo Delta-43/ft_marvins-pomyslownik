@@ -6,11 +6,11 @@
 @keyframes vt-hold { from { opacity: 1; } to { opacity: 1; } }
 @keyframes vt-rise { from { opacity: 0; transform: translateY(8px); } }
 @keyframes vt-sink { to { opacity: 0; transform: translateY(6px); } }
-@keyframes vt-card-grow { from { clip-path: var(--card-rect); } to { clip-path: var(--card-full); } }
-@keyframes vt-card-shrink { from { clip-path: var(--card-full); opacity: 1; } 55% { opacity: 1; } to { clip-path: var(--card-rect); opacity: 0; } }
+@keyframes vt-card-grow { from { transform: translateY(var(--card-dy)); clip-path: var(--card-rect); } to { transform: none; clip-path: var(--card-full); } }
+@keyframes vt-card-shrink { from { transform: none; clip-path: var(--card-full); opacity: 1; } 55% { opacity: 1; } to { transform: translateY(var(--card-dy)); clip-path: var(--card-rect); opacity: 0; } }
 @keyframes vt-sweep { from { clip-path: var(--sweep-from); } to { clip-path: inset(0 0 0 0); } }
 
-:root { --card-rect: inset(0 0 calc(100% - 120px) 0 round 20px); --card-full: inset(0 0 0 0 round 20px); --sweep-from: inset(0 0 0 54%); }
+:root { --card-dy: 0px; --card-rect: inset(0 0 calc(100% - 120px) 0 round var(--radius-card)); --card-full: inset(0 0 0 0 round var(--radius-card)); --sweep-from: inset(0 0 0 54%); }
 @media (max-width: 1079px) { :root { --sweep-from: inset(40svh 0 0 0); } }
 
 .vt-pin { position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
@@ -25,6 +25,17 @@
 .list-wrap { view-transition-name: results-list; }
 .detail { view-transition-name: card-detail; }
 .hero-logo, .nav .home .word { view-transition-name: brand-logo; }
+.examples { view-transition-name: search-examples; }
+.hero { view-transition-name: landing-hero; }
+@keyframes vt-drift-x { to { transform: translateX(-12%); } }
+@keyframes vt-drift-y { to { transform: translateY(-12%); } }
+html:active-view-transition-type(opening)::view-transition-group(landing-hero) { z-index: 1; }
+html:active-view-transition-type(opening)::view-transition-old(landing-hero) { animation: 720ms var(--ease-out) both vt-drift-x; }
+@media (max-width: 1079px) { html:active-view-transition-type(opening)::view-transition-old(landing-hero) { animation-name: vt-drift-y; } }
+::view-transition-new(landing-hero) { animation: 150ms linear both vt-in; }
+::view-transition-old(search-examples) { animation: 120ms ease-in both vt-sink; }
+::view-transition-new(search-examples) { animation: 280ms var(--ease-out) 120ms both vt-rise; }
+html:active-view-transition-type(opening)::view-transition-new(search-examples) { animation: 280ms var(--ease-out) 420ms both vt-rise; }
 
 /* The two full-screen layers fade when one replaces the other (sign-out, session end). */
 ::view-transition-old(root), ::view-transition-old(app-window), ::view-transition-old(landing-window) { animation: 150ms linear both vt-out; }
@@ -67,6 +78,8 @@ html:active-view-transition-type(card-open)::view-transition-new(card-detail):on
 html:active-view-transition-type(card-open)::view-transition-old(results-list):only-child { animation: 160ms ease-in 100ms both vt-out; }
 html:active-view-transition-type(card-close)::view-transition-old(card-detail):only-child { animation: 240ms var(--ease-out) both vt-card-shrink; }
 html:active-view-transition-type(card-close)::view-transition-new(results-list):only-child { animation: none; }
+html:active-view-transition-type(search)::view-transition-new(card-detail):only-child { animation: 280ms var(--ease-out) 80ms both vt-rise; }
+html:active-view-transition-type(card-open)::view-transition-group(search-bar), html:active-view-transition-type(card-close)::view-transition-group(search-bar) { animation-duration: 0s; }
 
 /* Opening: the app window sweeps open over the hero from the hero's inner edge; the logo flies to the nav. */
 html:active-view-transition-type(opening)::view-transition-old(landing-window) { animation: 720ms linear both vt-hold; }

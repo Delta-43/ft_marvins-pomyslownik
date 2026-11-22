@@ -5,6 +5,7 @@ import { cache } from "react";
 import { ApiError, type Schemas } from "@/lib/api";
 import { authed } from "@/lib/session";
 import { toApi, type State } from "@/lib/results-url";
+import type { Locale } from "@/i18n/locale";
 
 export const PAGE_SIZE = 10;
 
@@ -66,9 +67,16 @@ export async function getHistory(id: string, path: string) {
 
 export const getAudiences = cache(async (path: string) => (await authed<{ data: Audience[] }>("/api/v1/audiences", path)).data);
 
-export async function getLatestTags(path: string) {
-  return (await authed<{ data: TagItem[] }>("/api/v1/tags?sort=recent&limit=6", path)).data;
+export async function getLatestTags(path: string, lang?: Locale) {
+  return (await authed<{ data: TagItem[] }>("/api/v1/tags?sort=recent&limit=6", path, lang)).data;
 }
+
+/** The two showcase cards for the demo (issue #38, research/03-r3-showcases.md). The ids are stable across seeds.
+ *  Each opens inside the search its demo script uses, so "Wróć do wyników" lands on that search. */
+export const DEMO_CARDS = [
+  { id: "d3adf685-81b9-4c6b-911e-103cd36e6e8a", list: "q=ko%C5%9B%C4%87" },
+  { id: "2ec3ee2b-3a9b-4f6e-bb79-39e3148784f4", list: "audience=public_bodies&area=administrative" },
+] as const;
 
 export async function getSources(path: string) {
   return authed<{ data: Source[]; meta: Schemas["PageMeta"] }>("/api/v1/sources?limit=100", path);

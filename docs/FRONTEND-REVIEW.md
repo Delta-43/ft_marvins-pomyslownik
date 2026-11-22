@@ -151,3 +151,29 @@ All checks pass on both sizes, with zero console errors: the gate, one-click dem
 ### Not verified
 
 No screen reader, no real phone, no Safari or Firefox (they fall back to no motion), no forced-colours or 200% zoom rendering. Motion was judged from asserted animation names and durations plus one frame per move, not from watching it play. Once during testing the API answered a Ukrainian request with English card titles and a later request with Ukrainian; it did not recur, and looks like the backend translating on first request.
+
+## Pass 3: Philip's visual review and five reviews, 2026-11-23
+
+Philip's requests after the localhost review, and what was done:
+
+| Request | Done |
+|---|---|
+| Login panel and interface must not change size between languages | Every interface string reserves the space of its longest translation (`components/Fit.tsx`, drawn with CSS pseudo-elements, so the reserve is not in the page text or accessible names). `frontend/scripts/stability-check.mjs` measures every screen in pl, en and uk: the interface does not move. What still moves is card content from the API (titles, descriptions) and what sits below it, whose length differs per language (`docs/design/stability-check.txt`) |
+| Folded long parts of the card | History, sources, evidence and work outside the database are folded with a count; the heading stays a real heading and the toggle lies over its row. Jump links, `[n]`, hashes and Back/Forward open the part they point to |
+| Palette from the logo blue and green only | Regenerated in OKLCH from `#0085CC` and `#6BB437`; red kept only for errors. All text pairs pass AA (table in `DESIGN.md` §1); hero artwork tinted Navy |
+| Predictable sizes at every text size | All px converted to rem (borders, outlines and shadows excepted); the stability check confirms boxes, gaps and radii scale by exactly 1.25 and 1.5 |
+| Showcase cards of issue #38 in the demo | "Przykładowe karty" on the search screen open each card inside the search its demo script uses; evidence rows now carry their date |
+| Apple HIG review added | Done (Emil Kowalski's apple-design skill) |
+
+Reviews (all read-only, run on the code and screenshots):
+
+| Review | Verdict before fixes | Main fixes applied |
+|---|---|---|
+| better-accessibility | Block: 2 serious (example badges lost meaning; menu segments overflowed at 150%) | Labelled facts on example cards; equal wrapping segments; folds with real headings; no truncated titles; fact grid follows text size; hero never clips; stronger hero gradient; artwork hidden in forced colours; system high contrast equals manual high contrast; hashchange opens folds |
+| impeccable critique + better-ui | 28/40 (reserve showed as gaps and stretched pills); better-ui approve | No reserve inside label-value pairs and content badges; uniform tag-chip grid; account badge reserves its column, not the pill; edge text buttons keep their edge; shorter Ukrainian strings; phone search bar back to 56 px; technology tint `#A0D1F8`; source lines break between parts |
+| improve-animations | 2 high (example cards popped in every move; closing a card without a tile shrank off screen) | Example cards and hero named in the transitions; hero drifts in the opening; close without a tile is an in-place fade; scroll work moved before the snapshot; radii follow the text size; list dip on pager, chips and "Wyczyść filtry"; folds respect reduced motion |
+| Apple HIG (apple-design) | Five improvements | The card's own header grows out of the tile; pressed state on tiles and search; card history fetched in parallel; phone sheet opens at the tap; interruption during the grow falls back to a fade; busy sign-in keeps its colour; display headings tighter; 44 px targets on touch |
+
+Checks: flow test passes on desktop and phone with zero console errors; stability check as above.
+
+Still open: see `TASKS.md` (backlog audit, rows A1 to A12), in particular a true accessibility statement, field-level registration errors and keeping the registration draft out of the URL, an automated axe run and a VoiceOver run, `lang` on fallback card text (needs the backend), a Cyrillic mono face, and the type-scale tokens.
