@@ -12,6 +12,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 /** Where the open card came from: the tile's id and the scroll position, so closing returns to the same place. */
 /** Until when the card grow is playing. A close during it fades instead (a view transition cannot reverse mid-way). */
 let growEnd = 0;
+/** Marks the next view transition as a card move for motion.css; cleared once the move has played. */
+let moveTimer = 0;
+function markMove(kind: "card-open" | "card-close") {
+  document.documentElement.dataset.move = kind;
+  window.clearTimeout(moveTimer);
+  moveTimer = window.setTimeout(() => { delete document.documentElement.dataset.move; }, 1500);
+}
 /** Cleanup for a tile that is waiting for its card (scroll listener, pressed state). */
 let pending: (() => void) | null = null;
 const growing = () => performance.now() < growEnd;
@@ -75,7 +82,13 @@ export function ResultsClient({ karta, sheet, backHref, closeSheetHref, status }
     const onClick = (e: MouseEvent) => {
       const link = e.target instanceof Element ? e.target.closest("a.card-open") : null;
       const tile = link?.closest("li.card");
-      if (!tile || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      if (!tile || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      // Navigate here rather than through <Link transitionTypes>: in production builds the Link path sometimes starts
+      // the view transition without its type, and the card then only fades. router.push carries the type reliably.
+      e.preventDefault();
+      const href = (link as HTMLAnchorElement).getAttribute("href");
+      markMove("card-open");
+      if (href) window.setTimeout(() => router.push(href, { scroll: false, transitionTypes: ["card-open"] }), 0);
       origin = { id: tile.id.replace("karta-", ""), scrollY: window.scrollY, rect: tile.getBoundingClientRect(), list: listKey() };
       tile.setAttribute("data-opening", "");
       measure(tile);
@@ -86,7 +99,7 @@ export function ResultsClient({ karta, sheet, backHref, closeSheetHref, status }
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
-  }, []);
+  }, [router]);
 
   // Before paint (and before the browser captures the new state): put the panel's top in view when the list was
   // scrolled, and return to the old scroll position when the card closes.
@@ -188,11 +201,19 @@ export function ResultsClient({ karta, sheet, backHref, closeSheetHref, status }
       if (!(e.target instanceof Element)) return;
       // During the grow the panel is not clickable yet: ignore clicks on it rather than act on an unseen page.
       if (growing() && e.target.closest(".detail")) { e.preventDefault(); e.stopPropagation(); return; }
-      if (e.target.closest(".detail-bar a.btn-secondary")) measureClose(kartaRef.current);
+      const back = e.target.closest<HTMLAnchorElement>(".detail-bar a.btn-secondary");
+      if (!back || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault(); // same reason as the open: carry the type through router.push
+      const href = back.getAttribute("href");
+      if (!href) return;
+      if (growing()) { router.push(href, { scroll: false }); return; }
+      measureClose(kartaRef.current);
+      markMove("card-close");
+      router.push(href, { scroll: false, transitionTypes: ["card-close"] });
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
-  }, []);
+  }, [router]);
 
   // Phone filter sheet: open and close at the tap; the URL follows. CSS transitions retarget if the server disagrees.
   useEffect(() => {
@@ -216,7 +237,7 @@ export function ResultsClient({ karta, sheet, backHref, closeSheetHref, status }
       if (sheet) { document.querySelector(".results-area")?.removeAttribute("data-sheet"); router.replace(closeSheetHref, { scroll: false }); }
       else if (karta) {
         if (growing()) { router.push(backHref, { scroll: false }); return; }
-        measureClose(karta); router.push(backHref, { scroll: false, transitionTypes: ["card-close"] });
+        measureClose(karta); markMove("card-close"); router.push(backHref, { scroll: false, transitionTypes: ["card-close"] });
       }
     };
     document.addEventListener("keydown", onKey);
