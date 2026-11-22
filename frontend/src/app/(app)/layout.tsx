@@ -6,6 +6,7 @@ import { Logo } from "@/components/Logo";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { MobileMenu } from "@/components/MobileMenu";
 import { NavigationProgress } from "@/components/NavigationProgress";
+import { CompareTray } from "@/components/compare/CompareTray";
 import { signOut } from "@/app/actions/auth";
 import { DEMO_COOKIE, SESSION_COOKIE } from "@/lib/cookie";
 
@@ -16,7 +17,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const store = await cookies();
   const signedIn = store.has(SESSION_COOKIE);
   const demo = signedIn && store.has(DEMO_COOKIE);
-  const t = await getTranslations("layout");
+  const [t, tc] = await Promise.all([getTranslations("layout"), getTranslations("comparePage")]);
 
   /** Nav links, shared by the desktop row and the phone menu. */
   const items = (variant: "row" | "menu") => {
@@ -27,6 +28,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <>
             <li><Link href="/szukaj">{t("search")}</Link></li>
             <li><Link href="/wyniki">{t("results")}</Link></li>
+            {/* F4: "Compare (n)" once a card is chosen; shown in the desktop row and the phone menu. */}
+            <CompareTray label={tc("trayLabel")} countLabel={tc("trayCount", { count: "{count}" })} />
             <li><Link href="/profil">{t("profile")}</Link></li>
             <li>
               <form action={signOut}>

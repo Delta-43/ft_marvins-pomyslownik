@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AreaChip, BasisLabel, DateValue, LevelValue, ScoreValue, TrlValue } from "@/components/CardBits";
+import { CompareButton } from "@/components/compare/CompareButton";
 import { ApiError, errorKey, pick, type Schemas } from "@/lib/api";
 import { authed } from "@/lib/session";
 
@@ -98,7 +99,7 @@ const h3 = { fontSize: "1rem" } as const;
 // Innovation card: every value shows Confirmed or Estimate, links to its sources, and opens its evidence. Signed-in only.
 export default async function CardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [t, tErr, tRes, locale] = await Promise.all([getTranslations("card"), getTranslations("errors"), getTranslations("results"), getLocale()]);
+  const [t, tErr, tRes, tc, locale] = await Promise.all([getTranslations("card"), getTranslations("errors"), getTranslations("results"), getTranslations("comparePage"), getLocale()]);
   const here = `/karta/${id}`;
   const path = `/api/v1/cards/${encodeURIComponent(id)}`;
   let card: Schemas["Card"];
@@ -143,6 +144,11 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
         </p>
         <p className="text-lg">{pick(card.summary, locale)}</p>
         <p className="flex flex-wrap items-center gap-2 text-xs text-kamien"><BasisLabel basis="estimate" /> {t("summaryNote")}</p>
+        <CompareButton
+          id={card.id}
+          title={pick(card.title, locale)}
+          labels={{ add: tc("addToCompare"), added: tc("inCompare"), full: tc("compareFull"), open: tc("openCompare", { count: "{count}" }) }}
+        />
       </header>
 
       <section aria-labelledby="ocena" className="grid gap-4 md:grid-cols-2">
