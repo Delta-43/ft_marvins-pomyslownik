@@ -158,7 +158,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             <line key={i} x1={a} y1={b} x2={c} y2={d} stroke="#F7F2EB" strokeOpacity=".4" strokeWidth="2" />
           ))}
           {[[40, 200], [140, 110], [260, 150], [350, 60], [200, 30], [300, 230]].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r={i === 2 ? 12 : 7} fill={i === 2 ? "#FFD93D" : "#F7F2EB"} />
+            <circle key={i} cx={x} cy={y} r={i === 2 ? 12 : 7} fill={i === 2 ? "#6BB437" : "#F7F2EB"} />
           ))}
         </svg>
       </aside>

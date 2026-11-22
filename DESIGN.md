@@ -48,8 +48,8 @@ Interface copy is in Polish. Example content on screens is marked `[PRZYKŁAD]`.
 |---|---|---|---|---|
 | `--color-papier` | Papier | `#F7F2EB` | Backgrounds | n/a |
 | `--color-atrament` | Atrament | `#141414` | Text, main elements | 16.54:1 on Papier |
-| `--color-granat` | Granat | `#1B3F8F` | Accent, buttons, links, focus | 8.75:1 on Papier |
-| `--color-iskra` | Iskra | `#FFD93D` | Highlights. Only on Atrament or under Atrament text. **Never text on a light background** | 13.37:1 with Atrament |
+| `--color-granat` | Granat | `#0085CC` | Main colour: PCI blue from the pcinn.org logo. Accent, buttons, links, focus | 3.61:1 on Papier, 4.02:1 with white |
+| `--color-iskra` | Iskra | `#6BB437` | Highlight colour: PCI green from the pcinn.org logo. Only on Atrament or under Atrament text. **Never text on a light background** | 7.20:1 with Atrament |
 | `--color-kamien` | Kamień | `#5A544D` | Secondary text | 6.71:1 on Papier |
 | `--color-krawedz` | Krawędź | `#DDD5C8` | Card borders | n/a |
 
@@ -70,10 +70,10 @@ Interface copy is in Polish. Example content on screens is marked `[PRZYKŁAD]`.
 |---|---|
 | Success / "Tak" (`--color-tak`) | `#1F7A45`, background `#EDF5EF` |
 | Error / "Nie" (`--color-nie`) | `#B42318`, background `#FBEDEB` |
-| Info | border `#1B3F8F`, background `#EEF1F8` |
-| Warning | border `#141414`, background `#FFF6CC`, Iskra triangle icon |
-| Granat hover | `#14306E` |
-| Iskra hover | `#F5CC1F` |
+| Info | border `#0085CC`, background `#E6F3FA` |
+| Warning | border `#141414`, background `#EEF7E7`, Iskra triangle icon |
+| Granat hover | `#006BA3` |
+| Iskra hover | `#5A9A2E` |
 | Disabled | background `#E9E2D7`, text `#5A544D` |
 | Surface (cards, sections) | `#FFFFFF` |
 | Dark-surface divider / code bg | `#3A3733` / `#2A2826` |
@@ -118,14 +118,14 @@ Status is always icon + word. Colour is never the only signal.
 | `--radius-icon` | 22% (app icon) |
 | `--border-card` | 1px solid Krawędź |
 | `--space-1…6` | 4 / 8 / 12 / 16 / 20 / 24 px. Card gap 20px, card and board padding 24px |
-| Focus | `outline: 3px solid #1B3F8F; outline-offset: 2px` on `:focus-visible` |
+| Focus | `outline: 3px solid #0085CC; outline-offset: 2px` on `:focus-visible` |
 
 ## 5. Graphic elements
 
 - **Radar arcs:** concentric Papier rings on Atrament, fading out, with one Iskra arc.
 - **55° split:** Granat/Iskra diagonal at the sygnet angle.
 - **Connection network:** Atrament nodes and lines on Papier, with a central Granat node.
-- **3D sygnet:** rounded Granat tile (gradient `#2A55B0 → #1B3F8F → #14306E`) on a soft Papier surface. Use it for illustration only, never as the logo.
+- **3D sygnet:** rounded Granat tile (gradient `#2B9BD9 → #0085CC → #006BA3`) on a soft Papier surface. Use it for illustration only, never as the logo.
 
 ## 6. Components
 
@@ -135,10 +135,10 @@ Rules from `Komponenty.dc.html`. All sizes are in px.
 
 | Kind | Style |
 |---|---|
-| Primary | Granat bg, Papier text, bold, pill, padding 0 22. Hover `#14306E` |
+| Primary | Granat bg, Papier text, bold, pill, padding 0 22. Hover `#006BA3` |
 | Secondary | White bg, 1.5px Atrament border, Atrament text. Hover Papier |
 | Text link button | Granat, bold, underline offset 4. Hover Atrament |
-| Highlight (events) | Iskra bg, Atrament text. Hover `#F5CC1F` |
+| Highlight (events) | Iskra bg, Atrament text. Hover `#5A9A2E` |
 | Icon button | 44 circle; Atrament fill with Papier icon, or white with 1.5px Atrament border |
 | Small | height 36, padding 0 16, 15px |
 | Card action | height 40, padding 0 18, trailing arrow icon |
@@ -150,7 +150,7 @@ Rules from `Komponenty.dc.html`. All sizes are in px.
 - Input/select: height 48, 1.5px Kamień border, radius 12, padding 0 14, white bg.
 - Error: 2px `#B42318` border, `aria-invalid`, and a message that starts with **"Błąd:"** plus an error icon, in bold 14px red. Never colour alone.
 - Search: pill, height 56, 1.5px Kamień border, Papier bg, leading search icon, primary "Szukaj" button inside. Placeholder: "Szukaj zespołów, patentów, laboratoriów…".
-- Checkbox/radio: 20px, `accent-color: #1B3F8F`, min row height 28, grouped in a `fieldset` with a `legend`.
+- Checkbox/radio: 20px, `accent-color: #0085CC`, min row height 28, grouped in a `fieldset` with a `legend`.
 - Switch: 48×28 track with a 1.5px Granat border, 19px knob, and a visible state word next to it. `role="switch"`.
 
 ### Tags and badges
@@ -192,9 +192,9 @@ Every message has an icon, a bold lead word and a colour. Tone: concrete and fri
 
 | Kind | Lead word | Border / bg |
 |---|---|---|
-| Info | **Informacja.** | Granat / `#EEF1F8` |
+| Info | **Informacja.** | Granat / `#E6F3FA` |
 | Success | **Gotowe.** | `#1F7A45` / `#EDF5EF` |
-| Warning | **Uwaga.** | Atrament / `#FFF6CC` |
+| Warning | **Uwaga.** | Atrament / `#EEF7E7` |
 | Error | **Błąd.** | `#B42318` / `#FBEDEB` |
 
 - **Tooltip:** Atrament bg, Papier text, radius 12, 15px, Iskra link, `role="tooltip"`.

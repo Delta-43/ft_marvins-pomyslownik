@@ -3,8 +3,8 @@
   /* Kolory podstawowe */
   --color-papier: #F7F2EB;    /* tła */
   --color-atrament: #141414;  /* tekst, elementy główne · 16,54:1 na Papierze */
-  --color-granat: #1B3F8F;    /* akcent, przyciski, linki, fokus · 8,75:1 na Papierze */
-  --color-iskra: #FFD93D;     /* wyróżnienia · tylko na Atramencie lub pod tekstem Atramentu */
+  --color-granat: #0085CC;    /* akcent, przyciski, linki, fokus · kolor główny PCI · 3,61:1 na Papierze, 4,02:1 z białym */
+  --color-iskra: #6BB437;     /* wyróżnienia, zieleń PCI · 7,20:1 z Atramentem · tylko na Atramencie lub pod tekstem Atramentu */
   --color-kamien: #5A544D;    /* tekst drugorzędny · 6,71:1 na Papierze */
   --color-krawedz: #DDD5C8;   /* obramowania kart */
   /* Kolory kategorii (zawsze z ikoną) */
