@@ -18,7 +18,63 @@ def _prov(detail: dict) -> dict:
     return {k: detail.get(k) for k in ("basis", "sourceIds", "evidenceIds", "method", "methodText")}
 
 
-def load_card(conn, card: dict) -> None:
+def _status(row: dict | None) -> dict | None:
+    """The fields whose change a person should see in the card's history."""
+    if not row:
+        return None
+    return {"implementationLevel": row["implementation_level"],
+            "trl": None if row["trl"] is None or not row["trl_applicable"] else str(row["trl"]),
+            "polishIp": f"polish_ip_{row['polish_ip_status']}"}
+
+
+def seed_history(conn, card_id: str, history: list[dict], remap: dict[str, str]) -> set[tuple]:
+    """History entries written in the seed file (#17), with the date of the source or review that caused them.
+
+    They are inserted once on every database, a fresh one included, so a rebuilt demo keeps its history. Returns the
+    (field, from, to) triples, so record_changes() does not write the same change a second time with today's date.
+    """
+    seen = set()
+    for h in history:
+        field, old, new = h["field"], h.get("from"), h.get("to")
+        seen.add((field, old, new))
+        if not conn.execute("""SELECT 1 FROM status_history WHERE card_id = %s AND field = %s AND from_value IS NOT DISTINCT FROM %s
+                               AND to_value IS NOT DISTINCT FROM %s""", (card_id, field, old, new)).fetchone():
+            conn.execute("INSERT INTO status_history (card_id, at, field, from_value, to_value, source_id) VALUES (%s,%s,%s,%s,%s,%s)",
+                         (card_id, h["at"], field, old, new, remap.get(h.get("sourceId"), h.get("sourceId"))))
+    if history:
+        conn.execute("UPDATE cards SET status_changed_at = (SELECT max(at) FROM status_history WHERE card_id = %s) WHERE id = %s",
+                     (card_id, card_id))
+    return seen
+
+
+def record_changes(conn, card_id: str, before: dict | None, seeded: set | frozenset = frozenset()) -> list[tuple[str, str | None, str | None]]:
+    """Compare the stored status with `before` and write one status_history row per changed field.
+
+    Called after every load, so a corrected seed card, a re-extracted collected card and a manual fix all leave the
+    same trace. A new card has no `before` and writes nothing. The newest source of the card is linked to the change.
+    """
+    if before is None:
+        return []
+    after = _status(conn.execute("SELECT implementation_level, trl, trl_applicable, polish_ip_status FROM cards WHERE id = %s",
+                                 (card_id,)).fetchone())
+    changes = []
+    for key, field in (("implementationLevel", "implementationLevel"), ("trl", "trl"), ("polishIp", "other")):
+        if before[key] != after[key] and (field, before[key], after[key]) not in seeded:
+            changes.append((field, before[key], after[key]))
+    if changes:
+        src = conn.execute("""SELECT source_id FROM card_sources WHERE card_id = %s
+                              ORDER BY retrieved_at DESC NULLS LAST LIMIT 1""", (card_id,)).fetchone()
+        for field, old, new in changes:
+            conn.execute("INSERT INTO status_history (card_id, field, from_value, to_value, source_id) VALUES (%s,%s,%s,%s,%s)",
+                         (card_id, field, old, new, src["source_id"] if src else None))
+        conn.execute("UPDATE cards SET status_changed_at = now() WHERE id = %s", (card_id,))
+    return changes
+
+
+def load_card(conn, card: dict) -> list[tuple[str, str | None, str | None]]:
+    """Insert or update one card. Returns the status changes it caused (also written to status_history)."""
+    before = _status(conn.execute("SELECT implementation_level, trl, trl_applicable, polish_ip_status FROM cards WHERE id = %s",
+                                  (card["id"],)).fetchone())
     bad = problems(card)
     if bad:
         raise ValueError(f"card {card.get('id')} breaks the language rule (needs Polish and English): {', '.join(bad)}")
@@ -109,6 +165,27 @@ def load_card(conn, card: dict) -> None:
                           unit = EXCLUDED.unit, source_id = EXCLUDED.source_id, query = EXCLUDED.query""",
                      (e["id"], card["id"], e["metric"], json.dumps(e["label"]), json.dumps(e["value"]), e.get("unit"),
                       remap.get(e["sourceId"], e["sourceId"]), e["query"], e["retrievedAt"]))
+    seeded = seed_history(conn, card["id"], card.get("history") or [], remap)
+    return record_changes(conn, card["id"], before, seeded)
+
+
+def seed_ids() -> set[str]:
+    """Ids of curated seed cards. A refresh never overwrites them with a fresh extraction."""
+    return {json.loads(f.read_text(encoding="utf-8"))["id"] for f in (pathlib.Path(settings.seed_dir) / "cards").glob("*.json")}
+
+
+def remove_cards(conn, root: pathlib.Path) -> int:
+    """Cards a reviewer rejected (data/seed/removed.json). Deleted, and their source URL is skipped by every later run."""
+    path = root / "removed.json"
+    if not path.exists():
+        return 0
+    n = 0
+    for item in json.loads(path.read_text(encoding="utf-8")):
+        n += conn.execute("DELETE FROM cards WHERE id = %s", (item["id"],)).rowcount
+        for url in filter(None, (item["url"], item.get("legacyUrl"))):
+            conn.execute("""INSERT INTO skipped_sources (url, reason) VALUES (%s,%s)
+                            ON CONFLICT (url) DO UPDATE SET reason = EXCLUDED.reason""", (url, item["reason"]))
+    return n
 
 
 def main() -> int:
@@ -118,13 +195,21 @@ def main() -> int:
         print(f"No card files in {root / 'cards'}")
         return 1
     with connection() as conn, conn.transaction():
+        # #22: RAD-on records used to link the POST-only search endpoint. Move them to the public project browser.
+        conn.execute("""UPDATE sources SET url = replace(url, 'https://radon.nauka.gov.pl/opendata/project/search#uid=',
+                                                          'https://radon.nauka.gov.pl/dane/projekty-badawcze#uid=')
+                        WHERE url LIKE 'https://radon.nauka.gov.pl/opendata/project/search#uid=%%'
+                          AND NOT EXISTS (SELECT 1 FROM sources s2 WHERE s2.url = replace(sources.url,
+                              'https://radon.nauka.gov.pl/opendata/project/search#uid=', 'https://radon.nauka.gov.pl/dane/projekty-badawcze#uid='))""")
+        print("removed", remove_cards(conn, root), "rejected cards")
         for f in files:
-            load_card(conn, json.loads(f.read_text(encoding="utf-8")))
-            print("loaded", f.name)
+            changes = load_card(conn, json.loads(f.read_text(encoding="utf-8")))
+            print("loaded", f.name, *(f"[{field}: {old} -> {new}]" for field, old, new in changes))
     print(f"{len(files)} cards loaded")
-    from . import enrich, score
+    from . import enrich, related, score
     enrich.main(close=False)  # OpenAlex evidence for technological cards (skipped without a key)
-    score.main()
+    score.main(close=False)
+    related.main()  # B17: who else works on this, kept on each card
     return 0
 
 

@@ -21,8 +21,10 @@ def facts_for(conn, card: dict) -> tuple[scoring.Facts, str | None]:
     srcs = conn.execute("""SELECT s.id, s.url, cs.passage FROM card_sources cs JOIN sources s ON s.id = cs.source_id
                            WHERE cs.card_id = %s AND cs.passage IS NOT NULL ORDER BY s.name""", (cid,)).fetchall()
     pubs = conn.execute("SELECT value FROM evidence WHERE card_id = %s AND metric = 'similar_polish_publications_count'", (cid,)).fetchone()
-    ev = conn.execute("""SELECT count(*) AS n FROM evidence WHERE card_id = %s AND query NOT LIKE %s
-                         AND metric <> 'similar_polish_publications_count'""", (cid, QUERY_PREFIX + "%")).fetchone()["n"]
+    # Numbers the source states. Not: our own computations, OpenAlex counts, or dates (project start and end).
+    ev = conn.execute(r"""SELECT count(*) AS n FROM evidence WHERE card_id = %s AND query NOT LIKE %s
+                         AND metric <> 'similar_polish_publications_count' AND metric NOT LIKE '%%\_date'""",
+                      (cid, QUERY_PREFIX + "%")).fetchone()["n"]
     pool = conn.execute("""SELECT similarity(c.search_text, me.search_text) AS s FROM cards c, cards me
                            WHERE me.id = %s AND c.id <> me.id ORDER BY s DESC""", (cid,)).fetchall()
     age = (dt.datetime.now(dt.UTC) - card["last_checked_at"]).days

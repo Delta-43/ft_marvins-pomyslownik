@@ -4,6 +4,13 @@ Date: 2026-11-21. Method: the ten design checks of the `api-contract-review` ski
 
 **Grounding.** Statements below rest on command output seen during this review: the Redocly CLI lint of `openapi.yaml` (valid, 3 warnings), a running Prism 5 mock (200, 400, 401, 404, 429 responses, CORS header), `openapi-typescript` 7.13.0 type generation (1,368 lines, all operations present), and `docker compose config` for both compose files. Items marked `[ungrounded: ...]` were not run.
 
+## 0c. Revision: draft 5, version 1.1.0-draft.5 (2026-11-22, issues #17 and #18)
+
+- `Evidence.origin` (`source` | `computed`) and `Evidence.queryText` (`LocalizedText`), both optional. Computed rows are shown apart and without a source link (Philip's option 1 in #18). `sourceId` stays a required string, so generated types do not change.
+- `StatusChange.field` documents the Polish IP values in `other` (`polish_ip_unknown`, `polish_ip_stated`, `polish_ip_confirmed`). Every reviewer correction that changes the level, TRL or Polish IP status now writes a history row (#17).
+- **Built in the backend (branch `feat/b15-b17-b18`):** B15 server-side language (`lang`, `Accept-Language`, `preferredLanguage`; strings in the named language; Ukrainian from a machine-translation table filled by the worker, `machineTranslated` on cards; translated error messages), B17 `relatedWork` stored on every card (similar catalogue cards and OpenAlex works by Polish institutions, no person names), B18 selected facet values always returned with labels. **G2 closed:** `Content-Language`, `Vary: Accept-Language` and `Cache-Control: private, no-store` on authenticated responses.
+- **G1 partly closed:** the shared demo identities (`DEMO_IDENTITIES`, default `demo-jury`) are listed in `/auth/providers` (`demoIdentities`), skip the per-identity sign-in limit (a jury shares one identity), and `DELETE /me` on them returns `403`. Free sandbox subjects are still accepted; the allow-list for production stays in B19.
+
 ## 0b. Revision: draft 4, version 1.1.0-draft.4 (2026-11-22, review of #25 and full pass)
 
 **Inputs:** Philip's review of #25 (issue #26), then a full read of the contract against the backend routers (`backend/app/routers/*`, `security.py`) and the frontend sign-in (`frontend/src/app/actions/auth.ts`).

@@ -32,8 +32,8 @@
     "region": "LD"
   },
   "implementationLevel": {
-    "value": "concept",
-    "basis": "confirmed"
+    "value": "pilot",
+    "basis": "estimate"
   },
   "trl": {
     "applicable": false,
@@ -51,18 +51,21 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "Komunikat Ministerstwa Cyfryzacji z 7 października 2025 r. opisuje list intencyjny w sprawie wdrożenia modelu PLLuM w Łodzi. Cel to usprawnienie pracy urzędu i ułatwienie mieszkańcom dostępu do informacji, a miasto ma do 1 stycznia 2027 r. dołączyć do wiodących ośrodków sztucznej inteligencji. To zapowiedź, nie działająca usługa. Streszczenie napisane przez model na podstawie strony.",
-    "en": "A Ministry of Digital Affairs notice of 7 October 2025 describes a letter of intent to deploy the PLLuM model in Łódź. The aim is to improve the office's work and residents' access to information, and the city is to join the leading AI centres by 1 January 2027. This is an announcement, not a running service. Summary written by the model from the page."
+    "pl": "Komunikat Ministerstwa Cyfryzacji z 7 października 2025 r. opisuje list intencyjny w sprawie wdrożenia modelu PLLuM w Łodzi. Cel to usprawnienie pracy urzędu i ułatwienie mieszkańcom dostępu do informacji, a miasto ma do 1 stycznia 2027 r. dołączyć do wiodących ośrodków sztucznej inteligencji. Według artykułu NASK z 24.08.2026 r. model wspiera już łódzkich urzędników w wyszukiwaniu wewnętrznych dokumentów. Streszczenie napisane przez model na podstawie strony.",
+    "en": "A Ministry of Digital Affairs notice of 7 October 2025 describes a letter of intent to deploy the PLLuM model in Łódź. The aim is to improve the office's work and residents' access to information, and the city is to join the leading AI centres by 1 January 2027. According to a NASK article of 24.08.2026, the model already supports Łódź officials in searching internal documents. Summary written by the model from the page."
   },
   "implementationLevelDetail": {
-    "basis": "confirmed",
+    "basis": "estimate",
     "sourceIds": [
-      "79300330-79b5-49a7-bf1f-c1d44b8dcf6e"
+      "bbc406b0-99df-5bbc-af22-05144d23e1d1"
     ],
     "evidenceIds": [],
-    "method": null,
-    "methodText": null,
-    "value": "concept"
+    "method": "The NASK article of 24.08.2026 says PLLuM supports officials in Łódź in searching internal documents. It gives no scale, so we read it as a pilot.",
+    "methodText": {
+      "pl": "Artykuł NASK z 24.08.2026 podaje, że w Łodzi PLLuM wspiera urzędników w wyszukiwaniu wewnętrznych dokumentów. Nie podaje skali, więc przyjmujemy pilotaż.",
+      "en": "The NASK article of 24.08.2026 says PLLuM supports officials in Łódź in searching internal documents. It gives no scale, so we read it as a pilot."
+    },
+    "value": "pilot"
   },
   "trlDetail": {
     "applicable": false,
@@ -124,14 +127,14 @@
     }
   },
   "oslo": {
-    "passed": false,
+    "passed": true,
     "newOrImproved": true,
     "differsSignificantly": true,
-    "availableOrInUse": false,
+    "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "List intencyjny w sprawie wdrożenia modelu. Nie opisano jeszcze żadnej usługi.",
-      "en": "A letter of intent to deploy the model. No service is described yet."
+      "pl": "List intencyjny z 2025 r., a według NASK (24.08.2026) model jest już używany przez urzędników do wyszukiwania dokumentów. Skala wdrożenia nie jest podana.",
+      "en": "A letter of intent from 2025, and according to NASK (24.08.2026) officials already use the model to search documents. The scale of the rollout is not given."
     }
   },
   "couldAlsoBeUsedIn": [
@@ -154,6 +157,16 @@
       "passage": "podpisali list intencyjny w sprawie wdrożenia polskiego modelu AI PLLuM w Łodzi … Celem jest usprawnienie pracy urzędu i ułatwienie mieszkańcom dostępu do informacji … do 1 stycznia 2027 roku ma włączyć miasto do grona krajowych liderów rozwoju sztucznej inteligencji",
       "passageLang": "pl",
       "license": null
+    },
+    {
+      "id": "bbc406b0-99df-5bbc-af22-05144d23e1d1",
+      "type": "crawl",
+      "name": "NASK PIB, aktualności: Apetyt na polską AI rośnie. PLLuM trafia do kolejnych urzędów i uczy się widzieć",
+      "url": "https://www.nask.pl/aktualnosci/apetyt-na-polska-ai-rosnie-pllum-trafia-do-kolejnych-urzedow-i-uczy-sie-widziec",
+      "retrievedAt": "2026-11-22T02:40:00Z",
+      "passage": "a w Łodzi wspiera urzędników w wyszukiwaniu wewnętrznych dokumentów",
+      "passageLang": "pl",
+      "license": null
     }
   ],
   "evidence": [
@@ -172,5 +185,22 @@
     }
   ],
   "firstSeenAt": "2026-11-21T20:55:29Z",
-  "statusChangedAt": null
+  "statusChangedAt": "2026-11-22T00:00:00Z",
+  "polishIpStatus": "stated",
+  "history": [
+    {
+      "at": "2026-08-24T00:00:00Z",
+      "field": "implementationLevel",
+      "from": "concept",
+      "to": "pilot",
+      "sourceId": "bbc406b0-99df-5bbc-af22-05144d23e1d1"
+    },
+    {
+      "at": "2026-11-22T00:00:00Z",
+      "field": "other",
+      "from": "polish_ip_unknown",
+      "to": "polish_ip_stated",
+      "sourceId": "79300330-79b5-49a7-bf1f-c1d44b8dcf6e"
+    }
+  ]
 }

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Pomysłownik! API
-  version: 1.1.0-draft.4
+  version: 1.1.0-draft.5
   summary: API for Pomysłownik!, an innovation radar prototype (Hacknation 2026, PCI challenge).
   description: |
     Contract-first draft. The frontend builds against this file with a mock server.
@@ -47,14 +47,14 @@ info:
       frontend renders strings as text, never as HTML.
     - **Links** (planned, G3). Every URL a person can follow uses `http` or `https` (`WebUrl`). Collected links with any other scheme
       (`javascript:`, `data:`) are dropped at ingest.
-    - **Caching** (planned, G2). Responses that need a session send `Cache-Control: private, no-store`. Public reference data
+    - **Caching.** Responses that need a session send `Cache-Control: private, no-store`. Public reference data
       (`/audiences`, `/auth/providers`) may be cached briefly. All responses vary by `Accept-Language`.
     - CORS: the API allows the web origins listed in the `CORS_ORIGINS` environment variable.
     - Rate limiting: a `429` carries a `Retry-After` header (seconds). This includes the admin endpoints (planned, G5).
 
     **Known gaps (draft 4).** Rules marked `(planned, Gn)` are agreed but **not enforced by the live API yet**. They
     are written here so nobody builds against the gap. Details and the light fix for each: `docs/api/CONTRACT-REVIEW.md` §0b.
-    G1 sandbox subjects are not secret. G2 language and cache headers. G3 link schemes. G4 plain text at ingest.
+    G1 sandbox subjects are not secret (partly closed). G2 is closed (headers live since draft 5). G3 link schemes. G4 plain text at ingest.
     G5 admin rate limit. G6 usage-stats periods. G7 input limits. G8 rate-limit address on the LAN. G9 unverified email.
     The redirect sign-in flow (`/auth/{provider}/*`, `/auth/exchange`) is design only (tasks B13, B14).
 
@@ -1191,7 +1191,7 @@ components:
       name: lang
       in: query
       required: false
-      description: Response language. Wins over `Accept-Language`. Send it or the header on every call.
+      description: Response language. Wins over `Accept-Language`. Send it or the header on every call. Any other value (also `UK`) returns `422 validation_failed`.
       schema: { $ref: '#/components/schemas/LanguageCode' }
     AcceptLanguage:
       name: Accept-Language
@@ -1223,10 +1223,10 @@ components:
 
   headers:
     ContentLanguage:
-      description: The language of the strings and error messages in this response (planned with B15, G2).
-      schema: { $ref: '#/components/schemas/LanguageCode' }
+      description: 'The languages actually served in this response, the requested one first. `uk, en` means some texts have no Ukrainian translation yet and are shown in English, so the UI can say so. An error message that is not translated yet is served in English with `Content-Language: en`.'
+      schema: { type: string, examples: ['uk', 'uk, en', 'pl'] }
     Vary:
-      description: Includes `Accept-Language`, so a cache never serves one language to a request for another (planned with B15, G2).
+      description: Includes `Accept-Language`, so a cache never serves one language to a request for another.
       schema: { type: string, examples: ['Accept-Language'] }
 
   responses:
@@ -1735,7 +1735,7 @@ components:
         lastCheckedAt: { type: string, format: date-time }
         stale:
           type: boolean
-          description: True when `lastCheckedAt` is older than the freshness limit (default 30 days).
+          description: 'True when `lastCheckedAt` is older than the freshness limit (default 30 days), or when the project the card describes ended more than `STALE_PROJECT_YEARS` (default 3) years ago (evidence `project_end_date`, issue #22).'
         sourceCount: { type: integer, minimum: 0 }
         relevance:
           type: [number, 'null']
@@ -1819,8 +1819,11 @@ components:
           format: uuid
           description: Set when `kind` is `card`. Link to the card page.
         title:
-          type: string
-          description: The work's own title, as its source writes it. Not translated (like a source quote). For `kind` `card` it is the card title in the negotiated language.
+          allOf: [{ $ref: '#/components/schemas/LocalizedText' }]
+          description: |
+            For an outside work (`kind` other than `card`): a plain string, the work's own title as its source writes it,
+            not translated (like a source quote), with its language in `titleLang`. For `kind` `card`: the card's title,
+            resolved to the negotiated language like every other `LocalizedText`.
         titleLang:
           type: [string, 'null']
           pattern: '^[a-z]{2}$'
@@ -1923,15 +1926,29 @@ components:
             - { $ref: '#/components/schemas/LocalizedText' }
             - { type: 'null' }
         sourceId: { type: string, format: uuid }
-        query: { type: string, description: The query or call that produced the value. }
+        query: { type: string, description: 'The query or call that produced the value, as a technical line. Show `queryText`.' }
         retrievedAt: { type: string, format: date-time }
+        origin:
+          type: string
+          enum: [source, computed]
+          description: |
+            Optional (draft 5, issue #18). `source`: the value comes from the linked source. `computed`: Pomysłownik
+            computed it from the card's stored data (for example "number of cards compared"). Show computed rows apart,
+            as "Obliczone przez Pomysłownik" / "Computed by Pomysłownik", **without** a source link: `sourceId` then only
+            names the card source the computation started from, not a source that states the number.
+        queryText:
+          allOf: [{ $ref: '#/components/schemas/LocalizedText' }]
+          description: Optional (draft 5). The query in the negotiated language. URLs and quoted source text inside it stay as written.
 
     StatusChange:
       type: object
       required: [at, field, from, to, sourceId]
       properties:
         at: { type: string, format: date-time }
-        field: { type: string, enum: [implementationLevel, trl, organisation, other] }
+        field:
+          type: string
+          enum: [implementationLevel, trl, organisation, other]
+          description: '`other` covers source states (`source_ok`, `source_changed`, `source_unavailable`) and, since draft 5, the Polish IP status (`polish_ip_unknown`, `polish_ip_stated`, `polish_ip_confirmed`). Corrections by a reviewer are recorded too (issue #17).'
         from: { type: [string, 'null'], description: 'Machine value: a level id, a TRL number, or a source state (source_ok, source_changed, source_unavailable). Show `fromLabel`.' }
         to: { type: [string, 'null'], description: 'Machine value, as for `from`. Show `toLabel`.' }
         fromLabel:

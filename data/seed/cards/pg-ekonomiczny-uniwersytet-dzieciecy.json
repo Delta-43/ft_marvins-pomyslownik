@@ -130,11 +130,11 @@
     "passed": false,
     "newOrImproved": true,
     "differsSignificantly": false,
-    "availableOrInUse": false,
+    "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "Program uczelni dla uczniów klas 5 i 6. Strona nie ma daty, więc nie wykazano, czy program jest obecnie dostępny.",
-      "en": "A university programme for pupils in grades 5 and 6. The page is undated, so current availability is not shown."
+      "pl": "Program uczelni dla klas 5 i 6 z otwartymi zapisami, więc jest dostępny. To zwykła oferta zajęć, która nie różni się znacząco od istniejących rozwiązań, więc test Oslo nie jest spełniony (ocena).",
+      "en": "A university programme for grades 5 and 6 with open registration, so it is available. It is an ordinary course offer that does not differ significantly from existing solutions, so the Oslo test is not met (an estimate)."
     }
   },
   "couldAlsoBeUsedIn": [

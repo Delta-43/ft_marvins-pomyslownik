@@ -8,14 +8,28 @@ from fastapi import HTTPException
 
 from ..config import settings
 from ..db import one, rows
-from .i18n import label as fixed_label
+from .i18n import REGIONS as REGION_CODES
 from .i18n import (
+    evidence_origin,
     licence_label,
+    query_text,
     region_label,
     source_name_text,
     split_organisation,
     unit_label,
 )
+from .i18n import label as fixed_label
+
+# Stale (#22): not checked within FRESHNESS_DAYS, or the project the card describes ended more than
+# STALE_PROJECT_YEARS ago (evidence project_end_date, from RAD-on). Uses the alias c and the parameters fresh and old.
+STALE_SQL = """(c.last_checked_at < now() - make_interval(days => %(fresh)s)
+  OR EXISTS (SELECT 1 FROM evidence e WHERE e.card_id = c.id AND e.metric = 'project_end_date'
+             AND (e.value #>> '{}') < to_char(now() - make_interval(years => %(old)s), 'YYYY-MM-DD')))"""
+
+
+def stale_params() -> dict:
+    return {"fresh": settings.freshness_days, "old": settings.stale_project_years}
+
 
 AREAS = {"technological", "educational", "administrative"}
 LEVELS = ["concept", "prototype", "testing", "pilot", "in_practice"]
@@ -65,7 +79,7 @@ class Filters:
         self.ip_status = _csv("polishIpStatus", polishIpStatus, {"confirmed", "stated", "unknown"})
 
     def where(self, skip: str | None = None) -> tuple[str, dict]:
-        c, p = ["TRUE"], {"fresh": settings.freshness_days}
+        c, p = ["TRUE"], stale_params()
         if self.area and skip != "area":
             c.append("c.area = ANY(%(area)s)"); p["area"] = self.area
         if self.level and skip != "level":
@@ -85,7 +99,7 @@ class Filters:
         if self.min_cred is not None:
             c.append("c.score_credibility >= %(min_cred)s"); p["min_cred"] = self.min_cred
         if not self.include_stale:
-            c.append("c.last_checked_at >= now() - make_interval(days => %(fresh)s)")
+            c.append(f"NOT {STALE_SQL}")
         if self.q:
             # Basic text match: every word must appear in the accent-free text. Task B4 adds ranking and typo tolerance.
             for i, word in enumerate(self.q.split()[:8]):
@@ -104,11 +118,12 @@ SUMMARY_COLS = """
   c.trl_applicable, c.trl, c.trl_prov->>'basis' AS trl_basis,
   c.score_innovativeness, c.score_application, c.score_credibility,
   o.name AS org_name, o.type AS org_type, o.url AS org_url, o.region AS org_region,
-  (c.last_checked_at < now() - make_interval(days => %(fresh)s)) AS stale,
+  {STALE_SQL} AS stale,
   (SELECT count(*) FROM card_sources cs WHERE cs.card_id = c.id) AS source_count,
   COALESCE((SELECT jsonb_agg(jsonb_build_object('slug', t.slug, 'label_pl', t.label_pl, 'label_en', t.label_en) ORDER BY t.slug)
             FROM card_tags ct JOIN tags t ON t.slug = ct.tag_slug WHERE ct.card_id = c.id), '[]'::jsonb) AS tags
 """
+SUMMARY_COLS = SUMMARY_COLS.replace("{STALE_SQL}", STALE_SQL)
 
 
 def _organisation(r: dict) -> dict:
@@ -159,7 +174,7 @@ def get_card(card_id: UUID) -> dict:
     r = one(f"""SELECT {SUMMARY_COLS}, c.summary_pl, c.summary_en, c.implementation_prov, c.trl_prov, c.assessment, c.oslo,
                        c.could_also_be_used_in, c.owner_name, c.owner_url, c.first_seen_at, c.status_changed_at
                 FROM cards c JOIN organisations o ON o.id = c.organisation_id WHERE c.id = %(id)s""",
-            {"id": card_id, "fresh": settings.freshness_days})
+            {"id": card_id, **stale_params()})
     if not r:
         raise HTTPException(status_code=404, detail="Card not found.")
     sources = rows("""SELECT s.id, s.type, s.name, s.url, s.license, cs.retrieved_at, cs.passage, cs.passage_lang
@@ -179,9 +194,20 @@ def get_card(card_id: UUID) -> dict:
                      "license": s["license"], "licenseLabel": licence_label(s["license"])[0], "licenseUrl": licence_label(s["license"])[1]}
                     for s in sources],
         "evidence": [{"id": str(e["id"]), "metric": e["metric"], "label": e["label"], "value": e["value"], "unit": e["unit"], "unitLabel": unit_label(e["unit"]),
-                      "sourceId": str(e["source_id"]), "query": e["query"], "retrievedAt": iso(e["retrieved_at"])} for e in evidence],
+                      "sourceId": str(e["source_id"]), "query": e["query"], "retrievedAt": iso(e["retrieved_at"]),
+                      "origin": evidence_origin(e["query"]), "queryText": query_text(e["query"])} for e in evidence],
         "firstSeenAt": iso(r["first_seen_at"]),
         "statusChangedAt": iso(r["status_changed_at"]),
+        # A related card's title follows the requested language; an outside work keeps its own title (titleLang).
+        "relatedWork": [{"kind": w["kind"], "cardId": str(w["card_ref"]) if w["card_ref"] else None,
+                         "title": loc(w["ref_pl"], w["ref_en"]) if w["card_ref"] else w["title"],
+                         "titleLang": None if w["card_ref"] else w["title_lang"], "url": w["url"],
+                         "organisation": {"name": w["org_name"], "region": w["org_region"], "contactUrl": w["contact_url"]} if w["org_name"] else None,
+                         "year": w["year"], "similarity": float(w["similarity"]), "sharedTags": list(w["shared_tags"]),
+                         "basis": "estimate", "source": w["source"], "foundAt": iso(w["found_at"])}
+                        for w in rows("""SELECT rw.*, c.title_pl AS ref_pl, c.title_en AS ref_en FROM related_work rw
+                                         LEFT JOIN cards c ON c.id = rw.card_ref WHERE rw.card_id = %s
+                                         ORDER BY rw.similarity DESC, rw.id""", (card_id,))],
     })
     return card
 
@@ -203,11 +229,25 @@ def facets(f: Filters) -> dict:
                   "stated": {"pl": "Deklarowana przez źródło, niezweryfikowana", "en": "Declared by the source, not verified"},
                   "unknown": {"pl": "Brak informacji", "en": "No information"}}
     opt = lambda k, n: {"value": k, "label": fixed_label(k), "count": n}
+    # B18: every selected value comes back with its label, even at count 0, so the frontend never invents a label.
+    tag_list = [{"value": t["value"], "label": loc(t["label_pl"], t["label_en"]), "count": t["count"]} for t in tags]
+    missing = [s for s in f.tag if s not in {t["value"] for t in tag_list}]
+    if missing:  # selected but outside the top 50, or with no match: count them directly, with the same filters
+        where, p = f.where(skip="tag")
+        counted = {r["slug"]: r["count"] for r in rows(f"""SELECT ct.tag_slug AS slug, count(DISTINCT c.id) AS count FROM cards c
+                    JOIN card_tags ct ON ct.card_id = c.id WHERE {where} AND ct.tag_slug = ANY(%(missing)s) GROUP BY 1""",
+                                                         {**p, "missing": missing})}
+        known = {r["slug"]: r for r in rows("SELECT slug, label_pl, label_en FROM tags WHERE slug = ANY(%s)", (missing,))}
+        tag_list += [{"value": s, "label": loc(known[s]["label_pl"], known[s]["label_en"]), "count": counted.get(s, 0)}
+                     for s in missing if s in known]
+    region_list = [{"value": r["value"], "label": region_label(r["value"]), "count": r["count"]} for r in regions]
+    if f.region and f.region in REGION_CODES and f.region not in {r["value"] for r in region_list}:
+        region_list.append({"value": f.region, "label": region_label(f.region), "count": 0})
     return {
         "area": [opt(k, area.get(k, 0)) for k in ("technological", "educational", "administrative")],
         "implementationLevel": [opt(k, level.get(k, 0)) for k in LEVELS],
-        "tag": [{"value": t["value"], "label": loc(t["label_pl"], t["label_en"]), "count": t["count"]} for t in tags],
-        "region": [{"value": r["value"], "label": region_label(r["value"]), "count": r["count"]} for r in regions],
+        "tag": tag_list,
+        "region": region_list,
         "polishIp": {"true": pip.get(True, 0), "false": pip.get(False, 0)},
         "polishIpStatus": [{"value": k, "label": ips_labels[k], "count": ips.get(k, 0)} for k in ("confirmed", "stated", "unknown")],
     }

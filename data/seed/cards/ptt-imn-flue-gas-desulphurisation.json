@@ -29,7 +29,7 @@
     "name": "Sieć Badawcza Łukasiewicz – Instytut Metali Nieżelaznych",
     "type": "research_institute",
     "url": "http://www.imn.gliwice.pl",
-    "region": null
+    "region": "SL"
   },
   "implementationLevel": {
     "value": "concept",
@@ -37,7 +37,7 @@
   },
   "trl": {
     "applicable": true,
-    "value": 2,
+    "value": 3,
     "basis": "estimate"
   },
   "scores": {
@@ -51,8 +51,8 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "Łukasiewicz – Instytut Metali Nieżelaznych oferuje do licencjonowania sposób odsiarczania spalin kotłowych z użyciem kamienia wapiennego jako sorbentu. Wpis podkreśla wysoką skuteczność przy ograniczonym nadmiarze sorbentu, ale nie podaje wyników badań ani numeru patentu. Streszczenie napisane przez model na podstawie wpisu.",
-    "en": "The Łukasiewicz Institute of Non-Ferrous Metals offers for licensing a method of desulphurising boiler flue gas using limestone as a sorbent. The listing stresses high efficiency with limited excess sorbent, but gives no test results and no patent number. Summary written by the model from the listing."
+    "pl": "Łukasiewicz – Instytut Metali Nieżelaznych oferuje do licencjonowania sposób odsiarczania spalin kotłowych z użyciem kamienia wapiennego jako sorbentu. Wpis podkreśla wysoką skuteczność przy ograniczonym nadmiarze sorbentu, ale nie podaje wyników badań ani numeru patentu. Według wpisu inne podmioty także mają prawa do tej technologii. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "The Łukasiewicz Institute of Non-Ferrous Metals offers for licensing a method of desulphurising boiler flue gas using limestone as a sorbent. The listing stresses high efficiency with limited excess sorbent, but gives no test results and no patent number. According to the listing, other parties also hold rights to the technology. Summary written by the model from the listing."
   },
   "implementationLevelDetail": {
     "basis": "estimate",
@@ -77,13 +77,13 @@
     "evidenceIds": [
       "3d2651dd-3708-4484-8f7c-9a5ddcb25da5"
     ],
-    "method": "No TRL in the listing. Only the method and its claimed advantages are described, which reads as a formulated concept (TRL 2). Reviewer to confirm.",
+    "method": "No TRL in the listing. It describes a granted invention with exact operating values (temperatures, flow speeds, 70% ash recirculation), which reads as an experimental proof of concept (TRL 3). Set by the reviewer.",
     "methodText": {
-      "pl": "We wpisie brak TRL. Opisano tylko metodę i jej deklarowane zalety, co odpowiada sformułowanej koncepcji (TRL 2). Do potwierdzenia przez recenzenta.",
-      "en": "No TRL in the listing. Only the method and its claimed advantages are described, which reads as a formulated concept (TRL 2). Reviewer to confirm."
+      "pl": "We wpisie brak TRL. Opisuje on udzielony wynalazek z dokładnymi parametrami pracy (temperatury, prędkości przepływu, 70% recyrkulacji popiołu), co odpowiada eksperymentalnemu potwierdzeniu koncepcji (TRL 3). Ustalone przez recenzentkę.",
+      "en": "No TRL in the listing. It describes a granted invention with exact operating values (temperatures, flow speeds, 70% ash recirculation), which reads as an experimental proof of concept (TRL 3). Set by the reviewer."
     },
     "applicable": true,
-    "value": 2
+    "value": 3
   },
   "assessment": {
     "innovativeness": {
@@ -181,6 +181,15 @@
     }
   ],
   "firstSeenAt": "2026-11-21T20:55:29Z",
-  "statusChangedAt": null,
-  "polishIpStatus": "stated"
+  "statusChangedAt": "2026-11-22T00:00:00Z",
+  "polishIpStatus": "stated",
+  "history": [
+    {
+      "at": "2026-11-22T00:00:00Z",
+      "field": "trl",
+      "from": "2",
+      "to": "3",
+      "sourceId": "d54555b1-eabf-4d6d-a632-dac60b392257"
+    }
+  ]
 }

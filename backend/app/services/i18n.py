@@ -2,6 +2,7 @@
 
 Source passages are the one exception. They are quotes, shown in the source's own language (passageLang).
 """
+import re
 
 REGIONS = {  # ISO 3166-2:PL
     "DS": ("Dolnośląskie", "Lower Silesian"), "KP": ("Kujawsko-pomorskie", "Kuyavian-Pomeranian"),
@@ -100,8 +101,8 @@ UNITS = {
     "ankiet": ("ankiet", "surveys"), "ankiety": ("ankiety", "surveys"), "osób": ("osób", "people"), "osoby": ("osoby", "people"),
     "szkół": ("szkół", "schools"), "szkoły": ("szkoły", "schools"), "szkoły podstawowe": ("szkoły podstawowe", "primary schools"),
     "uczniów": ("uczniów", "pupils"), "seniorów": ("seniorów", "seniors"), "warsztatów": ("warsztatów", "workshops"),
-    "dni": ("dni", "days"), "lat": ("lat", "years"), "godzin": ("godzin", "hours"), "tys.": ("tys.", "thousand"),
-    "mln zł": ("mln zł", "PLN million"), "zł": ("zł", "PLN"), "PLN": ("zł", "PLN"), "tys. zł": ("tys. zł", "PLN thousand"),
+    "rozmów": ("rozmów", "calls"), "dni": ("dni", "days"), "lat": ("lat", "years"), "godzin": ("godzin", "hours"), "tys.": ("tys.", "thousand"),
+    "mln": ("mln", "million"), "mln zł": ("mln zł", "PLN million"), "zł": ("zł", "PLN"), "PLN": ("zł", "PLN"), "tys. zł": ("tys. zł", "PLN thousand"),
     "works": ("prac", "works"), "count": ("szt.", "items"), "people": ("osób", "people"), "schools": ("szkół", "schools"),
     "pupils": ("uczniów", "pupils"), "TRL": ("TRL", "TRL"),
 }
@@ -118,6 +119,10 @@ def unit_label(unit: str | None) -> dict | None:
 SOURCE_PREFIXES = [
     ("Platforma Transferu Technologii (ARP): ", "Platforma Transferu Technologii (ARP): ", "Technology Transfer Platform (ARP): "),
     ("Dokument PDF: ", "Dokument PDF: ", "PDF document: "),
+    ("Urząd Patentowy RP, rejestr (sprawdzone ręcznie): ", "Urząd Patentowy RP, rejestr (sprawdzone ręcznie): ",
+     "Patent Office of Poland, register (checked by hand): "),
+    ("NASK PIB, aktualności: ", "NASK PIB, aktualności: ", "NASK PIB, news: "),
+    ("Google Patents (dane UPRP): ", "Google Patents (dane UPRP): ", "Google Patents (Polish Patent Office data): "),
     ("RAD-on (OPI PIB), projekt badawczy: ", "RAD-on (OPI PIB), projekt badawczy: ", "RAD-on (OPI PIB), research project: "),
     ("OpenAlex: wyszukiwanie podobnych prac / similar works search", "OpenAlex: wyszukiwanie podobnych prac", "OpenAlex: similar works search"),
 ]
@@ -133,6 +138,8 @@ def source_name_text(name: str) -> dict:
 
 LICENCES = {
     "CC0": ({"pl": "CC0 (domena publiczna)", "en": "CC0 (public domain)"}, "https://creativecommons.org/publicdomain/zero/1.0/"),
+    "CC BY-SA 4.0": ({"pl": "CC BY-SA 4.0 (uznanie autorstwa, na tych samych warunkach)", "en": "CC BY-SA 4.0 (attribution, share-alike)"},
+                     "https://creativecommons.org/licenses/by-sa/4.0/deed.pl"),
     "RAD-on open data (OPI PIB). Terms: radon.nauka.gov.pl": (
         {"pl": "Otwarte dane RAD-on (OPI PIB), warunki na stronie serwisu", "en": "RAD-on open data (OPI PIB), terms on the service's site"},
         "https://radon.nauka.gov.pl"),
@@ -150,3 +157,30 @@ def split_organisation(name: str) -> tuple[str, str | None]:
     """'Politechnika Koszalińska; Wydział Mechaniczny' -> ('Politechnika Koszalińska', 'Wydział Mechaniczny')."""
     head, _, rest = (name or "").partition(";")
     return head.strip(), (rest.strip() or None)
+
+
+# Evidence queries (issue #18). The stored `query` is a technical English line; people see `queryText` in their language.
+_QUERY_RULES = [
+    (re.compile(r"^Scoring engine (v[\d.]+): computed from this card's stored data on (\d{4}-\d{2}-\d{2})$"),
+     lambda m: ({"pl": f"Obliczone przez Pomysłownik (moduł oceny {m[1]}) z danych zapisanych na karcie, {m[2]}. To nie jest liczba ze źródła.",
+                 "en": f"Computed by Pomysłownik (scoring engine {m[1]}) from the card's stored data on {m[2]}. Not a number from the source."})),
+    (re.compile(r"^Read from (?:the page )?(\S+?)\.? Quoted text: (.+)$", re.DOTALL),
+     lambda m: ({"pl": f"Odczytane ze źródła {m[1]}. Cytat: {m[2]}", "en": f"Read from {m[1]}. Quoted text: {m[2]}"})),
+    (re.compile(r"^GET (\S+) \(meta\.count\)$"),
+     lambda m: ({"pl": f"Liczba wyników zapytania do OpenAlex: {m[1]}", "en": f"Result count of the OpenAlex query: {m[1]}"})),
+    (re.compile(r"^Read from the RAD-on record (\S+): field (\w+)$"),
+     lambda m: ({"pl": f"Odczytane z rekordu RAD-on {m[1]}, pole {m[2]}", "en": f"Read from the RAD-on record {m[1]}, field {m[2]}"})),
+]
+
+
+def evidence_origin(query: str) -> str:
+    return "computed" if query.startswith("Scoring engine") else "source"
+
+
+def query_text(query: str) -> dict:
+    """The evidence query in Polish and English. Unknown forms (hand-written seed notes) are shown as written."""
+    for rx, make in _QUERY_RULES:
+        m = rx.match(query or "")
+        if m:
+            return make(m)
+    return {"pl": query, "en": query}

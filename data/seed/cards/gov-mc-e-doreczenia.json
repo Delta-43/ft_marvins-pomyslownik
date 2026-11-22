@@ -1,0 +1,385 @@
+{
+  "id": "2ec3ee2b-3a9b-4f6e-bb79-39e3148784f4",
+  "title": {
+    "pl": "e-Doręczenia: elektroniczny list polecony za potwierdzeniem odbioru",
+    "en": "e-Doręczenia: the registered letter with proof of receipt, made electronic"
+  },
+  "summaryShort": {
+    "pl": "Krajowa usługa doręczeń elektronicznych o mocy prawnej listu poleconego; od 1 stycznia 2026 r. podstawowy kanał kontaktu administracji z obywatelami i firmami.",
+    "en": "The national electronic delivery service with the legal force of a registered letter; since 1 January 2026 the default channel between administration and citizens and firms."
+  },
+  "area": "administrative",
+  "tags": [
+    {
+      "slug": "e-government",
+      "label": {
+        "pl": "E-administracja",
+        "en": "E-government"
+      }
+    },
+    {
+      "slug": "electronic-delivery",
+      "label": {
+        "pl": "Doręczenia elektroniczne",
+        "en": "Electronic delivery"
+      }
+    },
+    {
+      "slug": "mobile-app",
+      "label": {
+        "pl": "Aplikacja mobilna",
+        "en": "Mobile app"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Ministerstwo Cyfryzacji",
+    "type": "public_institution",
+    "url": "https://www.gov.pl/web/cyfryzacja",
+    "region": null
+  },
+  "implementationLevel": {
+    "value": "in_practice",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": false,
+  "lastCheckedAt": "2026-11-22T12:00:00Z",
+  "stale": false,
+  "sourceCount": 7,
+  "relevance": null,
+  "summary": {
+    "pl": "e-Doręczenia to elektroniczny odpowiednik listu poleconego za potwierdzeniem odbioru, oparty na ustawie z 18 listopada 2020 r. o doręczeniach elektronicznych i rozporządzeniu eIDAS. Nadanie i odbiór potwierdza kwalifikowany elektroniczny znacznik czasu. Gdy adresat nie ma adresu do e-Doręczeń, publiczna usługa hybrydowa drukuje list i doręcza go na papierze, więc urzędy mogą przejść na cyfrę przed adresatami. Od 1 stycznia 2026 r. to podstawowy kanał komunikacji administracji z podmiotami prywatnymi, a od 1 lipca 2026 r. skrzynka jest też w aplikacji mObywatel. Do 5 sierpnia 2026 r. nadano ponad 100 mln przesyłek. W maju 2026 r. większość doręczeń (46 z 78 mln) była jeszcze hybrydowa. Sądy i prokuratura dołączą od 1 października 2029 r. Liczby pochodzą z komunikatów i danych ministerstwa. Streszczenie przygotowane na podstawie źródeł (zadanie R3).",
+    "en": "e-Doręczenia is the electronic equivalent of a registered letter with proof of receipt, based on the Act of 18 November 2020 on electronic delivery and the EU eIDAS regulation. Sending and receipt are confirmed with a qualified electronic time stamp. When the addressee has no electronic delivery address, the public hybrid service prints the letter and delivers it on paper, so offices can go digital before their addressees do. Since 1 January 2026 it is the default channel between public administration and private parties, and since 1 July 2026 the mailbox is also in the mObywatel app. Over 100 million deliveries had been sent by 5 August 2026. In May 2026 most deliveries (46 of 78 million) were still hybrid. Courts and prosecutors join from 1 October 2029. The numbers come from the ministry's releases and data. Summary prepared from the sources (task R3)."
+  },
+  "implementationLevelDetail": {
+    "value": "in_practice",
+    "basis": "confirmed",
+    "sourceIds": [
+      "21bd72ba-bafc-41c9-a982-4502b15d4879",
+      "9ef690e1-8eae-43da-9dec-2a2cefcf464e"
+    ],
+    "evidenceIds": [
+      "e3d03d19-12d6-4fb1-a7e5-9fce7eaff185"
+    ],
+    "method": null,
+    "methodText": null
+  },
+  "trlDetail": {
+    "applicable": false,
+    "value": null,
+    "basis": "estimate",
+    "sourceIds": [],
+    "evidenceIds": [],
+    "method": "Not applicable: TRL describes technologies. This is an educational or administrative solution.",
+    "methodText": {
+      "pl": "Nie dotyczy: TRL opisuje technologie, a to jest rozwiązanie edukacyjne lub administracyjne.",
+      "en": "Not applicable: TRL describes technologies. This is an educational or administrative solution."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": true,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": true,
+    "basis": "estimate",
+    "note": {
+      "pl": "Zastępuje papierowy list polecony elektronicznym o tej samej mocy prawnej, z kwalifikowanym znacznikiem czasu, i jest z mocy ustawy podstawowym kanałem. W użyciu: ponad 100 mln przesyłek (5.08.2026).",
+      "en": "It replaces the paper registered letter with an electronic one of equal legal force, with a qualified time stamp, and is the default channel by law. In use: over 100 million deliveries (5.08.2026)."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Adwokaci, radcowie prawni i notariusze w kontaktach z sądami i urzędami (wg ministerstwa)",
+      "en": "Advocates, legal advisers and notaries dealing with courts and offices (per the ministry)"
+    },
+    {
+      "pl": "Firmy wpisane do KRS i CEiDG, objęte obowiązkiem etapami (wg ministerstwa)",
+      "en": "Companies in the KRS and CEiDG registers, required to join in stages (per the ministry)"
+    },
+    {
+      "pl": "Sądy i prokuratura przed obowiązkowym terminem w 2029 r., w pilotażach (propozycja zespołu)",
+      "en": "Courts and prosecutors in pilots before the 2029 deadline (the team's proposal)"
+    }
+  ],
+  "owner": {
+    "name": "Ministerstwo Cyfryzacji",
+    "url": "https://www.gov.pl/web/e-doreczenia"
+  },
+  "sources": [
+    {
+      "id": "21bd72ba-bafc-41c9-a982-4502b15d4879",
+      "type": "crawl",
+      "name": "gov.pl, Ministerstwo Cyfryzacji: 100 mln przesyłek w e-Doręczeniach (05.08.2026)",
+      "url": "https://www.gov.pl/web/cyfryzacja/100-mln-przesylek-w-e-doreczeniach-cyfrowa-korespondencja-z-urzedami-stala-sie-standardem",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "e-Doręczenia to elektroniczny odpowiednik listu poleconego za potwierdzeniem odbioru. … Liczba przesyłek wysłanych przez e-Doręczenia przekroczyła już 100 mln. … Tylko od początku 2026 roku nadano ich ponad 50 mln. … W Bazie Adresów Elektronicznych jest już 4,6 mln adresów. … Od 1 lipca każdy użytkownik aplikacji mObywatel ma dostęp do swojej skrzynki e-Doręczeń bezpośrednio w telefonie.",
+      "passageLang": "pl",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "9ef690e1-8eae-43da-9dec-2a2cefcf464e",
+      "type": "crawl",
+      "name": "gov.pl, e-Doręczenia: Już ponad 4 miliony skrzynek e-Doręczeń (12.05.2026)",
+      "url": "https://www.gov.pl/web/e-doreczenia/juz-ponad-4-miliony-skrzynek-e-doreczen--dolacz-do-cyfrowej-komunikacji",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Od 1 stycznia 2026 roku e-Doręczenia są podstawowym kanałem komunikacji między administracją publiczną a podmiotami prywatnymi. … Od momentu uruchomienia systemu zrealizowano już ponad 78 milionów doręczeń … Ponad 46 milionów stanowi publiczna usługa hybrydowa (PUH), a ponad 32 milionów to przesyłki w ramach PURDE. … adwokaci, radcowie prawni i notariusze, którzy założyli już ponad 64,5 tysiąca skrzynek",
+      "passageLang": "pl",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "071b56ce-b95a-4c23-8bc8-deb7c1781257",
+      "type": "crawl",
+      "name": "gov.pl, e-Doręczenia: Czym są e-Doręczenia",
+      "url": "https://www.gov.pl/web/e-doreczenia/czym-sa-e-doreczenia",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Są one równoważne prawnie tradycyjnej przesyłce poleconej za potwierdzeniem odbioru. … Urząd wysyła dokument elektroniczny, który trafia na pocztę. Tam jest automatycznie drukowany i wysyłany do adresata. … Obowiązek korzystania z e-Doręczeń będzie dotyczył wszystkich podmiotów publicznych oraz firm rejestrowanych w KRS i CEiDG.",
+      "passageLang": "pl",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "a60f08aa-6555-4c47-9429-31271b253378",
+      "type": "crawl",
+      "name": "gov.pl, e-Doręczenia: Harmonogram",
+      "url": "https://www.gov.pl/web/e-doreczenia/harmonogram",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Obowiązek taki wprowadza ustawa z dnia 18 listopada 2020 r. o doręczeniach elektronicznych. … Sądy, trybunały, komornicy, prokuratura, organy ścigania i Służba Więzienna",
+      "passageLang": "pl",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "f6e490ff-9e58-4e50-93a1-5deb005c23ea",
+      "type": "crawl",
+      "name": "gov.pl, e-Doręczenia: Operator wyznaczony",
+      "url": "https://www.gov.pl/web/e-doreczenia/operator-wyznaczony",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "potwierdzone za pomocą kwalifikowanego elektronicznego znacznika czasu … Do końca 2035 r. rolę operatora wyznaczonego w Polsce pełni Poczta Polska S.A.",
+      "passageLang": "pl",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "dc8721cd-d7c4-4b01-9f30-94f640c08a53",
+      "type": "crawl",
+      "name": "gov.pl, e-Doręczenia: Opłaty w e-Doręczeniach",
+      "url": "https://www.gov.pl/web/e-doreczenia/oplaty",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Korespondencja wysyłana do podmiotu publicznego za pomocą publicznej usługi rejestrowanego doręczenia elektronicznego (PURDE) jest darmowa dla wszystkich … Podmiot publiczny Obywatel, firma lub ZZP PURDE 5,30 zł",
+      "passageLang": "pl",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "91a639d2-3e1a-4707-b70a-9e3bca4320a8",
+      "type": "document",
+      "name": "gov.pl, e-Doręczenia: Statystyki adresów do e-Doręczeń, dane w podziale na województwa (ADE_w_podziale_na_woj_10.26.csv)",
+      "url": "https://www.gov.pl/web/e-doreczenia/statystyki-adresow-do-e-doreczen",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Stan na dzień 01.11.2026r.",
+      "passageLang": "pl",
+      "license": "CC BY-SA 4.0"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e3d03d19-12d6-4fb1-a7e5-9fce7eaff185",
+      "metric": "deliveries_total",
+      "label": {
+        "pl": "Przesyłki nadane łącznie (stan na 5.08.2026)",
+        "en": "Deliveries sent in total (as of 5.08.2026)"
+      },
+      "value": 100,
+      "unit": "mln",
+      "sourceId": "21bd72ba-bafc-41c9-a982-4502b15d4879",
+      "query": "Read from https://www.gov.pl/web/cyfryzacja/100-mln-przesylek-w-e-doreczeniach-cyfrowa-korespondencja-z-urzedami-stala-sie-standardem. Quoted text: \"Liczba przesyłek wysłanych przez e-Doręczenia przekroczyła już 100 mln.\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "42193926-9a36-4eee-bc09-1c8a61a77f9d",
+      "metric": "deliveries_since_2026",
+      "label": {
+        "pl": "Przesyłki nadane od 1.01.2026 (stan na 5.08.2026)",
+        "en": "Deliveries sent since 1.01.2026 (as of 5.08.2026)"
+      },
+      "value": 50,
+      "unit": "mln",
+      "sourceId": "21bd72ba-bafc-41c9-a982-4502b15d4879",
+      "query": "Read from https://www.gov.pl/web/cyfryzacja/100-mln-przesylek-w-e-doreczeniach-cyfrowa-korespondencja-z-urzedami-stala-sie-standardem. Quoted text: \"Tylko od początku 2026 roku nadano ich ponad 50 mln.\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "40aee8ec-d1b5-46ab-863b-e41d99530f74",
+      "metric": "deliveries_total_2026_05",
+      "label": {
+        "pl": "Doręczenia łącznie (stan na 12.05.2026)",
+        "en": "Deliveries in total (as of 12.05.2026)"
+      },
+      "value": 78,
+      "unit": "mln",
+      "sourceId": "9ef690e1-8eae-43da-9dec-2a2cefcf464e",
+      "query": "Read from https://www.gov.pl/web/e-doreczenia/juz-ponad-4-miliony-skrzynek-e-doreczen--dolacz-do-cyfrowej-komunikacji. Quoted text: \"Od momentu uruchomienia systemu zrealizowano już ponad 78 milionów doręczeń\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "72b08dea-cd0d-430c-b53c-3a39116f5f4e",
+      "metric": "deliveries_hybrid_2026_05",
+      "label": {
+        "pl": "W tym usługa hybrydowa PUH, drukowane i doręczane na papierze (stan na 12.05.2026)",
+        "en": "Of which hybrid service PUH, printed and delivered on paper (as of 12.05.2026)"
+      },
+      "value": 46,
+      "unit": "mln",
+      "sourceId": "9ef690e1-8eae-43da-9dec-2a2cefcf464e",
+      "query": "Read from https://www.gov.pl/web/e-doreczenia/juz-ponad-4-miliony-skrzynek-e-doreczen--dolacz-do-cyfrowej-komunikacji. Quoted text: \"Ponad 46 milionów stanowi publiczna usługa hybrydowa (PUH)\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "9faf8860-c60a-44c9-902b-be63c738bed4",
+      "metric": "deliveries_electronic_2026_05",
+      "label": {
+        "pl": "W tym w pełni elektroniczne PURDE (stan na 12.05.2026)",
+        "en": "Of which fully electronic PURDE (as of 12.05.2026)"
+      },
+      "value": 32,
+      "unit": "mln",
+      "sourceId": "9ef690e1-8eae-43da-9dec-2a2cefcf464e",
+      "query": "Read from https://www.gov.pl/web/e-doreczenia/juz-ponad-4-miliony-skrzynek-e-doreczen--dolacz-do-cyfrowej-komunikacji. Quoted text: \"a ponad 32 milionów to przesyłki w ramach PURDE\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "dbb25cc3-828b-46b8-b0b7-f5432868fadb",
+      "metric": "electronic_addresses_2026_08",
+      "label": {
+        "pl": "Adresy w Bazie Adresów Elektronicznych (stan na 5.08.2026)",
+        "en": "Addresses in the Electronic Address Database (as of 5.08.2026)"
+      },
+      "value": 4.6,
+      "unit": "mln",
+      "sourceId": "21bd72ba-bafc-41c9-a982-4502b15d4879",
+      "query": "Read from https://www.gov.pl/web/cyfryzacja/100-mln-przesylek-w-e-doreczeniach-cyfrowa-korespondencja-z-urzedami-stala-sie-standardem. Quoted text: \"W Bazie Adresów Elektronicznych jest już 4,6 mln adresów.\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "507f2bf7-6261-4097-8582-6c50a9a3258b",
+      "metric": "electronic_addresses_2026_11",
+      "label": {
+        "pl": "Adresy do e-Doręczeń, suma województw (stan na 1.11.2026, obliczone przez zespół)",
+        "en": "Addresses for e-Doręczenia, sum over voivodeships (as of 1.11.2026, computed by the team)"
+      },
+      "value": 5769965,
+      "unit": null,
+      "sourceId": "91a639d2-3e1a-4707-b70a-9e3bca4320a8",
+      "query": "Sum of the per-voivodeship address counts in the ministry's file ADE_w_podziale_na_woj_10.26.csv (\"Stan na dzień 01.11.2026r.\"), computed by the team: 3,096,699 personal and 2,107,543 business addresses among them; Mazowieckie leads with 1,196,261.",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "b4acd584-77e0-4a7c-b8fd-b801590d583e",
+      "metric": "price_to_public_body",
+      "label": {
+        "pl": "Opłata za przesyłkę PURDE do podmiotu publicznego",
+        "en": "Fee for a PURDE delivery to a public body"
+      },
+      "value": 0,
+      "unit": "zł",
+      "sourceId": "dc8721cd-d7c4-4b01-9f30-94f640c08a53",
+      "query": "Read from https://www.gov.pl/web/e-doreczenia/oplaty. Quoted text: \"Korespondencja wysyłana do podmiotu publicznego za pomocą publicznej usługi rejestrowanego doręczenia elektronicznego (PURDE) jest darmowa dla wszystkich\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "21c1deb1-d305-4c21-8e43-1e24a750c9ea",
+      "metric": "price_purde_from_public_body",
+      "label": {
+        "pl": "Opłata urzędu za przesyłkę elektroniczną PURDE (cennik operatora)",
+        "en": "Fee an office pays for an electronic PURDE delivery (operator's price list)"
+      },
+      "value": 5.3,
+      "unit": "zł",
+      "sourceId": "dc8721cd-d7c4-4b01-9f30-94f640c08a53",
+      "query": "Read from https://www.gov.pl/web/e-doreczenia/oplaty. Quoted text: \"Podmiot publiczny Obywatel, firma lub ZZP PURDE 5,30 zł\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "1e0bcabc-6878-4d8f-b766-969feb09fc4a",
+      "metric": "price_puh_from_public_body",
+      "label": {
+        "pl": "Opłata urzędu za przesyłkę hybrydową PUH (cennik operatora)",
+        "en": "Fee an office pays for a hybrid PUH delivery (operator's price list)"
+      },
+      "value": 8.35,
+      "unit": "zł",
+      "sourceId": "dc8721cd-d7c4-4b01-9f30-94f640c08a53",
+      "query": "Read from https://www.gov.pl/web/e-doreczenia/oplaty. Price list row for a hybrid (PUH) letter sent by a public body: 8,35 zł.",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "7a7a89ab-4987-4571-9971-163693a94701",
+      "metric": "courts_join_date",
+      "label": {
+        "pl": "Sądy, prokuratura i Służba Więzienna dołączają od",
+        "en": "Courts, prosecutors and the prison service join from"
+      },
+      "value": "2029-10-01",
+      "unit": null,
+      "sourceId": "a60f08aa-6555-4c47-9429-31271b253378",
+      "query": "Read from https://www.gov.pl/web/e-doreczenia/harmonogram. Quoted text: \"Sądy, trybunały, komornicy, prokuratura, organy ścigania i Służba Więzienna\" (date in the schedule: 01.10.2029)",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-22T12:00:00Z",
+  "statusChangedAt": null,
+  "polishIpStatus": "unknown"
+}

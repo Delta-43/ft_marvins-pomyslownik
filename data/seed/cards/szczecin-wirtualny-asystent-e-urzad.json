@@ -51,8 +51,8 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "Wirtualny Asystent w serwisie e-Urząd pomaga znaleźć informacje o sprawach załatwianych w magistracie, ale nie przyjmuje wniosków i nie sprawdza statusu spraw. Działa w ramach pilotażu; wdrożenie kosztowało niespełna 100 tys. zł. Strona nie podaje daty publikacji. Streszczenie napisane przez model na podstawie strony.",
-    "en": "The Virtual Assistant in the e-Urząd service helps find information on matters handled at the city office, but does not accept applications or check case status. It runs as a pilot; the rollout cost just under PLN 100,000. The page gives no publication date. Summary written by the model from the page."
+    "pl": "Wirtualny Asystent w serwisie e-Urząd pomaga znaleźć informacje o sprawach załatwianych w magistracie, ale nie przyjmuje wniosków i nie sprawdza statusu spraw. Działa w ramach pilotażu; wdrożenie kosztowało niespełna 100 tys. zł. Artykuł opublikowano 15.09.2026 r.; rozwiązanie opracowała i utrzymuje szczecińska firma inProjects. Streszczenie napisane przez model na podstawie strony.",
+    "en": "The Virtual Assistant in the e-Urząd service helps find information on matters handled at the city office, but does not accept applications or check case status. It runs as a pilot; the rollout cost just under PLN 100,000. The article was published on 15.09.2026; the solution was built and is maintained by inProjects, a Szczecin company. Summary written by the model from the page."
   },
   "implementationLevelDetail": {
     "basis": "confirmed",
