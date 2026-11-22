@@ -1191,7 +1191,7 @@ components:
       name: lang
       in: query
       required: false
-      description: Response language. Wins over `Accept-Language`. Send it or the header on every call.
+      description: Response language. Wins over `Accept-Language`. Send it or the header on every call. Any other value (also `UK`) returns `422 validation_failed`.
       schema: { $ref: '#/components/schemas/LanguageCode' }
     AcceptLanguage:
       name: Accept-Language
@@ -1223,8 +1223,8 @@ components:
 
   headers:
     ContentLanguage:
-      description: The language of the strings and error messages in this response.
-      schema: { $ref: '#/components/schemas/LanguageCode' }
+      description: 'The languages actually served in this response, the requested one first. `uk, en` means some texts have no Ukrainian translation yet and are shown in English, so the UI can say so. An error message that is not translated yet is served in English with `Content-Language: en`.'
+      schema: { type: string, examples: ['uk', 'uk, en', 'pl'] }
     Vary:
       description: Includes `Accept-Language`, so a cache never serves one language to a request for another.
       schema: { type: string, examples: ['Accept-Language'] }

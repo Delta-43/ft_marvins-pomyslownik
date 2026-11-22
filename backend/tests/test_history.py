@@ -81,6 +81,7 @@ def test_facets_return_selected_values_with_labels_at_zero():
         d = c.get(f"/api/v1/facets?q=zzzz-no-match-zzzz&tag={tag}&region=OP", headers=h).json()["data"]
         t = next(x for x in d["tag"] if x["value"] == tag)
         assert t["count"] == 0 and t["label"]["pl"] and t["label"]["en"]
-        assert {"value": "OP", "label": {"pl": "Opolskie", "en": "Opole"}, "count": 0} in d["region"]
+        op = next(x for x in d["region"] if x["value"] == "OP")
+        assert op["count"] == 0 and op["label"]["pl"] == "Opolskie" and op["label"]["en"] == "Opole"
     finally:
         c.delete("/api/v1/me", headers=h)

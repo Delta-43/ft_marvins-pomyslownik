@@ -26,22 +26,34 @@ def supported() -> list[str]:
     return [x for x in (s.strip() for s in settings.supported_languages.split(",")) if x in LANGS] or ["pl"]
 
 
+def _q(params: str) -> float | None:
+    """The q value of one Accept-Language entry: 1.0 when absent, None when malformed (the entry is then ignored)."""
+    m = re.search(r"(?:^|;)\s*q\s*=\s*([^;\s]*)", params)
+    if not m:
+        return 1.0
+    if not re.fullmatch(r"(?:0(?:\.\d{0,3})?|1(?:\.0{0,3})?)", m.group(1)):
+        return None
+    return float(m.group(1))
+
+
 def from_accept_language(header: str | None) -> str | None:
-    """Best supported language in an Accept-Language header, honouring q values. None when nothing matches."""
+    """Best supported language in an Accept-Language header (RFC 9110). Entries with q=0 or a malformed q are ignored;
+    "*" stands for the default language; on equal q the earlier entry wins. None when nothing matches."""
     best, best_q = None, 0.0
-    for i, part in enumerate((header or "").split(",")):
+    for part in (header or "").split(","):
         tag, _, params = part.strip().partition(";")
-        q = 1.0
-        m = re.search(r"q=([0-9.]+)", params)
-        if m:
-            try:
-                q = float(m.group(1))
-            except ValueError:
-                q = 0.0
+        q = _q(params)
         code = tag.strip().lower().split("-")[0]
-        if code in supported() and q > best_q:
+        if code == "*":
+            code = supported()[0]
+        if q and code in supported() and q > best_q:
             best, best_q = code, q
     return best
+
+
+def bad_lang(query_lang: str | None) -> bool:
+    """`?lang=` must be one of the LanguageCode values, exactly (the router answers 422 otherwise)."""
+    return query_lang is not None and query_lang not in supported()
 
 
 def negotiate(query_lang: str | None, accept_language: str | None, preferred: str | None) -> tuple[str, bool]:
@@ -97,8 +109,9 @@ def lookup(wanted: dict[str, tuple[str, str]], target: str) -> dict[str, str]:
     return {k: v for k, v in have.items() if v}
 
 
-def localize(body, lang: str, named: bool):
-    """Resolve every LocalizedText in a JSON body (see the module docstring)."""
+def localize(body, lang: str, named: bool, served: set | None = None):
+    """Resolve every LocalizedText in a JSON body (see the module docstring). `served` collects the languages used."""
+    served = served if served is not None else set()
     texts: list[dict] = []
     _walk(body, texts)
     uk: dict[str, str] = {}
@@ -116,8 +129,12 @@ def localize(body, lang: str, named: bool):
             if src and (tr := uk.get(key_for(*src))):
                 full["uk"] = tr
             if not named:
+                served.update(k for k in full if full[k])
                 return full
-            return next((full[x] for x in FALLBACK[lang] if (full.get(x) or "").strip()), "")
+            used = next((x for x in FALLBACK[lang] if (full.get(x) or "").strip()), None)
+            if used:
+                served.add(used)
+            return full[used] if used else ""
         if isinstance(obj, dict):
             out = {k: resolve(v) for k, v in obj.items()}
             if "assessment" in out and "oslo" in out and "evidence" in out and uk:  # a full card
@@ -130,18 +147,34 @@ def localize(body, lang: str, named: bool):
     return resolve(body)
 
 
-def translate_message(message: str, lang: str) -> str:
-    """Error messages are written in English; other languages come from the translation table."""
+def translate_message(message: str, lang: str) -> tuple[str, str]:
+    """(message, language served). Error messages are written in English; other languages come from the
+    translation table. Until a translation exists the English message is served, and said to be English."""
     if lang == "en" or not message:
-        return message
+        return message, "en"
     k = key_for("en", message)
-    return lookup({k: ("en", message)}, lang).get(k, message)
+    tr = lookup({k: ("en", message)}, lang).get(k)
+    return (tr, lang) if tr else (message, "en")
 
 
-def rewrite(raw: bytes, lang: str, named: bool) -> bytes:
+def content_language(served: set, lang: str) -> str:
+    """The Content-Language value: the languages actually served, the requested one first (RFC 9110 allows a list).
+    "uk, en" tells the UI that some texts are not translated yet and are shown in English."""
+    if not served:
+        return lang
+    return ", ".join(sorted(served, key=lambda x: (x != lang, LANGS.index(x))))
+
+
+def rewrite(raw: bytes, lang: str, named: bool) -> tuple[bytes, str]:
+    """(new body, Content-Language)."""
     body = json.loads(raw)
+    served: set = set()
     if isinstance(body, dict) and isinstance(body.get("error"), dict):
-        body["error"]["message"] = translate_message(body["error"].get("message", ""), lang)
+        body["error"]["message"], used = translate_message(body["error"].get("message", ""), lang)
+        served.add(used)
+    elif named:
+        body = localize(body, lang, named, served)
     else:
-        body = localize(body, lang, named)
-    return json.dumps(body, ensure_ascii=False, separators=(",", ":")).encode()
+        body = localize(body, lang, named, served)
+        served = {lang}  # object form: every language is present, the UI picks
+    return json.dumps(body, ensure_ascii=False, separators=(",", ":")).encode(), content_language(served, lang)

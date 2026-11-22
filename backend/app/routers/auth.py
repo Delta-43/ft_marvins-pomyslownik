@@ -155,7 +155,7 @@ def update_me(body: UpdateMeRequest, user: dict = session):
         sets.append("interests = %(i)s"); p["i"] = body.interests
     if "consentToContact" in changes and body.consentToContact is not None:
         sets.append("consent_to_contact = %(c)s"); p["c"] = body.consentToContact
-    if "preferredLanguage" in changes and body.preferredLanguage is not None:
+    if "preferredLanguage" in changes:  # null clears the preference
         sets.append("preferred_language = %(pl)s"); p["pl"] = body.preferredLanguage
     updated = one(f"UPDATE users SET {', '.join(sets)} WHERE id = %(id)s RETURNING *", p) if sets else user
     return {"data": user_json(updated)}

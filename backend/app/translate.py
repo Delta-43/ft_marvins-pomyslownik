@@ -57,19 +57,23 @@ def translate_batch(target: str, texts: list[str]) -> list[str]:
     return [got[i] for i in range(len(texts))]
 
 
-def translate_pending(limit: int | None = None) -> int:
-    """Translate up to `limit` queued rows (default: one batch per target language). Returns how many were stored."""
+def translate_pending(limit: int | None = None, only: list[str] | None = None) -> int:
+    """Translate up to `limit` queued rows (default: one batch per target language). Returns how many were stored.
+    `only` limits the work to these source hashes (tests use it, so they never touch the real queue)."""
     if not settings.anthropic_api_key:
         return 0
     done = 0
     with connection() as conn:
         targets = [r["target_lang"] for r in conn.execute(
-            "SELECT DISTINCT target_lang FROM translations WHERE text IS NULL AND attempts < 3").fetchall()]
+            """SELECT DISTINCT target_lang FROM translations WHERE text IS NULL AND attempts < 3
+               AND (%(only)s::text[] IS NULL OR source_hash = ANY(%(only)s))""", {"only": only}).fetchall()]
     for target in targets:
         with connection() as conn:
             rows = conn.execute("""SELECT source_hash, source_text FROM translations
-                                   WHERE target_lang = %s AND text IS NULL AND attempts < 3 ORDER BY created_at LIMIT %s""",
-                                (target, limit or settings.translate_batch)).fetchall()
+                                   WHERE target_lang = %(t)s AND text IS NULL AND attempts < 3
+                                     AND (%(only)s::text[] IS NULL OR source_hash = ANY(%(only)s))
+                                   ORDER BY created_at LIMIT %(n)s""",
+                                {"t": target, "n": limit or settings.translate_batch, "only": only}).fetchall()
         if not rows:
             continue
         try:

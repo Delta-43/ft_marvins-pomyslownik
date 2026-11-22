@@ -232,9 +232,14 @@ def facets(f: Filters) -> dict:
     # B18: every selected value comes back with its label, even at count 0, so the frontend never invents a label.
     tag_list = [{"value": t["value"], "label": loc(t["label_pl"], t["label_en"]), "count": t["count"]} for t in tags]
     missing = [s for s in f.tag if s not in {t["value"] for t in tag_list}]
-    if missing:
+    if missing:  # selected but outside the top 50, or with no match: count them directly, with the same filters
+        where, p = f.where(skip="tag")
+        counted = {r["slug"]: r["count"] for r in rows(f"""SELECT ct.tag_slug AS slug, count(DISTINCT c.id) AS count FROM cards c
+                    JOIN card_tags ct ON ct.card_id = c.id WHERE {where} AND ct.tag_slug = ANY(%(missing)s) GROUP BY 1""",
+                                                         {**p, "missing": missing})}
         known = {r["slug"]: r for r in rows("SELECT slug, label_pl, label_en FROM tags WHERE slug = ANY(%s)", (missing,))}
-        tag_list += [{"value": s, "label": loc(known[s]["label_pl"], known[s]["label_en"]), "count": 0} for s in missing if s in known]
+        tag_list += [{"value": s, "label": loc(known[s]["label_pl"], known[s]["label_en"]), "count": counted.get(s, 0)}
+                     for s in missing if s in known]
     region_list = [{"value": r["value"], "label": region_label(r["value"]), "count": r["count"]} for r in regions]
     if f.region and f.region in REGION_CODES and f.region not in {r["value"] for r in region_list}:
         region_list.append({"value": f.region, "label": region_label(f.region), "count": 0})

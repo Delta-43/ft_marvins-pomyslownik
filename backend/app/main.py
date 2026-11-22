@@ -6,6 +6,7 @@ import psycopg
 from fastapi import FastAPI, Request, Response
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from . import errors
 from .config import settings
@@ -40,24 +41,36 @@ async def request_id(request: Request, call_next):
 @app.middleware("http")
 async def language(request: Request, call_next):
     """B15: resolve every LocalizedText to the requested language, translate error messages, set the headers."""
-    response = await call_next(request)
     if not request.url.path.startswith("/api/v1"):
-        return response
+        return await call_next(request)
+    query_lang = request.query_params.get("lang")
+    if lang_service.bad_lang(query_lang):
+        request.state.request_id = request.headers.get("X-Request-Id") or str(uuid.uuid4())
+        body = errors.error_body(request, "validation_failed", "One or more fields are invalid.",
+                                 [{"field": "lang", "issue": f"must be one of {', '.join(lang_service.supported())}"}])
+        response = JSONResponse(body, status_code=422, headers={"X-Request-Id": request.state.request_id})
+    else:
+        response = await call_next(request)
     preferred = None
     auth_header = request.headers.get("authorization", "")
-    if auth_header.lower().startswith("bearer ") and not request.query_params.get("lang") and not request.headers.get("accept-language"):
-        preferred = preferred_language(auth_header[7:].strip())
-    lang, named = lang_service.negotiate(request.query_params.get("lang"), request.headers.get("accept-language"), preferred)
+    if auth_header.lower().startswith("bearer ") and not query_lang and not request.headers.get("accept-language"):
+        preferred = await run_in_threadpool(preferred_language, auth_header[7:].strip())  # never block the event loop
+    lang, named = lang_service.negotiate(None if lang_service.bad_lang(query_lang) else query_lang,
+                                         request.headers.get("accept-language"), preferred)
     headers = dict(response.headers)
+    served = lang
     if response.headers.get("content-type", "").startswith("application/json"):
-        raw = b"".join([chunk async for chunk in response.body_iterator])
+        if hasattr(response, "body_iterator"):  # a streamed response from the router
+            raw = b"".join([chunk async for chunk in response.body_iterator])
+        else:  # a response built here (the 422 for a bad ?lang)
+            raw = bytes(response.body)
         try:
-            raw = await run_in_threadpool(lang_service.rewrite, raw, lang, named)
+            raw, served = await run_in_threadpool(lang_service.rewrite, raw, lang, named)
         except (ValueError, psycopg.Error):
             pass  # a body we cannot parse, or the database is down: send it unchanged
         headers.pop("content-length", None)
         response = Response(raw, status_code=response.status_code, headers=headers, media_type="application/json")
-    response.headers["Content-Language"] = lang
+    response.headers["Content-Language"] = served
     response.headers["Vary"] = ", ".join(filter(None, [response.headers.get("vary"), "Accept-Language"]))
     if auth_header:  # G2: personal and IP-protected data must not sit in a shared cache
         response.headers["Cache-Control"] = "private, no-store"
