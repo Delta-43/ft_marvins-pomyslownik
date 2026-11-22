@@ -16,8 +16,10 @@
   --color-tak: #1F7A45;       /* statuses: always icon + word */
   --color-nie: #B42318;
 
-  --font-display: "Lato", "Segoe UI", Arial, sans-serif;
-  --font-body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --font-display: "Lato", "Roboto", "Segoe UI", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", "Roboto", system-ui, sans-serif;
+  /* Roboto: Cyrillic fallback in the stacks above (future Cyrillic languages); also usable directly as font-roboto. */
+  --font-roboto: "Roboto", system-ui, sans-serif;
   /* Technical values (scores, counts, TRL, dates, sources, code): Roboto Serif, always upright, never italic.
      font-mono and font-serif point here too, so every "technical" text uses one face. */
   --font-tech: "Roboto Serif", Georgia, serif;

@@ -9,9 +9,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // Fonts: Lato (display), Atkinson Hyperlegible Next (body), Roboto Serif (technical values: scores, counts, TRL, dates, code),
-// Atkinson Hyperlegible Mono (landing page labels, as in the brand design). All SIL OFL, EUPL-compatible.
+// Atkinson Hyperlegible Mono (landing page labels, as in the brand design), Roboto (Cyrillic fallback: Lato and Atkinson have
+// no Cyrillic, so Cyrillic letters fall back to Roboto; Google Fonts only downloads the Cyrillic file when such text appears).
+// All SIL OFL (Roboto: OFL since 2023), EUPL-compatible.
 const FONTS =
-  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Roboto+Serif:opsz,wght@8..144,300..600&family=Lato:wght@400;700&display=swap";
+  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Roboto+Serif:opsz,wght@8..144,300..600&family=Lato:wght@400;700&family=Roboto:wght@400;500;700&display=swap";
 
 // Root layout: shared by every route. The page chrome lives in the route groups:
 // (app)/layout.tsx for the app, and the landing page brings its own header and footer.
