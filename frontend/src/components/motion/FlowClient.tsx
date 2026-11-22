@@ -23,12 +23,17 @@ export function FlowClient({ busyLabel }: { busyLabel?: string }) {
       const form = e.target as HTMLFormElement;
       if (form.matches(".search-form")) {
         e.preventDefault();
-        const q = (new FormData(form).get("q") as string | null)?.trim() ?? "";
+        const fd = new FormData(form);
+        const q = (fd.get("q") as string | null)?.trim() ?? "";
+        // The first search after registration also carries the role as the audience (SearchForm, TASKS.md A10).
+        const u = new URLSearchParams();
+        if (q) u.set("q", q);
+        for (const name of ["audience", "pierwsze"]) { const v = fd.get(name); if (typeof v === "string" && v) u.set(name, v); }
         // Start from the top ourselves; the router's own scroll would push the nav card off screen.
         window.scrollTo({ top: 0, behavior: "instant" });
         form.setAttribute("aria-busy", "true");
         document.querySelector(".results-area")?.setAttribute("data-busy", "");
-        router.push(q ? `/wyniki?q=${encodeURIComponent(q)}` : "/wyniki", { scroll: false, transitionTypes: path === "/szukaj" ? [T.search] : undefined });
+        router.push(u.size ? `/wyniki?${u}` : "/wyniki", { scroll: false, transitionTypes: path === "/szukaj" ? [T.search] : undefined });
         return;
       }
       if (!form.matches("[data-signin]")) return;
@@ -48,7 +53,8 @@ export function FlowClient({ busyLabel }: { busyLabel?: string }) {
       const restore = () => { submitter?.removeAttribute("aria-busy"); buttons.forEach((b) => b.removeAttribute("aria-disabled")); if (submitter) { submitter.innerHTML = html; submitter.style.minWidth = ""; } if (live) live.textContent = ""; delete form.dataset.busy; };
       const fail = (code: string) => {
         restore();
-        const url = `/?blad=${encodeURIComponent(code)}&id=${encodeURIComponent((data.get("providerSubject") as string | null) ?? "")}`;
+        // The typed identifier comes back from the draft cookie the action set, never through the URL.
+        const url = `/?blad=${encodeURIComponent(code)}`;
         // The same failure twice gives the same address; a plain assign would then not reload the page.
         if (location.pathname + location.search === url) location.reload(); else location.assign(`${url}#logowanie`);
       };

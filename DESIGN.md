@@ -62,14 +62,15 @@ The token names are kept from v2.0 so the code did not need renaming; the values
 
 ## 2. Typography
 
-Three families, all SIL OFL, EUPL-compatible, loaded from Google Fonts with `display=swap`.
+Three families plus two Cyrillic companions, all EUPL-compatible (SIL OFL; Roboto Mono Apache 2.0), loaded from Google Fonts with `display=swap`.
 
 | Role | Family | Weights | Fallback stack | Use |
 |---|---|---|---|---|
 | Display | **Lato** | 700 | `"Lato", "Roboto", "Segoe UI", Arial, sans-serif` | Headings, the wordmark, display numbers. Never weight 300 |
 | Body | **Atkinson Hyperlegible Next** | 400, 500, 700 | `"Atkinson Hyperlegible Next", "Roboto", system-ui, sans-serif` | Everything else. Designed for low-vision readers |
-| Technical | **Atkinson Hyperlegible Mono** | 400, 500 | `"Atkinson Hyperlegible Mono", ui-monospace, monospace` | Scores, counts, TRL, dates, ids, source lines, evidence queries. Always upright, tabular numbers. As in the flow prototype (decision D12, 2026-11-22) |
+| Technical | **Atkinson Hyperlegible Mono** | 400, 500 | `"Atkinson Hyperlegible Mono", "Roboto Mono", ui-monospace, monospace` | Scores, counts, TRL, dates, ids, source lines, evidence queries. Always upright, tabular numbers. As in the flow prototype (decision D12, 2026-11-22) |
 | Cyrillic | **Roboto** | 400, 700 | — | Loaded with the Cyrillic subset so Ukrainian text never falls back to a system font |
+| Cyrillic technical | **Roboto Mono** | 400, 500 | — | Second in `--font-tech`: Atkinson Hyperlegible Mono has no Cyrillic, so Ukrainian dates and source lines take their Cyrillic glyphs from one mono face instead of a system font. The browser fetches it only for those glyphs |
 
 ### Type scale
 
@@ -313,7 +314,7 @@ Reduced motion: no sweep, drift, flight, rise or slide. Cross-fades of 120 to 16
   --color-laboratoria: #A0D1F8; --color-uczelnie: #C3E8AF; --color-patenty: #A1E7E1;
   --font-display: "Lato", "Roboto", "Segoe UI", Arial, sans-serif;
   --font-body: "Atkinson Hyperlegible Next", "Roboto", system-ui, sans-serif;
-  --font-tech: "Atkinson Hyperlegible Mono", ui-monospace, "Roboto", monospace;
+  --font-tech: "Atkinson Hyperlegible Mono", "Roboto Mono", ui-monospace, monospace;
   --radius-pill: 999px; --radius-input: 0.75rem; --radius-message: 1rem; --radius-card: 1.25rem; --radius-panel: 1.5rem;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }

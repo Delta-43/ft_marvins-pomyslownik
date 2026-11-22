@@ -32,7 +32,7 @@
 
   --font-display: "Lato", "Roboto", "Segoe UI", Arial, sans-serif;
   --font-body: "Atkinson Hyperlegible Next", "Roboto", system-ui, sans-serif;
-  --font-tech: "Atkinson Hyperlegible Mono", ui-monospace, "Roboto", monospace;
+  --font-tech: "Atkinson Hyperlegible Mono", "Roboto Mono", ui-monospace, monospace;
   --font-mono: var(--font-tech);
 
   --text-display: clamp(2.75rem, 1.5rem + 4vw, 5rem);
@@ -716,3 +716,11 @@ html[data-text="150"] .filters { position: static; max-height: none; }
   .pager [aria-current="page"], .seg button[aria-pressed="true"], .menu-item[aria-current="true"] { outline: 2px solid Highlight; outline-offset: -4px; }
   .input, .radio, .search-form, .fsel select, .sort select, .detail, .detail-bar { border-color: CanvasText; }
 }
+
+/* ─── Track 2 ─── */
+/* Display settings under the sign-in card (TASKS.md A4): label and segments side by side, stacked on narrow screens. */
+.disp { display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center; gap: 0.375rem 0.75rem; }
+.disp .menu-head { padding: 0; font-size: var(--text-small); color: var(--color-atrament); justify-self: end; }
+.disp .seg { padding: 0; }
+.disp .seg button { min-height: 2rem; }
+@media (max-width: 30rem) { .disp { grid-template-columns: 1fr; justify-items: center; } .disp .menu-head { justify-self: center; } }
