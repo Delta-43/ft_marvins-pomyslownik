@@ -127,14 +127,14 @@
     }
   },
   "oslo": {
-    "passed": true,
+    "passed": false,
     "newOrImproved": true,
     "differsSignificantly": true,
-    "availableOrInUse": true,
+    "availableOrInUse": false,
     "basis": "estimate",
     "note": {
-      "pl": "Finansowany program ogólnopolski z opublikowanym katalogiem wyposażenia. Strona z 2021 r. nie pokazuje, czy sprzęt dotarł do szkół.",
-      "en": "A funded national programme with a published equipment catalogue. Delivery is not shown on this 2021 page."
+      "pl": "Program finansowany w skali kraju, z opublikowanym katalogiem wyposażenia. Ani komunikat z 2021 r., ani strona programu nie pokazują, że sprzęt trafił do szkół, więc warunek dostępności nie jest wykazany.",
+      "en": "A funded national programme with a published equipment catalogue. Neither the 2021 notice nor the programme page shows that the equipment reached schools, so the availability condition is not shown."
     }
   },
   "couldAlsoBeUsedIn": [

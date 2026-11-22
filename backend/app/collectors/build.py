@@ -6,6 +6,7 @@ estimate with a method in Polish and English.
 import datetime as dt
 import json
 import re
+import unicodedata
 import uuid
 
 from ..db import connection
@@ -22,6 +23,27 @@ TRL_UNKNOWN = {"pl": "Źródło nie podaje poziomu gotowości technologicznej, a
 
 # Protection forms on PTT listings and similar pages that point to Polish industrial property.
 PROTECTION = re.compile(r"Forma ochrony\s+(?:Wynalazek|Zgłoszenie wynalazku|Wzór użytkowy|Wzór przemysłowy)|patent(?:u|em)? (?:nr|PL)|\bP\.\d{6}\b")
+
+
+def _fold(s: str) -> str:
+    return unicodedata.normalize("NFKD", s.lower()).encode("ascii", "ignore").decode()
+
+
+# Words that appear in almost every technical text, so they cannot show that the source names a sector.
+GENERIC_STEMS = {"przemy", "produk", "techno", "materi", "system", "urzadz", "rozwia", "zastos", "branza", "branze", "sektor",
+                 "uslug", "przeds", "firmy", "instyt", "badawc", "naukow", "inform", "projek", "budowa", "proces", "metoda",
+                 "jednos", "organi", "public", "panstw"}
+
+
+def sector_named(label_pl: str, text: str) -> bool:
+    """True when a specific word of the sector is in the source. Words are compared by their first 6 letters, so Polish
+    endings do not matter, and generic words (industry, production, technology...) do not count.
+
+    Model-proposed sectors the source never mentions used to add up to 20 points of application potential (#22).
+    """
+    page = set(re.findall(r"[a-z]{6,}", _fold(text)))
+    stems = {w[:6] for w in page}
+    return any(w[:6] in stems for w in re.findall(r"[a-z]{6,}", _fold(label_pl)) if w[:6] not in GENERIC_STEMS)
 
 
 def card_id_for(url: str) -> str:
@@ -99,7 +121,8 @@ def build_card(x: Extraction, *, text: str, url: str, source_name: str, source_t
         "oslo": {"passed": x.oslo_new_or_improved and x.oslo_differs_significantly and x.oslo_available_or_in_use,
                  "newOrImproved": x.oslo_new_or_improved, "differsSignificantly": x.oslo_differs_significantly,
                  "availableOrInUse": x.oslo_available_or_in_use, "basis": "estimate", "note": x.oslo_note.model_dump()},
-        "couldAlsoBeUsedIn": [c.model_dump() for c in x.could_also_be_used_in[:3] if c.pl.strip() and c.en.strip()],
+        "couldAlsoBeUsedIn": [c.model_dump() for c in x.could_also_be_used_in[:3]
+                              if c.pl.strip() and c.en.strip() and sector_named(c.pl, text)],
         "owner": {"name": x.organisation_name.strip(), "url": x.organisation_url or url},
         "sources": [{"id": sid, "type": source_type, "name": source_name, "url": url, "retrievedAt": retrieved_at,
                      "passage": passage, "passageLang": _passage_lang(passage) if passage else None, "license": license}],
@@ -115,21 +138,11 @@ def store(card: dict) -> dict:
     """Insert or update the card, keep firstSeenAt and record a status change when the level moved. Returns a change note."""
     from ..seed import load_card
     with connection() as conn, conn.transaction():
-        old = conn.execute("SELECT implementation_level, trl, first_seen_at, status_changed_at FROM cards WHERE id = %s", (card["id"],)).fetchone()
+        old = conn.execute("SELECT first_seen_at FROM cards WHERE id = %s", (card["id"],)).fetchone()
         if old:
             card["firstSeenAt"] = old["first_seen_at"].strftime("%Y-%m-%dT%H:%M:%SZ")
-        load_card(conn, card)  # keeps the card's status history
-        change = None
-        if old and old["implementation_level"] != card["implementationLevel"]["value"]:
-            change = ("implementationLevel", old["implementation_level"], card["implementationLevel"]["value"])
-        elif old and old["trl"] != card["trl"]["value"] and card["trl"]["applicable"]:
-            change = ("trl", None if old["trl"] is None else str(old["trl"]), None if card["trl"]["value"] is None else str(card["trl"]["value"]))
-        if change:
-            src = conn.execute("SELECT source_id FROM card_sources WHERE card_id = %s LIMIT 1", (card["id"],)).fetchone()
-            conn.execute("INSERT INTO status_history (card_id, field, from_value, to_value, source_id) VALUES (%s,%s,%s,%s,%s)",
-                         (card["id"], change[0], change[1], change[2], src["source_id"] if src else None))
-            conn.execute("UPDATE cards SET status_changed_at = now() WHERE id = %s", (card["id"],))
-    return {"cardId": card["id"], "added": old is None, "statusChange": change}
+        changes = load_card(conn, card)  # keeps the history and writes a row for every status change
+    return {"cardId": card["id"], "added": old is None, "statusChange": changes[0] if changes else None}
 
 
 def save_snapshot_card(card: dict) -> None:

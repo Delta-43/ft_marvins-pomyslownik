@@ -33,7 +33,7 @@
   },
   "implementationLevel": {
     "value": "in_practice",
-    "basis": "confirmed"
+    "basis": "estimate"
   },
   "trl": {
     "applicable": false,
@@ -55,13 +55,16 @@
     "en": "The University of Silesia for Children and the UŚ Open University invite schools of all levels and kindergartens to order lectures, workshops and laboratory classes. A lecture costs PLN 20 per person and a workshop PLN 25 per person; classes run on Wednesdays in Katowice. Summary written by the model from the page."
   },
   "implementationLevelDetail": {
-    "basis": "confirmed",
+    "basis": "estimate",
     "sourceIds": [
       "636091fa-1d87-4d71-b456-b66a800956aa"
     ],
     "evidenceIds": [],
-    "method": null,
-    "methodText": null,
+    "method": "The page describes the offer in the present tense but has no date; its newest gallery item is from 2021. Read as in practice.",
+    "methodText": {
+      "pl": "Strona opisuje ofertę w czasie teraźniejszym, ale nie ma daty; najnowszy wpis w galerii pochodzi z 2021 r. Przyjęto „w praktyce”.",
+      "en": "The page describes the offer in the present tense but has no date; its newest gallery item is from 2021. Read as in practice."
+    },
     "value": "in_practice"
   },
   "trlDetail": {

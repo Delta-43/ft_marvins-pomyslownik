@@ -64,7 +64,7 @@ class Extraction(BaseModel):
     trl: int = Field(description="1 to 9, or 0 when not applicable or unknown")
     trl_quote: str = Field(description="Exact words that state the TRL, or empty if you inferred it")
     tags: list[Tag] = Field(description="Two to four topic tags")
-    could_also_be_used_in: list[Bilingual] = Field(description="Up to three other sectors or institutions")
+    could_also_be_used_in: list[Bilingual] = Field(description="Up to three other sectors or institutions that the source itself names. Leave empty when the source names none: do not invent sectors")
     oslo_new_or_improved: bool
     oslo_differs_significantly: bool
     oslo_available_or_in_use: bool
@@ -126,7 +126,8 @@ def number_in(quote: str, value: float) -> bool:
 # quoted words contain a word that signals that level. Otherwise the level stays an estimate.
 LEVEL_WORDS = {
     "concept": r"koncepc|pomys|założe|concept|idea",
-    "prototype": r"prototyp|demonstrator|model funkcjonaln|wykonano|zbudowan|prototype|built",
+    # Only words that name the level. "wykonano" ("was made / carried out") confirmed a lab project as a prototype (#22).
+    "prototype": r"prototyp|demonstrator|model funkcjonaln|egzemplarz|prototype",
     "testing": r"\btest|testow|walidac|weryfikac|badania? (?:w warunkach|terenow|pilota)|validat|tested",
     "pilot": r"pilota|pilot",
     "in_practice": r"wdroż|wdroz|stosowan|używa|uzywa|działa|funkcjonuje|w użyciu|eksploatac|uruchomi|dostępn|korzysta|in use|deployed|operat|launched|available",

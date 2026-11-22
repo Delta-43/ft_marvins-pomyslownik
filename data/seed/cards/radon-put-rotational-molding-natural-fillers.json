@@ -1,0 +1,264 @@
+{
+  "id": "175ffb50-1c2b-5cfc-8713-06de5ed8ff3f",
+  "title": {
+    "pl": "Odlewanie rotacyjne kompozytów polimerowych z napełniaczami naturalnymi",
+    "en": "Rotational molding of polymer composites with natural fillers"
+  },
+  "summaryShort": {
+    "pl": "Politechnika Poznańska opracowała metodę wytwarzania kompozytów polietylenu i polilaktydu z napełniaczami roślinnymi techniką odlewania rotacyjnego.",
+    "en": "Poznan University of Technology developed a rotational molding method for polyethylene and polylactide composites with plant-based fillers."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "biocomposites",
+      "label": {
+        "pl": "Biokompozyty",
+        "en": "Biocomposites"
+      }
+    },
+    {
+      "slug": "natural-fillers",
+      "label": {
+        "pl": "Napełniacze naturalne",
+        "en": "Natural fillers"
+      }
+    },
+    {
+      "slug": "polymer-processing",
+      "label": {
+        "pl": "Przetwórstwo tworzyw sztucznych",
+        "en": "Polymer processing"
+      }
+    },
+    {
+      "slug": "rotational-molding",
+      "label": {
+        "pl": "Odlewanie rotacyjne",
+        "en": "Rotational molding"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Politechnika Poznańska",
+    "type": "university",
+    "url": null,
+    "region": "WP"
+  },
+  "implementationLevel": {
+    "value": "prototype",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 4,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": 50,
+    "applicationPotential": 68,
+    "credibility": 77
+  },
+  "polishIp": false,
+  "polishIpStatus": "stated",
+  "lastCheckedAt": "2026-11-22T03:00:00Z",
+  "stale": false,
+  "sourceCount": 2,
+  "relevance": null,
+  "summary": {
+    "pl": "W projekcie badawczym Politechniki Poznańskiej opracowano metodę wytwarzania kompozytów polimerowych techniką odlewania rotacyjnego (rotomoldingu) z napełniaczami pochodzenia naturalnego. Jako osnowy wybrano polietylen i polilaktyd o obniżonej lepkości. Testowano włókna drzewne, łuski zbożowe, biowęgiel oraz modyfikowane włókna trzciny cukrowej i eukaliptusa, aby ustalić maksymalną zawartość napełniacza i efektywność wzmocnienia. Łuskę gryczaną poddano merceryzacji w roztworze NaOH, aby poprawić adhezję do osnowy. Materiały oceniono w próbach rozciągania oraz analizie termicznej DMTA i DSC (badanie struktury mikroskopią elektronową rekord opisuje jako planowane), a wyniki porównano z kompozytami wytwarzanymi wtryskowo. Zoptymalizowano parametry procesu i wybrano mieszanki o potencjale wdrożeniowym. Projekt trwał od 24.06.2019 do 30.11.2019. W 2019 r. rekord zapowiadał zgłoszenie patentowe; Politechnika Poznańska ma udzielony w 2024 r. patent PL 245064 B1 na pokrewny sposób odlewania rotacyjnego kompozytów, ale źródła nie pokazują, że wynika on z tego projektu.",
+    "en": "In a research project at Poznan University of Technology, a method was developed for producing polymer composites with natural fillers by rotational molding (rotomolding). Polyethylene and polylactide with reduced viscosity were chosen as matrices. Wood fibres, cereal husks, biochar and modified sugar cane and eucalyptus fibres were tested to determine the maximum filler content and reinforcement effectiveness. Buckwheat hulls were mercerised in a NaOH solution to improve adhesion to the matrix. The materials were evaluated by tensile testing and DMTA and DSC thermal analysis (the record describes electron microscopy of the structure as planned), and compared with injection-molded composites. Process parameters were optimised and blends with implementation potential were selected. The project ran from 24.06.2019 to 30.11.2019. In 2019 the record announced a patent application; Poznan University of Technology holds patent PL 245064 B1, granted in 2024, for a related rotational-molding composite method, but the sources do not show that it comes from this project."
+  },
+  "implementationLevelDetail": {
+    "value": "prototype",
+    "basis": "estimate",
+    "method": "The record says many series of composite materials were made in the lab (\"wykonano wielu serii materiałów kompozytowych\"). That is a laboratory prototype in our reading; the record does not name the level.",
+    "sourceIds": [
+      "e648007d-8b92-51bb-9638-0a2f6f5d6bc1"
+    ],
+    "methodText": {
+      "pl": "Rekord podaje, że w laboratorium wykonano wiele serii materiałów kompozytowych („wykonano wielu serii materiałów kompozytowych”). To nasza ocena: prototyp laboratoryjny; rekord nie nazywa poziomu.",
+      "en": "The record says many series of composite materials were made in the lab (\"wykonano wielu serii materiałów kompozytowych\"). That is a laboratory prototype in our reading; the record does not name the level."
+    },
+    "evidenceIds": []
+  },
+  "trlDetail": {
+    "applicable": true,
+    "value": 4,
+    "basis": "estimate",
+    "method": "Proposed by the model from the source text; the source does not state it directly. Needs review.",
+    "sourceIds": [
+      "e648007d-8b92-51bb-9638-0a2f6f5d6bc1"
+    ],
+    "methodText": {
+      "en": "Proposed by the model from the source text; the source does not state it directly. Needs review.",
+      "pl": "Zaproponowane przez model na podstawie tekstu źródła; źródło nie podaje tego wprost. Wymaga weryfikacji."
+    },
+    "evidenceIds": []
+  },
+  "assessment": {
+    "credibility": {
+      "basis": "estimate",
+      "value": 77,
+      "method": "Sum of: independent sources (up to 35), an institutional source (25), implementation confirmed by a source (20), every source quotes its passage (10), checked recently (10). Indicative weights.",
+      "sourceIds": [
+        "e648007d-8b92-51bb-9638-0a2f6f5d6bc1"
+      ],
+      "confidence": "low",
+      "methodText": {
+        "en": "Sum of: independent sources (up to 35), an institutional source (25), implementation confirmed by a source (20), every source quotes its passage (10), checked recently (10). Indicative weights.",
+        "pl": "Suma: niezależne źródła (do 35), źródło instytucjonalne (25), wdrożenie potwierdzone przez źródło (20), każde źródło z cytatem (10), niedawne sprawdzenie (10). Wagi orientacyjne."
+      },
+      "sampleSize": 1,
+      "evidenceIds": [],
+      "explanation": {
+        "en": "1 source(s), 1 institutional; implementation confirmed by a source; checked 0 day(s) ago. Score 77 of 100.",
+        "pl": "Źródeł: 1, w tym instytucjonalnych: 1; wdrożenie potwierdzone przez źródło; sprawdzono 0 dni temu. Wynik 77 ze 100."
+      },
+      "insufficientData": false
+    },
+    "innovativeness": {
+      "basis": "estimate",
+      "value": 50,
+      "method": "100 minus the mean similarity (as a percentage) of the three closest other cards in the database. Needs at least 5 other cards to compare with. When OpenAlex counts similar publications by Polish institutions, 60% of the score comes from the distance and 40% from how few such publications exist (0 works gives 100, 1000 or more gives 0, on a log scale). Indicative.",
+      "sourceIds": [
+        "e648007d-8b92-51bb-9638-0a2f6f5d6bc1"
+      ],
+      "confidence": "high",
+      "methodText": {
+        "en": "100 minus the mean similarity (as a percentage) of the three closest other cards in the database. Needs at least 5 other cards to compare with. When OpenAlex counts similar publications by Polish institutions, 60% of the score comes from the distance and 40% from how few such publications exist (0 works gives 100, 1000 or more gives 0, on a log scale). Indicative.",
+        "pl": "100 minus średnie podobieństwo (w procentach) trzech najbliższych innych kart w bazie. Wymaga co najmniej 5 innych kart do porównania. Gdy OpenAlex podaje liczbę podobnych publikacji polskich instytucji, 60% wyniku to odległość, a 40% to rzadkość takich publikacji (0 prac daje 100, 1000 lub więcej daje 0, w skali logarytmicznej). Wynik orientacyjny."
+      },
+      "sampleSize": 26,
+      "evidenceIds": [],
+      "explanation": {
+        "en": "Compared with 26 other cards; the three closest are on average 29% similar. OpenAlex finds 275 similar works by Polish institutions. Score 50 of 100.",
+        "pl": "Porównano z 26 innymi kartami; trzy najbliższe są średnio podobne w 29%. OpenAlex znajduje 275 podobnych prac polskich instytucji. Wynik 50 ze 100."
+      },
+      "insufficientData": false
+    },
+    "applicationPotential": {
+      "basis": "estimate",
+      "value": 68,
+      "method": "Sum of: implementation level (up to 40), documentation (sources, quoted numbers, owner contact; up to 30), other sectors named (up to 20), a source states numbers (10). Indicative weights.",
+      "sourceIds": [
+        "e648007d-8b92-51bb-9638-0a2f6f5d6bc1"
+      ],
+      "confidence": "low",
+      "methodText": {
+        "en": "Sum of: implementation level (up to 40), documentation (sources, quoted numbers, owner contact; up to 30), other sectors named (up to 20), a source states numbers (10). Indicative weights.",
+        "pl": "Suma: poziom wdrożenia (do 40), dokumentacja (źródła, cytowane liczby, kontakt do właściciela; do 30), wskazane inne sektory (do 20), źródło podaje liczby (10). Wagi orientacyjne."
+      },
+      "sampleSize": 1,
+      "evidenceIds": [],
+      "explanation": {
+        "en": "Implementation level 2 of 5, 1 source(s), 3 other sector(s) named. Score 68 of 100.",
+        "pl": "Poziom wdrożenia 2 z 5, źródeł: 1, wskazanych innych sektorów: 3. Wynik 68 ze 100."
+      },
+      "insufficientData": false
+    }
+  },
+  "oslo": {
+    "note": {
+      "en": "The method is new compared with standard rotomolding of unmodified powders, but it remains at laboratory research stage and is not implemented.",
+      "pl": "Metoda jest nowa względem standardowego rotomoldingu z niemodyfikowanych proszków, ale pozostaje na etapie badań laboratoryjnych i nie jest wdrożona."
+    },
+    "basis": "estimate",
+    "passed": false,
+    "newOrImproved": true,
+    "availableOrInUse": false,
+    "differsSignificantly": true
+  },
+  "couldAlsoBeUsedIn": [],
+  "owner": {
+    "name": "Politechnika Poznańska",
+    "url": "https://www.put.poznan.pl/"
+  },
+  "sources": [
+    {
+      "id": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
+      "type": "api",
+      "name": "RAD-on (OPI PIB), projekt badawczy: Opracowanie technologii odlewania rotacyjnego kompozytów polimerowych z napełniaczami pochodzenia na",
+      "url": "https://radon.nauka.gov.pl/dane/projekty-badawcze#uid=70B5F24FF5153B494A51C996A5EA8923",
+      "retrievedAt": "2026-11-21T21:31:51Z",
+      "passage": "Zasadniczym efektem praktycznym przeprowadzonych badań, jest opracowanie metody wytwarzania kompozytów polimerowych metodą odlewania rotacyjnego. … wykonano wielu serii materiałów kompozytowych oraz optymalizację parametrów procesu odlewania rotacyjnego … Politechnika Poznańska",
+      "passageLang": "pl",
+      "license": "RAD-on open data (OPI PIB). Terms: radon.nauka.gov.pl"
+    },
+    {
+      "id": "ffc403f9-669f-526b-b08e-914b6569cce9",
+      "type": "crawl",
+      "name": "Google Patents (dane UPRP): PL245064B1, Sposób wytwarzania kompozytu polimerowego metodą odlewania rotacyjnego",
+      "url": "https://patents.google.com/patent/PL245064B1/pl",
+      "retrievedAt": "2026-11-22T03:00:00Z",
+      "passage": "Przedmiotem wynalazku jest sposób wytwarzania kompozytu polimerowego metodą odlewania rotacyjnego",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "5bb85137-de29-42f4-a457-31e1b38607a3",
+      "metric": "polyethylene_mfi",
+      "label": {
+        "en": "MFI of selected polyethylene",
+        "pl": "Wskaźnik MFI wybranego polietylenu"
+      },
+      "value": 6,
+      "unit": "g/10min",
+      "sourceId": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
+      "query": "Read from https://radon.nauka.gov.pl/opendata/project/search#uid=70B5F24FF5153B494A51C996A5EA8923. Quoted text: \"polietylen charakteryzujący się wskaźnikiem MFI równym 6 g/10min\"",
+      "retrievedAt": "2026-11-21T21:31:51Z"
+    },
+    {
+      "id": "196a5f75-6fd3-43a6-b74a-7d80bc927026",
+      "metric": "polylactide_mfr",
+      "label": {
+        "en": "Melt flow rate of best polylactide",
+        "pl": "Wskaźnik szybkości płynięcia najlepszego polilaktydu"
+      },
+      "value": 60,
+      "unit": "g/10min",
+      "sourceId": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
+      "query": "Read from https://radon.nauka.gov.pl/opendata/project/search#uid=70B5F24FF5153B494A51C996A5EA8923. Quoted text: \"materiału o wskaźniku szybkości płynięcia 60 g/10min\"",
+      "retrievedAt": "2026-11-21T21:31:51Z"
+    },
+    {
+      "id": "d132b0cf-642e-5258-ae11-5e1a2962af4d",
+      "metric": "project_start_date",
+      "label": {
+        "pl": "Początek projektu",
+        "en": "Project start"
+      },
+      "value": "2019-06-24",
+      "unit": null,
+      "sourceId": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
+      "retrievedAt": "2026-11-21T21:31:51Z",
+      "query": "Read from the RAD-on record https://radon.nauka.gov.pl/dane/projekty-badawcze#uid=70B5F24FF5153B494A51C996A5EA8923: field dateStarted"
+    },
+    {
+      "id": "a6654040-35e0-5df6-be95-87df8940f947",
+      "metric": "project_end_date",
+      "label": {
+        "pl": "Koniec projektu",
+        "en": "Project end"
+      },
+      "value": "2019-11-30",
+      "unit": null,
+      "sourceId": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
+      "retrievedAt": "2026-11-21T21:31:51Z",
+      "query": "Read from the RAD-on record https://radon.nauka.gov.pl/dane/projekty-badawcze#uid=70B5F24FF5153B494A51C996A5EA8923: field dateCompleted"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T21:32:06Z",
+  "statusChangedAt": "2026-11-22T03:00:00Z",
+  "history": [
+    {
+      "at": "2026-11-22T03:00:00Z",
+      "field": "other",
+      "from": "polish_ip_unknown",
+      "to": "polish_ip_stated",
+      "sourceId": "ffc403f9-669f-526b-b08e-914b6569cce9"
+    }
+  ]
+}

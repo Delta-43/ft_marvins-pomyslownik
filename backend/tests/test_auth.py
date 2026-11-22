@@ -48,3 +48,27 @@ def test_terms_and_validation_and_bad_token():
     assert client.post("/api/v1/auth/register", content="{nope", headers={"Content-Type": "application/json"}).status_code == 400
     assert client.get("/api/v1/cards", headers={"Authorization": "Bearer not-a-real-token"}).status_code == 401
     assert client.get("/api/v1/auth/providers").json()["data"][0]["id"] == "sandbox_id"
+
+
+def test_shared_demo_identity_is_not_rate_limited_and_cannot_be_deleted():
+    """TODO: a whole jury signs in as demo-jury; one visitor must not delete it for the others (G1)."""
+    import os
+    if not os.environ.get("DATABASE_URL"):
+        import pytest
+        pytest.skip("needs a database")
+    from fastapi.testclient import TestClient
+
+    from app.main import app
+    c = TestClient(app)
+    body = {"provider": "sandbox_id", "providerSubject": "demo-jury"}
+    r = c.post("/api/v1/auth/login", json=body)
+    if r.status_code == 404:
+        r = c.post("/api/v1/auth/register", json={**body, "email": "demo-jury@example.invalid", "role": "investors_business",
+                                                  "affiliation": {"name": "Demo", "type": "other"}, "interests": [], "acceptedTerms": True})
+    for _ in range(12):  # more than the per-identity limit of 10 per minute
+        assert c.post("/api/v1/auth/login", json=body).status_code == 200
+    h = {"Authorization": f"Bearer {c.post('/api/v1/auth/login', json=body).json()['data']['token']}"}
+    assert c.delete("/api/v1/me", headers=h).status_code == 403
+    assert c.patch("/api/v1/me", json={"role": "schools"}, headers=h).status_code == 403
+    p = c.get("/api/v1/auth/providers").json()["data"][0]
+    assert p["demoIdentities"][0]["subject"] == "demo-jury" and p["flow"] == "direct"

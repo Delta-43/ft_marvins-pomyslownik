@@ -29,7 +29,7 @@
     "name": "Instytut Chemicznej Przeróbki Węgla",
     "type": "research_institute",
     "url": "http://www.ichpw.zabrze.pl",
-    "region": null
+    "region": "SL"
   },
   "implementationLevel": {
     "value": "in_practice",

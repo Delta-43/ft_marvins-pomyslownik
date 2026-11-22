@@ -31,6 +31,9 @@ def enrich_card(conn, card: dict, *, offline: bool = False) -> int | None:
                           ON CONFLICT (url) DO UPDATE SET last_collected_at = now() RETURNING id""",
                        (str(uuid.uuid5(uuid.NAMESPACE_URL, url)), "OpenAlex: wyszukiwanie podobnych prac / similar works search", url)).fetchone()["id"]
     conn.execute("INSERT INTO card_sources (card_id, source_id, passage) VALUES (%s,%s,NULL) ON CONFLICT DO NOTHING", (card["id"], src))
+    # An older OpenAlex query for this card is no longer the basis of the number: detach it, so the card lists one.
+    conn.execute("""DELETE FROM card_sources cs USING sources s WHERE cs.card_id = %s AND cs.source_id = s.id
+                      AND s.name LIKE 'OpenAlex:%%' AND s.id <> %s""", (card["id"], src))
     conn.execute("DELETE FROM evidence WHERE card_id = %s AND metric = %s", (card["id"], METRIC))
     conn.execute("""INSERT INTO evidence (card_id, metric, label, value, unit, source_id, query) VALUES (%s,%s,%s,%s,'works',%s,%s)""",
                  (card["id"], METRIC, json.dumps(LABEL), json.dumps(count), src, f"GET {url} (meta.count)"))

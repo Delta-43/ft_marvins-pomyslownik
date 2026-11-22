@@ -5,8 +5,8 @@
     "en": "Flexible substrates for miniature medical diagnostics (Lab-on-a-Foil)"
   },
   "summaryShort": {
-    "pl": "Elastyczne folie z kontrolowaną zwilżalnością zastępują sztywne płytki 96- i 384-dołkowe w testach w kropli.",
-    "en": "Flexible foils with controlled wettability replace rigid 96- and 384-well plates in droplet tests."
+    "pl": "Elastyczne folie z kontrolowaną zwilżalnością mogą zastąpić sztywne płytki 96- i 384-dołkowe w testach w kropli.",
+    "en": "Flexible foils with controlled wettability can replace rigid 96- and 384-well plates in droplet tests."
   },
   "area": "technological",
   "tags": [
@@ -51,8 +51,8 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "Politechnika Warszawska oferuje technologię jednowarstwowych matryc foliowych, na których strefy testowe wyznacza wyłącznie zwilżalność powierzchni. Wpis deklaruje TRL 5 i zgłoszenie wynalazku; wśród linków podaje numer P.441974 z wyszukiwarki Urzędu Patentowego, którego nie udało się sprawdzić. Streszczenie napisane przez model na podstawie wpisu.",
-    "en": "Warsaw University of Technology offers single-layer foil matrices on which test zones are set only by surface wettability. The listing declares TRL 5 and a patent application; among its links it gives number P.441974 from the Patent Office search, which could not be checked. Summary written by the model from the listing."
+    "pl": "Politechnika Warszawska oferuje technologię jednowarstwowych matryc foliowych, na których strefy testowe wyznacza wyłącznie zwilżalność powierzchni. Wpis deklaruje TRL 5 i zgłoszenie wynalazku; zgłoszenie patentowe P.441974 jest w toku (recenzentka sprawdziła je ręcznie w rejestrze Urzędu Patentowego 22.11.2026). Wpis podaje też, że inne podmioty mają prawa do tej technologii. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "Warsaw University of Technology offers single-layer foil matrices on which test zones are set only by surface wettability. The listing declares TRL 5 and a patent application; patent application P.441974 is pending (checked by hand in the Patent Office register by the reviewer on 22.11.2026). The listing also says that other parties hold rights to the technology. Summary written by the model from the listing."
   },
   "implementationLevelDetail": {
     "basis": "estimate",
@@ -160,6 +160,16 @@
       "passage": "Oferujemy innowacyjną technologię wytwarzania elastycznych, jednowarstwowych matryc przeznaczonych do realizacji szybkich testów diagnostycznych i medycznych w formacie mikromacierzowym … Lokalizacja Warszawa, woj. mazowieckie … Forma ochrony Zgłoszenie wynalazku Poziom gotowości technologicznej TRL 5 … https://ewyszukiwarka.pue.uprp.gov.pl/search/pwp-details/P.441974",
       "passageLang": "pl",
       "license": null
+    },
+    {
+      "id": "dddec41b-36a6-5b94-b974-721d88494bf8",
+      "type": "crawl",
+      "name": "Urząd Patentowy RP, rejestr (sprawdzone ręcznie): P.441974",
+      "url": "https://ewyszukiwarka.pue.uprp.gov.pl/search/pwp-details/P.441974",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": null,
+      "passageLang": null,
+      "license": null
     }
   ],
   "evidence": [
@@ -180,8 +190,8 @@
       "id": "1d3cb7a4-8925-4370-82cb-e983173c9885",
       "metric": "patent_application_number",
       "label": {
-        "pl": "Numer zgłoszenia patentowego",
-        "en": "Patent application number"
+        "pl": "Zgłoszenie patentowe (w toku)",
+        "en": "Patent application (pending)"
       },
       "value": "P.441974",
       "unit": null,

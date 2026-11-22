@@ -1,7 +1,7 @@
 {
   "_comment": "What a 'collect' run gathers. Limits keep each run short and the model spend small. Edit and redeploy to change.",
   "max_new_per_run": 6,
-  "ptt": {"max_new": 3, "max_pages_read": 40, "owner_types": ["Jednostka naukowa", "Instytut naukowo - badawczy"]},
+  "ptt": {"max_new": 3, "max_pages_read": 40, "max_cards_total": 30, "owner_types": ["Jednostka naukowa", "Instytut naukowo - badawczy"]},
   "radon": {"title_words": ["technologia", "innowacyjn", "wdrożenie"], "since_year": 2019, "max_new": 2},
   "pages": [],
   "documents": [

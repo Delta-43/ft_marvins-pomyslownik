@@ -3,11 +3,10 @@ import datetime as dt
 
 from fastapi import APIRouter, Depends, Query
 
-from ..config import settings
 from ..db import one, rows
 from ..errors import ApiError
 from ..security import require_session
-from ..services.cards import LEVELS, iso, loc
+from ..services.cards import LEVELS, STALE_SQL, iso, loc, stale_params
 from ..services.cards import audiences as audience_list
 from ..services.i18n import label as fixed_label
 
@@ -22,9 +21,9 @@ def overview():
     by_area = {r["area"]: r["n"] for r in rows("SELECT area, count(*) AS n FROM cards GROUP BY area")}
     by_level = {r["l"]: r["n"] for r in rows("SELECT implementation_level AS l, count(*) AS n FROM cards GROUP BY 1")}
     by_type = {r["type"]: r["n"] for r in rows("SELECT type, count(*) AS n FROM sources GROUP BY type")}
-    c = one("""SELECT count(*) AS n, count(*) FILTER (WHERE polish_ip) AS pip,
-                      count(*) FILTER (WHERE last_checked_at < now() - make_interval(days => %s)) AS stale
-               FROM cards""", (settings.freshness_days,))
+    c = one(f"""SELECT count(*) AS n, count(*) FILTER (WHERE polish_ip) AS pip,
+                       count(*) FILTER (WHERE {STALE_SQL}) AS stale
+                FROM cards c""", stale_params())
     # Assessed fields per card: implementation level, TRL, three scores, Oslo check. Share with basis "confirmed".
     f = one("""SELECT count(*) * 6 AS total,
                       COALESCE(sum((implementation_prov->>'basis' = 'confirmed')::int + (trl_prov->>'basis' = 'confirmed')::int

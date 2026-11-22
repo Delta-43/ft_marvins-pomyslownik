@@ -13,7 +13,7 @@ Checked 2026-11-21 about 19:10 CET from this machine, with `curl` and web search
 | 1 | RAD-on open data (POL-on, projects, products) | API | **Yes**, anonymous JSON | No | Licence not found. Nightly refresh | **Go** |
 | 2 | UPRP statistics API (`statystyka.pue.uprp.gov.pl`) | API | **Yes**, anonymous JSON | No | Aggregates only. Reuse terms not found | **Go** (aggregates) |
 | 3 | UPRP e-Wyszukiwarka API (`api.uprp.gov.pl`) | API | Root is a login portal. Docs URL I tried returned 404 | e-Profil account | Account terms apply | **Hold**: needs an e-Profil |
-| 4 | PTT, Platforma Transferu Technologii (`ptt.arp.pl`) | Crawl | **Yes**, 1,911 URLs in sitemap, 1,973 technologies shown | No | `robots.txt`: allow, `Crawl-delay: 5`, `/admin/` blocked. No terms page found | **Go, slow**, until terms are checked |
+| 4 | PTT, Platforma Transferu Technologii (`ptt.arp.pl`) | Crawl | **Yes**, 1,911 URLs in sitemap, 1,973 technologies shown | No | `robots.txt`: allow, `Crawl-delay: 5`, `/admin/` blocked. **Terms exist** (§2.3 database protection, §2.11 reuse needs consent), see §4 | **Go, limited** (link, short quotes, owner named, total cap) |
 | 5 | PW repository (`repo.pw.edu.pl`) | API by request | Pages load | Yes, by email request | `robots.txt`: `Disallow: /` for all bots except Googlebot, `Crawl-delay: 50` | **No-go for crawling.** API only after approval |
 | 6 | PPM (`ppm.edu.pl`) | Crawl | `index.seam` timed out from here. `robots.txt` read | Unknown | Same `Disallow: /` pattern, `Crawl-delay: 10` | **No-go for crawling** |
 | 7 | PBN (`pbn.nauka.gov.pl`) | API | Swagger (V2.13, 79 paths) public. Calls return **403** without token | Yes, app token | Tokens issued only to institutions with an application-manager role | **No-go** for the hackathon |
@@ -44,10 +44,16 @@ Checked 2026-11-21 about 19:10 CET from this machine, with `curl` and web search
 - `https://api.uprp.gov.pl/` shows a login page ("PUE UP API Zewnętrzne"). Reported: any e-Profil user can call `/api/external/pwp/<application number>`, JSON, with authorisation. Public PDF manual: `api.uprp.gov.pl/assets/instrukcje/PROD/e-Wyszukiwarka.pdf` (I did not open it).
 - It looks up by number, so it cannot discover patents. Useful only to enrich a card whose number we already know. Needs a team member's e-Profil.
 
-### 4. PTT (ARP): Go, slow
+### 4. PTT (ARP): Go, limited (updated 2026-11-22, issue #10)
 - The nearest thing to ready-made innovation cards: "Baza technologii" (1,973 listings shown on the home page), "Baza poszukujących technologii", "Baza ekspertów", plus a hydrogen section. Listings carry a protection form (invention, application, know-how, utility model, copyright).
 - Sitemap: `http://ptt.arp.pl/sitemap.xml`, 1,911 URLs. Pattern `/bazy/<slug>/`. `robots.txt` allows everything except `/admin/`, with `Crawl-delay: 5`. At 5 s per page, 60 listings take 5 minutes. Fine for the seed set.
-- Listings are posted by users (companies, universities, patent attorneys), so text belongs to them. Use short quotes with a link and name the owner. **No terms or licence page found.** Open question for R7 or an e-mail to ARP.
+- Listings are posted by users (companies, universities, patent attorneys), so text belongs to them. Use short quotes with a link and name the owner.
+- **Terms of use exist** (found by Karrie, #10): the footer of every listing links `https://ptt.arp.pl/media/terms_and_conditions/Regulamin_4dWgds8.pdf` (8 pages, operator ARP S.A.).
+  - §2.3: the data is protected under the database act (ustawa z 27 lipca 2001 r. o ochronie baz danych) and the copyright act.
+  - §2.6: unregistered people may browse and accept the terms by doing so.
+  - §2.11: „Wykorzystywanie jakichkolwiek materiałów zamieszczonych na PTT bez uprzedniej zgody (lub innego porozumienia) podmiotu uprawnionego może stanowić naruszenie praw…”
+- **What we do because of it** (not legal advice): we link to each listing, quote it briefly, name the owner, add our own assessment, and never copy a substantial part of the database. The collector stops at a total of `ptt.max_cards_total` PTT cards (30 in `data/sources/targets.json`), besides the per-run limits. Pitch wording: "we link to PTT listings and quote them briefly", not "we crawl PTT".
+- **Still open (R7/R11):** ask the mentors or ARP whether linking with short quotes plus our own assessment is acceptable for a public prototype.
 - Operator is ARP (ARP page says so). A PFR page also lists it, so say "ARP" in the pitch.
 - Not tested: field structure of a full listing (the page I read was mostly navigation and a glossary). Check one real listing in a browser (R6).
 
