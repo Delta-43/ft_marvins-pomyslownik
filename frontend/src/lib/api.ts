@@ -47,23 +47,17 @@ export async function api<T>(path: string, { method = "GET", body, token }: Opti
   return res.json() as Promise<T>;
 }
 
-/** Text for people: Polish first, English if Polish is missing. */
-export function t(text: LocalizedText | null | undefined): string {
-  return text?.pl?.trim() || text?.en?.trim() || "";
+/** API text in the chosen language, falling back to the other one if it is missing. */
+export function pick(text: LocalizedText | null | undefined, locale: string): string {
+  const first = locale === "en" ? text?.en : text?.pl;
+  const second = locale === "en" ? text?.pl : text?.en;
+  return first?.trim() || second?.trim() || "";
 }
 
-/** Friendly Polish message for an API error code. */
-export function errorMessage(code: string | undefined): string {
-  switch (code) {
-    case "registration_required": return "Nie znamy tej tożsamości. Załóż konto poniżej.";
-    case "account_exists": return "Konto z tą tożsamością już istnieje. Zaloguj się.";
-    case "terms_not_accepted": return "Aby korzystać z serwisu, zaakceptuj regulamin.";
-    case "validation_failed": return "Sprawdź pola formularza.";
-    case "rate_limited": return "Zbyt wiele prób. Odczekaj chwilę i spróbuj ponownie.";
-    case "unauthorized": return "Sesja wygasła. Zaloguj się ponownie.";
-    case "not_found": return "Nie znaleziono.";
-    case "unavailable":
-    case "source_unavailable": return "Serwer jest chwilowo niedostępny. Spróbuj ponownie za chwilę.";
-    default: return "Coś poszło nie tak. Spróbuj ponownie za chwilę.";
-  }
+const KNOWN_ERRORS = ["registration_required", "account_exists", "terms_not_accepted", "validation_failed", "rate_limited", "unauthorized", "not_found", "unavailable"] as const;
+
+/** Dictionary key (messages: errors.*) for an API error code. Unknown codes get the generic message. */
+export function errorKey(code: string | undefined): (typeof KNOWN_ERRORS)[number] | "unknown" {
+  if (code === "source_unavailable") return "unavailable";
+  return (KNOWN_ERRORS as readonly string[]).includes(code ?? "") ? (code as (typeof KNOWN_ERRORS)[number]) : "unknown";
 }

@@ -1,13 +1,14 @@
 import Link from "next/link";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Logo } from "@/components/Logo";
 import { enterDemoMode, register, signIn } from "@/app/actions/auth";
-import { api, errorMessage, t, type Schemas } from "@/lib/api";
+import { api, errorKey, pick, type Schemas } from "@/lib/api";
 
-const ORG_TYPES: [Schemas["OrganisationType"], string][] = [
-  ["university", "Uczelnia"], ["research_institute", "Instytut badawczy"], ["school", "Szkoła"],
-  ["local_government", "Samorząd"], ["public_institution", "Instytucja publiczna"], ["company", "Firma"],
-  ["startup", "Startup"], ["incubator", "Inkubator"], ["investor", "Inwestor"], ["individual", "Osoba prywatna"], ["other", "Inne"],
+const ORG_TYPES: Schemas["OrganisationType"][] = [
+  "university", "research_institute", "school", "local_government", "public_institution", "company",
+  "startup", "incubator", "investor", "individual", "other",
 ];
+const INTERESTS = ["technological", "educational", "administrative"] as const;
 
 const field = "h-12 w-full rounded-xl border border-atrament/30 bg-white/75 px-4 shadow-inner transition focus:border-granat focus:bg-white";
 
@@ -18,6 +19,9 @@ type Params = { next?: string; tryb?: string; blad?: string; id?: string };
 export default async function LoginPage({ searchParams }: { searchParams: Promise<Params> }) {
   const { next = "/szukaj", tryb, blad, id = "" } = await searchParams;
   const mode = tryb === "rejestracja" ? "rejestracja" : "logowanie";
+  const [t, tOrg, tInterest, tErr, locale] = await Promise.all([
+    getTranslations("login"), getTranslations("orgType"), getTranslations("interest"), getTranslations("errors"), getLocale(),
+  ]);
 
   const [providers, audiences] = await Promise.all([
     api<{ data: Schemas["AuthProvider"][] }>("/api/v1/auth/providers").then((r) => r.data).catch(() => null),
@@ -40,101 +44,99 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     <div className="mx-auto grid min-h-[80vh] max-w-6xl gap-6 px-4 py-8 lg:grid-cols-[1fr_520px]">
       <section className="glass flex items-center justify-center rounded-[2.5rem] px-6 py-12">
         <div className="w-full max-w-md space-y-5">
-          <h1 style={{ fontSize: "2rem" }}>{mode === "logowanie" ? "Zaloguj się" : "Załóż konto"}</h1>
-          <p className="text-kamien">Zaloguj się i wybierz rolę, aby zobaczyć karty innowacji. Chroni to własność intelektualną twórców.</p>
+          <h1 style={{ fontSize: "2rem" }}>{mode === "logowanie" ? t("titleSignIn") : t("titleRegister")}</h1>
+          <p className="text-kamien">{t("intro")}</p>
 
-          <nav aria-label="Logowanie lub rejestracja" className="flex gap-1 rounded-full bg-white/50 p-1 ring-1 ring-white/80">
-            {tab("logowanie", "Mam konto")}
-            {tab("rejestracja", "Nowe konto")}
+          <nav aria-label={t("tabsLabel")} className="flex gap-1 rounded-full bg-white/50 p-1 ring-1 ring-white/80">
+            {tab("logowanie", t("tabSignIn"))}
+            {tab("rejestracja", t("tabRegister"))}
           </nav>
 
           {blad && (
             <p role="alert" className="rounded-xl border-l-4 border-nie bg-white/80 px-4 py-3 text-sm">
-              <span aria-hidden="true">⚠ </span>{errorMessage(blad)}
+              <span aria-hidden="true">⚠ </span>{tErr(errorKey(blad))}
             </p>
           )}
           {apiDown && (
             <p role="alert" className="rounded-xl border-l-4 border-nie bg-white/80 px-4 py-3 text-sm">
-              Serwer jest chwilowo niedostępny. Spróbuj ponownie za chwilę.
+              {t("serverDown")}
             </p>
           )}
 
           <form action={enterDemoMode}>
             <input type="hidden" name="next" value={next} />
             <button type="submit" disabled={!sandbox} className="btn-secondary h-12 w-full cursor-pointer rounded-full font-bold disabled:opacity-50">
-              Wejdź w tryb demo
+              {t("demoButton")}
             </button>
-            <p className="mt-2 text-center text-xs text-kamien">Jedno kliknięcie: wspólne konto testowe, prawdziwe dane.</p>
+            <p className="mt-2 text-center text-xs text-kamien">{t("demoNote")}</p>
           </form>
 
           <div className="rounded-[var(--radius-card)] border border-white/80 bg-white/60 p-4 text-sm">
-            <strong>{sandbox ? t(sandbox.label) : "Tożsamość testowa"}</strong>
-            <span className="block text-kamien">
-              Tryb demonstracyjny. Wpisz dowolny identyfikator (np. „demo-anna”). To nie jest weryfikacja przez login.gov.pl.
-            </span>
+            <strong>{sandbox ? pick(sandbox.label, locale) : t("testIdentity")}</strong>
+            <span className="block text-kamien">{t("testIdentityNote")}</span>
           </div>
 
           {mode === "logowanie" ? (
             <form action={signIn} className="space-y-5">
               <input type="hidden" name="next" value={next} />
               <div>
-                <label htmlFor="providerSubject" className="mb-1 block font-bold">Identyfikator testowy</label>
+                <label htmlFor="providerSubject" className="mb-1 block font-bold">{t("subject")}</label>
                 <input id="providerSubject" name="providerSubject" required minLength={3} maxLength={200} defaultValue={id} autoComplete="username" className={`${field} font-tech`} />
               </div>
               <button type="submit" disabled={!sandbox} className="btn-primary h-12 w-full cursor-pointer rounded-full font-bold disabled:opacity-50">
-                Zaloguj się
+                {t("submitSignIn")}
               </button>
             </form>
           ) : (
             <form action={register} className="space-y-5">
               <input type="hidden" name="next" value={next} />
               <div>
-                <label htmlFor="providerSubject" className="mb-1 block font-bold">Identyfikator testowy</label>
+                <label htmlFor="providerSubject" className="mb-1 block font-bold">{t("subject")}</label>
                 <input id="providerSubject" name="providerSubject" required minLength={3} maxLength={200} defaultValue={id} autoComplete="username" className={`${field} font-tech`} />
-                <p className="mt-1 text-xs text-kamien">3–200 znaków. Nie podawaj numeru PESEL.</p>
+                <p className="mt-1 text-xs text-kamien">{t("subjectHint")}</p>
               </div>
               <div>
-                <label htmlFor="email" className="mb-1 block font-bold">E-mail</label>
+                <label htmlFor="email" className="mb-1 block font-bold">{t("email")}</label>
                 <input id="email" name="email" type="email" required autoComplete="email" className={field} />
               </div>
               <div>
-                <label htmlFor="role" className="mb-1 block font-bold">Rola</label>
+                <label htmlFor="role" className="mb-1 block font-bold">{t("role")}</label>
                 <select id="role" name="role" required className={field}>
-                  {(audiences ?? []).map((a) => <option key={a.id} value={a.id}>{t(a.label)}</option>)}
+                  {(audiences ?? []).map((a) => <option key={a.id} value={a.id}>{pick(a.label, locale)}</option>)}
                 </select>
-                <p className="mt-1 text-xs text-kamien">Rola ustawia domyślne filtry wyszukiwania. Zmienisz ją w profilu.</p>
+                <p className="mt-1 text-xs text-kamien">{t("roleHint")}</p>
               </div>
               <fieldset className="grid gap-3 sm:grid-cols-[1fr_180px]">
-                <legend className="mb-1 font-bold">Organizacja</legend>
+                <legend className="mb-1 font-bold">{t("organisation")}</legend>
                 <div>
-                  <label htmlFor="affiliationName" className="sr-only">Nazwa organizacji</label>
-                  <input id="affiliationName" name="affiliationName" required maxLength={200} placeholder="Nazwa" autoComplete="organization" className={field} />
+                  <label htmlFor="affiliationName" className="sr-only">{t("organisationName")}</label>
+                  <input id="affiliationName" name="affiliationName" required maxLength={200} placeholder={t("organisationNamePlaceholder")} autoComplete="organization" className={field} />
                 </div>
                 <div>
-                  <label htmlFor="affiliationType" className="sr-only">Typ organizacji</label>
+                  <label htmlFor="affiliationType" className="sr-only">{t("organisationType")}</label>
                   <select id="affiliationType" name="affiliationType" defaultValue="other" className={field}>
-                    {ORG_TYPES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                    {ORG_TYPES.map((v) => <option key={v} value={v}>{tOrg(v)}</option>)}
                   </select>
                 </div>
               </fieldset>
               <fieldset>
-                <legend className="mb-1 font-bold">Zainteresowania <span className="font-normal text-kamien">(opcjonalnie)</span></legend>
+                <legend className="mb-1 font-bold">{t("interests")} <span className="font-normal text-kamien">{t("optional")}</span></legend>
                 <div className="flex flex-wrap gap-x-4 gap-y-1">
-                  {[["technological", "Technologia"], ["educational", "Edukacja"], ["administrative", "Administracja"]].map(([v, l]) => (
-                    <label key={v} className="flex items-center gap-2"><input type="checkbox" name="interests" value={v} className="accent-granat" /> {l}</label>
+                  {INTERESTS.map((v) => (
+                    <label key={v} className="flex items-center gap-2"><input type="checkbox" name="interests" value={v} className="accent-granat" /> {tInterest(v)}</label>
                   ))}
                 </div>
               </fieldset>
               <label className="flex items-start gap-3 text-sm">
                 <input type="checkbox" name="acceptedTerms" required className="mt-1 accent-granat" />
-                <span>Akceptuję <a href="#">regulamin</a> (zakaz nadużywania własności intelektualnej) i <a href="#">informację o prywatności</a>.</span>
+                <span>{t.rich("terms", { terms: (c) => <a href="#">{c}</a>, privacy: (c) => <a href="#">{c}</a> })}</span>
               </label>
               <label className="flex items-start gap-3 text-sm">
                 <input type="checkbox" name="consentToContact" className="mt-1 accent-granat" />
-                <span>Zgadzam się na kontakt w sprawie pasujących innowacji (opcjonalnie).</span>
+                <span>{t("contact")}</span>
               </label>
               <button type="submit" disabled={!sandbox || !audiences} className="btn-primary h-12 w-full cursor-pointer rounded-full font-bold disabled:opacity-50">
-                Załóż konto
+                {t("submitRegister")}
               </button>
             </form>
           )}
@@ -147,9 +149,9 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <Logo inverted />
         <div>
           <p className="font-display text-4xl font-bold leading-tight">
-            Polskie innowacje<br />w <span className="bg-iskra px-1 text-atrament">jednym miejscu</span>.
+            {t("heroLine1")}<br />{t.rich("heroLine2", { hl: (c) => <span className="bg-iskra px-1 text-atrament">{c}</span> })}
           </p>
-          <p className="mt-4 text-papier/80">Uczelnie, patenty, laboratoria i startupy z całej Polski. Ze źródłami.</p>
+          <p className="mt-4 text-papier/80">{t("heroLead")}</p>
         </div>
         <svg viewBox="0 0 400 260" className="w-full opacity-80" aria-hidden="true">
           {[[40, 200, 140, 110], [140, 110, 260, 150], [260, 150, 350, 60], [140, 110, 200, 30], [260, 150, 300, 230]].map(([a, b, c, d], i) => (
