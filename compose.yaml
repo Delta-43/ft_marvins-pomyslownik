@@ -45,11 +45,13 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-radar}:${POSTGRES_PASSWORD:-change-me}@db:5432/${POSTGRES_DB:-radar}
       SEED_DIR: /srv/data/seed
       CACHE_DIR: /srv/data/cache
+      SOURCES_DIR: /srv/data/sources    # registry.json for /admin/source-config (B16)
     depends_on:
       db:
         condition: service_healthy
     volumes:
       - ./data/seed:/srv/data/seed:ro   # seed cards and audiences, loaded with: docker compose run --rm api seed
+      - ./data/sources:/srv/data/sources:ro
       - cache:/srv/data/cache           # source snapshots and collected cards
     ports:
       - "8000:8000"

@@ -1,5 +1,6 @@
 """Anonymous usage events. No free text, no IP address and no user id is stored. The role comes from the session."""
 import datetime as dt
+import re
 from typing import Literal
 from uuid import UUID
 
@@ -10,6 +11,8 @@ from pydantic import BaseModel, ConfigDict, Field
 from ..db import connection
 from ..errors import ApiError
 from ..security import RateLimiter, current_user
+
+SLUG = re.compile(r"[a-z0-9][a-z0-9-]{0,63}")
 
 router = APIRouter(tags=["Events"])
 limited = Depends(RateLimiter(limit=240, window=60))
@@ -37,10 +40,14 @@ def record_event(body: UsageEvent, user: dict = session):
     when = body.occurredAt if body.occurredAt.tzinfo else body.occurredAt.replace(tzinfo=dt.UTC)
     if when > now + dt.timedelta(minutes=5) or when < now - dt.timedelta(days=2):
         raise ApiError(422, "validation_failed", "occurredAt must be within the last two days and not in the future.")
-    if any(len(t) > 60 for t in body.tags):
-        raise ApiError(422, "validation_failed", "A tag is longer than 60 characters.")
+    if any(not SLUG.fullmatch(t) for t in body.tags):
+        raise ApiError(422, "validation_failed", "Tags must be tag slugs.")
     try:
         with connection() as conn:
+            # No free text: a tag must be one that exists, or /stats/usage would show whatever a client sent.
+            known = {r["slug"] for r in conn.execute("SELECT slug FROM tags WHERE slug = ANY(%s)", (body.tags,)).fetchall()}
+            if set(body.tags) - known:
+                raise ApiError(422, "validation_failed", "Unknown tag.")
             conn.execute(
                 """INSERT INTO events (event_id, type, occurred_at, role, audience, area, tags, card_id, result_count)
                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (event_id) DO NOTHING""",

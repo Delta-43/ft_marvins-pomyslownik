@@ -4,7 +4,7 @@ from contextlib import contextmanager
 
 import psycopg
 from psycopg.rows import dict_row
-from psycopg_pool import ConnectionPool
+from psycopg_pool import ConnectionPool, PoolTimeout
 
 from .config import settings
 
@@ -13,14 +13,15 @@ _lock = threading.Lock()
 
 
 def check_database() -> bool:
-    """True when the database answers. Used by /health."""
+    """True when the database answers. Used by /health, which is public: it borrows a pooled connection instead of
+    opening a new one per call, so it cannot be used to exhaust database connections."""
     if not settings.database_url:
         return False
     try:
-        with psycopg.connect(settings.database_url, connect_timeout=2) as conn:
+        with pool().connection(timeout=2) as conn:
             conn.execute("SELECT 1")
         return True
-    except psycopg.Error:
+    except (psycopg.Error, PoolTimeout):
         return False
 
 

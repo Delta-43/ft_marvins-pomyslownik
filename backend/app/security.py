@@ -1,11 +1,13 @@
 """Sessions. The client sends `Authorization: Bearer <token>`. Only a SHA-256 hash of the token is stored."""
 import hashlib
+import ipaddress
 import secrets
 import time
 from collections import defaultdict, deque
 
 from fastapi import Header, Request
 
+from .config import settings
 from .db import one
 from .errors import ApiError
 
@@ -36,10 +38,25 @@ def current_user(authorization: str | None = Header(default=None)) -> dict:
 require_session = current_user
 
 
+def _trusted(peer: str) -> bool:
+    """True when the peer may set CF-Connecting-IP: any peer when TRUSTED_PROXIES is empty, else only the listed ones."""
+    allowed = [x.strip() for x in settings.trusted_proxies.split(",") if x.strip()]
+    if not allowed:
+        return True
+    try:
+        ip = ipaddress.ip_address(peer)
+        return any(ip in ipaddress.ip_network(a, strict=False) for a in allowed)
+    except ValueError:
+        return False
+
+
 def client_address(request: Request) -> str:
     """The caller's address. Behind the Cloudflare tunnel, CF-Connecting-IP is set by Cloudflare itself and cannot be
-    chosen by the client. X-Forwarded-For is never trusted: a client can put anything in it."""
-    return request.headers.get("cf-connecting-ip") or (request.client.host if request.client else "?")
+    chosen by the client. X-Forwarded-For is never trusted: a client can put anything in it. With TRUSTED_PROXIES set,
+    the header counts only from those peers, so a client on the LAN cannot dodge the rate limits (G8)."""
+    peer = request.client.host if request.client else "?"
+    header = request.headers.get("cf-connecting-ip")
+    return header if header and _trusted(peer) else peer
 
 
 class RateLimiter:

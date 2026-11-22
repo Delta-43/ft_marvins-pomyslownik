@@ -52,6 +52,9 @@ def usage(from_: dt.date | None = FROM_DATE, to: dt.date | None = None):
     start = from_ or end - dt.timedelta(days=29)
     if start > end:
         raise ApiError(422, "validation_failed", "`from` must not be after `to`.")
+    if not 7 <= (end - start).days + 1 <= 366:
+        # Counts under 5 are hidden; a short period would let anyone work them out by comparing overlapping periods (G6).
+        raise ApiError(422, "validation_failed", "The period must be between 7 and 366 days.")
     p = {"a": start, "b": end}
     inside = "occurred_at >= %(a)s AND occurred_at < %(b)s::date + 1"
 
@@ -61,7 +64,8 @@ def usage(from_: dt.date | None = FROM_DATE, to: dt.date | None = None):
     totals = one(f"""SELECT count(*) FILTER (WHERE type = 'search_performed') AS s, count(*) FILTER (WHERE type = 'card_viewed') AS v
                      FROM events WHERE {inside}""", p)
     areas = top(f"SELECT area AS value, count(*) AS count FROM events WHERE {inside} AND area IS NOT NULL GROUP BY 1 ORDER BY 2 DESC LIMIT %(limit)s", 5)
-    tags = top(f"""SELECT t AS value, count(*) AS count FROM events, unnest(tags) AS t WHERE {inside} GROUP BY 1 ORDER BY 2 DESC LIMIT %(limit)s""", 10)
+    tags = top(f"""SELECT t AS value, count(*) AS count FROM events, unnest(tags) AS t WHERE {inside}
+                   AND t IN (SELECT slug FROM tags) GROUP BY 1 ORDER BY 2 DESC LIMIT %(limit)s""", 10)
     tag_labels = {r["slug"]: loc(r["label_pl"], r["label_en"]) for r in rows("SELECT slug, label_pl, label_en FROM tags")}
     aud = top(f"""SELECT COALESCE(audience, role) AS value, count(*) AS count FROM events
                   WHERE {inside} AND type = 'search_performed' AND COALESCE(audience, role) IS NOT NULL GROUP BY 1 ORDER BY 2 DESC LIMIT %(limit)s""", 6)
