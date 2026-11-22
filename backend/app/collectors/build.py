@@ -29,13 +29,21 @@ def _fold(s: str) -> str:
     return unicodedata.normalize("NFKD", s.lower()).encode("ascii", "ignore").decode()
 
 
+# Words that appear in almost every technical text, so they cannot show that the source names a sector.
+GENERIC_STEMS = {"przemy", "produk", "techno", "materi", "system", "urzadz", "rozwia", "zastos", "branza", "branze", "sektor",
+                 "uslug", "przeds", "firmy", "instyt", "badawc", "naukow", "inform", "projek", "budowa", "proces", "metoda",
+                 "jednos", "organi", "public", "panstw"}
+
+
 def sector_named(label_pl: str, text: str) -> bool:
-    """True when a content word of the sector (its first 5 letters, so Polish endings do not matter) is in the source.
+    """True when a specific word of the sector is in the source. Words are compared by their first 6 letters, so Polish
+    endings do not matter, and generic words (industry, production, technology...) do not count.
 
     Model-proposed sectors the source never mentions used to add up to 20 points of application potential (#22).
     """
-    page = _fold(text)
-    return any(w[:5] in page for w in re.findall(r"[a-z]{5,}", _fold(label_pl)))
+    page = set(re.findall(r"[a-z]{6,}", _fold(text)))
+    stems = {w[:6] for w in page}
+    return any(w[:6] in stems for w in re.findall(r"[a-z]{6,}", _fold(label_pl)) if w[:6] not in GENERIC_STEMS)
 
 
 def card_id_for(url: str) -> str:

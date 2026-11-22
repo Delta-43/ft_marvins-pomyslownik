@@ -1735,7 +1735,7 @@ components:
         lastCheckedAt: { type: string, format: date-time }
         stale:
           type: boolean
-          description: True when `lastCheckedAt` is older than the freshness limit (default 30 days).
+          description: 'True when `lastCheckedAt` is older than the freshness limit (default 30 days), or when the project the card describes ended more than `STALE_PROJECT_YEARS` (default 3) years ago (evidence `project_end_date`, issue #22).'
         sourceCount: { type: integer, minimum: 0 }
         relevance:
           type: [number, 'null']

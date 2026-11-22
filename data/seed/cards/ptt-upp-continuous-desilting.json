@@ -272,5 +272,21 @@
     }
   ],
   "firstSeenAt": "2026-11-21T21:28:47Z",
-  "statusChangedAt": null
+  "statusChangedAt": "2026-11-22T03:00:00Z",
+  "history": [
+    {
+      "at": "2026-11-22T03:00:00Z",
+      "field": "implementationLevel",
+      "from": "testing",
+      "to": "pilot",
+      "sourceId": "9a21a457-fd23-502e-beb2-4fcc7a9dfd12"
+    },
+    {
+      "at": "2026-11-22T03:00:00Z",
+      "field": "other",
+      "from": "polish_ip_unknown",
+      "to": "polish_ip_confirmed",
+      "sourceId": "1ff3ca09-cd26-5923-8e08-1a59fd975f40"
+    }
+  ]
 }

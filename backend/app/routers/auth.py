@@ -130,8 +130,14 @@ def get_me(user: dict = session):
     return {"data": user_json(user)}
 
 
+def _shared_demo(user: dict) -> bool:
+    return user["provider"] == "sandbox_id" and user["provider_subject"] in settings.demo_identity_set
+
+
 @router.patch("/me")
 def update_me(body: UpdateMeRequest, user: dict = session):
+    if _shared_demo(user):  # one juror must not change the role or email that the others see (G1)
+        raise ApiError(403, "forbidden", "The shared demo identity cannot be changed. Register your own test identity to try this.")
     changes = body.model_dump(exclude_unset=True)
     if not changes:
         raise ApiError(422, "validation_failed", "Send at least one field to change.")
@@ -151,7 +157,7 @@ def update_me(body: UpdateMeRequest, user: dict = session):
 @router.delete("/me", status_code=204)
 def delete_me(user: dict = session):
     """Right to erasure: removes the profile and every session. Aggregated usage counts hold no user id and stay."""
-    if user["provider"] == "sandbox_id" and user["provider_subject"] in settings.demo_identity_set:
+    if _shared_demo(user):
         raise ApiError(403, "forbidden", "The shared demo identity cannot be deleted. Register your own test identity to try this.")
     with connection() as conn:
         conn.execute("DELETE FROM users WHERE id = %s", (user["id"],))

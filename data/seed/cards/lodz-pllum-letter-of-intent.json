@@ -185,6 +185,22 @@
     }
   ],
   "firstSeenAt": "2026-11-21T20:55:29Z",
-  "statusChangedAt": null,
-  "polishIpStatus": "stated"
+  "statusChangedAt": "2026-11-22T00:00:00Z",
+  "polishIpStatus": "stated",
+  "history": [
+    {
+      "at": "2026-08-24T00:00:00Z",
+      "field": "implementationLevel",
+      "from": "concept",
+      "to": "pilot",
+      "sourceId": "bbc406b0-99df-5bbc-af22-05144d23e1d1"
+    },
+    {
+      "at": "2026-11-22T00:00:00Z",
+      "field": "other",
+      "from": "polish_ip_unknown",
+      "to": "polish_ip_stated",
+      "sourceId": "79300330-79b5-49a7-bf1f-c1d44b8dcf6e"
+    }
+  ]
 }

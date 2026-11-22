@@ -161,6 +161,15 @@
   ],
   "evidence": [],
   "firstSeenAt": "2026-11-21T20:55:29Z",
-  "statusChangedAt": null,
-  "polishIpStatus": "stated"
+  "statusChangedAt": "2026-11-22T00:00:00Z",
+  "polishIpStatus": "stated",
+  "history": [
+    {
+      "at": "2026-11-22T00:00:00Z",
+      "field": "other",
+      "from": "polish_ip_unknown",
+      "to": "polish_ip_stated",
+      "sourceId": "98c87562-2a17-4a2e-8aee-078da0e8b6b3"
+    }
+  ]
 }

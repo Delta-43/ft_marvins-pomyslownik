@@ -69,5 +69,6 @@ def test_shared_demo_identity_is_not_rate_limited_and_cannot_be_deleted():
         assert c.post("/api/v1/auth/login", json=body).status_code == 200
     h = {"Authorization": f"Bearer {c.post('/api/v1/auth/login', json=body).json()['data']['token']}"}
     assert c.delete("/api/v1/me", headers=h).status_code == 403
+    assert c.patch("/api/v1/me", json={"role": "schools"}, headers=h).status_code == 403
     p = c.get("/api/v1/auth/providers").json()["data"][0]
     assert p["demoIdentities"][0]["subject"] == "demo-jury" and p["flow"] == "direct"

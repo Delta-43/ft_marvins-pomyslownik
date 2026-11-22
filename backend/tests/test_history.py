@@ -27,6 +27,7 @@ def test_corrected_card_records_level_trl_and_polish_ip_changes():
 
     with connection() as conn:
         start = conn.execute("SELECT coalesce(max(id), 0) AS m FROM status_history WHERE card_id = %s", (cid,)).fetchone()["m"]
+        changed_at = conn.execute("SELECT status_changed_at FROM cards WHERE id = %s", (cid,)).fetchone()["status_changed_at"]
     try:
         with connection() as conn, conn.transaction():
             assert load_card(conn, card) == []            # loading the same card again changes nothing
@@ -54,6 +55,7 @@ def test_corrected_card_records_level_trl_and_polish_ip_changes():
         with connection() as conn, conn.transaction():
             load_card(conn, card)
             conn.execute("DELETE FROM status_history WHERE card_id = %s AND id > %s", (cid, start))
+            conn.execute("UPDATE cards SET status_changed_at = %s WHERE id = %s", (changed_at, cid))
 
 
 def test_evidence_origin_and_query_text():

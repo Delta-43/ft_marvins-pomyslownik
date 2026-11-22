@@ -3,9 +3,8 @@ from uuid import UUID
 
 from fastapi import HTTPException
 
-from ..config import settings
 from ..db import one, rows
-from .cards import SUMMARY_COLS, Filters, iso, summary  # noqa: F401
+from .cards import SUMMARY_COLS, Filters, iso, stale_params, summary  # noqa: F401
 from .i18n import NO, NO_DATA, NOT_APPLICABLE, YES, label
 
 LEVELS_SET = {"concept", "prototype", "testing", "pilot", "in_practice"}
@@ -13,7 +12,7 @@ LEVELS_SET = {"concept", "prototype", "testing", "pilot", "in_practice"}
 
 def _cards(ids: list[UUID]) -> list[dict]:
     found = rows(f"""SELECT {SUMMARY_COLS} FROM cards c JOIN organisations o ON o.id = c.organisation_id WHERE c.id = ANY(%(ids)s)""",
-                 {"ids": ids, "fresh": settings.freshness_days})
+                 {"ids": ids, **stale_params()})
     by_id = {r["id"]: r for r in found}
     if len(by_id) != len(set(ids)):
         raise HTTPException(status_code=404, detail="One or more cards were not found.")
@@ -80,7 +79,7 @@ def similar(card_id: UUID, limit: int) -> list[dict]:
                                   / NULLIF(cardinality(me.tags) + (SELECT count(*) FROM card_tags ct2 WHERE ct2.card_id = c.id)
                                            - (SELECT count(*) FROM card_tags ct3 WHERE ct3.card_id = c.id AND ct3.tag_slug = ANY(me.tags)), 0), 0)) AS sim
         FROM cards c JOIN organisations o ON o.id = c.organisation_id, me
-        WHERE c.id <> me.id ORDER BY sim DESC, c.id LIMIT %(limit)s""", {"id": card_id, "limit": limit, "fresh": settings.freshness_days})
+        WHERE c.id <> me.id ORDER BY sim DESC, c.id LIMIT %(limit)s""", {"id": card_id, "limit": limit, **stale_params()})
     return [{"card": summary(r), "similarity": round(min(max(float(r["sim"] or 0), 0.0), 1.0), 3), "basis": "estimate"} for r in data]
 
 

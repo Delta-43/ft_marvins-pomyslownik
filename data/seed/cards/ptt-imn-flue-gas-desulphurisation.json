@@ -181,6 +181,15 @@
     }
   ],
   "firstSeenAt": "2026-11-21T20:55:29Z",
-  "statusChangedAt": null,
-  "polishIpStatus": "stated"
+  "statusChangedAt": "2026-11-22T00:00:00Z",
+  "polishIpStatus": "stated",
+  "history": [
+    {
+      "at": "2026-11-22T00:00:00Z",
+      "field": "trl",
+      "from": "2",
+      "to": "3",
+      "sourceId": "d54555b1-eabf-4d6d-a632-dac60b392257"
+    }
+  ]
 }

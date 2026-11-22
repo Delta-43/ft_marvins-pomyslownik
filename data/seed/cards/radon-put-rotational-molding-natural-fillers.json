@@ -179,7 +179,7 @@
       "id": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
       "type": "api",
       "name": "RAD-on (OPI PIB), projekt badawczy: Opracowanie technologii odlewania rotacyjnego kompozytów polimerowych z napełniaczami pochodzenia na",
-      "url": "https://radon.nauka.gov.pl/opendata/project/search#uid=70B5F24FF5153B494A51C996A5EA8923",
+      "url": "https://radon.nauka.gov.pl/dane/projekty-badawcze#uid=70B5F24FF5153B494A51C996A5EA8923",
       "retrievedAt": "2026-11-21T21:31:51Z",
       "passage": "Zasadniczym efektem praktycznym przeprowadzonych badań, jest opracowanie metody wytwarzania kompozytów polimerowych metodą odlewania rotacyjnego. … wykonano wielu serii materiałów kompozytowych oraz optymalizację parametrów procesu odlewania rotacyjnego … Politechnika Poznańska",
       "passageLang": "pl",
@@ -222,8 +222,43 @@
       "sourceId": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
       "query": "Read from https://radon.nauka.gov.pl/opendata/project/search#uid=70B5F24FF5153B494A51C996A5EA8923. Quoted text: \"materiału o wskaźniku szybkości płynięcia 60 g/10min\"",
       "retrievedAt": "2026-11-21T21:31:51Z"
+    },
+    {
+      "id": "d132b0cf-642e-5258-ae11-5e1a2962af4d",
+      "metric": "project_start_date",
+      "label": {
+        "pl": "Początek projektu",
+        "en": "Project start"
+      },
+      "value": "2019-06-24",
+      "unit": null,
+      "sourceId": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
+      "retrievedAt": "2026-11-21T21:31:51Z",
+      "query": "Read from the RAD-on record https://radon.nauka.gov.pl/dane/projekty-badawcze#uid=70B5F24FF5153B494A51C996A5EA8923: field dateStarted"
+    },
+    {
+      "id": "a6654040-35e0-5df6-be95-87df8940f947",
+      "metric": "project_end_date",
+      "label": {
+        "pl": "Koniec projektu",
+        "en": "Project end"
+      },
+      "value": "2019-11-30",
+      "unit": null,
+      "sourceId": "e648007d-8b92-51bb-9638-0a2f6f5d6bc1",
+      "retrievedAt": "2026-11-21T21:31:51Z",
+      "query": "Read from the RAD-on record https://radon.nauka.gov.pl/dane/projekty-badawcze#uid=70B5F24FF5153B494A51C996A5EA8923: field dateCompleted"
     }
   ],
   "firstSeenAt": "2026-11-21T21:32:06Z",
-  "statusChangedAt": null
+  "statusChangedAt": "2026-11-22T03:00:00Z",
+  "history": [
+    {
+      "at": "2026-11-22T03:00:00Z",
+      "field": "other",
+      "from": "polish_ip_unknown",
+      "to": "polish_ip_stated",
+      "sourceId": "ffc403f9-669f-526b-b08e-914b6569cce9"
+    }
+  ]
 }

@@ -15,7 +15,11 @@ from .extract import NotAnInnovation, extract
 
 ENDPOINT = "https://radon.nauka.gov.pl/opendata/project/search"
 LICENSE = "RAD-on open data (OPI PIB). Terms: radon.nauka.gov.pl"
-PORTAL = "https://radon.nauka.gov.pl/"  # the search endpoint is POST-only, so a click on it opens nothing
+PORTAL = "https://radon.nauka.gov.pl/"
+# The search endpoint is POST-only, so a link to it opens nothing (#22). Cards link the public project browser instead;
+# the uid after '#' keeps every record's URL unique. LEGACY is the old form, still used to recognise known records.
+BROWSER = "https://radon.nauka.gov.pl/dane/projekty-badawcze"
+LEGACY = f"{ENDPOINT}#uid="
 MIN_DAYS = 60  # shorter projects are almost always commissioned tests or services (#22: a 5-day paint test)
 # Commissioned work for a company: "Przeprowadzenie badań ... dla firmy X", "na zlecenie", "usługa badawcza".
 COMMISSIONED = re.compile(r"^(?:przeprowadzenie|wykonanie|realizacja) (?:badań|bada[nń]|analiz|pomiarów|testów)|na zlecenie|zleceniodawc|usług[ai] badawcz",
@@ -70,7 +74,12 @@ def record_text(p: dict) -> str:
 
 
 def record_url(p: dict) -> str:
-    return f"{ENDPOINT}#uid={p['uid']}"
+    return f"{BROWSER}#uid={p['uid']}"
+
+
+def known_urls(p: dict) -> tuple[str, str]:
+    """The record's URL now and in the old form, for the known-card and skip checks."""
+    return record_url(p), f"{LEGACY}{p['uid']}"
 
 
 def collect_project(p: dict, retrieved_at: str) -> dict:

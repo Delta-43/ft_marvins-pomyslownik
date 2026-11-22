@@ -204,6 +204,15 @@
     }
   ],
   "firstSeenAt": "2026-11-21T20:55:29Z",
-  "statusChangedAt": null,
-  "polishIpStatus": "confirmed"
+  "statusChangedAt": "2026-11-22T00:00:00Z",
+  "polishIpStatus": "confirmed",
+  "history": [
+    {
+      "at": "2026-11-22T00:00:00Z",
+      "field": "other",
+      "from": "polish_ip_stated",
+      "to": "polish_ip_confirmed",
+      "sourceId": "105f4614-90fa-58d3-942c-9d9a0c44f55b"
+    }
+  ]
 }

@@ -88,6 +88,20 @@ def _keep(run: Run, card: dict) -> None:
         run.note(f"status change on {card['id']}: {result['statusChange']}")
 
 
+def ptt_cards() -> int:
+    """Cards that link a PTT listing."""
+    with connection() as conn:
+        return conn.execute("""SELECT count(DISTINCT cs.card_id) AS n FROM card_sources cs JOIN sources s ON s.id = cs.source_id
+                               WHERE s.url LIKE 'http%%://ptt.arp.pl/%%'""").fetchone()["n"]
+
+
+def ptt_quota(ptt: dict, budget: int) -> int:
+    """New PTT listings this run may add. PTT terms §2.3 and §2.11 (issue #10): never copy a substantial part of the
+    database, so the run never takes the total past `max_cards_total`, whatever max_new and the budget allow."""
+    room = int(ptt.get("max_cards_total", 30)) - ptt_cards()
+    return max(0, min(int(ptt.get("max_new", 3)), budget, room))
+
+
 def collect(run: Run) -> None:
     t = targets()
     budget = int(t.get("max_new_per_run", 6))
@@ -116,17 +130,11 @@ def collect(run: Run) -> None:
             run.note(f"document failed {doc['url']}: {type(exc).__name__}: {exc}")
 
     ptt = t.get("ptt") or {}
-    if ptt and budget > 0:
-        want, read = min(int(ptt.get("max_new", 3)), budget), 0
-        # PTT terms §2.3 and §2.11 (issue #10): never copy a substantial part of the database. Cards that link a
-        # PTT listing are counted, and collection stops at the total cap.
-        with connection() as conn:
-            have = conn.execute("""SELECT count(DISTINCT cs.card_id) AS n FROM card_sources cs JOIN sources s ON s.id = cs.source_id
-                                   WHERE s.url LIKE 'http%%://ptt.arp.pl/%%'""").fetchone()["n"]
-        cap = int(ptt.get("max_cards_total", 30))
-        if have >= cap:
-            want = 0
-            run.note(f"PTT: {have} cards already link PTT listings (cap {cap}); no new listings read")
+    want = ptt_quota(ptt, budget) if ptt and budget > 0 else 0
+    if ptt and budget > 0 and want <= 0:
+        run.note(f"PTT: the total cap of {ptt.get('max_cards_total', 30)} cards is reached; no new listings read")
+    if want > 0:
+        read = 0
         try:
             urls_all = sorted(crawler.ptt_listing_urls(), key=lambda u: hashlib.sha256(u.encode()).hexdigest())
         except ITEM_ERRORS as exc:  # PTT down must not stop RAD-on, pages and scoring
@@ -172,7 +180,7 @@ def collect(run: Run) -> None:
             for p in projects:
                 if want <= 0:
                     break
-                if card_id_for(radon.record_url(p)) in ids or radon.record_url(p) in skip:
+                if any(card_id_for(u) in ids or u in skip for u in radon.known_urls(p)):
                     continue
                 try:
                     _keep(run, radon.collect_project(p, retrieved_at=fetch.now_iso()))

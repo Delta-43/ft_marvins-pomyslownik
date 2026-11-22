@@ -1,7 +1,8 @@
 [
   {
     "id": "93552073-f87b-5523-a8ce-74981e651f86",
-    "url": "https://radon.nauka.gov.pl/opendata/project/search#uid=7F490398D865463FF382D5F9E983A1C8",
-    "reason": "R5 review (#22): a 5-day commissioned paint-adhesion test for a company, a service and not an innovation"
+    "url": "https://radon.nauka.gov.pl/dane/projekty-badawcze#uid=7F490398D865463FF382D5F9E983A1C8",
+    "reason": "R5 review (#22): a 5-day commissioned paint-adhesion test for a company, a service and not an innovation",
+    "legacyUrl": "https://radon.nauka.gov.pl/opendata/project/search#uid=7F490398D865463FF382D5F9E983A1C8"
   }
 ]
