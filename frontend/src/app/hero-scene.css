@@ -38,7 +38,7 @@
 .hs[data-scene="4"] .hs-b3 { transform: translate(484px, 330px) scale(0.86); }
 
 /* ── Act 1: launch ── */
-.hs[data-scene="1"] .hs-rocket { offset-path: path("M150,288 C150,120 250,30 470,-20 S 800,-90 900,-110"); animation: hs1-rocket 6s linear both; }
+.hs[data-scene="1"] .hs-rocket { offset-path: path("M150,288 C150,140 270,74 480,24 S 800,-60 900,-90"); animation: hs1-rocket 6s linear both; }
 .hs[data-scene="1"] .hs-rocket-in { animation: hs1-tremble 6s linear both; }
 .hs[data-scene="1"] .hs-flame { animation: hs1-flame 6s linear both; transform-origin: 0 0; }
 .hs[data-scene="1"] .hs-trail { animation: hs1-trail 6s linear both; }
