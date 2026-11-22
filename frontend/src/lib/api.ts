@@ -19,6 +19,8 @@ export class ApiError extends Error {
     message: string,
     public requestId?: string,
     public retryAfter?: string | null,
+    /** `validation_failed` names the failing body fields here (`email`, `role`, `affiliation.name`, ...). */
+    public details: { field: string; issue: string }[] = [],
   ) {
     super(message);
   }
@@ -48,7 +50,7 @@ export async function api<T>(path: string, { method = "GET", body, token, lang }
     const err = (await res.json().catch(() => null))?.error;
     // No error envelope from a gateway (502/503/504): the backend itself is down.
     const fallback = res.status >= 502 && res.status <= 504 ? "unavailable" : "unknown";
-    const e = new ApiError(res.status, err?.code ?? fallback, err?.message ?? res.statusText, err?.requestId, res.headers.get("Retry-After"));
+    const e = new ApiError(res.status, err?.code ?? fallback, err?.message ?? res.statusText, err?.requestId, res.headers.get("Retry-After"), Array.isArray(err?.details) ? err.details : []);
     // Log the requestId so a failure can be traced in the backend logs. Never log the token.
     console.error(`[api] ${method} ${path} -> ${res.status} ${e.code} requestId=${e.requestId ?? "-"}`);
     throw e;

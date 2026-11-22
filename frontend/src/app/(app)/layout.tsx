@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
 import { signOut } from "@/app/actions/auth";
 import { setLocale } from "@/app/actions/locale";
-import { setDisplaySettings } from "@/app/actions/settings";
+import { DisplayControls } from "@/components/DisplayControls";
 import { Icon } from "@/components/Icons";
 import { Logo, Sygnet } from "@/components/Logo";
 import { MenuCloser } from "@/components/MenuCloser";
@@ -14,23 +14,35 @@ import { NavLinks } from "@/components/NavLinks";
 import { LOCALES } from "@/i18n/locale";
 import { api, type Schemas } from "@/lib/api";
 import { DEMO_COOKIE, SESSION_COOKIE } from "@/lib/cookie";
-import { CONTRASTS, parseSettings, SETTINGS_COOKIE, TEXT_SIZES } from "@/lib/settings";
+import { helpHref } from "@/lib/help";
 import { fitter, Reserve } from "@/components/Fit";
 
 /** App shell from the flow prototype: Papier page, one white rounded nav card, no footer. Help, the text pages and the
- *  display settings live in the account menu. The text pages are public: without a session the card shows the logo
- *  and the language only. */
+ *  display settings live in the account menu. The text pages are public: without a session the card shows the logo,
+ *  the language and a menu with the same help, display settings and text page links. */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const [store, t, tl, locale] = await Promise.all([cookies(), getTranslations("shell"), getTranslations("language"), getLocale()]);
   const ft = await fitter("shell");
   const token = store.get(SESSION_COOKIE)?.value;
   const demo = store.has(DEMO_COOKIE);
-  const settings = parseSettings(store.get(SETTINGS_COOKIE)?.value);
+  const help = await helpHref();
   // The account name for the header. A failure here never breaks the page; the page's own call handles a 401.
   const me = token ? await api<{ data: Schemas["User"] }>("/api/v1/me", { token }).then((r) => r.data, () => null) : null;
   const name = me?.displayName?.trim() || me?.email?.split("@")[0] || "";
   const initials = (name.match(/[\p{L}\p{N}]+/gu) ?? []).map((w) => w[0]).join("").slice(0, 2).toUpperCase() || "?";
-  const contrastLabel = { auto: ft("contrastAuto"), high: ft("contrastHigh"), low: ft("contrastLow") };
+  // Display settings, help and the text pages: the account menu after sign-in, the plain menu before it.
+  const menuBody = (
+    <>
+      <DisplayControls idPrefix="m" />
+      <hr className="menu-sep" />
+      <ul role="list">
+        <li><a className="menu-item" href={help}>{ft("help")}</a></li>
+        <li><Link className="menu-item" href="/regulamin">{ft("terms")}</Link></li>
+        <li><Link className="menu-item" href="/dostepnosc">{ft("accessibility")}</Link></li>
+        <li><Link className="menu-item" href="/metodologia">{ft("methodology")}</Link></li>
+      </ul>
+    </>
+  );
 
   return (
     <div className="shell">
@@ -69,27 +81,19 @@ export default async function AppLayout({ children }: { children: React.ReactNod
                     <li><Link className="menu-item" href="/profil">{ft("profile")}</Link></li>
                   </ul>
                   <hr className="menu-sep" />
-                  <p className="menu-head" id="m-text">{ft("textSize")}</p>
-                  <form className="seg" role="group" aria-labelledby="m-text" action={setDisplaySettings}>
-                    <input type="hidden" name="contrast" value={settings.contrast} />
-                    {TEXT_SIZES.map((v) => <button key={v} type="submit" name="text" value={v} aria-pressed={settings.text === v}>{v}%</button>)}
-                  </form>
-                  <p className="menu-head" id="m-contrast">{ft("contrast")}</p>
-                  <form className="seg" role="group" aria-labelledby="m-contrast" action={setDisplaySettings}>
-                    <input type="hidden" name="text" value={settings.text} />
-                    {CONTRASTS.map((v) => <button key={v} type="submit" name="contrast" value={v} aria-pressed={settings.contrast === v}>{contrastLabel[v]}</button>)}
-                  </form>
-                  <hr className="menu-sep" />
-                  <ul role="list">
-                    <li><a className="menu-item" href={t("helpUrl")}>{ft("help")}</a></li>
-                    <li><Link className="menu-item" href="/regulamin">{ft("terms")}</Link></li>
-                    <li><Link className="menu-item" href="/dostepnosc">{ft("accessibility")}</Link></li>
-                    <li><Link className="menu-item" href="/metodologia">{ft("methodology")}</Link></li>
-                  </ul>
+                  {menuBody}
                 </div>
               </details>
               <form action={signOut}><button type="submit" className="btn btn-text btn-sm">{ft("signOut")}</button></form>
             </>
+          )}
+          {/* Without a session the same menu, minus the profile, sits in the same place: help and the display
+              settings are where they are after sign-in (WCAG 3.2.6). */}
+          {!token && (
+            <details className="menu" name="nav-menu">
+              <summary className="lang-btn">{ft("guestMenu")}<span className="sr-only">: {t("guestMenuSr")}</span><Icon name="chev" /></summary>
+              <div className="menu-panel">{menuBody}</div>
+            </details>
           )}
         </div>
       </header>

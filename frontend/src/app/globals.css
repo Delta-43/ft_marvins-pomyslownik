@@ -32,7 +32,7 @@
 
   --font-display: "Lato", "Roboto", "Segoe UI", Arial, sans-serif;
   --font-body: "Atkinson Hyperlegible Next", "Roboto", system-ui, sans-serif;
-  --font-tech: "Atkinson Hyperlegible Mono", ui-monospace, "Roboto", monospace;
+  --font-tech: "Atkinson Hyperlegible Mono", "Roboto Mono", ui-monospace, monospace;
   --font-mono: var(--font-tech);
 
   --text-display: clamp(2.75rem, 1.5rem + 4vw, 5rem);
@@ -716,3 +716,25 @@ html[data-text="150"] .filters { position: static; max-height: none; }
   .pager [aria-current="page"], .seg button[aria-pressed="true"], .menu-item[aria-current="true"] { outline: 2px solid Highlight; outline-offset: -4px; }
   .input, .radio, .search-form, .fsel select, .sort select, .detail, .detail-bar { border-color: CanvasText; }
 }
+
+/* ─── Track 1: accessibility run ─── */
+/* Phone and zoomed nav (≤ 820 px): the menus span the nav card instead of their own width, so a menu never
+   reaches past the viewport at 200% zoom with 150% text (1.4.10; the closed menu also widened the page). */
+@media (max-width: 820px) { .menu-panel, .menu-panel-sm { width: auto; max-width: none; } }
+/* Example cards: one column once a column would be narrower than 20rem (it follows the text size, so 200% zoom with
+   150% text stacks them), and a fact line wraps instead of pushing the card past the viewport (1.4.10). */
+.examples ul { grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+.example { grid-template-columns: minmax(0, 1fr); }
+.example .facts .fact-pair { flex-wrap: wrap; }
+/* Checkboxes and radios are 24 px targets on their own (2.5.8, DESIGN.md §8 rule 4), not only through their label. */
+.radio input, .opt input, .check input { width: 1.5rem; height: 1.5rem; }
+/* Forced colours: the logo paths have author fills (Atrament on a black Canvas was invisible). */
+@media (forced-colors: active) { svg path[fill^="var(--color-"] { fill: CanvasText; } }
+
+/* ─── Track 2 ─── */
+/* Display settings under the sign-in card (TASKS.md A4): label and segments side by side, stacked on narrow screens. */
+.disp { display: grid; grid-template-columns: auto auto; justify-content: center; align-items: center; gap: 0.375rem 0.75rem; }
+.disp .menu-head { padding: 0; font-size: var(--text-small); color: var(--color-atrament); justify-self: end; }
+.disp .seg { padding: 0; }
+.disp .seg button { min-height: 2rem; }
+@media (max-width: 30rem) { .disp { grid-template-columns: 1fr; justify-items: center; } .disp .menu-head { justify-self: center; } }

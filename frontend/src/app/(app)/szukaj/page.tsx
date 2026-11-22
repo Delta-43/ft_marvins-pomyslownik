@@ -8,6 +8,9 @@ import { SearchForm } from "@/components/SearchForm";
 import { LOCALES, type Locale } from "@/i18n/locale";
 import { text } from "@/lib/api";
 import { attempt, DEMO_CARDS, getCard, getLatestTags, isFailure } from "@/lib/data";
+import { cookies } from "next/headers";
+import { FIRST_AUDIENCE_COOKIE } from "@/lib/cookie";
+import { AUDIENCES } from "@/lib/results-url";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: (await getTranslations("find"))("metaTitle") };
@@ -18,6 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
  *  languages and stacked like <Fit>, so switching language never moves the page. */
 export default async function SearchPage() {
   const locale = (await getLocale()) as Locale;
+  const role = (await cookies()).get(FIRST_AUDIENCE_COOKIE)?.value;
+  const firstAudience = (AUDIENCES as readonly string[]).includes(role ?? "") ? role : undefined;
   const [ft, fk] = await Promise.all([fitter("find"), fitter("kard")]);
   const [tagSets, examples] = await Promise.all([
     Promise.all(LOCALES.map((l) => attempt(getLatestTags("/szukaj", l)))),
@@ -37,7 +42,7 @@ export default async function SearchPage() {
     <PageMove />
     <div className="search-page">
       <h1 className="search-title">{ft("title")}</h1>
-      <SearchForm autoFocus />
+      <SearchForm autoFocus firstAudience={firstAudience} />
       {tags.length > 0 && (
         <div className="tags-block">
           <h2 id="tagsH">{ft("tags")}</h2>
