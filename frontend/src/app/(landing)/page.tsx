@@ -118,10 +118,19 @@ async function SignInPanel() {
         <p id="sandbox-help" className="m-0 text-[1.0625rem] text-kamien">{t("signIn.sandboxHelp")}</p>
       </div>
       <hr className="m-0 border-0 border-t border-krawedz" />
-      <p className="m-0 flex flex-wrap items-center gap-1.5">
-        {t("signIn.noAccount")}
-        <Link href={REGISTER} className="rounded font-bold text-granat underline underline-offset-4 hover:text-atrament">{t("signIn.register")}</Link>
-      </p>
+      {/* Registration: an outlined button that pairs with the filled sign-in button above (not underlined link text). */}
+      <div className="flex flex-col gap-2.5">
+        <p className="m-0 text-kamien">{t("signIn.noAccount")}</p>
+        <Link
+          href={REGISTER}
+          className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full border-2 border-granat bg-white px-5 py-2 text-base font-bold text-granat no-underline transition-colors hover:bg-granat hover:text-papier sm:min-h-16 sm:text-[1.125rem]"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" className="flex-none">
+            <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="10" cy="8.5" r="3.5" /><path d="M3 20c.9-3.8 3.6-5.8 7-5.8 1.6 0 3 .4 4.2 1.2M18 13v6M15 16h6" /></g>
+          </svg>
+          {t("signIn.register")}
+        </Link>
+      </div>
       {/* Info message (DESIGN.md 6): icon, bold lead word, Granat 1.5px border on #EEF1F8, radius 16, padding 16. */}
       <div className="flex gap-3 rounded-2xl border-[1.5px] border-granat bg-[#EEF1F8] p-5">
         <svg viewBox="0 0 20 20" width="22" height="22" aria-hidden="true" className="mt-0.5 flex-none">
