@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
-import { ViewTransition } from "react";
 import { Logo } from "@/components/Logo";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
+import { HeroArt } from "@/components/landing/HeroArt";
 import { LandingShell, PauseButton } from "@/components/landing/LandingClient";
-import { SignInForms } from "@/components/landing/SignInForms";
-import { LogoMorph, T } from "@/components/motion/Motion";
 
-// Landing page ("/"): the hero and sign-in follow the flow prototype (landing → opening → search), the sections
-// below are the brand prototype landing/Landing.dc.html (Alban). Public: no card data here (docs/FRONTEND-START.md
-// section 6). Search needs an account, which protects the authors' IP. Sign-in happens right here (the test identity
-// or the demo account); registration lives on /logowanie. Artwork: Blender renders in /public/landing.
-// Motion: the dark hero and the logo are the start of the opening move (src/components/motion/Motion.tsx).
+// Landing page ("/"), a faithful port of the brand prototype landing/Landing.dc.html (Alban).
+// Public: no card data here (docs/FRONTEND-START.md section 6). Search needs an account, which protects the
+// authors' IP; the real sign-in and registration live on /logowanie. Artwork: Blender renders in /public/landing.
 
 // Texts: messages/{pl,en}.json, namespace "landing". The PL/EN switch is at the top right of the hero and in the footer.
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return { title: t("metaTitle"), description: t("metaDescription") };
 }
 
+const SIGN_IN = "/logowanie";
 const REGISTER = "/logowanie?tryb=rejestracja";
 const MONO = "font-['Atkinson_Hyperlegible_Mono',ui-monospace,monospace]";
 const PAD_X = "px-[clamp(1rem,4vw,3rem)]";
@@ -91,47 +88,57 @@ function Grain({ id }: { id: string }) {
   );
 }
 
-/** Sign-in panel. The test identity and the demo account sign in right here; registration is on /logowanie. */
+/** Sign-in panel (PanelLogowania, default state). The test-identity button leads to the real sign-in. */
 async function SignInPanel() {
-  const [t, tErr] = await Promise.all([getTranslations("landing"), getTranslations("errors")]);
-  const errors = Object.fromEntries(
-    (["registration_required", "account_exists", "validation_failed", "rate_limited", "unauthorized", "unavailable", "unknown"] as const).map((k) => [k, tErr(k)]),
-  );
+  const t = await getTranslations("landing");
   return (
     <section
       id="logowanie"
       tabIndex={-1}
       aria-labelledby="h-logowanie"
-      className="box-border flex w-full flex-col gap-6 rounded-3xl border border-krawedz bg-white p-[clamp(1.5rem,3vw,2.75rem)] text-[1.125rem] leading-[1.55] text-atrament shadow-[0_24px_60px_-30px_rgb(20_20_20/0.35)] outline-none"
+      className="box-border flex w-full flex-col gap-7 rounded-3xl border border-krawedz bg-white p-[clamp(1.5rem,3vw,3rem)] text-[1.25rem] leading-[1.55] text-atrament outline-none"
     >
       <div className="flex flex-col gap-1">
-        <h2 id="h-logowanie" className="m-0 font-display text-[clamp(2rem,3.2vw,2.75rem)] leading-[1.1] font-bold tracking-[-0.01em]">{t("signIn.title")}</h2>
+        <h2 id="h-logowanie" className="m-0 font-display text-[clamp(2.25rem,3.5vw,3.25rem)] leading-[1.1] font-bold tracking-[-0.01em]">{t("signIn.title")}</h2>
         <p className="m-0 text-kamien">{t("signIn.subtitle")}</p>
       </div>
-      <SignInForms
-        t={{
-          idLabel: t("signIn.idLabel"), idHint: t("signIn.idHint"), submit: t("signIn.submit"), busy: t("signIn.busy"),
-          done: t("signIn.done"), demo: t("signIn.demo"), demoNote: t("signIn.demoNote"), errorLead: t("signIn.errorLead"), errors,
-        }}
-      />
-      <p className="m-0 text-[0.9375rem] text-kamien">{t("signIn.sandboxHelp")}</p>
-      <hr className="m-0 border-0 border-t border-krawedz" />
-      {/* Registration: an outlined link that pairs with the buttons above. */}
-      <p className="m-0 flex flex-wrap items-center justify-between gap-3">
-        <span className="text-kamien">{t("signIn.noAccount")}</span>
-        <Link href={REGISTER} className="inline-flex min-h-11 items-center gap-2 rounded-full px-1 font-bold text-granat underline underline-offset-4 hover:text-atrament">
-          {t("signIn.register")}
-          <Arrow size={16} />
+      <div className="flex flex-col gap-2.5">
+        <Link
+          id="sandbox-btn"
+          href={SIGN_IN}
+          aria-describedby="sandbox-help"
+          className="flex min-h-14 w-full items-center gap-3 rounded-full bg-granat px-5 py-2 text-left text-base leading-[1.3] sm:min-h-16 sm:px-7 sm:text-[1.125rem] font-bold text-papier no-underline hover:bg-[#006BA3] hover:text-papier"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" className="flex-none">
+            <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="8.5" r="3.5" /><path d="M5 20c.9-3.8 3.6-5.8 7-5.8s6.1 2 7 5.8" /></g>
+          </svg>
+          <span className="flex-1">{t("signIn.sandbox")}</span>
+          <span className={`flex-none rounded-md bg-papier px-2 py-0.5 text-sm font-medium tracking-[0.06em] text-atrament ${MONO}`}>TEST</span>
         </Link>
-      </p>
+        <p id="sandbox-help" className="m-0 text-[1.0625rem] text-kamien">{t("signIn.sandboxHelp")}</p>
+      </div>
+      <hr className="m-0 border-0 border-t border-krawedz" />
+      {/* Registration: an outlined button that pairs with the filled sign-in button above (not underlined link text). */}
+      <div className="flex flex-col gap-2.5">
+        <p className="m-0 text-kamien">{t("signIn.noAccount")}</p>
+        <Link
+          href={REGISTER}
+          className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full border-2 border-granat bg-white px-5 py-2 text-base font-bold text-granat no-underline transition-colors hover:bg-granat hover:text-papier sm:min-h-16 sm:text-[1.125rem]"
+        >
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" className="flex-none">
+            <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="10" cy="8.5" r="3.5" /><path d="M3 20c.9-3.8 3.6-5.8 7-5.8 1.6 0 3 .4 4.2 1.2M18 13v6M15 16h6" /></g>
+          </svg>
+          {t("signIn.register")}
+        </Link>
+      </div>
       {/* Info message (DESIGN.md 6): icon, bold lead word, Granat 1.5px border on #E6F3FA, radius 16, padding 16. */}
-      <div className="flex gap-3 rounded-2xl border-[1.5px] border-granat bg-[#E6F3FA] p-4">
+      <div className="flex gap-3 rounded-2xl border-[1.5px] border-granat bg-[#E6F3FA] p-5">
         <svg viewBox="0 0 20 20" width="22" height="22" aria-hidden="true" className="mt-0.5 flex-none">
           <circle cx="10" cy="10" r="10" fill="#0085CC" /><circle cx="10" cy="5.8" r="1.3" fill="#FFFFFF" /><path d="M10 9v5.5" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" />
         </svg>
-        <p className="m-0 text-[1rem]"><strong>{t("signIn.infoLead")}</strong> {t("signIn.infoText")}</p>
+        <p className="m-0 text-[1.0625rem]"><strong>{t("signIn.infoLead")}</strong> {t("signIn.infoText")}</p>
       </div>
-      <ul className="m-0 flex list-none flex-wrap gap-x-[18px] gap-y-2 p-0 text-[0.9375rem]">
+      <ul className="m-0 flex list-none flex-wrap gap-x-[18px] gap-y-2 p-0 text-[1.0625rem]">
         <li><a href="#regulamin" className="rounded text-atrament underline underline-offset-[0.2em] hover:text-granat">{t("terms")}</a></li>
         <li><a href="#deklaracja-dostepnosci" className="rounded text-atrament underline underline-offset-[0.2em] hover:text-granat">{t("accessibility")}</a></li>
       </ul>
@@ -149,54 +156,35 @@ export default async function LandingPage() {
         </a>
 
         <main id="main" tabIndex={-1} className="outline-none">
-          {/* Hero: the dark half (logo, title, constellation) and the Papier half with sign-in.
-              Signing in plays the opening move: the Papier window sweeps over the hero, which drifts left,
-              and the logo flies into the app header at half its size. The header logo brings it all back. */}
-          <section aria-labelledby="h1" className="relative isolate grid min-h-svh grid-cols-1 min-[1080px]:grid-cols-[minmax(0,7fr)_minmax(0,6fr)]">
-            <ViewTransition
-              exit={{ [T.opening]: "hero-out", default: "hero-out" }}
-              enter={{ default: "hero-in" }}
-              default="none"
-            >
-              <div className="landing-dark relative flex min-h-[70svh] flex-col justify-between overflow-hidden bg-atrament px-[clamp(1.25rem,4vw,3.5rem)] pt-[clamp(1.25rem,3vw,2.5rem)] pb-[clamp(2rem,5vw,4rem)] text-papier min-[1080px]:min-h-svh">
-                {/* Constellation render, held to the right so the text keeps its own dark ground. */}
-                <picture aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-                  <source srcSet="/landing/konstelacja.avif" type="image/avif" />
-                  <img src="/landing/konstelacja.webp" alt="" width={2000} height={1000} className="h-full w-full object-cover object-[72%_50%] max-[1079px]:object-[80%_30%] max-[1079px]:opacity-60" />
-                </picture>
-                <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(20_20_20/0.97)_0%,rgb(20_20_20/0.78)_42%,rgb(20_20_20/0.1)_78%)] max-[1079px]:bg-[linear-gradient(180deg,rgb(20_20_20/0.25)_0%,rgb(20_20_20/0.85)_45%,rgb(20_20_20/0.98)_100%)]" />
-                <Grain id="grain-hero" />
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  {/* The logo: twice the header size. It is the thread between this screen and the app. */}
-                  <LogoMorph>
-                    <div className="shrink-0 py-1"><Logo inverted size={48} title={t("logo")} /></div>
-                  </LogoMorph>
-                  <LanguageSwitch dark />
+          {/* Hero */}
+          <section aria-labelledby="h1" className="relative isolate overflow-hidden">
+            {/* Colour fade, as on the search page (globals.css .aurora-hero). */}
+            <div className="aurora aurora-hero" aria-hidden="true"><span /><span /><span /></div>
+            {/* Grid: desktop = text and art on the left, sign-in panel on the right from the top;
+                narrow screens = text, then the sign-in panel, then the art (so the panel comes early). */}
+            <div className={`${WRAP} grid min-h-svh grid-cols-1 content-start gap-x-[clamp(2rem,4vw,4rem)] gap-y-8 pt-[clamp(2rem,5vw,4rem)] pb-[clamp(2rem,5vw,4rem)] min-[1080px]:grid-cols-[minmax(0,7fr)_minmax(0,6fr)] min-[1080px]:grid-rows-[auto_1fr] min-[1080px]:gap-y-0`}>
+              <div className="flex min-w-0 flex-col min-[1080px]:col-start-1 min-[1080px]:row-start-1">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <p className="m-0 text-sm font-bold tracking-[0.18em]">{t("eyebrow")}</p>
+                  <LanguageSwitch />
                 </div>
-                <div className="mt-[clamp(3rem,8vh,6rem)] flex max-w-[34rem] flex-col">
-                  <p className="m-0 text-sm font-bold tracking-[0.18em] text-[#E4DDD2]">{t("eyebrow")}</p>
-                  <h1 id="h1" className="mt-5 mb-0 font-display text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.08] font-bold tracking-[-0.01em] text-papier [text-wrap:balance]">
-                    {t("heroTitle")}
-                  </h1>
-                  <p className="mt-6 mb-0 max-w-[48ch] text-[clamp(1.0625rem,1.3vw,1.25rem)] leading-[1.55] text-[#E4DDD2] [text-wrap:pretty]">
-                    {t("heroLead")}
-                  </p>
-                  <a href="#jak-to-dziala" className="mt-8 inline-flex min-h-11 w-fit items-center gap-3 rounded-full border-[1.5px] border-papier/60 pr-5 pl-4 font-bold text-papier no-underline transition-colors hover:border-papier hover:bg-white/10 hover:text-papier">
-                    {t("howTitle")}
-                    <Arrow size={16} stroke="#F7F2EB" />
-                  </a>
-                </div>
-                <p aria-hidden="true" className={`absolute top-1/2 right-3 m-0 hidden -translate-y-1/2 rotate-180 text-xs tracking-[0.2em] whitespace-nowrap text-[#E4DDD2]/70 [writing-mode:vertical-rl] min-[1080px]:block ${MONO}`}>
-                  {t("sideNote")}
+                <h1 id="h1" className="mt-5 mb-0 pt-[0.06em] font-display text-[clamp(2.5rem,9vw,9rem)] leading-[1.1] font-bold tracking-[-0.01em] [text-wrap:balance]">
+                  {t("heroTitle")}
+                </h1>
+                <p className="mt-7 mb-0 max-w-[60ch] text-[clamp(1.125rem,1.4vw,1.375rem)] leading-[1.55] [text-wrap:pretty]">
+                  {t("heroLead")}
                 </p>
               </div>
-            </ViewTransition>
-            <ViewTransition exit={{ [T.opening]: "fade-out", default: "fade-out" }} enter={{ default: "rise-late" }} default="none">
-              <div className="relative flex items-center bg-papier px-[clamp(1rem,4vw,3.5rem)] py-[clamp(2rem,5vw,4rem)]">
-                <div className="aurora aurora-hero" aria-hidden="true"><span /><span /><span /></div>
-                <div className="relative mx-auto w-full max-w-[34rem]"><SignInPanel /></div>
+              <div className="min-w-0 min-[1080px]:col-start-2 min-[1080px]:row-span-2 min-[1080px]:row-start-1">
+                <SignInPanel />
               </div>
-            </ViewTransition>
+              <div className="flex min-w-0 flex-col min-[1080px]:col-start-1 min-[1080px]:row-start-2">
+                <HeroArt />
+              </div>
+            </div>
+            <p aria-hidden="true" className={`absolute top-1/2 right-2.5 m-0 hidden -translate-y-1/2 rotate-180 text-sm tracking-[0.2em] whitespace-nowrap text-kamien [writing-mode:vertical-rl] min-[1080px]:block ${MONO}`}>
+              {t("sideNote")}
+            </p>
           </section>
 
           {/* 01 Jak to działa */}
