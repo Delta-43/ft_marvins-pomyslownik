@@ -33,6 +33,23 @@ Status tags: **Must**, **Should**. Written 2026-11-21.
 | F19 | **Increase implemented innovations** based on **Polish IP** | 8.9 | Show reuse and transfer potential. Prioritise patents and Polish origin. Report as an expected effect | **Should** |
 | F20 | "One place" to discover Polish innovations | closing | A single entry page and a unified card | **Must** |
 
+## From the mentor review (2026-11-22)
+
+Findings and decisions: `docs/MENTOR-FEEDBACK-2026-11-22.md`. Tasks: `TASKS.md`, section "Mentor feedback".
+
+| # | Requirement | How we cover it | Status |
+|---|---|---|---|
+| M1 | Sign-in is a drop-in for the national login: mObywatel, Profil Zaufany (with its SMS step), e-dowód, bank | One provider interface. Węzeł Krajowy (login.gov.pl) through SAML. Contract draft 3. `docs/api/AUTH-PROVIDERS.md` | **Must** (design now, real adapter after the hackathon) |
+| M2 | Ukrainian. The same API call answers in the requested language, chosen on the server | `lang` and `Accept-Language`, one string per text, `uk` stored for every text | **Must** |
+| M3 | Zoom, colour-blind safe, high and low contrast modes, navigation per WCAG 2.2 | Text-size and contrast controls, `prefers-contrast`, `forced-colors`, WCAG 2.2 new criteria | **Must** |
+| M4 | Navigable with WAI-ARIA | Authoring Practices patterns, named landmarks, disclosure buttons | **Must** |
+| M5 | PCI and Podkarpackie colour scheme | Proposal with measured contrast (§5) | **Should** |
+| M6 | Clear visual hierarchy, better layout, proportional type like the PCI site | One fluid type scale, one primary action per screen (§6) | **Should** |
+| M7 | Easy to use, above all | Three actions to the first card, usability test with three people | **Must** |
+| M8 | Connect people with similar interests: keep similarity hits and research on the same card | `relatedWork` on the card with organisations and public contact pages. No messaging (FAQ §6) | **Must** |
+| M9 | Harvest by API, crawl and other methods; owners configure sources in one file, tokens in `.env` | Source registry `data/sources/registry.json`, `tokenEnv`, admin readiness endpoint | **Should** |
+| M10 | Frontend does visuals only; the backend does all processing | Audit done (§10). Language choice and labels move to the backend | **Must** |
+
 ## Explicit exclusions (FAQ §6). Do not build
 
 - A platform for submitting new ideas

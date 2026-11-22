@@ -47,8 +47,11 @@ export async function api<T>(path: string, { method = "GET", body, token }: Opti
   return res.json() as Promise<T>;
 }
 
-/** API text in the chosen language, falling back to the other one if it is missing. */
+/** API text in the chosen language, falling back to the other one if it is missing.
+ *  Contract draft 3: when the request names a language, the server already sends one string. Then it is shown as is.
+ *  The object branch is the deprecated form and goes away with task F13. */
 export function pick(text: LocalizedText | null | undefined, locale: string): string {
+  if (typeof text === "string") return text.trim();
   const first = locale === "en" ? text?.en : text?.pl;
   const second = locale === "en" ? text?.pl : text?.en;
   return first?.trim() || second?.trim() || "";
