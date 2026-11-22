@@ -52,7 +52,7 @@ function SectionNumber({ n, dark = false }: { n: string; dark?: boolean }) {
     <span
       aria-hidden="true"
       className={`flex-none font-display text-[clamp(4.5rem,11vw,10rem)] leading-[0.9] font-bold tracking-[-0.03em] text-transparent ${dark ? "" : "w-[clamp(6rem,14vw,13rem)]"}`}
-      style={{ WebkitTextStroke: `2px ${dark ? "#FFD93D" : "#1B3F8F"}` }}
+      style={{ WebkitTextStroke: `2px ${dark ? "#6BB437" : "#0085CC"}` }}
     >
       {n}.
     </span>
@@ -107,7 +107,7 @@ async function SignInPanel() {
           id="sandbox-btn"
           href={SIGN_IN}
           aria-describedby="sandbox-help"
-          className="flex min-h-14 w-full items-center gap-3 rounded-full bg-granat px-5 py-2 text-left text-base leading-[1.3] sm:min-h-16 sm:px-7 sm:text-[1.125rem] font-bold text-papier no-underline hover:bg-[#14306E] hover:text-papier"
+          className="flex min-h-14 w-full items-center gap-3 rounded-full bg-granat px-5 py-2 text-left text-base leading-[1.3] sm:min-h-16 sm:px-7 sm:text-[1.125rem] font-bold text-papier no-underline hover:bg-[#006BA3] hover:text-papier"
         >
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" className="flex-none">
             <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="8.5" r="3.5" /><path d="M5 20c.9-3.8 3.6-5.8 7-5.8s6.1 2 7 5.8" /></g>
@@ -131,10 +131,10 @@ async function SignInPanel() {
           {t("signIn.register")}
         </Link>
       </div>
-      {/* Info message (DESIGN.md 6): icon, bold lead word, Granat 1.5px border on #EEF1F8, radius 16, padding 16. */}
-      <div className="flex gap-3 rounded-2xl border-[1.5px] border-granat bg-[#EEF1F8] p-5">
+      {/* Info message (DESIGN.md 6): icon, bold lead word, Granat 1.5px border on #E6F3FA, radius 16, padding 16. */}
+      <div className="flex gap-3 rounded-2xl border-[1.5px] border-granat bg-[#E6F3FA] p-5">
         <svg viewBox="0 0 20 20" width="22" height="22" aria-hidden="true" className="mt-0.5 flex-none">
-          <circle cx="10" cy="10" r="10" fill="#1B3F8F" /><circle cx="10" cy="5.8" r="1.3" fill="#FFFFFF" /><path d="M10 9v5.5" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" />
+          <circle cx="10" cy="10" r="10" fill="#0085CC" /><circle cx="10" cy="5.8" r="1.3" fill="#FFFFFF" /><path d="M10 9v5.5" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" />
         </svg>
         <p className="m-0 text-[1.0625rem]"><strong>{t("signIn.infoLead")}</strong> {t("signIn.infoText")}</p>
       </div>
@@ -157,7 +157,9 @@ export default async function LandingPage() {
 
         <main id="main" tabIndex={-1} className="outline-none">
           {/* Hero */}
-          <section aria-labelledby="h1" className="relative overflow-hidden">
+          <section aria-labelledby="h1" className="relative isolate overflow-hidden">
+            {/* Colour fade, as on the search page (globals.css .aurora-hero). */}
+            <div className="aurora aurora-hero" aria-hidden="true"><span /><span /><span /></div>
             {/* Grid: desktop = text and art on the left, sign-in panel on the right from the top;
                 narrow screens = text, then the sign-in panel, then the art (so the panel comes early). */}
             <div className={`${WRAP} grid min-h-svh grid-cols-1 content-start gap-x-[clamp(2rem,4vw,4rem)] gap-y-8 pt-[clamp(2rem,5vw,4rem)] pb-[clamp(2rem,5vw,4rem)] min-[1080px]:grid-cols-[minmax(0,7fr)_minmax(0,6fr)] min-[1080px]:grid-rows-[auto_1fr] min-[1080px]:gap-y-0`}>
@@ -251,7 +253,7 @@ export default async function LandingPage() {
                 <p className="m-0 max-w-[40ch] text-xl text-[#E4DDD2]">{t("constellationText")}</p>
                 <PauseButton dark pauseLabel={t("pause")} resumeLabel={t("resume")} />
               </div>
-              <div aria-hidden="true" className="relative min-w-0 flex-[1.5_1_30rem] overflow-hidden rounded-3xl bg-[radial-gradient(120%_90%_at_65%_40%,#1B3F8F_0%,#141414_72%)]">
+              <div aria-hidden="true" className="relative min-w-0 flex-[1.5_1_30rem] overflow-hidden rounded-3xl bg-[radial-gradient(120%_90%_at_65%_40%,#0085CC_0%,#141414_72%)]">
                 <Picture name="konstelacja" w={2000} h={1000} className="block h-[1000px] w-full object-cover object-[82%_50%]" />
                 <Grain id="grain-k" />
               </div>
@@ -314,7 +316,7 @@ export default async function LandingPage() {
               <div className="flex min-w-0 flex-[1_1_28rem] flex-col items-start gap-9">
                 <h2 id="h-cta" className="m-0 font-display text-[clamp(3rem,8vw,8rem)] leading-[1.1] font-bold tracking-[-0.01em] text-papier [text-wrap:balance]">{t("ctaTitle")}</h2>
                 <div className="flex flex-wrap gap-3">
-                  <a href="#logowanie" className="flex min-h-11 items-center rounded-full bg-iskra px-[22px] font-bold text-atrament no-underline hover:bg-[#F5CC1F] hover:text-atrament">{t("ctaSignIn")}</a>
+                  <a href="#logowanie" className="flex min-h-11 items-center rounded-full bg-iskra px-[22px] font-bold text-atrament no-underline hover:bg-[#5A9A2E] hover:text-atrament">{t("ctaSignIn")}</a>
                   <Link href={REGISTER} className="box-border flex min-h-11 items-center rounded-full border-[1.5px] border-papier bg-atrament px-[22px] font-bold text-papier no-underline hover:bg-[#2A2826] hover:text-papier">{t("ctaRegister")}</Link>
                 </div>
               </div>
@@ -331,7 +333,7 @@ export default async function LandingPage() {
         >
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
             <g stroke="#F7F2EB" strokeWidth="1.2" strokeOpacity="0.7"><line x1="5" y1="17" x2="12" y2="8" /><line x1="12" y1="8" x2="19" y2="15" /><line x1="5" y1="17" x2="19" y2="15" /></g>
-            <circle cx="5" cy="17" r="2.6" fill="#A9DCE6" /><circle cx="19" cy="15" r="2.6" fill="#CDB8F0" /><circle cx="12" cy="8" r="3.2" fill="#FFD93D" />
+            <circle cx="5" cy="17" r="2.6" fill="#A9DCE6" /><circle cx="19" cy="15" r="2.6" fill="#CDB8F0" /><circle cx="12" cy="8" r="3.2" fill="#6BB437" />
           </svg>
           {t("ideaMap")}
         </a>

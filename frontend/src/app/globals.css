@@ -5,8 +5,8 @@
 @theme {
   --color-papier: #F7F2EB;    /* backgrounds */
   --color-atrament: #141414;  /* text, main elements · 16.54:1 on Papier */
-  --color-granat: #1B3F8F;    /* accent, buttons, links, focus · 8.75:1 on Papier */
-  --color-iskra: #FFD93D;     /* highlights · only on Atrament or under Atrament text */
+  --color-granat: #0085CC;    /* main colour (PCI blue) · accent, buttons, links, focus · 3.61:1 on Papier, 4.02:1 with white */
+  --color-iskra: #6BB437;     /* highlight colour (PCI green) · 7.20:1 with Atrament · only on Atrament or under Atrament text */
   --color-kamien: #5A544D;    /* secondary text · 6.71:1 on Papier */
   --color-krawedz: #DDD5C8;   /* card borders */
   --color-uczelnie: #A9DCE6;  /* categories: always with an icon */
@@ -78,9 +78,14 @@ body { background: #F4EEE6; }
 }
 .aurora::before { width: 46vw; height: 46vw; left: -10vw; top: -14vw; background: #A9DCE6; }
 .aurora::after  { width: 40vw; height: 40vw; right: -8vw; top: 8vh; background: #CDB8F0; animation-delay: -8s; }
-.aurora span:nth-child(1) { width: 34vw; height: 34vw; left: 22vw; bottom: -16vw; background: #FFD93D; opacity: 0.45; animation-delay: -14s; }
+.aurora span:nth-child(1) { width: 34vw; height: 34vw; left: 22vw; bottom: -16vw; background: #6BB437; opacity: 0.45; animation-delay: -14s; }
 .aurora span:nth-child(2) { width: 30vw; height: 30vw; right: 14vw; bottom: -10vw; background: #F7C6A8; animation-delay: -4s; }
-.aurora span:nth-child(3) { width: 26vw; height: 26vw; left: 40vw; top: 18vh; background: #1B3F8F; opacity: 0.16; animation-delay: -18s; }
+.aurora span:nth-child(3) { width: 26vw; height: 26vw; left: 40vw; top: 18vh; background: #0085CC; opacity: 0.16; animation-delay: -18s; }
+/* Landing (/) hero: the same aurora, scoped to the hero section instead of the viewport,
+   fading out at the bottom so it melts into the plain sections below. */
+.aurora.aurora-hero { position: absolute; width: 100%; height: 100%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent); }
 @keyframes drift {
   0%   { transform: translate(0, 0) scale(1); }
   50%  { transform: translate(4vw, 3vh) scale(1.08); }
@@ -110,11 +115,11 @@ body { background: #F4EEE6; }
 }
 /* Buttons: flat, as in the brand components page (Komponenty). No gradient, no shadow. */
 @utility btn-primary {
-  background: #1B3F8F;
+  background: #0085CC;
   color: #F7F2EB;
   border: none;
   transition: background-color 160ms ease;
-  &:hover { background: #14306E; }
+  &:hover { background: #006BA3; }
 }
 @utility btn-secondary {
   background: #FFFFFF;
@@ -124,11 +129,11 @@ body { background: #F4EEE6; }
   &:hover { background: #F7F2EB; }
 }
 @utility btn-accent {
-  background: #FFD93D;
+  background: #6BB437;
   color: #141414;
   border: none;
   transition: background-color 160ms ease;
-  &:hover { background: #F5CC1F; }
+  &:hover { background: #5A9A2E; }
 }
 /* Full-width top and bottom strips: white glass, dark text. */
 @utility glass-bar {

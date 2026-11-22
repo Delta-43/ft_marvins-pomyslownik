@@ -48,8 +48,9 @@ export function HeroArt() {
           <source srcSet="/landing/hero-sygnet.avif" type="image/avif" />
           <img src="/landing/hero-sygnet.webp" alt="" width={2000} height={2000} className="block h-full w-full object-contain" />
         </picture>
+        {/* No backing colour: the video blends (darken) straight into the hero colour fade behind it. */}
         {motion && (
-          <div className={`absolute inset-0 ${showVideo ? "bg-papier" : ""}`}>
+          <div className="absolute inset-0">
             <video
               ref={videoRef}
               muted
