@@ -12,15 +12,18 @@ Status: `[ ]` to do, `[~]` in progress, `[x]` done, `[!]` blocked (say why in Bl
 - [x] **P7** (part): fixed the frontend image build in CI. The image now generates the API types from the contract (`docs/api` passed as the named build context `contract`). Changed `frontend/Dockerfile`, the CI images step and `compose.yaml`. CI itself: Delta.
 - [x] Merged `main` and branch `Philip` into `alban` and got it into `main` through PR #6 (all five required checks green).
 - [x] `TASKS.md` status update at 00:05, checked against the team files, branches, CI and the live servers (PR #7).
+- [x] **Brand charter** (no task ID). `docs/design/` (identity board, components board, tokens, logo set) and `DESIGN.md` on `main`. Lato for headings, Atkinson Hyperlegible for text, no em dashes.
+- [x] `TASKS.md` status check after PR #29 (branch `tasks/status-1122`).
 
 ## Doing now
 
-Since 00:05: `TASKS.md` status update and this file (PR #7).
+Since PR #29 (04:07): `TASKS.md` status check against `main`, the open branches and the live servers, and this file (branch `tasks/status-1122`).
 
 ## Blockers
 
-- For Delta: production web `https://pomyslownik.delta43.net` still serves the old scaffold page and cannot reach the API. It needs a rebuild on delta-server from `main` with `NEXT_PUBLIC_API_BASE_URL=https://demo.delta43.net`. The web image now needs Docker Compose 2.17 or newer (`additional_contexts`).
+- ~~For Delta: production web `https://pomyslownik.delta43.net` still serves the old scaffold page.~~ Fixed: it serves the real landing page now.
 - For whoever owns `DESIGN.md`: section 1 (Logo) still describes the old "P" sygnet. It should describe the new logotype and symbol.
+- For Philip and Delta (D1): the palette must be decided before F17 or merging `Philip`. `Philip` commit `ed6a4e6` uses `#0085CC` for buttons and links, which fails 4.5:1 for text. D1 proposes PCI Navy `#001A49` / Deep blue `#035487`.
 
 ## Log
 
@@ -29,6 +32,7 @@ Since 00:05: `TASKS.md` status update and this file (PR #7).
 | 21:57 | Landing 3D renders (AVIF + WebP, alpha) pushed to branch `alban` |
 | 22:18 | Hero loop video (VP9 + H.264) and poster |
 | 22:45 | Renders switched to the new logo (light bulb with otter); old-logo video removed |
+| 22:55 | Brand charter v1.0 (`docs/design/`) and `DESIGN.md` on `main`: Lato display font, no em dashes rule |
 | 23:18 | Hero loop video with the new logo |
 | 23:27 | Landing page `/` built in the Next.js app; new logo in `Logo.tsx` and the favicon |
 | 23:40 | Landing matches the brand prototype and `DESIGN.md`; route groups `(landing)` and `(app)` |
@@ -36,3 +40,4 @@ Since 00:05: `TASKS.md` status update and this file (PR #7).
 | 23:53 | CI fix: the frontend image generates the API types from the contract |
 | 23:55 | PR #6 merged into `main` (all five checks green) |
 | 00:05 | `TASKS.md` status update (PR #7) |
+| after 04:07 | `TASKS.md` status check after PR #29: open branches, palette conflict, open "Now" tasks (branch `tasks/status-1122`) |
