@@ -172,5 +172,5 @@ def test_openalex_falls_back_to_a_plainer_query(monkeypatch):
         asked.append(q)
         return (0 if len(q.split()) > 3 else 12), f"https://api.openalex.org/works?search={q}"
     monkeypatch.setattr(openalex, "_count", fake_count)
-    count, url = openalex.similar_polish_works("Continuous desilting of water reservoirs with separation of selected sediment fractions")
+    count, _url = openalex.similar_polish_works("Continuous desilting of water reservoirs with separation of selected sediment fractions")
     assert count == 12 and asked == ["Continuous desilting water reservoirs separation selected", "Continuous desilting water"]

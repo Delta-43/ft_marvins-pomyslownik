@@ -162,7 +162,7 @@ _QUERY_RULES = [
     (re.compile(r"^Scoring engine (v[\d.]+): computed from this card's stored data on (\d{4}-\d{2}-\d{2})$"),
      lambda m: ({"pl": f"Obliczone przez Pomysłownik (moduł oceny {m[1]}) z danych zapisanych na karcie, {m[2]}. To nie jest liczba ze źródła.",
                  "en": f"Computed by Pomysłownik (scoring engine {m[1]}) from the card's stored data on {m[2]}. Not a number from the source."})),
-    (re.compile(r"^Read from (?:the page )?(\S+?)\.? Quoted text: (.+)$", re.S),
+    (re.compile(r"^Read from (?:the page )?(\S+?)\.? Quoted text: (.+)$", re.DOTALL),
      lambda m: ({"pl": f"Odczytane ze źródła {m[1]}. Cytat: {m[2]}", "en": f"Read from {m[1]}. Quoted text: {m[2]}"})),
     (re.compile(r"^GET (\S+) \(meta\.count\)$"),
      lambda m: ({"pl": f"Liczba wyników zapytania do OpenAlex: {m[1]}", "en": f"Result count of the OpenAlex query: {m[1]}"})),

@@ -57,6 +57,7 @@ def test_shared_demo_identity_is_not_rate_limited_and_cannot_be_deleted():
         import pytest
         pytest.skip("needs a database")
     from fastapi.testclient import TestClient
+
     from app.main import app
     c = TestClient(app)
     body = {"provider": "sandbox_id", "providerSubject": "demo-jury"}

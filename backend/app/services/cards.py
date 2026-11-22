@@ -8,7 +8,6 @@ from fastapi import HTTPException
 
 from ..config import settings
 from ..db import one, rows
-from .i18n import label as fixed_label
 from .i18n import (
     evidence_origin,
     licence_label,
@@ -18,6 +17,7 @@ from .i18n import (
     split_organisation,
     unit_label,
 )
+from .i18n import label as fixed_label
 
 AREAS = {"technological", "educational", "administrative"}
 LEVELS = ["concept", "prototype", "testing", "pilot", "in_practice"]
