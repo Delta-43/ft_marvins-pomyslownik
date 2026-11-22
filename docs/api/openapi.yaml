@@ -53,14 +53,14 @@ info:
     - Rate limiting: a `429` carries a `Retry-After` header (seconds). This includes the admin endpoints (planned, G5).
 
     **Known gaps (draft 4).** Rules marked `(planned, Gn)` are agreed but **not enforced by the live API yet**. They
-    are written here so nobody builds against the gap. Details and the light fix for each: `docs/api/CONTRACT-REVIEW.md` §0b.
+    are written here so nobody builds against the gap.
     G1 sandbox subjects are not secret (partly closed). G2 is closed (headers live since draft 5). G3 link schemes. G4 plain text at ingest.
     G5 admin rate limit. G6 usage-stats periods. G7 input limits. G8 rate-limit address on the LAN. G9 unverified email.
-    The redirect sign-in flow (`/auth/{provider}/*`, `/auth/exchange`) is design only (tasks B13, B14).
+    The redirect sign-in flow (`/auth/{provider}/*`, `/auth/exchange`) is design only.
 
     **Status of this draft**
     Mock example data is fictional and starts with `[MOCK]`. Field names are agreed by the team only when
-    this file is merged. Open questions are in `docs/api/CONTRACT-REVIEW.md`.
+    this file is merged.
   license:
     name: EUPL-1.2
     url: https://eupl.eu/1.2/en

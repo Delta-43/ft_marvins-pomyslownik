@@ -1,7 +1,7 @@
 # Sign-in: real identity providers as a drop-in for the sandbox
 
 Written 2026-11-22 for mentor feedback item 1. Status: research and contract design. Nothing here is built yet.
-Contract changes: `docs/api/openapi.yaml`, version `1.1.0-draft.3` (Auth tag). Tasks: B13, B14, F12 in `TASKS.md`.
+Contract changes: `docs/api/openapi.yaml`, version `1.1.0-draft.3` (Auth tag).
 
 ## 1. What the mentor asked
 

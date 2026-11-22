@@ -33,10 +33,6 @@ Status tags: **Must**, **Should**. Written 2026-11-21.
 | F19 | **Increase implemented innovations** based on **Polish IP** | 8.9 | Show reuse and transfer potential. Prioritise patents and Polish origin. Report as an expected effect | **Should** |
 | F20 | "One place" to discover Polish innovations | closing | A single entry page and a unified card | **Must** |
 
-## From the mentor review (2026-11-22)
-
-Findings and decisions: `docs/MENTOR-FEEDBACK-2026-11-22.md`. Tasks: `TASKS.md`, section "Mentor feedback".
-
 | # | Requirement | How we cover it | Status |
 |---|---|---|---|
 | M1 | Sign-in is a drop-in for the national login: mObywatel, Profil Zaufany (with its SMS step), e-dowód, bank | One provider interface. Węzeł Krajowy (login.gov.pl) through SAML. Contract draft 3. `docs/api/AUTH-PROVIDERS.md` | **Must** (design now, real adapter after the hackathon) |

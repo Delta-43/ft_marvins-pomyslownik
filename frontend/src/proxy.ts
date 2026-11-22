@@ -17,7 +17,7 @@ export function proxy(request: NextRequest) {
     const canonical = canonicalResultsHref(request.nextUrl.searchParams);
     if (canonical) {
       const res = NextResponse.redirect(new URL(canonical, request.url));
-      // First search after registration (TASKS.md A10): the search form sent the role as the audience with the
+      // First search after registration: the search form sent the role as the audience with the
       // marker; the preset is used up here (link prefetches never carry the marker) and the redirect drops it.
       if (request.nextUrl.searchParams.has(FIRST_SEARCH_PARAM)) res.cookies.delete(FIRST_AUDIENCE_COOKIE);
       return res;

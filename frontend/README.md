@@ -1,7 +1,7 @@
 # Frontend
 
 Next.js, TypeScript, Tailwind. Every API call runs on the Next.js server; the session token stays in an httpOnly cookie.
-The plan and decisions for the current version are in `../docs/FRONTEND-PLAN.md`; the design system is `../DESIGN.md`.
+The design system is `../DESIGN.md`.
 
 ```bash
 cp .env.local.example .env.local
