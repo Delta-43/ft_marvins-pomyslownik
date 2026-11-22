@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./motion.css";
+@import "./hero-scene.css";
 
 /* Pomysłownik styles. Layout, content and behaviour follow the flow prototype (docs/design/flow-prototype);
    colour follows DESIGN.md v2.0. Component classes are plain CSS so one name means one thing on every screen. */

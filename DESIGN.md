@@ -260,8 +260,9 @@ Spec: the flow prototype (Delta, 21.11.2026). Easing `--ease-out: cubic-bezier(0
 | Hover, press | Border and lift 150 to 200 ms; press `scale(0.985)` 100 ms | — |
 | Phone filter sheet | Rises from the bottom 300 ms, closes with Esc, backdrop or "Pokaż wyniki" | 300 |
 | Landing hero panels | Feature panels cross-fade and drift 8 px every 6 s; a visible pause control | 600 |
+| Landing hero scene | One illustrated act per panel, on the same 6 s clock: launch → the rocket loops a star, the star rounds into a circle and the circle becomes a magnifying glass → institutions grow out of the glass → push into a window, handshake and firework. Drawn flat (solid palette fills, loose shapes, no gradients). Each act ends on the frame the next begins with; the push-in keeps town and window registered. The rocket rides a motion path (`offset-path`); everything else is `transform` and `opacity`. Pause freezes it; hidden below 1080 px and in forced colours (`hero-scene.css`) | 6000 per act |
 
-Reduced motion: no sweep, drift, flight, rise or slide. Cross-fades of 120 to 160 ms only. Autoplaying panels stop.
+Reduced motion: no sweep, drift, flight, rise or slide. Cross-fades of 120 to 160 ms only. Autoplaying panels stop; the hero scene shows one still frame per act.
 
 ---
 

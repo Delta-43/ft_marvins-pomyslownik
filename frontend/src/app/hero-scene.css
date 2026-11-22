@@ -1,0 +1,268 @@
+/* ─── Landing hero scene (HeroScene.tsx; DESIGN.md §7) ───
+   Four acts of 6 s, one per hero panel, picked by `data-scene` on the SVG. Every animation in an act runs on the same
+   6 s clock with its own keyframe percentages, so an act can be frozen at any moment with one negative delay (reduced
+   motion) and each act starts on the frame the one before ended on. Units are the SVG's own (drawn on a 600 × 400
+   field). Actors carry `.a`: hidden unless the current act gives them an animation or a resting state. */
+.hs { flex: 1 1 0; min-height: 0; width: 100%; max-height: 34rem; display: block; overflow: visible; pointer-events: none; }
+/* Curves: moves on stage use a strong ease-in-out, arrivals and departures a strong ease-out; no CSS keyword easings.
+   Only what physically speeds away (the rocket off the pad, the glass flung aside, smoke thinning) accelerates. */
+.hs { --hs-in-out: cubic-bezier(0.77, 0, 0.175, 1); --hs-out: cubic-bezier(0.23, 1, 0.32, 1); }
+.hs .a { opacity: 0; }
+.hs[data-frozen] * { animation-play-state: paused !important; }
+
+.hs-deco > * { animation: hs-float 5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite alternate; }
+.hs-deco > :nth-child(2n) { animation-duration: 6.5s; animation-delay: -2s; }
+.hs-deco > :nth-child(3n) { animation-duration: 7.5s; animation-delay: -4s; animation-direction: alternate-reverse; }
+@keyframes hs-float { from { transform: translateY(-3px); } to { transform: translateY(3px); } }
+
+.hs-tiny { transform: translate(300px, 330px); }
+.hs-pad { transform: translate(150px, 330px); }
+.hs-glint { fill: var(--color-papier); }
+.hs-lit { fill: var(--color-patenty); }
+.hs-lit-key { fill: #FFFFFF; }
+.hs-burst line { stroke: var(--color-iskra); stroke-width: 3; stroke-linecap: round; }
+.hs-burst circle { fill: var(--color-iskra); }
+.hs-burst-2 line { stroke: var(--color-patenty); } .hs-burst-2 circle { fill: var(--color-patenty); }
+.hs-burst-3 line { stroke: var(--color-papier); } .hs-burst-3 circle { fill: var(--color-papier); }
+.hs:is([data-scene="1"], [data-scene="2"]) .hs-flame-in { animation: hs-flicker 140ms linear infinite alternate; }
+@keyframes hs-flicker { from { transform: scale(0.92, 0.86); } to { transform: scale(1.04, 1.1); } }
+.hs-person-l { --d: -1; } .hs-person-r { --d: 1; }
+.hs-town { transform-origin: 300px 257px; }
+
+/* Resting places shared by acts. */
+.hs-rocket { offset-rotate: auto 90deg; offset-anchor: 0 0; }
+.hs[data-scene="3"] .hs-handle, .hs[data-scene="2"] :is(.hs-flame, .hs-trail), .hs[data-scene="4"] .hs-lit { opacity: 1; }
+.hs[data-scene="4"] .hs-b { opacity: 1; }
+.hs[data-scene="4"] .hs-b1 { transform: translate(116px, 330px) scale(0.86); }
+.hs[data-scene="4"] .hs-b2 { transform: translate(300px, 330px); }
+.hs[data-scene="4"] .hs-b3 { transform: translate(484px, 330px) scale(0.86); }
+
+/* ── Act 1: launch ── */
+.hs[data-scene="1"] .hs-rocket { offset-path: path("M150,288 C150,120 250,30 470,-20 S 800,-90 900,-110"); animation: hs1-rocket 6s linear both; }
+.hs[data-scene="1"] .hs-rocket-in { animation: hs1-tremble 6s linear both; }
+.hs[data-scene="1"] .hs-flame { animation: hs1-flame 6s linear both; transform-origin: 0 0; }
+.hs[data-scene="1"] .hs-trail { animation: hs1-trail 6s linear both; }
+.hs[data-scene="1"] .hs-pad { animation: hs1-pad 6s linear both; }
+.hs[data-scene="1"] .hs-smoke { animation: hs1-smoke 6s linear both; animation-delay: calc(var(--i) * 70ms); }
+.hs[data-scene="1"] .hs-star { animation: hs1-star 6s linear both; }
+@keyframes hs1-rocket {
+  0%, 24% { opacity: 1; offset-distance: 0%; animation-timing-function: cubic-bezier(0.55, 0, 0.85, 0.55); }
+  78% { opacity: 1; }
+  86%, 100% { opacity: 0; offset-distance: 100%; }
+}
+@keyframes hs1-tremble {
+  0%, 9% { transform: translate(0, 0); }
+  11% { transform: translate(0.8px, 0); } 13% { transform: translate(-0.8px, 0.3px); } 15% { transform: translate(0.9px, 0); }
+  17% { transform: translate(-0.9px, 0.3px); } 19% { transform: translate(0.9px, 0); } 21% { transform: translate(-0.7px, 0.2px); }
+  23% { transform: translate(0.5px, 0); } 25%, 100% { transform: translate(0, 0); }
+}
+@keyframes hs1-flame {
+  0%, 8% { opacity: 0; transform: scale(0.6, 0.2); }
+  11% { opacity: 1; transform: scale(0.8, 0.45); }
+  24% { opacity: 1; transform: scale(1, 0.7); animation-timing-function: var(--hs-out); }
+  40%, 100% { opacity: 1; transform: scale(1, 1); }
+}
+@keyframes hs1-trail { 0%, 44% { opacity: 0; } 56%, 100% { opacity: 1; } }
+@keyframes hs1-pad { 0%, 76% { opacity: 1; } 88%, 100% { opacity: 0; } }
+@keyframes hs1-smoke {
+  0%, 10% { opacity: 0; transform: translate(0, 0) scale(0.3); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  11% { opacity: 1; }
+  30% { opacity: 1; transform: translate(calc(var(--dx) * 0.8), var(--dy)) scale(1); animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4); }
+  50% { opacity: 1; }
+  62%, 100% { opacity: 0; transform: translate(var(--dx), calc(var(--dy) - 6px)) scale(0.45); }
+}
+@keyframes hs1-star {
+  0%, 84% { opacity: 0; transform: translate(300px, 150px) rotate(-36deg) scale(0.4); animation-timing-function: cubic-bezier(0.3, 1.5, 0.5, 1); }
+  90% { opacity: 1; }
+  100% { opacity: 1; transform: translate(300px, 150px) rotate(0deg) scale(1); }
+}
+
+/* ── Act 2: the rocket loops the star; the star rounds into a circle; the circle becomes the glass ── */
+.hs[data-scene="2"] .hs-rocket { offset-path: path("M-90,300 C60,300 216,286 216,150 A84,84 0 0 1 384,150 A84,84 0 0 1 216,150 A84,84 0 0 1 300,66 C384,66 500,46 760,-70"); animation: hs2-rocket 6s linear both; }
+.hs[data-scene="2"] .hs-star { animation: hs2-star 6s linear both; }
+.hs[data-scene="2"] .hs-spike { animation: hs2-spike 6s linear both; }
+.hs[data-scene="2"] .hs-glint { animation: hs2-glint 6s linear both; animation-delay: calc(var(--i) * 40ms); }
+.hs[data-scene="2"] .hs-lens { animation: hs2-lens 6s linear both; }
+.hs[data-scene="2"] .hs-handle { animation: hs2-handle 6s linear both; }
+@keyframes hs2-rocket {
+  0% { opacity: 0; offset-distance: 0%; animation-timing-function: cubic-bezier(0.3, 0.2, 0.65, 0.85); }
+  4% { opacity: 1; }
+  50% { opacity: 1; }
+  58%, 100% { opacity: 0; offset-distance: 100%; }
+}
+/* 2.256 = 44 / 19.5: the core grows to the lens's size while the lens grows with it, so the two stay one disc. */
+@keyframes hs2-star {
+  0% { opacity: 1; transform: translate(300px, 150px) rotate(0deg) scale(1); }
+  14% { transform: translate(300px, 150px) rotate(0deg) scale(1); animation-timing-function: var(--hs-in-out); }
+  24% { transform: translate(300px, 150px) rotate(72deg) scale(1.08); animation-timing-function: var(--hs-in-out); }
+  34% { transform: translate(300px, 150px) rotate(144deg) scale(1); }
+  40% { opacity: 1; transform: translate(300px, 150px) rotate(144deg) scale(1); animation-timing-function: cubic-bezier(0.5, 0, 0.1, 1); }
+  48% { opacity: 1; }
+  54%, 100% { opacity: 0; transform: translate(300px, 150px) rotate(144deg) scale(2.256); }
+}
+@keyframes hs2-spike {
+  0%, 31% { transform: scale(1); animation-timing-function: cubic-bezier(0.6, 0, 0.3, 1); }
+  41%, 100% { transform: scale(0); }
+}
+@keyframes hs2-glint {
+  0%, 36% { opacity: 0; transform: translate(0, 0) scale(0.4); animation-timing-function: cubic-bezier(0.1, 0.7, 0.2, 1); }
+  38% { opacity: 1; }
+  48% { opacity: 1; transform: translate(var(--dx), var(--dy)) scale(1); animation-timing-function: var(--hs-out); }
+  56%, 100% { opacity: 0; transform: translate(calc(var(--dx) * 1.12), calc(var(--dy) * 1.12)) scale(0.4); }
+}
+@keyframes hs2-lens {
+  0%, 40% { opacity: 0; transform: translate(300px, 150px) rotate(0deg) scale(0.4432); animation-timing-function: cubic-bezier(0.5, 0, 0.1, 1); }
+  46% { opacity: 0; }
+  54% { opacity: 1; transform: translate(300px, 150px) rotate(0deg) scale(1); }
+  66% { transform: translate(300px, 150px) rotate(0deg) scale(1); animation-timing-function: var(--hs-in-out); }
+  78% { transform: translate(214px, 222px) rotate(-9deg) scale(1); animation-timing-function: var(--hs-in-out); }
+  90% { transform: translate(388px, 180px) rotate(8deg) scale(1); animation-timing-function: var(--hs-in-out); }
+  100% { opacity: 1; transform: translate(330px, 212px) rotate(0deg) scale(1); }
+}
+@keyframes hs2-handle {
+  0%, 55% { opacity: 0; transform: scaleX(0.3); animation-timing-function: cubic-bezier(0.3, 1.4, 0.5, 1); }
+  57% { opacity: 1; }
+  66%, 100% { opacity: 1; transform: scaleX(1); }
+}
+
+/* ── Act 3: the glass finds the institutions; they grow out of it ── */
+.hs[data-scene="3"] .hs-lens { animation: hs3-lens 6s linear both; }
+.hs[data-scene="3"] .hs-tiny { animation: hs3-tiny 6s linear both; }
+.hs[data-scene="3"] .hs-b2 { animation: hs3-b2 6s linear both; }
+.hs[data-scene="3"] .hs-b1 { animation: hs3-b1 6s linear both; }
+.hs[data-scene="3"] .hs-b3 { animation: hs3-b3 6s linear both; }
+.hs[data-scene="3"] .hs-lit { animation: hs3-lit 6s linear both; }
+.hs[data-scene="3"] .hs-lit-2 { animation-name: hs3-lit-b; }
+.hs[data-scene="3"] .hs-lit-3 { animation-name: hs3-lit-c; }
+.hs[data-scene="3"] .hs-lit-key { animation-name: hs3-lit-key; }
+@keyframes hs3-lens {
+  0% { opacity: 1; transform: translate(330px, 212px) rotate(0deg) scale(1); animation-timing-function: var(--hs-in-out); }
+  15% { transform: translate(232px, 250px) rotate(-8deg) scale(1); animation-timing-function: var(--hs-in-out); }
+  31% { transform: translate(300px, 283px) rotate(0deg) scale(1); animation-timing-function: var(--hs-out); }
+  35% { transform: translate(300px, 283px) rotate(0deg) scale(1.09); animation-timing-function: var(--hs-in-out); }
+  40% { transform: translate(300px, 283px) rotate(0deg) scale(1); }
+  48% { opacity: 1; transform: translate(300px, 283px) rotate(0deg) scale(1); animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.6); }
+  64%, 100% { opacity: 0; transform: translate(440px, 130px) rotate(24deg) scale(0.5); }
+}
+@keyframes hs3-tiny { 0% { opacity: 0; } 12%, 32% { opacity: 0.8; } 38%, 100% { opacity: 0; } }
+@keyframes hs3-b2 {
+  0%, 32% { opacity: 0; transform: translate(300px, 309px) scale(0.25); animation-timing-function: cubic-bezier(0.3, 1.5, 0.5, 1); }
+  35% { opacity: 1; }
+  41% { opacity: 1; transform: translate(300px, 309px) scale(0.4); }
+  48% { opacity: 1; transform: translate(300px, 309px) scale(0.4); animation-timing-function: cubic-bezier(0.5, 0, 0.1, 1); }
+  70%, 100% { opacity: 1; transform: translate(300px, 330px) scale(1); }
+}
+@keyframes hs3-b1 {
+  0%, 50% { opacity: 0; transform: translate(290px, 312px) scale(0.2); animation-timing-function: cubic-bezier(0.3, 0, 0.1, 1); }
+  55% { opacity: 1; }
+  76%, 100% { opacity: 1; transform: translate(116px, 330px) scale(0.86); }
+}
+@keyframes hs3-b3 {
+  0%, 52% { opacity: 0; transform: translate(310px, 312px) scale(0.2); animation-timing-function: cubic-bezier(0.3, 0, 0.1, 1); }
+  57% { opacity: 1; }
+  78%, 100% { opacity: 1; transform: translate(484px, 330px) scale(0.86); }
+}
+@keyframes hs3-lit { 0%, 80% { opacity: 0; } 83%, 100% { opacity: 1; } }
+@keyframes hs3-lit-b { 0%, 82% { opacity: 0; } 85%, 100% { opacity: 1; } }
+@keyframes hs3-lit-c { 0%, 84% { opacity: 0; } 87%, 100% { opacity: 1; } }
+@keyframes hs3-lit-key { 0%, 92% { opacity: 0; } 97%, 100% { opacity: 1; } }
+
+/* ── Act 4: into the window; the handshake; the firework; the rocket is back on the pad ──
+   The push-in is one camera move: the town grows 11.7 times about its lit window while the room, drawn at 11.7 times
+   that window, grows from 1/11.7 on the same curve, so the two stay registered while one fades into the other. */
+.hs[data-scene="4"] .hs-town { animation: hs4-town 6s linear both; }
+.hs[data-scene="4"] .hs-room { animation: hs4-room 6s linear both; }
+.hs[data-scene="4"] .hs-person { animation: hs4-person 6s linear both; }
+.hs[data-scene="4"] .hs-arm { animation: hs4-arm 6s linear both; }
+.hs[data-scene="4"] .hs-clasp { animation: hs4-clasp 6s linear both; }
+.hs[data-scene="4"] .hs-spark { animation: hs4-spark 6s linear both; }
+.hs[data-scene="4"] .hs-burst { animation: hs4-burst 6s linear both; --x: 300px; --y: 146px; }
+.hs[data-scene="4"] .hs-burst-2 { animation-name: hs4-burst-b; --x: 232px; --y: 166px; }
+.hs[data-scene="4"] .hs-burst-3 { animation-name: hs4-burst-c; --x: 370px; --y: 158px; }
+.hs[data-scene="4"] .hs-rocket { offset-path: path("M150,288 L150,287"); offset-distance: 0%; animation: hs4-rocket 6s linear both; }
+.hs[data-scene="4"] .hs-pad { animation: hs4-pad 6s linear both; }
+@keyframes hs4-town {
+  0%, 3% { opacity: 1; transform: translate(0, 0) scale(1); animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1); }
+  15% { opacity: 1; }
+  25%, 100% { opacity: 0; transform: translate(0, -61px) scale(11.7); }
+}
+@keyframes hs4-room {
+  0%, 3% { opacity: 0; transform: translate(300px, 257px) scale(0.08547); animation-timing-function: cubic-bezier(0.7, 0, 0.2, 1); }
+  9% { opacity: 1; }
+  25% { opacity: 1; transform: translate(300px, 196px) scale(1); }
+  84% { opacity: 1; transform: translate(300px, 196px) scale(1); animation-timing-function: var(--hs-out); }
+  92%, 100% { opacity: 0; transform: translate(300px, 196px) scale(0.92); }
+}
+@keyframes hs4-person {
+  0%, 24% { opacity: 1; transform: translate(calc(var(--d) * 200px), 40px); animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1); }
+  48%, 100% { opacity: 1; transform: translate(calc(var(--d) * 68px), 40px); }
+}
+@keyframes hs4-arm {
+  0%, 44% { opacity: 1; transform: rotate(0deg); animation-timing-function: cubic-bezier(0.3, 0, 0.1, 1); }
+  55% { transform: rotate(calc(var(--d) * 72deg)); animation-timing-function: var(--hs-in-out); }
+  58.5% { transform: rotate(calc(var(--d) * 63deg)); animation-timing-function: var(--hs-in-out); }
+  62% { transform: rotate(calc(var(--d) * 79deg)); animation-timing-function: var(--hs-in-out); }
+  65.5% { transform: rotate(calc(var(--d) * 64deg)); animation-timing-function: var(--hs-in-out); }
+  68% { transform: rotate(calc(var(--d) * 78deg)); animation-timing-function: var(--hs-in-out); }
+  71%, 100% { opacity: 1; transform: rotate(calc(var(--d) * 72deg)); }
+}
+@keyframes hs4-clasp {
+  0%, 54% { opacity: 0; transform: translateY(0); }
+  55% { opacity: 1; transform: translateY(0); animation-timing-function: var(--hs-in-out); }
+  58.5% { transform: translateY(5.5px); animation-timing-function: var(--hs-in-out); }
+  62% { transform: translateY(-4.5px); animation-timing-function: var(--hs-in-out); }
+  65.5% { transform: translateY(5px); animation-timing-function: var(--hs-in-out); }
+  68% { transform: translateY(-4px); animation-timing-function: var(--hs-in-out); }
+  71%, 100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes hs4-spark {
+  0%, 69% { opacity: 0; transform: translate(300px, 246px) scale(1); animation-timing-function: cubic-bezier(0.1, 0.6, 0.3, 1); }
+  70% { opacity: 1; }
+  76% { opacity: 1; transform: translate(300px, 146px) scale(0.7); }
+  77%, 100% { opacity: 0; transform: translate(300px, 146px) scale(0.7); }
+}
+@keyframes hs4-burst {
+  0%, 76% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.3); animation-timing-function: var(--hs-out); }
+  77% { opacity: 1; }
+  85% { opacity: 1; transform: translate(var(--x), var(--y)) scale(1); animation-timing-function: var(--hs-out); }
+  91%, 100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 6px)) scale(1.12); }
+}
+@keyframes hs4-burst-b {
+  0%, 78.5% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.3); animation-timing-function: var(--hs-out); }
+  79.5% { opacity: 1; }
+  87% { opacity: 1; transform: translate(var(--x), var(--y)) scale(1); animation-timing-function: var(--hs-out); }
+  92%, 100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 6px)) scale(1.12); }
+}
+@keyframes hs4-burst-c {
+  0%, 80.5% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.3); animation-timing-function: var(--hs-out); }
+  81.5% { opacity: 1; }
+  88.5% { opacity: 1; transform: translate(var(--x), var(--y)) scale(1); animation-timing-function: var(--hs-out); }
+  93%, 100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 6px)) scale(1.12); }
+}
+@keyframes hs4-rocket {
+  0%, 91% { opacity: 0; transform: translateY(10px); animation-timing-function: var(--ease-out); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes hs4-pad { 0%, 90% { opacity: 0; } 98%, 100% { opacity: 1; } }
+
+/* Picking a panel cuts to its act; a short fade softens the cut. Acts that follow on their own need none. */
+.hs[data-jump="a"] { animation: hs-fade-a 180ms var(--hs-out); }
+.hs[data-jump="b"] { animation: hs-fade-b 180ms var(--hs-out); }
+
+/* The scene needs the tall hero; stacked layouts keep the text only. */
+@media (max-width: 1079px) { .hs { display: none; } }
+
+/* Reduced motion: no flight. Each act is one still picture, taken at its most telling moment, with a short fade. */
+@media (prefers-reduced-motion: reduce) {
+  .hs * { animation-play-state: paused !important; }
+  .hs-deco > *, .hs-flame-in { animation: none; }
+  .hs[data-scene="1"] * { animation-delay: -2.9s !important; }
+  .hs[data-scene="2"] * { animation-delay: -5.9s !important; }
+  .hs[data-scene="3"] * { animation-delay: -6s !important; }
+  .hs[data-scene="4"] * { animation-delay: -5s !important; }
+  .hs[data-scene="1"], .hs[data-scene="3"] { animation: hs-fade-a 150ms linear; }
+  .hs[data-scene="2"], .hs[data-scene="4"] { animation: hs-fade-b 150ms linear; }
+}
+@keyframes hs-fade-a { from { opacity: 0; } }
+@keyframes hs-fade-b { from { opacity: 0; } }
+@media (forced-colors: active) { .hs { display: none; } }
