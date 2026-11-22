@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { register, signIn } from "@/app/actions/auth";
 import { setLocale } from "@/app/actions/locale";
 import { LOCALES } from "@/i18n/locale";
+import { HeroArt } from "@/components/HeroArt";
 import { HeroPanels } from "@/components/HeroPanels";
 import { FlowClient } from "@/components/motion/FlowClient";
 import { PageMove } from "@/components/motion/Motion";
@@ -58,9 +59,8 @@ export default async function Landing({ searchParams }: { searchParams: Promise<
     <div className="landing">
       <FlowClient busyLabel={ta("busy")} />
       <header className="hero on-dark">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="hero-art" src="/landing/konstelacja.webp" alt="" />
         <div className="hero-logo"><Logo inverted size={46} title={ts("homeLanding")} /></div>
+        <HeroArt />
         <HeroPanels panels={panels} labels={{ group: th("group"), show: kickers.map((k, i) => th("showN", { n: i + 1, total: kickers.length, name: k })), pause: fth("pause"), play: fth("play") }} />
       </header>
 

@@ -47,7 +47,7 @@ The style guide for every Pomysłownik! screen. Source of truth for colour, type
 | Educational (green tint) | `#C3E8AF` | `--color-uczelnie` | Atrament on it 12.9:1 |
 | Administrative (teal, between the two) | `#A1E7E1` | `--color-patenty` | Atrament on it 12.52:1 |
 
-The token names are kept from v2.0 so the code did not need renaming; the values are new. The hero artwork is drawn through `mix-blend-mode: luminosity`, so it takes the Navy's hue.
+The token names are kept from v2.0 so the code did not need renaming; the values are new. The hero artwork is an inline illustration (`HeroArt.tsx`) drawn flat in these palette colours: a lit bulb (innovation), a figure checking it through a magnifying glass (verification) and a figure lifting a token into a row of linked tokens (connection). From 1080 px it sits between the logo and the panels, so no text lies on it; below that it sits behind the text on the right, under the Navy veil. It does not move.
 
 ### Contrast modes
 
