@@ -10,7 +10,7 @@ The style guide for every Pomysłownik! screen. Source of truth for colour, type
 
 ## 1. Colour palette
 
-**Generated from the two logo colours only** (decision of 2026-11-23): PCI blue `#0085CC` (hue 243° in OKLCH) and green `#6BB437` (hue 135°). Every neutral is a blue-tinted tone of the first, success comes from the second, the three category tints are blue, green and the teal between them (hue 189°). The one exception is the error red, kept because an error must never read as a brand colour. Tones were set in OKLCH and checked with the WCAG 2.2 formula on 2026-11-23 (generator: lightness and chroma per role, gamut-clipped). AA needs 4.5:1 for text, 3:1 for large text and for component boundaries.
+**Generated from the two logo colours only** (decision of 2026-11-22): PCI blue `#0085CC` (hue 243° in OKLCH) and green `#6BB437` (hue 135°). Every neutral is a blue-tinted tone of the first, success comes from the second, the three category tints are blue, green and the teal between them (hue 189°). The one exception is the error red, kept because an error must never read as a brand colour. Tones were set in OKLCH and checked with the WCAG 2.2 formula on 2026-11-22 (generator: lightness and chroma per role, gamut-clipped). AA needs 4.5:1 for text, 3:1 for large text and for component boundaries.
 
 ### Brand and neutrals
 

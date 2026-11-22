@@ -152,7 +152,7 @@ All checks pass on both sizes, with zero console errors: the gate, one-click dem
 
 No screen reader, no real phone, no Safari or Firefox (they fall back to no motion), no forced-colours or 200% zoom rendering. Motion was judged from asserted animation names and durations plus one frame per move, not from watching it play. Once during testing the API answered a Ukrainian request with English card titles and a later request with Ukrainian; it did not recur, and looks like the backend translating on first request.
 
-## Pass 3: Philip's visual review and five reviews, 2026-11-23
+## Pass 3: Philip's visual review and five reviews, 2026-11-22
 
 Philip's requests after the localhost review, and what was done:
 
