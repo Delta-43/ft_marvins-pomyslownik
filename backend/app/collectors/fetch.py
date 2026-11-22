@@ -58,14 +58,24 @@ def scrub(text: str, params: set[str] | frozenset = frozenset()) -> str:
     return out
 
 
-def check_public(url: str) -> None:
-    """Refuse URLs that resolve to a private, loopback, link-local or reserved address (SSRF guard).
+def public_ip(text: str) -> bool:
+    """Only globally routable unicast addresses. `not is_global` also refuses CGNAT 100.64.0.0/10, which mesh networks
+    such as Tailscale use (PR #30 review), besides private, loopback, link-local, reserved and unspecified ranges."""
+    ip = ipaddress.ip_address(text)
+    if ip.version == 6 and ip.ipv4_mapped:
+        ip = ip.ipv4_mapped
+    return ip.is_global and not ip.is_multicast
 
-    A link in a third-party feed must never make the server read the cloud metadata service, the database or another
-    container. Checked before robots.txt and again after every redirect. FETCH_ALLOW_PRIVATE=true turns it off locally.
+
+def check_public(url: str) -> str | None:
+    """Refuse URLs that resolve to a non-public address (SSRF guard). Returns the checked address, which the request
+    then connects to (no second DNS lookup, so no DNS rebinding). None when FETCH_ALLOW_PRIVATE is on (local only).
+
+    A link in a third-party feed must never make the server read the cloud metadata service, the database, another
+    container or a mesh host. Checked for robots.txt and for every redirect hop.
     """
     if settings.fetch_allow_private:
-        return
+        return None
     p = urlparse(url)
     if p.scheme not in ("http", "https") or not p.hostname:
         raise Unsafe(f"not an http(s) URL: {scrub(url)}")
@@ -73,11 +83,22 @@ def check_public(url: str) -> None:
         infos = socket.getaddrinfo(p.hostname, p.port or (443 if p.scheme == "https" else 80), proto=socket.IPPROTO_TCP)
     except socket.gaierror as exc:
         raise Unsafe(f"cannot resolve {p.hostname}") from exc
-    for info in infos:
-        ip = ipaddress.ip_address(info[4][0])
-        if (ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved or ip.is_multicast or ip.is_unspecified
-                or (ip.version == 6 and ip.ipv4_mapped and not ip.ipv4_mapped.is_global)):
-            raise Unsafe(f"{p.hostname} resolves to a non-public address")
+    addresses = [info[4][0] for info in infos]
+    if not addresses or not all(public_ip(a) for a in addresses):
+        raise Unsafe(f"{p.hostname} resolves to a non-public address")
+    return addresses[0]
+
+
+def _pinned(url: str, ip: str | None) -> tuple[str, dict, dict]:
+    """(URL to connect to, extra headers, httpx extensions). With an address, the URL names the address and the Host
+    header and TLS SNI keep the hostname, so the certificate is still checked for the real name."""
+    if not ip:
+        return url, {}, {}
+    p = urlparse(url)
+    host = f"[{ip}]" if ":" in ip else ip
+    netloc = host + (f":{p.port}" if p.port else "")
+    extensions = {"sni_hostname": p.hostname} if p.scheme == "https" else {}
+    return p._replace(netloc=netloc).geturl(), {"Host": p.netloc.rsplit("@", 1)[-1]}, extensions
 
 
 def cache_dir() -> pathlib.Path:
@@ -94,10 +115,11 @@ def _robots_for(url: str) -> urllib.robotparser.RobotFileParser:
     p = urlparse(url)
     base = f"{p.scheme}://{p.netloc}"
     if base not in _robots:
-        check_public(base + "/robots.txt")
+        target, extra, ext = _pinned(base + "/robots.txt", check_public(base + "/robots.txt"))
         rp = urllib.robotparser.RobotFileParser()
         try:
-            r = httpx.get(base + "/robots.txt", headers={"User-Agent": USER_AGENT}, timeout=15, follow_redirects=False)
+            with httpx.Client(timeout=15, follow_redirects=False) as client:
+                r = client.get(target, headers={"User-Agent": USER_AGENT, **extra}, extensions=ext)
             rp.parse(r.text.splitlines() if r.status_code == 200 else [])
         except httpx.HTTPError:
             rp.parse([])  # robots.txt unreachable: treat as no rules, but keep the default delay
@@ -140,31 +162,35 @@ def get(url: str, *, offline: bool = False, check_robots: bool = True, method: s
         if not body_path.exists():
             raise FileNotFoundError(f"no snapshot for {url}")
         return body_path.read_bytes(), {**json.loads(meta_path.read_text()), "from_cache": True}
-    check_public(url)
-    if check_robots and not _robots_for(url).can_fetch(USER_AGENT, url):
-        raise Blocked(url)
-    _wait(url)
     carries_secret = bool(headers) or any(f"{p.lower()}=" in url.lower() for p in secret_params | SECRET_PARAMS)
     start, current = _origin(url), url
     with httpx.Client(timeout=30, follow_redirects=False) as client:
-        for _ in range(MAX_REDIRECTS + 1):
-            with client.stream(method, current, json=json_body, headers={"User-Agent": USER_AGENT, **(headers or {})}) as r:
+        for hop in range(MAX_REDIRECTS + 1):
+            ip = check_public(current)  # every hop, and the request connects to exactly this address
+            if check_robots and not _robots_for(current).can_fetch(USER_AGENT, current):
+                raise Blocked(_without_secrets(current, secret_params))
+            if hop == 0 or _origin(current)[1] != _origin(url)[1]:
+                _wait(current)  # the per-host delay applies to the host a redirect leads to
+            target, extra, ext = _pinned(current, ip)
+            with client.stream(method, target, json=json_body, headers={"User-Agent": USER_AGENT, **(headers or {}), **extra},
+                               extensions=ext) as r:
                 if r.is_redirect:
                     nxt = urljoin(current, r.headers.get("location", ""))
                     if carries_secret and _origin(nxt) != start:
                         raise Unsafe(f"refused a redirect to another host while sending credentials: {_without_secrets(nxt, secret_params)}")
-                    check_public(nxt)
+                    if r.status_code == 303:  # "See Other": the next request is a GET without the body
+                        method, json_body = "GET", None
                     current = nxt
                     continue
                 if r.is_error:  # the message names the URL, so strip keys before anyone logs it
-                    raise httpx.HTTPStatusError(f"{r.status_code} for {_without_secrets(str(r.url), secret_params)}",
+                    raise httpx.HTTPStatusError(f"{r.status_code} for {_without_secrets(current, secret_params)}",
                                                 request=r.request, response=r)
                 content = bytearray()
                 for chunk in r.iter_bytes():
                     content += chunk
                     if len(content) > settings.fetch_max_bytes:
                         raise ValueError(f"response from {_without_secrets(current, secret_params)} is larger than {settings.fetch_max_bytes} bytes")
-                meta = {"url": _without_secrets(str(r.url), secret_params), "status": r.status_code,
+                meta = {"url": _without_secrets(current, secret_params), "status": r.status_code,
                         "content_type": r.headers.get("content-type", ""), "retrieved_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
                 break
         else:

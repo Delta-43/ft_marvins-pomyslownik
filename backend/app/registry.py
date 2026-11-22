@@ -47,6 +47,22 @@ def path() -> pathlib.Path | None:
     return None
 
 
+def max_new(src: dict) -> int:
+    """limits.maxNew as a small positive number; anything else falls back to 2."""
+    try:
+        return max(0, min(int((src.get("limits") or {}).get("maxNew", 2)), 50))
+    except (TypeError, ValueError, AttributeError):
+        return 2
+
+
+def display_name(src: dict) -> str:
+    """The Polish name for a source line; `name` may be a {pl, en} object or a plain string."""
+    name = src.get("name")
+    if isinstance(name, dict):
+        return str(name.get("pl") or name.get("en") or src["id"])
+    return str(name or src["id"])
+
+
 def check(src) -> str | None:
     """Why an entry cannot be used at all, or None. Bad entries are reported, never fatal."""
     if not isinstance(src, dict) or not isinstance(src.get("id"), str) or not src["id"].strip():
@@ -69,7 +85,7 @@ def load_checked() -> tuple[list[dict], list[dict]]:
         entries = json.loads(p.read_text(encoding="utf-8")).get("sources", [])
         if not isinstance(entries, list):
             raise TypeError("sources is not a list")
-    except (ValueError, TypeError, AttributeError):
+    except (OSError, ValueError, TypeError, AttributeError):  # unreadable or malformed: report it, never a 500
         return [], [{"id": p.name, "name": {"pl": p.name, "en": p.name}, "method": "api", "enabled": False, "tokenEnv": None,
                      "tokenPresent": None, "robots": "not_checked", "ready": False, "problem": PROBLEMS["file"]}]
     good, bad = [], []
@@ -143,7 +159,8 @@ def status(src: dict, *, check_robots: bool = True) -> dict:
         problem = "robots"
     elif src.get("method") == "api" and src.get("id") not in BUILT_IN and not (src.get("itemsPath") and (src.get("mapping") or {}).get("url")):
         problem = "mapping"
-    return {"id": src["id"], "name": src.get("name") or {"pl": src["id"], "en": src["id"]}, "method": src.get("method", "api"),
+    name = src.get("name") if isinstance(src.get("name"), dict) else {"pl": display_name(src), "en": display_name(src)}
+    return {"id": src["id"], "name": name, "method": src.get("method", "api"),
             "enabled": bool(src.get("enabled")), "tokenEnv": env, "tokenPresent": present, "robots": robots,
             "ready": problem is None, "problem": PROBLEMS.get(problem) if problem else None}
 
@@ -220,11 +237,16 @@ def page_urls(src: dict, *, offline: bool = False) -> list[str]:
     urls = _links(text, src.get("method"))
     if src.get("method") == "sitemap" and "<sitemapindex" in text:
         children, urls = urls[:MAX_XML], []
-        for child in children:
-            urls += _links(_xml_text(fetch.get(child, offline=offline)[0]), "sitemap")
-    filters = src.get("filters") or {}
-    host = (urlparse(src["baseUrl"]).hostname or "").lower()
-    need = filters.get("urlContains")
+        for child in children:  # child sitemaps obey the same host rule as the links
+            if filters_allow_host(src, child):
+                urls += _links(_xml_text(fetch.get(child, offline=offline)[0]), "sitemap")
+    need = (src.get("filters") or {}).get("urlContains")
     return [u for u in dict.fromkeys(urls)
-            if u.startswith(("http://", "https://")) and (not need or need in u)
-            and (filters.get("allowOtherHosts") or (urlparse(u).hostname or "").lower() == host)]
+            if u.startswith(("http://", "https://")) and (not need or need in u) and filters_allow_host(src, u)]
+
+
+def filters_allow_host(src: dict, url: str) -> bool:
+    """Links stay on the feed's own host unless filters.allowOtherHosts is true."""
+    if (src.get("filters") or {}).get("allowOtherHosts"):
+        return True
+    return (urlparse(url).hostname or "").lower() == (urlparse(src["baseUrl"]).hostname or "").lower()

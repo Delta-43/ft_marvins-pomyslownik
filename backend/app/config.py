@@ -11,9 +11,9 @@ class Settings(BaseSettings):
     anthropic_api_key: str = ""
     openalex_api_key: str = ""
     freshness_days: int = 30
-    stale_project_years: int = 3
+    stale_project_years: int = 3  # a card about a project that ended longer ago than this is stale (#22)
     fetch_max_bytes: int = 25_000_000  # largest response a collector reads (PDF reports included)
-    fetch_allow_private: bool = False  # true only for local development against sources on a private network  # a card about a project that ended longer ago than this is stale (#22)
+    fetch_allow_private: bool = False  # true only for local development against sources on a private network
     seed_dir: str = "../data/seed"
     sources_dir: str = "../data/sources"  # targets.json; in the container: /srv/data/sources
     refresh_hours: int = 24  # the worker queues a refresh run this often. 0 turns the schedule off

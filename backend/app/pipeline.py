@@ -225,8 +225,8 @@ def collect_registry(run: Run, budget: int, ids: set[str], skip: set[str]) -> in
             continue
         if run.source_ids and src["id"] not in run.source_ids:
             continue
-        want = min(int((src.get("limits") or {}).get("maxNew", 2)), budget)
-        try:
+        try:  # a bad value in one entry (maxNew, name) must not crash the run
+            want = min(registry.max_new(src), budget)
             if src.get("method") == "api":
                 work = [(i["url"], i) for i in registry.api_items(src)]
             else:
@@ -244,7 +244,7 @@ def collect_registry(run: Run, budget: int, ids: set[str], skip: set[str]) -> in
                 if item is None:
                     card = crawler.collect_url(url, kind="page")
                 else:
-                    name = f"{src.get('name', {}).get('pl') or src['id']}: {item['title'][:100]}"
+                    name = f"{registry.display_name(src)}: {item['title'][:100]}"
                     x = extract(item["text"], url=url, source_name=name)
                     if not x.is_innovation:
                         raise NotAnInnovation(x.rejection_reason)

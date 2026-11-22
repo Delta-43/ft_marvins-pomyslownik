@@ -126,3 +126,63 @@ def test_source_config_matches_the_contract_and_the_language(monkeypatch):
         assert not list(jsonschema.Draft202012Validator({**resp, "components": SPEC["components"]}).iter_errors(body))
     en = c.get("/api/v1/admin/source-config?lang=en", headers=h).json()["data"]
     assert all(isinstance(s["name"], str) for s in en)
+
+
+# ---- Philip's second review of #30 ----
+
+def test_cgnat_and_mapped_addresses_are_refused(monkeypatch):
+    monkeypatch.setattr(fetch.settings, "fetch_allow_private", False)
+    for url in ("http://100.64.0.1/", "http://100.111.107.45/", "http://[::ffff:127.0.0.1]/", "http://[::ffff:100.64.0.1]/", "http://224.0.0.1/"):
+        with pytest.raises(fetch.Unsafe):
+            fetch.check_public(url)
+    assert fetch.public_ip("93.184.216.34")
+
+
+def test_the_request_connects_to_the_checked_address(fast, monkeypatch):
+    """No second DNS lookup: the URL carries the checked IP, Host and SNI keep the name (DNS rebinding guard)."""
+    seen = {}
+    def handler(request):
+        seen.update(host=request.url.host, header=request.headers["host"], sni=request.extensions.get("sni_hostname"))
+        return httpx.Response(200, content=b"ok", request=request)
+    fast(handler, public=lambda url: "93.184.216.34")
+    assert fetch.get("https://news.example/a", check_robots=False)[0] == b"ok"
+    assert seen == {"host": "93.184.216.34", "header": "news.example", "sni": "news.example"}
+
+
+def test_303_becomes_get_and_robots_is_checked_after_a_redirect(fast, monkeypatch):
+    calls = []
+    def handler(request):
+        calls.append((request.method, request.url.path, request.content))
+        if request.url.path == "/form":
+            return httpx.Response(303, headers={"location": "/done"}, request=request)
+        return httpx.Response(200, content=b"ok", request=request)
+    fast(handler)
+    fetch.get("https://api.example/form", method="POST", json_body={"a": 1}, check_robots=False)
+    assert calls[1] == ("GET", "/done", b"")
+    fast(lambda request: httpx.Response(302, headers={"location": "https://other.example/private"}, request=request))
+    monkeypatch.setattr(fetch, "_robots_for", lambda url: type("R", (), {"can_fetch": lambda self, ua, u: "other.example" not in u})())
+    with pytest.raises(fetch.Blocked):
+        fetch.get("https://site.example/x")
+
+
+def test_child_sitemaps_on_another_host_are_not_read(fast):
+    asked = []
+    def handler(request):
+        asked.append(request.url.host)
+        if request.url.path == "/sitemap.xml":
+            return httpx.Response(200, content=b"<sitemapindex><sitemap><loc>https://elsewhere.example/s.xml</loc></sitemap>"
+                                                b"<sitemap><loc>https://site.example/s2.xml</loc></sitemap></sitemapindex>", request=request)
+        return httpx.Response(200, content=b"<urlset><url><loc>https://site.example/p</loc></url></urlset>", request=request)
+    fast(handler)
+    assert registry.page_urls({"method": "sitemap", "baseUrl": "https://site.example/sitemap.xml"}) == ["https://site.example/p"]
+    assert "elsewhere.example" not in asked
+
+
+def test_bad_values_and_an_unreadable_registry_never_crash(monkeypatch, tmp_path):
+    assert registry.max_new({"limits": {"maxNew": "abc"}}) == 2 and registry.max_new({"limits": {"maxNew": 9999}}) == 50
+    assert registry.display_name({"id": "x", "name": "Plain name"}) == "Plain name"
+    assert registry.status({"id": "x", "method": "crawl", "enabled": True, "name": "Plain", "urls": []}, check_robots=False)["name"] == {"pl": "Plain", "en": "Plain"}
+    monkeypatch.setattr(registry.settings, "sources_dir", str(tmp_path))
+    (tmp_path / "registry.json").mkdir()                                   # unreadable: a directory, read_text raises OSError
+    good, bad = registry.load_checked()
+    assert good == [] and bad[0]["problem"]["en"] == "The registry file is not valid JSON."
