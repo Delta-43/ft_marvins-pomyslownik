@@ -1,30 +1,26 @@
 "use client";
 
-/** Loading state for in-app navigation (replaces loading.tsx).
- *
- *  loading.tsx made every first page load stream: the content sat in <div hidden> until a script swapped it in, so
- *  without JavaScript every signed-in page, and sign-in itself, stayed on the skeleton. Now first loads arrive as one
- *  complete HTML document, and this component shows the loading state only when JavaScript navigates:
- *  a click on an internal link immediately shows a progress bar and the skeleton of the destination over the page,
- *  marks <main> busy and announces "loading" once; it all clears when the URL changes. Unlike loading.tsx it also
- *  covers paging and filter chips (same page, new search params). */
+/** Loading state for in-app navigation: a progress bar at the top and a polite "loading" announcement while the next
+ *  page is on its way. The current page stays fully visible underneath, so when the new page arrives the view
+ *  transition (globals.css "Motion") plays from the real screen, not from a placeholder. First page loads never show
+ *  it: they arrive as one complete HTML document, so every page also works without JavaScript. */
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { PageSkeleton, ResultsSkeleton } from "./Skeletons";
 
 // Pages rendered by the app (client-side navigation). Other links (design pages, external sites) are full loads.
-const APP_PATHS = ["/szukaj", "/wyniki", "/karta", "/porownaj", "/profil", "/logowanie"];
-const GIVE_UP_MS = 15000; // a navigation that never finishes (network error) must not leave the page covered
+const APP_PATHS = ["/", "/szukaj", "/wyniki", "/karta", "/porownaj", "/profil", "/logowanie"];
+const GIVE_UP_MS = 15000; // a navigation that never finishes (network error) must not leave the bar running
 
 export function NavigationProgress() {
   const t = useTranslations("status");
   const pathname = usePathname();
   const search = useSearchParams();
-  const [target, setTarget] = useState<string | null>(null);
-
-  // The URL changed: the new page is in place.
-  useEffect(() => setTarget(null), [pathname, search]);
+  const here = `${pathname}?${search}`;
+  // The URL the click happened on. Derived in render (not in an effect), so the bar is gone in the very commit that
+  // brings the new page, and never ends up in the new page's snapshot.
+  const [from, setFrom] = useState<string | null>(null);
+  const loading = from !== null && from === here;
 
   // Start on a click that Next.js will turn into a client-side navigation. Capture phase, because <Link> calls
   // preventDefault on the click to take over the navigation.
@@ -36,8 +32,8 @@ export function NavigationProgress() {
       const url = new URL(a.href, location.href);
       if (url.origin !== location.origin) return;
       if (url.pathname === location.pathname && url.search === location.search) return; // same page or #anchor
-      if (!APP_PATHS.some((p) => url.pathname === p || url.pathname.startsWith(`${p}/`))) return;
-      setTarget(url.pathname);
+      if (!APP_PATHS.some((p) => url.pathname === p || (p !== "/" && url.pathname.startsWith(`${p}/`)))) return;
+      setFrom(`${location.pathname}?${location.search.replace(/^\?/, "")}`);
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
@@ -45,29 +41,23 @@ export function NavigationProgress() {
 
   useEffect(() => {
     const main = document.getElementById("main");
-    if (!target) {
+    if (!loading) {
       main?.removeAttribute("aria-busy");
       return;
     }
     main?.setAttribute("aria-busy", "true");
-    const giveUp = setTimeout(() => setTarget(null), GIVE_UP_MS);
+    const giveUp = setTimeout(() => setFrom(null), GIVE_UP_MS);
     return () => clearTimeout(giveUp);
-  }, [target]);
+  }, [loading]);
 
   return (
     <>
       {/* Always rendered, so screen readers already know the live region when the text appears. */}
-      <p role="status" aria-live="polite" className="sr-only">{target ? t("loadingResults") : ""}</p>
-      {target && (
-        <>
-          <div aria-hidden="true" className="nav-progress fixed inset-x-0 top-0 z-50 h-1 overflow-hidden bg-granat/15">
-            <span className="block h-full w-1/3 rounded-full bg-granat" />
-          </div>
-          <div aria-hidden="true" className="nav-overlay absolute inset-0 z-20 overflow-hidden">
-            {target === "/wyniki" ? <ResultsSkeleton /> : <PageSkeleton />}
-            <p className="text-center text-sm text-kamien">{t("loadingLabel")}</p>
-          </div>
-        </>
+      <p role="status" aria-live="polite" className="sr-only">{loading ? t("loadingResults") : ""}</p>
+      {loading && (
+        <div aria-hidden="true" className="nav-progress fixed inset-x-0 top-0 z-50 h-1 overflow-hidden bg-granat/15">
+          <span className="block h-full w-1/3 rounded-full bg-granat" />
+        </div>
       )}
     </>
   );

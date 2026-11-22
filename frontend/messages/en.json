@@ -39,7 +39,15 @@
       "noAccount": "No account yet?",
       "register": "Register",
       "infoLead": "Note.",
-      "infoText": "Cards are available after signing in. We protect the authors' intellectual property."
+      "infoText": "Cards are available after signing in. We protect the authors' intellectual property.",
+      "idLabel": "Test identity",
+      "idHint": "For example demo-anna. 3–200 characters, no national ID number.",
+      "submit": "Sign in",
+      "busy": "Checking your identity…",
+      "done": "Done. You are signed in.",
+      "demo": "Enter demo mode",
+      "demoNote": "One click: a shared test account with real data.",
+      "errorLead": "Error:"
     },
     "terms": "Terms of use",
     "accessibility": "Accessibility statement",

@@ -1,4 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { AppPage } from "@/components/motion/Motion";
 import { deleteAccount, updateRole } from "@/app/actions/auth";
 import { api, errorKey, pick, type Schemas } from "@/lib/api";
 import { authed } from "@/lib/session";
@@ -14,6 +15,7 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
   ]);
 
   return (
+    <AppPage>
     <div className="mx-auto max-w-2xl space-y-6 px-6 py-10">
       <h1 style={{ fontSize: "2rem" }}>{t("title")}</h1>
       {blad && <p role="alert" className="rounded-xl border-l-4 border-nie bg-white/80 px-4 py-3 text-sm">⚠ {tErr(errorKey(blad))}</p>}
@@ -44,5 +46,6 @@ export default async function ProfilePage({ searchParams }: { searchParams: Prom
         <button type="submit" className="cursor-pointer rounded-full bg-nie px-6 py-2 font-bold text-white">{t("deleteButton")}</button>
       </form>
     </div>
+    </AppPage>
   );
 }

@@ -39,7 +39,15 @@
       "noAccount": "Nie masz konta?",
       "register": "Zarejestruj się",
       "infoLead": "Informacja.",
-      "infoText": "Karty są dostępne po zalogowaniu. Chronimy własność intelektualną autorów."
+      "infoText": "Karty są dostępne po zalogowaniu. Chronimy własność intelektualną autorów.",
+      "idLabel": "Identyfikator testowy",
+      "idHint": "Na przykład demo-anna. 3–200 znaków, bez numeru PESEL.",
+      "submit": "Zaloguj się",
+      "busy": "Sprawdzamy tożsamość…",
+      "done": "Gotowe. Zalogowano.",
+      "demo": "Wejdź w tryb demo",
+      "demoNote": "Jedno kliknięcie: wspólne konto testowe, prawdziwe dane.",
+      "errorLead": "Błąd:"
     },
     "terms": "Regulamin",
     "accessibility": "Deklaracja dostępności",

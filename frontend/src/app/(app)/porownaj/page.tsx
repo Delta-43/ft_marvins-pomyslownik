@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AppPage } from "@/components/motion/Motion";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { BasisLabel } from "@/components/CardBits";
@@ -121,6 +122,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
   }
 
   return (
+    <AppPage>
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6">
       <CompareSync items={cards.map((c, i) => ({ id: c.id, title: titles[i] }))} />
       <p><Link href="/wyniki">{t("back")}</Link></p>
@@ -194,5 +196,6 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
         <p><Link href="/wyniki" className="btn-secondary inline-flex rounded-full px-5 py-2 font-bold no-underline">+ {t("addMore")}</Link></p>
       )}
     </div>
+    </AppPage>
   );
 }

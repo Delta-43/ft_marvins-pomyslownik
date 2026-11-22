@@ -4,6 +4,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AreaChip, BasisLabel, DateValue, LevelValue, ScoreValue, TrlValue } from "@/components/CardBits";
 import { CompareButton } from "@/components/compare/CompareButton";
+import { BackToResults } from "@/components/ResultsMemory";
+import { AppPage, cardStyle, Piece, T } from "@/components/motion/Motion";
 import { ApiError, errorKey, pick, type Schemas } from "@/lib/api";
 import { authed } from "@/lib/session";
 
@@ -97,6 +99,8 @@ const box = "glass space-y-2 rounded-[var(--radius-card)] p-6";
 const h3 = { fontSize: "1rem" } as const;
 
 // Innovation card: every value shows Confirmed or Estimate, links to its sources, and opens its evidence. Signed-in only.
+// Motion: the header is the card from the results list, grown to full width; the sections rise in under it.
+// "← Wyniki" goes back to the same list and shrinks the header into its place (Motion.tsx).
 export default async function CardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const [t, tErr, tRes, tc, locale] = await Promise.all([getTranslations("card"), getTranslations("errors"), getTranslations("results"), getTranslations("comparePage"), getLocale()]);
@@ -128,10 +132,13 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
   const ev = card.evidence;
 
   return (
+    <AppPage>
     <article className="mx-auto max-w-5xl space-y-6 px-6 py-8">
-      <p><Link href="/wyniki">{t("back")}</Link></p>
+      <Piece name="back" i={1}>
+        <p><BackToResults className="inline-flex min-h-11 items-center gap-1 rounded-full font-bold no-underline hover:underline">{t("back")}</BackToResults></p>
+      </Piece>
 
-      <header className="glass-strong space-y-3 rounded-[2rem] p-8">
+      <header style={cardStyle(card.id)} className="glass-strong space-y-3 rounded-[2rem] p-8">
         <div className="flex flex-wrap items-center gap-2">
           <AreaChip area={card.area} />
           {card.tags.map((tag) => <span key={tag.slug} className="rounded-full bg-white/70 px-2.5 py-0.5 text-xs ring-1 ring-krawedz">{pick(tag.label, locale)}</span>)}
@@ -151,6 +158,7 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
         />
       </header>
 
+      <Piece name="assessment" i={2}>
       <section aria-labelledby="ocena" className="grid gap-4 md:grid-cols-2">
         <h2 id="ocena" className="sr-only">{t("assessment")}</h2>
         <div className={box}>
@@ -198,7 +206,9 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
           <p className="flex flex-wrap items-center gap-2"><BasisLabel basis={card.oslo.basis} />{card.oslo.note && <span className="text-xs text-kamien">{pick(card.oslo.note, locale)}</span>}</p>
         </div>
       </section>
+      </Piece>
 
+      <Piece name="details" i={4} className="space-y-6">
       {card.couldAlsoBeUsedIn.length > 0 && (
         <section className="glass rounded-[var(--radius-card)] p-6">
           <h2 style={{ fontSize: "1.25rem" }}>{t("alsoUsedIn")}</h2>
@@ -217,7 +227,7 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
         ) : (
           <ul className="mt-3 grid gap-3 md:grid-cols-2">
             {similar.map(({ card: c, similarity }, i) => (
-              <li key={c.id} className="lift flex flex-col gap-1.5 rounded-2xl bg-white/60 p-4 ring-1 ring-white/80">
+              <li key={c.id} style={cardStyle(c.id)} className="lift card-tile relative flex flex-col gap-1.5 rounded-2xl bg-white/60 p-4 ring-1 ring-white/80">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <AreaChip area={c.area} />
                   <span className="text-right text-xs text-kamien">
@@ -225,7 +235,7 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
                     <span className="block">{t("similarRank", { rank: i + 1 })}</span>
                   </span>
                 </div>
-                <Link href={`/karta/${c.id}`} className="font-bold text-atrament">{pick(c.title, locale)}</Link>
+                <Link href={`/karta/${c.id}`} transitionTypes={[T.openCard]} className="card-tile-link font-bold text-atrament no-underline hover:text-granat">{pick(c.title, locale)}</Link>
                 <span className="text-xs text-kamien">{c.organisation.name}</span>
               </li>
             ))}
@@ -294,6 +304,8 @@ export default async function CardPage({ params }: { params: Promise<{ id: strin
           {card.statusChangedAt && <> · {t("statusChanged")} <DateValue iso={card.statusChangedAt} /></>}
         </span>
       </footer>
+      </Piece>
     </article>
+    </AppPage>
   );
 }

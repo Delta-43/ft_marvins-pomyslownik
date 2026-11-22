@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { SearchBar } from "@/components/SearchBar";
+import { NavForm } from "@/components/NavForm";
+import { RememberResults } from "@/components/ResultsMemory";
+import { AppPage, cardStyle, Piece, T, vt } from "@/components/motion/Motion";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AreaChip, BasisLabel, LevelValue, ScoreValue, TrlValue } from "@/components/CardBits";
 import { CompareBar, CompareToggle } from "@/components/CompareSelection";
@@ -28,6 +31,8 @@ const REGION_NAMES: Record<string, Schemas["LocalizedText"]> = {
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // "Search Results" frame: GET /api/v1/cards with filters from /facets. Signed-in only (proxy + API session).
+// Motion: the search bar lands here from the search page, filters and cards rise in; a filter, sort or page change
+// dips the list; a card grows from its place in the list into its page, and shrinks back (Motion.tsx).
 export default async function ResultsPage({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
   const [t, tErr, locale] = await Promise.all([getTranslations("results"), getTranslations("errors"), getLocale()]);
@@ -115,20 +120,25 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
     : "";
 
   return (
+    <AppPage>
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+      <RememberResults />
       <SearchBar defaultValue={s.q} />
       {/* Phones and tablets: the filter panel opens with this link (CSS :target, so it works without JavaScript). */}
+      <Piece name="filters-button" i={1} className="lg:hidden">
       <a
-        href="#filters"
-        className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-white/80 px-4 py-2 font-bold text-atrament no-underline ring-1 ring-atrament/20 lg:hidden"
+        href="#filtry"
+        className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-white/80 px-4 py-2 font-bold text-atrament no-underline ring-1 ring-atrament/20 transition-transform active:scale-[0.97] lg:hidden"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
         </svg>
         {t("showFilters", { count: activeFilters })}
       </a>
+      </Piece>
       <div className="mt-5 grid grid-cols-1 gap-8 lg:mt-8 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <form id="filters" action="/wyniki" aria-label={t("filtersLabel")} className="glass hidden h-fit scroll-mt-20 space-y-6 rounded-[var(--radius-card)] p-5 target:block lg:block">
+        <Piece name="filters" i={1} id="filtry" className="hidden h-fit scroll-mt-20 target:block lg:block">
+        <NavForm id="filters" action="/wyniki" transitionTypes={[T.filter]} aria-label={t("filtersLabel")} className="glass space-y-6 rounded-[var(--radius-card)] p-5">
           <a href="#results-h" className="float-right -mr-1 -mt-1 inline-flex min-h-11 items-center rounded-full px-3 text-sm lg:hidden">{t("hideFilters")}</a>
           {s.q && <input type="hidden" name="q" value={s.q} />}
           {s.audience && <input type="hidden" name="audience" value={s.audience} />}
@@ -206,15 +216,16 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
           )}
 
           <div className="flex items-center gap-2">
-            <button type="submit" className="btn-primary flex-1 cursor-pointer rounded-full px-4 py-2 font-bold">{t("filter")}</button>
-            <Link href={href({ areas: [], levels: [], trlMin: undefined, trlMax: undefined, pip: [], region: undefined, tags: [], audience: undefined })} className="rounded-full px-3 py-2 text-sm">
+            <button type="submit" className="btn-primary flex-1 cursor-pointer rounded-full px-4 py-2 font-bold transition-transform active:scale-[0.97]">{t("filter")}</button>
+            <Link href={href({ areas: [], levels: [], trlMin: undefined, trlMax: undefined, pip: [], region: undefined, tags: [], audience: undefined })} transitionTypes={[T.filter]} className="rounded-full px-3 py-2 text-sm">
               {t("clear")}
             </Link>
           </div>
-        </form>
+        </NavForm>
+        </Piece>
 
         <section aria-labelledby="results-h" className="min-w-0">
-          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <Piece name="results-head" i={2} className="mb-4 flex flex-wrap items-end justify-between gap-3">
             <div>
               <h1 id="results-h" tabIndex={-1} className="scroll-mt-20" style={{ fontSize: "1.5rem" }}>{s.q ? t("titleFor", { q: s.q }) : t("titleAll")}</h1>
               {cards && <p className="font-tech text-sm tabular-nums text-kamien">{t("count", { count: total })}</p>}
@@ -227,30 +238,32 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
                   {SORTS.filter((o) => o !== "relevance" || s.q).map((o) => <option key={o} value={o}>{t(`sort.${o}`)}</option>)}
                 </select>
               </div>
-              <button type="submit" form="filters" className="cursor-pointer rounded-full bg-white/80 px-4 py-1.5 text-sm font-bold ring-1 ring-atrament/20">
+              <button type="submit" form="filters" className="cursor-pointer rounded-full bg-white/80 px-4 py-1.5 text-sm font-bold ring-1 ring-atrament/20 transition-transform active:scale-[0.97]">
                 {t("sortApply")}
               </button>
             </div>
-          </div>
+          </Piece>
 
           {chips.length > 0 && (
-            <div className="mb-5">
+            <Piece name="chips" i={3} className="mb-5">
               <h2 id="active-h" className="sr-only">{t("activeLabel")}</h2>
               <ul aria-labelledby="active-h" className="flex flex-wrap items-center gap-2">
                 {chips.map((c) => (
                   <li key={c.key}>
-                    <Link href={c.href} aria-label={t("removeFilterNamed", { label: c.label })} className="inline-flex items-center gap-1.5 rounded-full bg-white/75 px-3 py-1 text-sm text-atrament no-underline ring-1 ring-atrament/20 hover:bg-white">
+                    <Link href={c.href} transitionTypes={[T.filter]} aria-label={t("removeFilterNamed", { label: c.label })} className="inline-flex items-center gap-1.5 rounded-full bg-white/75 px-3 py-1 text-sm text-atrament no-underline ring-1 ring-atrament/20 transition-[background-color,transform] duration-150 hover:bg-white active:scale-[0.96]">
                       {c.label}
                       <span aria-hidden="true" className="text-kamien">×</span>
                     </Link>
                   </li>
                 ))}
                 {chips.length > 1 && (
-                  <li><Link href={clearAll} className="px-2 text-sm">{t("clearAll")}</Link></li>
+                  <li><Link href={clearAll} transitionTypes={[T.filter]} className="px-2 text-sm">{t("clearAll")}</Link></li>
                 )}
               </ul>
-            </div>
+            </Piece>
           )}
+
+          <div style={vt("results-list")}>
 
           {error && (
             <div role="alert" className="glass rounded-[var(--radius-card)] p-6">
@@ -276,17 +289,18 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
 
           {cards && cards.data.length > 0 && (
             <ul className="grid gap-5 md:grid-cols-2">
-              {cards.data.map((c) => {
+              {cards.data.map((c, i) => {
                 const title = pick(c.title, locale);
                 return (
-                  <li key={c.id} className="glass-strong lift flex flex-col gap-3 rounded-[var(--radius-card)] p-6">
+                  <li key={c.id} style={cardStyle(c.id, i + 1)} className="glass-strong lift card-tile relative flex flex-col gap-3 rounded-[var(--radius-card)] p-6">
                     <div className="flex flex-wrap items-center gap-2">
                       <AreaChip area={c.area} />
                       {c.polishIp && <span className="rounded-full bg-iskra px-2 py-0.5 text-xs font-bold">{t("polishIp")}</span>}
                       {c.stale && <span className="text-xs text-kamien">⏱ {t("stale")}</span>}
                     </div>
                     <h2 style={{ fontSize: "1.25rem" }}>
-                      <Link href={`/karta/${c.id}`} className="text-atrament">{title}</Link>
+                      {/* The whole tile opens the card (card-tile, globals.css); the link keeps its own focus ring. */}
+                      <Link href={`/karta/${c.id}`} transitionTypes={[T.openCard]} className="card-tile-link text-atrament no-underline hover:text-granat">{title}</Link>
                     </h2>
                     <p className="text-sm text-kamien">{c.organisation.name}</p>
                     <p className="text-sm">{pick(c.summaryShort, locale)}</p>
@@ -308,29 +322,33 @@ export default async function ResultsPage({ searchParams }: { searchParams: Prom
                     </dl>
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="font-tech text-xs tabular-nums text-kamien">
-                        {t("sources", { count: c.sourceCount })} · <Link href={`/karta/${c.id}#zrodla`}>{t("seeSources")}</Link>
+                        {t("sources", { count: c.sourceCount })} · <Link href={`/karta/${c.id}#zrodla`} transitionTypes={[T.openCard]} className="relative z-10">{t("seeSources")}</Link>
                       </p>
-                      <CompareToggle id={c.id} title={title} />
+                      <span className="relative z-10"><CompareToggle id={c.id} title={title} /></span>
                     </div>
                   </li>
                 );
               })}
             </ul>
           )}
+          </div>
 
           {pages > 1 && (
+            <Piece name="pager" i={8}>
             <nav aria-label={t("pagesLabel")} className="mt-6 font-tech">
               <ul className="flex items-center justify-center gap-3">
-                {page > 1 && <li><Link href={pageHref(page - 1)} rel="prev">{t("prev")}</Link></li>}
+                {page > 1 && <li><Link href={pageHref(page - 1)} rel="prev" transitionTypes={[T.filter]}>{t("prev")}</Link></li>}
                 <li aria-current="page" className="tabular-nums">{t("pageOf", { page: Math.min(page, pages), pages })}</li>
-                {page < pages && <li><Link href={pageHref(page + 1)} rel="next">{t("next")}</Link></li>}
+                {page < pages && <li><Link href={pageHref(page + 1)} rel="next" transitionTypes={[T.filter]}>{t("next")}</Link></li>}
               </ul>
             </nav>
+            </Piece>
           )}
 
           {cards && total > 0 && <CompareBar />}
         </section>
       </div>
     </div>
+    </AppPage>
   );
 }

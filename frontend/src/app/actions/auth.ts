@@ -144,3 +144,51 @@ export async function deleteAccount() {
   store.delete(DEMO_COOKIE);
   redirect("/?konto=usuniete");
 }
+
+/** Sign-in from the landing page with JavaScript: the same calls as signIn / enterDemoMode, but the result comes back
+ *  instead of a redirect, so the page can play the opening move while it navigates to the search. `mode` is
+ *  "demo" for the one-click demo account, anything else signs in with the typed test identity.
+ *  Without JavaScript the landing forms post to signIn / enterDemoMode directly. */
+export type AuthResult = { next: string; opening: boolean } | { error: string };
+
+export async function authenticate(form: FormData): Promise<AuthResult> {
+  const next = safeNext(form.get("next"));
+  const demo = form.get("mode") === "demo";
+  const subject = demo ? DEMO_SUBJECT : str(form.get("providerSubject"));
+  if (!demo && subject.length < 3) return { error: "validation_failed" };
+  try {
+    const session = (await api<Session>("/api/v1/auth/login", {
+      method: "POST",
+      body: { provider: "sandbox_id", providerSubject: subject },
+    })).data;
+    await startSession(session, demo);
+    return { next, opening: true };
+  } catch (e) {
+    const code = e instanceof ApiError ? e.code : "unknown";
+    if (code !== "registration_required") return { error: code };
+  }
+  if (!demo) {
+    // Unknown identity: registration, with the identity filled in. A normal page change, not the opening.
+    const q = new URLSearchParams({ tryb: "rejestracja", blad: "registration_required", next, id: subject });
+    return { next: `/logowanie?${q}`, opening: false };
+  }
+  try {
+    const session = (await api<Session>("/api/v1/auth/register", {
+      method: "POST",
+      body: {
+        provider: "sandbox_id",
+        providerSubject: DEMO_SUBJECT,
+        email: `${DEMO_SUBJECT}@example.invalid`,
+        displayName: "Demo",
+        role: "investors_business",
+        affiliation: { name: "Konto demonstracyjne", type: "other" },
+        interests: [],
+        acceptedTerms: true,
+      },
+    })).data;
+    await startSession(session, true);
+    return { next, opening: true };
+  } catch (e) {
+    return { error: e instanceof ApiError ? e.code : "unknown" };
+  }
+}

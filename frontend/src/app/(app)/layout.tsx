@@ -7,12 +7,15 @@ import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { MobileMenu } from "@/components/MobileMenu";
 import { NavigationProgress } from "@/components/NavigationProgress";
 import { CompareTray } from "@/components/compare/CompareTray";
+import { T, TransitionTrigger, vt } from "@/components/motion/Motion";
 import { signOut } from "@/app/actions/auth";
 import { DEMO_COOKIE, SESSION_COOKIE } from "@/lib/cookie";
 
 // App chrome (glass header, colour field, footer) for every route except the landing page.
 // The landing ("/") lives in the (landing) group and brings its own header and footer.
 // Texts come from messages/*.json; the PL/EN switch sits in the footer.
+// Motion: the header and footer are anchored (they never slide with page content) and fade in after the opening
+// move; the logo is the shared object that flies here from the landing hero, and takes the reader back.
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const store = await cookies();
   const signedIn = store.has(SESSION_COOKIE);
@@ -26,8 +29,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <>
         {signedIn ? (
           <>
-            <li><Link href="/szukaj">{t("search")}</Link></li>
-            <li><Link href="/wyniki">{t("results")}</Link></li>
+            <li><Link href="/szukaj" transitionTypes={[T.toSearch]}>{t("search")}</Link></li>
+            <li><Link href="/wyniki" transitionTypes={[T.search]}>{t("results")}</Link></li>
             {/* F4: "Compare (n)" once a card is chosen; shown in the desktop row and the phone menu. */}
             <CompareTray label={tc("trayLabel")} countLabel={tc("trayCount", { count: "{count}" })} />
             <li><Link href="/profil">{t("profile")}</Link></li>
@@ -49,10 +52,18 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <>
-      <div className="aurora" aria-hidden="true"><span /><span /><span /></div>
-      <header className="glass-bar sticky top-0 z-40 border-b">
+      {/* The app's canvas: Papier and the colour field. Named, so on the opening it is the window that sweeps
+          open over the landing hero, and on closing the window that slides shut. */}
+      <div style={vt("app-canvas")} aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 bg-[#F4EEE6]">
+        <div className="aurora"><span /><span /><span /></div>
+      </div>
+      <TransitionTrigger />
+      <header style={vt("app-header")} className="glass-bar sticky top-0 z-40 border-b">
         <nav aria-label={t("navLabel")} className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-2 sm:px-6 lg:gap-6 lg:py-3">
-          <Link href="/" aria-label={t("homeLabel")} className="flex min-w-0 shrink items-center no-underline"><Logo /></Link>
+          {/* The logo closes the app window and goes back to the landing (the opening move in reverse). */}
+          <Link href="/" aria-label={t("homeLabel")} transitionTypes={[T.closing]} className="flex min-w-0 shrink items-center rounded-lg no-underline transition-transform duration-150 active:scale-[0.97]">
+            <span style={vt("brand-logo")} className="block"><Logo /></span>
+          </Link>
           {demo && <span className="shrink-0 rounded-full bg-iskra px-2.5 py-0.5 text-xs font-bold text-atrament shadow-sm">{t("demoBadge")}</span>}
           {/* Desktop (1024px and up): links in a row. */}
           <ul className="ml-auto hidden items-center gap-1 text-sm lg:flex [&_a]:rounded-full [&_a]:px-3 [&_a]:py-1.5 [&_a]:no-underline [&_a]:text-atrament [&_a:not(.btn-primary):hover]:bg-atrament/5">
@@ -76,7 +87,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <NavigationProgress />
         </Suspense>
       </main>
-      <footer className="glass-bar mt-12 border-t text-sm text-kamien">
+      <footer style={vt("app-footer")} className="glass-bar mt-12 border-t text-sm text-kamien">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
           <span>{t("footer")}</span>
           <LanguageSwitch />

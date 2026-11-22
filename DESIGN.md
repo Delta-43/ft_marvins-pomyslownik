@@ -247,3 +247,16 @@ Check every item before handing over a view.
 8. WCAG 2.2 additions: focus is never hidden under the sticky header (2.4.11), targets are at least 24 by 24 px (2.5.8), help is in the same place on every page (3.2.6), no data is asked twice (3.3.7), sign-in needs no puzzle and allows paste (3.3.8).
 9. Works at 200% text size and at 320 CSS px width (400% zoom) with no loss of content.
 10. ARIA follows the WAI-ARIA Authoring Practices: native HTML first, `aria-expanded` on every disclosure, named `nav` landmarks, `lang` on every language name. Details: `docs/MENTOR-FEEDBACK-2026-11-22.md` §4.
+
+## 10. Motion
+
+One flow, forward and back: landing → opening → search → results → card. Spec: the flow prototype (artifact "Pomysłownik flow", motion spec table). Code: `frontend/src/components/motion/Motion.tsx` and the "Motion" block in `frontend/src/app/globals.css`.
+
+- Every navigation carries a transition type; the CSS picks the move with `:active-view-transition-type(...)`. Each forward move has its reverse: opening / closing, search / to-search, open-card / nav-back, filter.
+- Three shared objects tie the screens together: the logo (landing hero at 48 px ↔ header at 24 px), the search bar (centre of the search page ↔ top of the results) and each card (tile in the list ↔ header of its page).
+- Opening (signature): the panel fades 160 ms, the Papier window sweeps open over the hero in 640 ms (80 ms delay), the hero drifts 12% under it, the logo flies 640 ms with a reversed → primary cross-fade; header, title, bar and chips rise from 460 ms with a 40 ms stagger. On phones the window sweeps up.
+- Everything else is fast feedback: pieces sink in 120–140 ms and rise in 280 ms with a 40 ms stagger; the list dips to 40% and back on a filter change; a card grows into its page in 420 ms with a soft settle.
+- Easing: out-expo `cubic-bezier(0.16, 1, 0.3, 1)`. Only transform, opacity and clip-path move.
+- Reduced motion: a 120–160 ms cross-fade only. No flights, sweeps or rises.
+- Every page still works without JavaScript (plain forms and links); the moves are an enhancement.
+

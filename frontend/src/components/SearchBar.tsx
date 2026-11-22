@@ -1,27 +1,16 @@
 import { useTranslations } from "next-intl";
+import { vt } from "@/components/motion/Motion";
+import { SearchForm } from "@/components/SearchForm";
 
-/** Search bar from the Search Page frame (800×80, pill). Plain GET form, so it works without JavaScript. */
+/** Search bar from the Search Page frame (800×80, pill). A plain GET form to /wyniki, so it works without JavaScript;
+ *  with JavaScript the submit becomes a client navigation that plays the search → results move. The bar is one
+ *  shared object on both pages (the "search-bar" name), so it glides from the centre of the search page to the top of the
+ *  results, and back. */
 export function SearchBar({ defaultValue = "", large = false }: { defaultValue?: string; large?: boolean }) {
   const t = useTranslations("search");
   return (
-    <form action="/wyniki" role="search" className="w-full">
-      <label htmlFor="q" className="sr-only">{t("label")}</label>
-      <div className={`flex items-center gap-2 glass-strong rounded-full pl-4 pr-1.5 transition-shadow sm:pl-6 sm:pr-2 focus-within:shadow-[0_0_0_4px_rgb(27_63_143/0.25),0_10px_40px_-12px_rgb(27_63_143/0.35)] ${large ? "h-16 sm:h-20" : "h-14"}`}>
-        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" className="shrink-0">
-          <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="2.2" />
-          <path d="M15.5 15.5 21 21" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-        </svg>
-        <input
-          id="q"
-          name="q"
-          defaultValue={defaultValue}
-          placeholder={t("placeholder")}
-          className={`min-w-0 flex-1 bg-transparent outline-none placeholder:text-kamien ${large ? "text-lg sm:text-xl" : "text-base"}`}
-        />
-        <button type="submit" className="btn-primary shrink-0 cursor-pointer rounded-full px-4 py-2.5 font-bold sm:px-6">
-          {t("submit")}
-        </button>
-      </div>
-    </form>
+    <div style={vt("search-bar")} className="w-full">
+      <SearchForm label={t("label")} placeholder={t("placeholder")} submit={t("submit")} defaultValue={defaultValue} large={large} />
+    </div>
   );
 }

@@ -24,7 +24,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // Client components get just the texts they need (error screens: status; compare selection on /wyniki: compare).
   const { status, compare } = await getMessages();
   return (
-    <html lang={locale}>
+    // data-scroll-behavior: the landing scrolls smoothly to its anchors; Next.js switches that off during route changes.
+    <html lang={locale} data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

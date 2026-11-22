@@ -162,6 +162,9 @@ body { background: #F4EEE6; }
 
 /* Landing (/) - gentle drift of the hero artwork. Disabled by the reduced-motion rule above. */
 @keyframes p-drift { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(8px, -12px) rotate(-4deg); } }
+/* App pages: the sticky header is about 4rem tall. Anchor targets and a page scrolled into view after a
+   navigation (Next.js reads scroll-padding-top) stay clear of it. The landing page has no sticky header. */
+html { scroll-padding-top: 4.25rem; }
 /* Landing (/) only: small gap above anchor targets; smooth scroll unless reduced motion. */
 html:has(#landing-root) { scroll-padding-top: 24px; scroll-padding-bottom: 24px; }
 @media (prefers-reduced-motion: no-preference) { html:has(#landing-root) { scroll-behavior: smooth; } }
@@ -173,9 +176,179 @@ html:has(#landing-root) { scroll-padding-top: 24px; scroll-padding-bottom: 24px;
 .mobile-menu[open] .menu-icon-open { display: none; }
 .mobile-menu > summary::marker { content: ""; }
 
-/* In-app navigation loading state (components/NavigationProgress.tsx): skeleton over the page, bar at the top. */
-.nav-overlay { background: rgb(244 238 230 / 0.86); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-@media (prefers-reduced-transparency: reduce) { .nav-overlay { background: #F4EEE6; backdrop-filter: none; } }
+/* In-app navigation loading state (components/NavigationProgress.tsx): a bar at the top. */
 .nav-progress > span { animation: nav-progress 1.1s ease-in-out infinite; }
 @keyframes nav-progress { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
 @media (prefers-reduced-motion: reduce) { .nav-progress > span { width: 100%; } }
+
+/* ───────────── Motion: one flow, forward and back ─────────────
+   Landing → opening → search → results → card. See src/components/motion/Motion.tsx for how pages are named.
+   Each navigation carries a type; `:active-view-transition-type(...)` picks the move. Every forward move has its
+   reverse: opening / closing, search / to-search, open-card / nav-back, filter (same page, new list).
+   Only transform, opacity and clip-path move. Timings follow the motion spec of the flow prototype
+   (out-expo = cubic-bezier(0.16, 1, 0.3, 1)). */
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-bounce: cubic-bezier(0.22, 1.18, 0.36, 1);
+  --sweep-from: inset(0 0 0 54%);   /* desktop: the Papier window slides open from the right edge of the hero */
+  --hero-drift: translateX(-12%);
+}
+@media (max-width: 1079px) {
+  :root { --sweep-from: inset(58% 0 0 0); --hero-drift: translateY(-12%); } /* stacked: it sweeps up */
+}
+/* The page stays usable while a move plays. */
+::view-transition { pointer-events: none; }
+
+@keyframes vt-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes vt-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes vt-sink { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(6px); } }
+@keyframes vt-sweep-open { from { clip-path: var(--sweep-from); } to { clip-path: inset(0 0 0 0); } }
+@keyframes vt-sweep-close { from { clip-path: inset(0 0 0 0); } to { clip-path: var(--sweep-from); } }
+@keyframes vt-hero-out { from { transform: none; opacity: 1; } 65% { opacity: 1; } to { transform: var(--hero-drift); opacity: 0; } }
+@keyframes vt-hero-in { from { transform: var(--hero-drift); opacity: 0; } 35% { opacity: 1; } to { transform: none; opacity: 1; } }
+@keyframes vt-dip-out { from { opacity: 1; } to { opacity: 0.4; } }
+@keyframes vt-dip-in { from { opacity: 0.4; } to { opacity: 1; } }
+
+/* ── Defaults for any page change (also browser back and forward, which carry no type) ── */
+::view-transition-old(root) { animation: 160ms ease-out both vt-fade reverse; }
+::view-transition-new(root) { animation: 200ms ease-out 40ms both vt-fade; }
+::view-transition-group(app-page) { animation-duration: 240ms; animation-timing-function: var(--ease-out); }
+::view-transition-old(app-page) { animation: 140ms ease-out both vt-fade reverse; }
+::view-transition-new(app-page) { animation: 220ms ease-out 40ms both vt-fade; }
+/* Pieces: the old ones leave fast, the new ones rise in order; a piece that stays simply moves with the layout. */
+::view-transition-old(.piece) { animation: 140ms ease-in both vt-sink; }
+::view-transition-new(.piece) { animation: 280ms var(--ease-out) both vt-rise; }
+::view-transition-new(.piece-2) { animation-delay: 40ms; }
+::view-transition-new(.piece-3) { animation-delay: 80ms; }
+::view-transition-new(.piece-4) { animation-delay: 120ms; }
+::view-transition-new(.piece-5) { animation-delay: 160ms; }
+::view-transition-new(.piece-6) { animation-delay: 200ms; }
+::view-transition-new(.piece-7) { animation-delay: 240ms; }
+::view-transition-new(.piece-8) { animation-delay: 280ms; }
+::view-transition-group(.piece) { animation-duration: 240ms; animation-timing-function: var(--ease-out); }
+/* Content always sits above the canvas and the page, below the bar, cards, header and logo. */
+::view-transition-group(.piece), ::view-transition-group(results-list) { z-index: 20; }
+/* Anchored chrome: the canvas, header and footer never slide with page content. */
+::view-transition-group(app-canvas) { animation: none; z-index: 0; }
+::view-transition-old(app-canvas) { display: none; }
+::view-transition-new(app-canvas) { animation: none; }
+::view-transition-group(app-header), ::view-transition-group(app-footer) { animation: none; z-index: 60; }
+::view-transition-old(app-header), ::view-transition-old(app-footer) { display: none; }
+::view-transition-new(app-header), ::view-transition-new(app-footer) { animation: none; }
+/* The search bar: one object on the search page and the results page; it glides between its two places. */
+::view-transition-group(search-bar) { animation-duration: 360ms; animation-timing-function: var(--ease-out); z-index: 50; }
+::view-transition-old(search-bar) { animation: 200ms ease-out both vt-fade reverse; }
+::view-transition-new(search-bar) { animation: 200ms ease-out both vt-fade; }
+/* The logo: one object on the landing hero and in the app header; it flies between them, reversed → primary. */
+::view-transition-group(brand-logo) { animation-duration: 640ms; animation-timing-function: var(--ease-out); z-index: 70; }
+::view-transition-image-pair(brand-logo) { isolation: isolate; }
+::view-transition-old(brand-logo) { animation: 320ms ease-out 200ms both vt-fade reverse; }
+::view-transition-new(brand-logo) { animation: 320ms ease-out 200ms both vt-fade; }
+/* Cards: a tile and its page header share a name, so the one grows into the other with a soft settle. */
+::view-transition-group(.card) { animation-duration: 420ms; animation-timing-function: var(--ease-bounce); z-index: 40; }
+::view-transition-image-pair(.card) { isolation: isolate; }
+::view-transition-old(.card) { animation: 160ms ease-out both vt-fade reverse; }
+::view-transition-new(.card) { animation: 280ms var(--ease-out) both vt-rise; }
+::view-transition-new(.card-2) { animation-delay: 40ms; }
+::view-transition-new(.card-3) { animation-delay: 80ms; }
+::view-transition-new(.card-4) { animation-delay: 120ms; }
+::view-transition-new(.card-5) { animation-delay: 160ms; }
+::view-transition-new(.card-6) { animation-delay: 200ms; }
+::view-transition-new(.card-7) { animation-delay: 220ms; }
+::view-transition-new(.card-8) { animation-delay: 240ms; }
+/* The landing hero and sign-in panel on other page changes (for example to the registration page). */
+::view-transition-old(landing-hero), ::view-transition-old(landing-panel) { animation: 160ms ease-out both vt-fade reverse; }
+::view-transition-new(landing-hero), ::view-transition-new(landing-panel) { animation: 240ms ease-out both vt-fade; }
+
+/* ── Opening (signature): sign-in → search. The login panel fades, the Papier window sweeps open over the hero,
+      the hero drifts under it, the logo flies into the header; nav, title and bar arrive once the window is open. ── */
+html:active-view-transition-type(opening)::view-transition-old(landing-panel) { animation: 160ms ease-out both vt-fade reverse; }
+html:active-view-transition-type(opening)::view-transition-old(landing-hero) { animation: 720ms var(--ease-out) both vt-hero-out; }
+html:active-view-transition-type(opening)::view-transition-old(root) { animation: 300ms ease-out both vt-fade reverse; }
+html:active-view-transition-type(opening)::view-transition-group(app-canvas) { z-index: 5; }
+html:active-view-transition-type(opening)::view-transition-new(app-canvas) { animation: 640ms var(--ease-out) 80ms both vt-sweep-open; }
+html:active-view-transition-type(opening)::view-transition-group(app-page) { animation: none; z-index: 6; }
+html:active-view-transition-type(opening)::view-transition-new(app-page) { animation: 240ms ease-out 420ms both vt-fade; }
+html:active-view-transition-type(opening)::view-transition-new(app-header),
+html:active-view-transition-type(opening)::view-transition-new(app-footer) { animation: 240ms ease-out 460ms both vt-fade; }
+html:active-view-transition-type(opening)::view-transition-new(search-bar) { animation: 280ms var(--ease-out) 500ms both vt-rise; }
+html:active-view-transition-type(opening)::view-transition-new(.piece) { animation: 280ms var(--ease-out) 460ms both vt-rise; }
+html:active-view-transition-type(opening)::view-transition-new(.piece-2) { animation-delay: 500ms; }
+html:active-view-transition-type(opening)::view-transition-new(.piece-3) { animation-delay: 540ms; }
+html:active-view-transition-type(opening)::view-transition-new(.piece-4) { animation-delay: 580ms; }
+html:active-view-transition-type(opening)::view-transition-new(.piece-5) { animation-delay: 620ms; }
+html:active-view-transition-type(opening)::view-transition-new(.piece-6) { animation-delay: 660ms; }
+html:active-view-transition-type(opening)::view-transition-new(.piece-7) { animation-delay: 700ms; }
+html:active-view-transition-type(opening)::view-transition-new(.piece-8) { animation-delay: 740ms; }
+
+/* ── Closing: the same move played backwards. The window slides shut, the hero drifts back, the logo flies home. ── */
+html:active-view-transition-type(closing)::view-transition-group(app-canvas) { z-index: 10; }
+html:active-view-transition-type(closing)::view-transition-old(app-canvas) { display: block; animation: 560ms var(--ease-out) both vt-sweep-close; }
+html:active-view-transition-type(closing)::view-transition-group(app-page) { animation: none; z-index: 11; }
+html:active-view-transition-type(closing)::view-transition-old(app-page) { animation: 160ms ease-in both vt-fade reverse; }
+html:active-view-transition-type(closing)::view-transition-group(landing-hero),
+html:active-view-transition-type(closing)::view-transition-group(landing-panel) { z-index: 1; }
+html:active-view-transition-type(closing)::view-transition-old(app-header),
+html:active-view-transition-type(closing)::view-transition-old(app-footer) { display: block; animation: 160ms ease-in both vt-fade reverse; }
+html:active-view-transition-type(closing)::view-transition-old(search-bar),
+html:active-view-transition-type(closing)::view-transition-old(.piece),
+html:active-view-transition-type(closing)::view-transition-old(.card) { animation: 160ms ease-in both vt-fade reverse; }
+html:active-view-transition-type(closing)::view-transition-new(landing-hero) { animation: 640ms var(--ease-out) both vt-hero-in; }
+html:active-view-transition-type(closing)::view-transition-new(landing-panel) { animation: 320ms var(--ease-out) 360ms both vt-rise; }
+html:active-view-transition-type(closing)::view-transition-new(root) { animation: 300ms ease-out 200ms both vt-fade; }
+
+/* ── Search → results and back: the bar glides (shared name above); title and chips sink, results rise. ── */
+html:active-view-transition-type(search)::view-transition-old(.piece) { animation: 120ms ease-in both vt-sink; }
+html:active-view-transition-type(search)::view-transition-new(.piece),
+html:active-view-transition-type(search)::view-transition-new(.card) { animation-delay: 80ms; }
+html:active-view-transition-type(search)::view-transition-new(.piece-2), html:active-view-transition-type(search)::view-transition-new(.card-2) { animation-delay: 120ms; }
+html:active-view-transition-type(search)::view-transition-new(.piece-3), html:active-view-transition-type(search)::view-transition-new(.card-3) { animation-delay: 160ms; }
+html:active-view-transition-type(search)::view-transition-new(.piece-4), html:active-view-transition-type(search)::view-transition-new(.card-4) { animation-delay: 200ms; }
+html:active-view-transition-type(search)::view-transition-new(.piece-5), html:active-view-transition-type(search)::view-transition-new(.card-5) { animation-delay: 240ms; }
+html:active-view-transition-type(search)::view-transition-new(.piece-6), html:active-view-transition-type(search)::view-transition-new(.card-6) { animation-delay: 280ms; }
+html:active-view-transition-type(search)::view-transition-new(.piece-7), html:active-view-transition-type(search)::view-transition-new(.card-7) { animation-delay: 280ms; }
+html:active-view-transition-type(search)::view-transition-new(.piece-8), html:active-view-transition-type(search)::view-transition-new(.card-8) { animation-delay: 280ms; }
+html:active-view-transition-type(to-search)::view-transition-old(.card) { animation: 120ms ease-in both vt-sink; }
+
+/* ── Filter, sort, paging or a new query on the results: the list dips and comes back; the rest keeps its place. ── */
+html:active-view-transition-type(filter)::view-transition-old(results-list) { animation: 100ms ease-out both vt-dip-out; }
+html:active-view-transition-type(filter)::view-transition-new(results-list) { animation: 160ms ease-out both vt-dip-in; }
+html:active-view-transition-type(filter)::view-transition-old(.card) { animation: 100ms ease-out both vt-fade reverse; }
+html:active-view-transition-type(filter)::view-transition-new(.card) { animation: 200ms ease-out both vt-fade; }
+html:active-view-transition-type(filter)::view-transition-group(.card) { animation-duration: 300ms; animation-timing-function: var(--ease-out); }
+html:active-view-transition-type(filter)::view-transition-old(app-page),
+html:active-view-transition-type(filter)::view-transition-new(app-page) { animation: none; }
+
+/* ── Results → card and back: the tile grows into the header (shared name above); the sections rise under it. ── */
+html:active-view-transition-type(open-card)::view-transition-old(.card),
+html:active-view-transition-type(open-card)::view-transition-old(.piece) { animation: 140ms ease-in both vt-fade reverse; }
+html:active-view-transition-type(open-card)::view-transition-new(.piece) { animation-delay: 120ms; }
+html:active-view-transition-type(open-card)::view-transition-new(.piece-2) { animation-delay: 160ms; }
+html:active-view-transition-type(open-card)::view-transition-new(.piece-3) { animation-delay: 200ms; }
+html:active-view-transition-type(open-card)::view-transition-new(.piece-4) { animation-delay: 240ms; }
+html:active-view-transition-type(nav-back)::view-transition-group(.card) { animation-duration: 320ms; animation-timing-function: var(--ease-out); }
+html:active-view-transition-type(nav-back)::view-transition-old(.piece) { animation: 120ms ease-in both vt-fade reverse; }
+
+/* Reduced motion: no flights, sweeps or rises; a short cross-fade only. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) { animation-duration: 0.01ms !important; animation-delay: 0ms !important; }
+  ::view-transition-old(*) { animation: 120ms ease-out both vt-fade reverse !important; }
+  ::view-transition-new(*) { animation: 160ms ease-out both vt-fade !important; }
+}
+
+/* A whole result tile opens its card: the title link's hit area covers the tile, other controls sit above it (z-10). */
+.card-tile-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.card-tile { border-radius: var(--radius-card); }
+.card-tile:has(.card-tile-link:focus-visible) { outline: var(--focus-ring); outline-offset: 0.125rem; }
+.card-tile .card-tile-link:focus-visible { outline: none; }
+.card-tile:active { transform: translateY(-1px) scale(0.995); }
+
+/* Busy spinner in a button (sign-in). Still under reduced motion (the global rule above stops the rotation). */
+.spin { width: 18px; height: 18px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: spin 800ms linear infinite; flex: none; }
+@keyframes spin { to { transform: rotate(1turn); } }
+/* The invisible trigger and the page boundary (Motion.tsx) are containers only; they never animate themselves. */
+::view-transition-group(.page-boundary) { animation: none; }
+::view-transition-old(.page-boundary) { display: none; }
+::view-transition-new(.page-boundary) { animation: none; }
+::view-transition-group(.trigger) { animation: none; }
+::view-transition-old(.trigger), ::view-transition-new(.trigger) { animation: none; }
