@@ -10,67 +10,52 @@ The style guide for every Pomysłownik! screen. Source of truth for colour, type
 
 ## 1. Colour palette
 
-Contrast is measured with the WCAG 2.2 formula on 2026-11-22. AA needs 4.5:1 for text, 3:1 for large text (24 px, or 18.67 px bold) and for component boundaries.
+**Generated from the two logo colours only** (decision of 2026-11-23): PCI blue `#0085CC` (hue 243° in OKLCH) and green `#6BB437` (hue 135°). Every neutral is a blue-tinted tone of the first, success comes from the second, the three category tints are blue, green and the teal between them (hue 189°). The one exception is the error red, kept because an error must never read as a brand colour. Tones were set in OKLCH and checked with the WCAG 2.2 formula on 2026-11-23 (generator: lightness and chroma per role, gamut-clipped). AA needs 4.5:1 for text, 3:1 for large text and for component boundaries.
 
-### Brand
-
-| Name | Hex | Token | Use | Contrast |
-|---|---|---|---|---|
-| Papier | `#F7F2EB` | `--color-papier` | Page background, pill chips, soft panels | Atrament on it 16.54:1 |
-| Atrament | `#141414` | `--color-atrament` | Body text, headings, icon strokes, dark footer | On Papier 16.54:1, on white 18.42:1 |
-| Navy | `#001A49` | `--color-navy` | Dark surfaces (landing hero, footer, pressed states), primary button, display headings on Papier | White on it 16.88:1, Papier on it 15.16:1, Iskra on it 6.60:1 |
-| Deep blue | `#035487` | `--color-granat` | Links, focus ring, secondary button border, active nav underline, link hover text on dark | On Papier 7.19:1, on white 8.01:1, on Mist 6.89:1 |
-| PCI blue | `#0085CC` | `--color-pci` | Logo symbol, the accent band, icons at 24 px and up, display numbers at 32 px and up. **Never small text** | On white 4.02:1 (large text only), on Papier 3.61:1 (graphics only) |
-| Iskra | `#6BB437` | `--color-iskra` | Highlights on Navy or Atrament only, the green end of the band, "new" badge background under Atrament text | On Navy 6.60:1, Atrament on it 7.20:1. On white 2.56:1, so never text on light |
-
-### Neutrals
+### Brand and neutrals
 
 | Name | Hex | Token | Use | Contrast |
 |---|---|---|---|---|
-| Surface | `#FFFFFF` | `--color-surface` | Cards, panels, inputs, the sign-in card | — |
-| Mist | `#E7EFF5` | `--color-mist` | Tinted sections (numbers strip, how it works), selected rows | Atrament 15.85:1, Kamień 6.43:1, Deep blue 6.89:1 |
-| Kamień | `#5A544D` | `--color-kamien` | Secondary text, captions, metadata, placeholder | On Papier 6.71:1, on white 7.47:1, on Mist 6.43:1 |
-| Krawędź | `#DDD5C8` | `--color-krawedz` | Hairline dividers and card borders. Structure only, never a boundary that must be seen | 1.46:1 on white: not a 3:1 boundary. Inputs use Kamień borders |
-| Muted on dark | `#E4DDD2` | `--color-muted-dark` | Secondary text on Navy and Atrament | On Navy 12.52:1 |
-| Dark line | `#3A3733` | `--color-dark-line` | Dividers on dark surfaces | — |
+| PCI blue | `#0085CC` | `--color-pci` | Logo symbol, icons 24 px and up. Never small text | On white 4.02:1 (large and graphics only) |
+| Iskra (logo green) | `#6BB437` | `--color-iskra` | Highlights on Navy only (hero kicker) | On Navy 5.29:1 |
+| Navy | `#02314E` | `--color-navy` | Primary button, dark surfaces (hero) | White on it 13.53:1, Papier on it 12.62:1 |
+| Navy hover | `#03446A` | `--color-navy-hover` | Primary button hover | White on it 10.3:1 |
+| Deep blue | `#006095` | `--color-granat` | Links, focus ring, secondary button | On white 6.76:1, on Papier 6.3:1, on Mist 5.77:1 |
+| Papier | `#F1F8FD` | `--color-papier` | Page background | Atrament on it 16.32:1 |
+| Surface | `#FFFFFF` | `--color-surface` | Cards, panels, inputs | — |
+| Mist | `#E1EFFB` | `--color-mist` | Tinted rows, selected chips, the current item | Atrament 14.95:1, Kamień 5.83:1 |
+| Atrament | `#0A1B28` | `--color-atrament` | Text, headings, icons | On white 17.5:1 |
+| Kamień | `#4A5D6D` | `--color-kamien` | Secondary text, control borders | On white 6.82:1, on Papier 6.36:1 |
+| Krawędź | `#D0DBE3` | `--color-krawedz` | Hairlines (structure only, never a required boundary) | 1.41:1 on white |
+| Disabled | `#E0E7EE` | `--color-disabled` | Disabled controls | Kamień on it 5.47:1 |
+| Muted on dark | `#D1E0EE` | `--color-muted-dark` | Secondary text on Navy | On Navy 10.06:1 |
+| Dark line | `#2E516B` | `--color-dark-line` | Dividers on dark | — |
 
-### Status (always icon + word, never colour alone)
+### Status (always icon plus word)
 
 | Name | Hex | Token | Use | Contrast |
 |---|---|---|---|---|
-| Tak (success) | `#027641` | `--color-tak` | "Potwierdzone" badge background with white text, success message border, "Gotowe." | White on it 5.72:1, on Papier 5.14:1 |
-| Nie (error) | `#B42318` | `--color-nie` | Error text, 2 px error border, "Błąd:" lead | On white 6.57:1, on Papier 5.90:1 |
-| Info | border `#035487`, bg `#E7EFF5` | — | Information message | Atrament on bg 15.85:1 |
-| Warning | border `#141414`, bg `#FFF4D6`, Iskra triangle | — | "Uwaga." message | Atrament on bg > 14:1 |
-| Estimate | dashed 1.5 px Atrament border, white bg, mono `≈` | — | "≈ Szacunek" badge | Atrament 18.42:1 |
-| Stale | 1.5 px Kamień border, clock icon | — | "Dawno nie sprawdzano" | Kamień 7.47:1 |
+| Tak (success, from the green) | `#40731A` | `--color-tak` | "Potwierdzone", "najlepsza", yes marks | White on it 5.7:1, on Papier 5.31:1 |
+| Tak tint | `#E9F7E3` | `--color-tak-bg` | Success message background | Atrament on it 15.73:1 |
+| Nie (error, the exception) | `#B42318` | `--color-nie` | Error text and borders | On white 6.57:1 |
 
 ### Categories (always with the icon and the name)
 
-| Name | Hex | Token | Area / door | Contrast |
-|---|---|---|---|---|
-| Uczelnie | `#A9DCE6` | `--color-uczelnie` | Technological area, universities door | Atrament on it 12.34:1 |
-| Patenty | `#D6E6A3` | `--color-patenty` | Educational area, patents door | Atrament 13.78:1 |
-| Laboratoria | `#CDB8F0` | `--color-laboratoria` | Administrative area, labs door | Atrament 10.27:1 |
-| Startupy | `#F7C6A8` | `--color-startupy` | Startups door | Atrament 11.93:1 |
+| Area | Hex | Token | Contrast |
+|---|---|---|---|
+| Technological (blue tint) | `#A0D1F8` | `--color-laboratoria` | Atrament on it 11.9:1 |
+| Educational (green tint) | `#C3E8AF` | `--color-uczelnie` | Atrament on it 12.9:1 |
+| Administrative (teal, between the two) | `#A1E7E1` | `--color-patenty` | Atrament on it 12.52:1 |
 
-Deuteranopia check: Patenty and Startupy can look alike. The icon and the name carry the meaning, and the two never sit side by side without their labels.
-
-### Decoration
-
-| Name | Value | Use |
-|---|---|---|
-| Band | `linear-gradient(90deg, #0085CC, #6BB437)` | A 4 px band at the top of the app header and under section titles on the landing. Never under text |
-| Colour field | Blurred circles of Uczelnie, Laboratoria, Startupy and Iskra at 45 to 70% opacity behind the app pages | Only behind surfaces that are at least 60% opaque. Off in high contrast and `prefers-reduced-transparency` |
-| Grain | SVG turbulence at 5% screen blend | Dark landing surfaces only |
+The token names are kept from v2.0 so the code did not need renaming; the values are new. The hero artwork is drawn through `mix-blend-mode: luminosity`, so it takes the Navy's hue.
 
 ### Contrast modes
 
 | Mode | Trigger | Changes |
 |---|---|---|
 | Standard | default | As above |
-| High | footer control, `prefers-contrast: more` | Papier → white, Mist → white, Kamień → `#3A3733`, no colour field, no blur, 2 px Atrament borders on cards and inputs, links underlined everywhere, focus ring 3 px Atrament with white halo |
-| Low | footer control, `prefers-contrast: less` | Papier `#F4EEE6` page, Atrament → `#2A2826`, Kamień stays (6.0:1), shadows lighter. Every text pair still ≥ 4.5:1 |
+| High | account menu, `prefers-contrast: more` | Papier → white, Mist → white, Kamień → `#303F4C`, no colour field, no blur, 2 px Atrament borders on cards and inputs, links underlined everywhere, focus ring 3 px Atrament with white halo |
+| Low | account menu, `prefers-contrast: less` | Papier `#EAF1F8` page, Atrament → `#1E2D39`, Kamień stays (6.0:1), shadows lighter. Every text pair still ≥ 4.5:1 |
 | Forced colours | `forced-colors: active` | System colours; borders kept with `border: 1px solid transparent` under shadows; badges keep their text |
 
 ---
@@ -188,7 +173,7 @@ Glass (translucent, blurred) surfaces are allowed only on the landing page behin
 Each component lists its states. Hover styles sit behind `@media (hover: hover)`. Every control is at least 24 × 24 px; primary actions 44 px tall.
 
 ### Primary button
-Navy background, white text, Lato 700 17 px, pill, 44 px (56 px on the landing card), padding 0 22 px. Hover `#0A2A66`. Active `scale(0.985)`, 100 ms. Focus ring. Disabled: `#E9E2D7` bg, Kamień text, `aria-disabled` when it must stay focusable (busy). Busy: spinner 18 px plus a label change ("Sprawdzamy tożsamość…"). One per screen.
+Navy background, white text, Lato 700 17 px, pill, 44 px (56 px on the landing card), padding 0 22 px. Hover `#03446A`. Active `scale(0.985)`, 100 ms. Focus ring. Disabled: `#E0E7EE` bg, Kamień text, `aria-disabled` when it must stay focusable (busy). Busy: spinner 18 px plus a label change ("Sprawdzamy tożsamość…"). One per screen.
 
 ### Secondary button
 White background, 1.5 px Deep blue border, Deep blue text, pill, 44 px. Hover Mist background. Active as primary.
@@ -320,15 +305,17 @@ Reduced motion: no sweep, drift, flight, rise or slide. Cross-fades of 120 to 16
 
 ```css
 @theme {
-  --color-papier: #F7F2EB; --color-surface: #FFFFFF; --color-mist: #E7EFF5;
-  --color-atrament: #141414; --color-kamien: #5A544D; --color-krawedz: #DDD5C8;
-  --color-navy: #001A49; --color-granat: #035487; --color-pci: #0085CC; --color-iskra: #6BB437;
-  --color-tak: #027641; --color-nie: #B42318;
-  --color-uczelnie: #A9DCE6; --color-patenty: #D6E6A3; --color-laboratoria: #CDB8F0; --color-startupy: #F7C6A8;
+  /* Generated from the logo blue #0085CC and green #6BB437 (section 1). */
+  --color-papier: #F1F8FD; --color-surface: #FFFFFF; --color-mist: #E1EFFB;
+  --color-atrament: #0A1B28; --color-kamien: #4A5D6D; --color-krawedz: #D0DBE3; --color-disabled: #E0E7EE;
+  --color-navy: #02314E; --color-navy-hover: #03446A; --color-granat: #006095; --color-pci: #0085CC; --color-iskra: #6BB437;
+  --color-tak: #40731A; --color-tak-bg: #E9F7E3; --color-nie: #B42318; --color-nie-bg: #FBEDEB;
+  --color-laboratoria: #A0D1F8; --color-uczelnie: #C3E8AF; --color-patenty: #A1E7E1;
   --font-display: "Lato", "Roboto", "Segoe UI", Arial, sans-serif;
   --font-body: "Atkinson Hyperlegible Next", "Roboto", system-ui, sans-serif;
-  --font-tech: "Roboto Serif", Georgia, serif;
-  --radius-pill: 999px; --radius-input: 12px; --radius-message: 16px; --radius-card: 20px; --radius-panel: 24px; --radius-section: 32px;
+  --font-tech: "Atkinson Hyperlegible Mono", ui-monospace, "Roboto", monospace;
+  --radius-pill: 999px; --radius-input: 0.75rem; --radius-message: 1rem; --radius-card: 1.25rem; --radius-panel: 1.5rem;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
+/* Sizes are in rem everywhere, so the text-size setting scales boxes, gaps and radii with the text. */
 ```

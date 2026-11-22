@@ -193,11 +193,13 @@
   },
   "find": {
     "metaTitle": "Search",
-    "title": "What are you looking for?",
+    "title": "What do you need?",
     "label": "Search innovations",
     "placeholder": "For example, city hall chatbot",
     "submit": "Search",
-    "tags": "Latest tags"
+    "tags": "Latest tags",
+    "examples": "Example cards",
+    "examplesNote": "Two cards chosen for the demo: confirmed facts next to claims, linked patents, dated evidence."
   },
   "res": {
     "metaTitle": "Results",
@@ -366,7 +368,18 @@
     "owner": "Owner's page",
     "missingTitle": "This card does not exist",
     "missingText": "The card may have been withdrawn, or the link is incomplete.",
-    "j_history": "History"
+    "j_history": "History",
+    "evD": "Date",
+    "area_technological": "Technological",
+    "area_educational": "Educational",
+    "area_administrative": "Administrative",
+    "lvl_concept": "Concept",
+    "lvl_prototype": "Prototype",
+    "lvl_testing": "Testing",
+    "lvl_pilot": "Pilot",
+    "lvl_in_practice": "In practice",
+    "ipShort": "Polish IP",
+    "foldShow": "Show or hide"
   },
   "srcs": {
     "title": "Sources",

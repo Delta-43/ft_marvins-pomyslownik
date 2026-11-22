@@ -2,6 +2,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { api, ApiError } from "@/lib/api";
+import type { Locale } from "@/i18n/locale";
 
 import { SESSION_COOKIE } from "@/lib/cookie";
 export { SESSION_COOKIE };
@@ -19,11 +20,11 @@ function expired(next: string): never {
 }
 
 /** Authenticated GET for server components. A 401 clears the session and goes to sign-in. */
-export async function authed<T>(path: string, currentPath: string): Promise<T> {
+export async function authed<T>(path: string, currentPath: string, lang?: Locale): Promise<T> {
   const token = await getToken();
   if (!token) expired(currentPath);
   try {
-    return await api<T>(path, { token });
+    return await api<T>(path, { token, lang });
   } catch (e) {
     if (e instanceof ApiError && e.status === 401) expired(currentPath);
     throw e;

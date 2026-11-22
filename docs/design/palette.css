@@ -1,0 +1,53 @@
+/* Pomysłownik! colour palette, built from the two logo colours only:
+   PCI blue #0085CC and green #6BB437 (OKLCH tones of their hues; the area teal is the hue between them).
+   The error red is the one functional exception.
+   Contrast is WCAG 2.2, measured 2026-11-22. AA needs 4.5:1 for text, 3:1 for large text and boundaries.
+   Same values as the @theme block in frontend/src/app/globals.css. */
+
+:root {
+  /* Brand */
+  --color-pci: #0085CC;        /* logo blue: logo symbol, icons 24 px+, large display only (4.02:1 on white) */
+  --color-iskra: #6BB437;      /* logo green: highlights on Navy only (5.29:1 on Navy) */
+
+  /* Surfaces */
+  --color-surface: #FFFFFF;    /* cards, panels, inputs */
+  --color-papier: #F1F8FD;     /* page background */
+  --color-mist: #E1EFFB;       /* tinted sections, selected rows */
+  --color-disabled: #E0E7EE;   /* disabled controls */
+  --color-navy: #02314E;       /* primary button, landing hero (white on it 13.53:1) */
+  --color-navy-hover: #03446A; /* primary hover (white on it 10.30:1) */
+
+  /* Text and lines */
+  --color-atrament: #0A1B28;   /* text (17.50:1 on white, 16.32:1 on page, 14.95:1 on mist) */
+  --color-kamien: #4A5D6D;     /* secondary text, control borders (6.82:1 on white, 6.36:1 on page, 5.83:1 on mist) */
+  --color-granat: #006095;     /* links, focus ring (6.76:1 on white, 6.30:1 on page, 5.77:1 on mist) */
+  --color-krawedz: #D0DBE3;    /* hairlines, structure only (1.41:1, never a boundary that must be seen) */
+  --color-muted-dark: #D1E0EE; /* secondary text on Navy (10.06:1) */
+  --color-dark-line: #2E516B;  /* dividers on Navy */
+
+  /* Status (always icon + word) */
+  --color-tak: #40731A;        /* confirmed, success (white on it 5.70:1; on page 5.31:1) */
+  --color-tak-bg: #E9F7E3;     /* success message background */
+  --color-warn-bg: #E7F8DE;    /* warning message background */
+  --color-nie: #B42318;        /* error, the exception (6.57:1 on white) */
+  --color-nie-bg: #FBEDEB;     /* error message background */
+
+  /* Areas (always with icon and name; text on them 11.90 to 12.90:1) */
+  --color-laboratoria: #B0DAFC; /* technological: logo blue tint */
+  --color-uczelnie: #C3E8AF;    /* educational: logo green tint */
+  --color-patenty: #A1E7E1;     /* administrative: teal between the two */
+  --color-startupy: #C3E8AF;    /* spare, same as educational */
+}
+
+/* High contrast mode */
+html[data-contrast="high"] {
+  --color-papier: #FFFFFF; --color-mist: #FFFFFF; --color-disabled: #FFFFFF;
+  --color-kamien: #303F4C;     /* 10.82:1 on white */
+  --color-krawedz: #0A1B28;
+}
+
+/* Low contrast mode (every text pair still 4.5:1 or more) */
+html[data-contrast="low"] {
+  --color-papier: #EAF1F8;
+  --color-atrament: #1E2D39;   /* 12.38:1 on this page */
+}
