@@ -51,8 +51,8 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "Wpis Łukasiewicz – Przemysłowego Instytutu Motoryzacji wymienia usługi: badania mechaniczne zbiorników wodorowych, badania pojazdów zasilanych wodorem, konwersję napędu z konwencjonalnego na wodorowy oraz projekt jednostki rozdziału mocy między ogniwem paliwowym a baterią. Wpis deklaruje TRL 4 i ochronę jako strzeżone know-how. Streszczenie napisane przez model na podstawie wpisu.",
-    "en": "A listing by the Łukasiewicz Automotive Industry Institute names services: mechanical tests of hydrogen tanks, tests of hydrogen-powered vehicles, conversion of a drive from conventional to hydrogen, and design of a unit that shares power between a fuel cell and a battery. The listing declares TRL 4 and protection as guarded know-how. Summary written by the model from the listing."
+    "pl": "Wpis Łukasiewicz – Przemysłowego Instytutu Motoryzacji wymienia usługi: badania mechaniczne zbiorników wodorowych, badania pojazdów zasilanych wodorem, konwersję napędu z konwencjonalnego na wodorowy oraz projekt i budowę jednostki rozdziału mocy między ogniwem paliwowym a baterią. Wpis deklaruje TRL 4 i ochronę jako strzeżone know-how. Streszczenie napisane przez model na podstawie wpisu.",
+    "en": "A listing by the Łukasiewicz Automotive Industry Institute names services: mechanical tests of hydrogen tanks, tests of hydrogen-powered vehicles, conversion of a drive from conventional to hydrogen, and design and build of a unit that shares power between a fuel cell and a battery. The listing declares TRL 4 and protection as guarded know-how. Summary written by the model from the listing."
   },
   "implementationLevelDetail": {
     "basis": "estimate",
@@ -62,10 +62,10 @@
     "evidenceIds": [
       "fdc84921-ece9-4de2-86fc-b017fd5b46be"
     ],
-    "method": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm.",
+    "method": "The listing (January 2022) is a set of services with one declared TRL 4. It does not say which service the TRL describes. Read as testing; the reviewer treats the card as a service offer.",
     "methodText": {
-      "pl": "Wpis deklaruje TRL 4 (walidacja w warunkach laboratoryjnych). Zgodnie z regułą przypisano poziom „testowanie”. Do potwierdzenia przez recenzenta.",
-      "en": "Listing declares TRL 4 (validation in laboratory conditions). Mapped to 'testing' by rule. Reviewer to confirm."
+      "pl": "Wpis (styczeń 2022) to zestaw usług z jednym deklarowanym TRL 4. Nie mówi, której usługi dotyczy TRL. Przyjęto testy; recenzentka traktuje kartę jako ofertę usług.",
+      "en": "The listing (January 2022) is a set of services with one declared TRL 4. It does not say which service the TRL describes. Read as testing; the reviewer treats the card as a service offer."
     },
     "value": "testing"
   },
@@ -131,13 +131,13 @@
   },
   "oslo": {
     "passed": false,
-    "newOrImproved": true,
+    "newOrImproved": false,
     "differsSignificantly": false,
     "availableOrInUse": true,
     "basis": "estimate",
     "note": {
-      "pl": "Oferowane są usługi, ale wpis nie pokazuje, co jest nowe w porównaniu z dotychczasowymi badaniami pojazdów wodorowych.",
-      "en": "Services are offered, but the listing does not show what is new compared with existing hydrogen vehicle testing."
+      "pl": "Oferta usług z 2022 r. Wpis nie pokazuje, co jest nowe w porównaniu z istniejącymi badaniami pojazdów wodorowych.",
+      "en": "A service offer from 2022. The listing does not show what is new compared with existing hydrogen vehicle testing."
     }
   },
   "couldAlsoBeUsedIn": [

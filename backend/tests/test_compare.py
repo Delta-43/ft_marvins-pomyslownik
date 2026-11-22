@@ -51,7 +51,8 @@ def test_similar_and_history(auth):
     s = client.get(f"/api/v1/cards/{a}/similar?limit=3", headers=auth).json()["data"]
     assert 1 <= len(s) <= 3 and all(x["card"]["id"] != a and 0 <= x["similarity"] <= 1 and x["basis"] == "estimate" for x in s)
     assert [x["similarity"] for x in s] == sorted((x["similarity"] for x in s), reverse=True)
-    assert client.get(f"/api/v1/cards/{a}/history", headers=auth).json()["data"] == []
+    hist = client.get(f"/api/v1/cards/{a}/history", headers=auth).json()["data"]
+    assert all(h["field"] in ("implementationLevel", "trl", "organisation", "other") and h["toLabel"] for h in hist)  # #17: real changes now exist
     assert client.get(f"/api/v1/cards/{uuid.uuid4()}/similar", headers=auth).status_code == 404
 
 

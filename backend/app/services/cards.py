@@ -10,7 +10,9 @@ from ..config import settings
 from ..db import one, rows
 from .i18n import label as fixed_label
 from .i18n import (
+    evidence_origin,
     licence_label,
+    query_text,
     region_label,
     source_name_text,
     split_organisation,
@@ -179,7 +181,8 @@ def get_card(card_id: UUID) -> dict:
                      "license": s["license"], "licenseLabel": licence_label(s["license"])[0], "licenseUrl": licence_label(s["license"])[1]}
                     for s in sources],
         "evidence": [{"id": str(e["id"]), "metric": e["metric"], "label": e["label"], "value": e["value"], "unit": e["unit"], "unitLabel": unit_label(e["unit"]),
-                      "sourceId": str(e["source_id"]), "query": e["query"], "retrievedAt": iso(e["retrieved_at"])} for e in evidence],
+                      "sourceId": str(e["source_id"]), "query": e["query"], "retrievedAt": iso(e["retrieved_at"]),
+                      "origin": evidence_origin(e["query"]), "queryText": query_text(e["query"])} for e in evidence],
         "firstSeenAt": iso(r["first_seen_at"]),
         "statusChangedAt": iso(r["status_changed_at"]),
     })

@@ -44,7 +44,7 @@
       "produces": "cards,relatedWork",
       "areas": ["technological"],
       "filters": {"ownerTypes": ["Jednostka naukowa", "Instytut naukowo - badawczy"]},
-      "limits": {"maxNew": 3, "maxPagesRead": 40},
+      "limits": {"maxNew": 3, "maxPagesRead": 40, "maxCardsTotal": 30},
       "licence": null
     },
     {

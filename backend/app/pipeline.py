@@ -118,6 +118,15 @@ def collect(run: Run) -> None:
     ptt = t.get("ptt") or {}
     if ptt and budget > 0:
         want, read = min(int(ptt.get("max_new", 3)), budget), 0
+        # PTT terms §2.3 and §2.11 (issue #10): never copy a substantial part of the database. Cards that link a
+        # PTT listing are counted, and collection stops at the total cap.
+        with connection() as conn:
+            have = conn.execute("""SELECT count(DISTINCT cs.card_id) AS n FROM card_sources cs JOIN sources s ON s.id = cs.source_id
+                                   WHERE s.url LIKE 'http%%://ptt.arp.pl/%%'""").fetchone()["n"]
+        cap = int(ptt.get("max_cards_total", 30))
+        if have >= cap:
+            want = 0
+            run.note(f"PTT: {have} cards already link PTT listings (cap {cap}); no new listings read")
         try:
             urls_all = sorted(crawler.ptt_listing_urls(), key=lambda u: hashlib.sha256(u.encode()).hexdigest())
         except ITEM_ERRORS as exc:  # PTT down must not stop RAD-on, pages and scoring
@@ -197,6 +206,8 @@ def _source_text(data: bytes) -> str:
 
 
 def refresh(run: Run) -> None:
+    from .seed import seed_ids
+    curated = seed_ids()  # reviewed cards: a changed page is flagged in the history, never re-extracted over the review
     with connection() as conn:
         rows = conn.execute("""SELECT cs.card_id, cs.source_id, cs.passage, cs.state, s.url, s.type
                                FROM card_sources cs JOIN sources s ON s.id = cs.source_id
@@ -239,7 +250,7 @@ def refresh(run: Run) -> None:
                 run.note(f"{card_id}: {before} -> {state} ({url})")
         # A card we collected ourselves is extracted again when its page changed. Curated seed cards are not
         # overwritten; their change stays visible in the history for a person to review.
-        if state == "source_changed" and card_id == card_id_for(url) and r["type"] == "crawl":
+        if state == "source_changed" and card_id == card_id_for(url) and r["type"] == "crawl" and card_id not in curated:
             try:
                 _keep(run, crawler.collect_url(url, kind="ptt" if "ptt.arp.pl" in url else "page"))
             except ITEM_ERRORS as exc:

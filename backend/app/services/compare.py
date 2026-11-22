@@ -97,6 +97,10 @@ SOURCE_STATES = {
     "source_ok": {"pl": "źródło potwierdza opis", "en": "source confirms the description"},
     "source_changed": {"pl": "źródło zmieniło treść, wymaga przeglądu", "en": "source text changed, needs review"},
     "source_unavailable": {"pl": "źródło niedostępne", "en": "source unavailable"},
+    # Polish IP status (field "other"), written by seed.record_changes
+    "polish_ip_unknown": {"pl": "polska własność intelektualna: brak informacji", "en": "Polish IP: no information"},
+    "polish_ip_stated": {"pl": "polska własność intelektualna: deklarowana przez źródło", "en": "Polish IP: stated by the source, not verified"},
+    "polish_ip_confirmed": {"pl": "polska własność intelektualna: potwierdzona w rejestrze", "en": "Polish IP: confirmed in the register"},
 }
 
 

@@ -130,3 +130,47 @@ def test_full_text_keeps_header_content():
     from app.collectors import crawler
     html = b"<html><body><header><h1>Warsztaty w Centrum</h1><p>Tylko po rezerwacji</p></header><main>x</main><script>var a</script></body></html>"
     assert "Tylko po rezerwacji" in crawler.full_text(html) and "var a" not in crawler.full_text(html)
+
+
+# ---- Issue #22: collector patterns found in the R5 review ----
+
+def test_generic_made_word_no_longer_confirms_a_prototype():
+    t = "W projekcie wykonano wielu serii materiałów kompozytowych."
+    c = build.build_card(fake(implementation_level="prototype", implementation_quote="wykonano wielu serii materiałów kompozytowych",
+                              key_quote=t), text=t, url="https://example.invalid/x", source_name="T", source_type="api",
+                         retrieved_at="2026-11-21T20:00:00Z")
+    assert c["implementationLevelDetail"]["basis"] == "estimate"
+    assert extract.level_supported("prototype", "zbudowano prototyp urządzenia")
+
+
+def test_sectors_the_source_never_names_are_dropped():
+    c = make(fake(could_also_be_used_in=[Bilingual(pl="Kopalnie węgla", en="Coal mines"), Bilingual(pl="Meble ogrodowe", en="Garden furniture")]))
+    assert [x["en"] for x in c["couldAlsoBeUsedIn"]] == ["Coal mines"]  # "kopalniach" is in the text, furniture is not
+
+
+def test_radon_skips_short_and_commissioned_projects_and_adds_dates():
+    from app.collectors import radon
+    long_text = "x" * 400
+    base = {"summaryPl": long_text, "dateStarted": "2019-02-20", "dateCompleted": "2019-02-25", "titlePl": "Badania jakości powłok"}
+    assert not radon.usable(base, 2019)                                        # five days: a service
+    assert not radon.usable({**base, "dateCompleted": "2020-01-01", "titlePl": "Przeprowadzenie badań przyczepności dla firmy"}, 2019)
+    assert radon.usable({**base, "dateCompleted": "2020-01-01"}, 2019)
+    url = "https://radon.nauka.gov.pl/opendata/project/search#uid=ABC"
+    c = make(fake())
+    c["owner"]["url"] = url
+    c = radon.with_project_dates(c, {"dateStarted": "2019-06-24", "dateCompleted": "2019-11-30"}, url, "2026-11-21T20:00:00Z")
+    assert "24.06.2019" in c["summary"]["pl"] and "30.11.2019" in c["summary"]["en"]
+    assert {e["metric"]: e["value"] for e in c["evidence"]}["project_end_date"] == "2019-11-30"
+    assert c["owner"]["url"] == radon.PORTAL
+
+
+def test_openalex_falls_back_to_a_plainer_query(monkeypatch):
+    from app.collectors import openalex
+    monkeypatch.setattr(openalex.settings, "openalex_api_key", "k")
+    asked = []
+    def fake_count(q, offline):
+        asked.append(q)
+        return (0 if len(q.split()) > 3 else 12), f"https://api.openalex.org/works?search={q}"
+    monkeypatch.setattr(openalex, "_count", fake_count)
+    count, url = openalex.similar_polish_works("Continuous desilting of water reservoirs with separation of selected sediment fractions")
+    assert count == 12 and asked == ["Continuous desilting water reservoirs separation selected", "Continuous desilting water"]

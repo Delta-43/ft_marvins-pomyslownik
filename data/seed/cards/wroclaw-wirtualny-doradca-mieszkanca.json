@@ -51,8 +51,8 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "System dialogowy w Biuletynie Informacji Publicznej Wrocławia, oparty na Bazie Wiedzy wspólnej dla Wirtualnego Doradcy, konsultantów Contact Center i urzędników. Rozpoznaje pytania zadane pełnymi zdaniami i radzi sobie z błędami pisowni. Strona pochodzi z 03.04.2016 i jest materiałem archiwalnym; nie podaje liczby użytkowników. Streszczenie napisane przez model na podstawie źródła.",
-    "en": "A dialogue system on the Wrocław public information bulletin, built on a Knowledge Base shared by the Virtual Adviser, Contact Centre consultants and officials. It recognises questions asked in full sentences and copes with spelling errors. The page dates from 03.04.2016 and is archive material; it gives no user numbers. Summary written by the model from the source."
+    "pl": "System dialogowy w Biuletynie Informacji Publicznej Wrocławia, oparty na Bazie Wiedzy. Strona zapowiada, że w długim okresie z tej Bazy Wiedzy będą korzystać także konsultanci Contact Center i urzędnicy. Rozpoznaje pytania zadane pełnymi zdaniami i radzi sobie z błędami pisowni. Strona pochodzi z 03.04.2016 i jest materiałem archiwalnym; nie podaje liczby użytkowników. Streszczenie napisane przez model na podstawie źródła.",
+    "en": "A dialogue system on the Wrocław public information bulletin, built on a Knowledge Base. The page says that in the long term Contact Centre consultants and officials will also use this Knowledge Base. It recognises questions asked in full sentences and copes with spelling errors. The page dates from 03.04.2016 and is archive material; it gives no user numbers. Summary written by the model from the source."
   },
   "implementationLevelDetail": {
     "value": "in_practice",

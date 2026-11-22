@@ -33,7 +33,7 @@
   },
   "implementationLevel": {
     "value": "in_practice",
-    "basis": "confirmed"
+    "basis": "estimate"
   },
   "trl": {
     "applicable": false,
@@ -56,12 +56,16 @@
   },
   "implementationLevelDetail": {
     "value": "in_practice",
-    "basis": "confirmed",
+    "basis": "estimate",
     "sourceIds": [
       "fbe3a6a9-66e1-4d83-809c-935ed0fb3c30"
     ],
     "evidenceIds": [],
-    "method": null
+    "method": "The ministry page reports a finished national contest with participation numbers. Only local follow-ups continue (for example senior help desks), so 'in practice' is our reading, not a statement of the page.",
+    "methodText": {
+      "pl": "Strona ministerstwa opisuje zakończony ogólnopolski konkurs z liczbami uczestników. Trwają tylko lokalne kontynuacje (np. dyżury dla seniora), więc „w praktyce” to nasza ocena, a nie stwierdzenie strony.",
+      "en": "The ministry page reports a finished national contest with participation numbers. Only local follow-ups continue (for example senior help desks), so 'in practice' is our reading, not a statement of the page."
+    }
   },
   "trlDetail": {
     "applicable": false,

@@ -6,6 +6,7 @@ import psycopg
 from fastapi import APIRouter, Depends, Response
 from pydantic import BaseModel, ConfigDict, Field
 
+from ..config import settings
 from ..db import connection, one
 from ..errors import ApiError
 from ..security import SESSION_HOURS, RateLimiter, current_user, hash_token, new_token
@@ -72,17 +73,25 @@ def open_session(user: dict) -> dict:
     return {"token": token, "expiresAt": iso(expires), "user": user_json(user)}
 
 
+def _limit_identity(action: str, subject: str) -> None:
+    if subject.strip().lower() not in settings.demo_identity_set:  # a whole jury may share one demo identity
+        per_identity.hit((action, subject.strip().lower()))
+
+
 @router.get("/auth/providers")
 def providers():
+    demo = [{"subject": s, "label": {"pl": "Wspólna tożsamość demonstracyjna", "en": "Shared demo identity"}}
+            for s in sorted(settings.demo_identity_set)]
     return {"data": [{"id": "sandbox_id", "label": {"pl": "Tożsamość testowa (demo)", "en": "Test identity (demo)"},
-                      "kind": "sandbox", "enabled": True},
+                      "kind": "sandbox", "enabled": True, "flow": "direct", "assuranceLevel": "none", "demoIdentities": demo},
                      {"id": "login_gov_pl", "label": {"pl": "login.gov.pl (wkrótce)", "en": "login.gov.pl (coming)"},
-                      "kind": "saml", "enabled": False}]}
+                      "kind": "saml", "enabled": False, "flow": "redirect", "assuranceLevel": "substantial",
+                      "methods": ["profil_zaufany", "mobywatel", "e_dowod", "bank"]}]}
 
 
 @router.post("/auth/register", status_code=201, dependencies=[limited])
 def register(body: RegisterRequest):
-    per_identity.hit(("register", body.providerSubject.strip().lower()))
+    _limit_identity("register", body.providerSubject)
     if not body.acceptedTerms:
         raise ApiError(422, "terms_not_accepted", "You must accept the terms of use to register.")
     subject = body.providerSubject.strip().lower()
@@ -102,7 +111,7 @@ def register(body: RegisterRequest):
 
 @router.post("/auth/login", dependencies=[limited])
 def login(body: LoginRequest):
-    per_identity.hit(("login", body.providerSubject.strip().lower()))
+    _limit_identity("login", body.providerSubject)
     user = one("SELECT * FROM users WHERE provider = %s AND provider_subject = %s", (body.provider, body.providerSubject.strip().lower()))
     if not user:
         raise ApiError(404, "registration_required", "No account for this identity. Register first.")
@@ -142,6 +151,8 @@ def update_me(body: UpdateMeRequest, user: dict = session):
 @router.delete("/me", status_code=204)
 def delete_me(user: dict = session):
     """Right to erasure: removes the profile and every session. Aggregated usage counts hold no user id and stay."""
+    if user["provider"] == "sandbox_id" and user["provider_subject"] in settings.demo_identity_set:
+        raise ApiError(403, "forbidden", "The shared demo identity cannot be deleted. Register your own test identity to try this.")
     with connection() as conn:
         conn.execute("DELETE FROM users WHERE id = %s", (user["id"],))
     return Response(status_code=204)

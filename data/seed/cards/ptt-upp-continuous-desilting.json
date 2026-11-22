@@ -1,0 +1,276 @@
+{
+  "id": "e7ddd917-2546-5e40-9d13-d47ba47930ea",
+  "title": {
+    "pl": "Ciągłe odmulanie zbiorników wodnych z oddzielaniem wybranych frakcji osadów",
+    "en": "Continuous desilting of water reservoirs with separation of selected sediment fractions"
+  },
+  "summaryShort": {
+    "pl": "Instalacja do hydromechanicznego usuwania osadów z dna zbiornika, która jednocześnie oddziela frakcje mineralne od organicznych i działa wyłącznie dzięki różnicy poziomów wody.",
+    "en": "A system for hydromechanical removal of bottom sediment from reservoirs that separates mineral fractions from organic matter at the same time, powered only by the difference in water levels."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "reservoir-desilting",
+      "label": {
+        "pl": "Odmulanie zbiorników",
+        "en": "Reservoir desilting"
+      }
+    },
+    {
+      "slug": "sediment-separation",
+      "label": {
+        "pl": "Separacja osadów",
+        "en": "Sediment separation"
+      }
+    },
+    {
+      "slug": "water-management",
+      "label": {
+        "pl": "Gospodarka wodna",
+        "en": "Water management"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Uniwersytet Przyrodniczy w Poznaniu",
+    "type": "university",
+    "url": "http://puls.edu.pl/",
+    "region": "WP"
+  },
+  "implementationLevel": {
+    "value": "pilot",
+    "basis": "estimate"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 7,
+    "basis": "confirmed"
+  },
+  "scores": {
+    "innovativeness": 83,
+    "applicationPotential": 76,
+    "credibility": 32
+  },
+  "polishIp": true,
+  "polishIpStatus": "confirmed",
+  "lastCheckedAt": "2026-11-22T03:00:00Z",
+  "stale": false,
+  "sourceCount": 2,
+  "relevance": null,
+  "summary": {
+    "pl": "Uniwersytet Przyrodniczy w Poznaniu opracował technologię budowy instalacji do ciągłego, hydromechanicznego usuwania osadów z dna zbiornika wodnego z równoczesną separacją wybranych frakcji. Zasysanie osadu i transport mieszaniny odbywają się wyłącznie dzięki różnicy poziomów wody. Rozwiązanie badano w laboratorium oraz w terenie na zbiorniku przepływowym. W laboratorium, przy symulowaniu osadu cząstkami kulistymi, sprawność separacji wyniosła 92%, a dla osadów pobranych z górnej części zbiornika do 55–65%. W badaniach terenowych udało się oddzielić frakcje mineralne od osadów organicznych. Oddzielone frakcje mineralne, o składzie zbliżonym do rumowiska rzecznego, mogą być bezpiecznie skierowane do rzeki poniżej zbiornika. Dla separatora szczelinowego określono kryteria wymiarowania oparte na liczbie Hazena. Technologia jest chroniona patentem PL 228599 B1 i oferowana w formie licencji lub sprzedaży praw; według wpisu prawa mają też inne podmioty.",
+    "en": "Poznań University of Life Sciences has developed a technology for building a system that continuously removes sediment from the bottom of a water reservoir by hydromechanical means while separating selected fractions. Sediment suction and transport of the mixture rely solely on the difference in water levels. The solution was tested in the laboratory and in the field on a flow-through reservoir. In laboratory tests using spherical particles to simulate sediment, separation efficiency reached 92%, and up to 55–65% for sediment taken from the upper part of the reservoir. In field tests, mineral fractions were successfully separated from organic sediment. The separated mineral fractions, similar in composition to river-borne material, can be safely returned to the river below the reservoir. Design criteria for the slot separator, based on the Hazen number, have been defined. The technology is protected by patent PL 228599 B1 and offered under licence or through a sale of rights; according to the listing, other parties also hold rights."
+  },
+  "implementationLevelDetail": {
+    "value": "pilot",
+    "basis": "estimate",
+    "method": "The listing declares TRL 7 and field tests on a flow-through reservoir (\"badano w warunkach laboratoryjnych i terenowych na zbiorniku przepływowym\"). The work is finished and patented (PL 228599 B1), but no use outside the tests is shown. Read as pilot.",
+    "sourceIds": [
+      "9a21a457-fd23-502e-beb2-4fcc7a9dfd12"
+    ],
+    "methodText": {
+      "pl": "Wpis deklaruje TRL 7 i badania terenowe na zbiorniku przepływowym („badano w warunkach laboratoryjnych i terenowych na zbiorniku przepływowym”). Prace są zakończone i opatentowane (PL 228599 B1), ale nie pokazano użycia poza badaniami. Przyjęto pilotaż.",
+      "en": "The listing declares TRL 7 and field tests on a flow-through reservoir (\"badano w warunkach laboratoryjnych i terenowych na zbiorniku przepływowym\"). The work is finished and patented (PL 228599 B1), but no use outside the tests is shown. Read as pilot."
+    },
+    "evidenceIds": []
+  },
+  "trlDetail": {
+    "applicable": true,
+    "value": 7,
+    "basis": "confirmed",
+    "method": null,
+    "sourceIds": [
+      "9a21a457-fd23-502e-beb2-4fcc7a9dfd12"
+    ],
+    "methodText": null,
+    "evidenceIds": []
+  },
+  "assessment": {
+    "credibility": {
+      "basis": "estimate",
+      "value": 32,
+      "method": "Sum of: independent sources (up to 35), an institutional source (25), implementation confirmed by a source (20), every source quotes its passage (10), checked recently (10). Indicative weights.",
+      "sourceIds": [
+        "9a21a457-fd23-502e-beb2-4fcc7a9dfd12"
+      ],
+      "confidence": "low",
+      "methodText": {
+        "en": "Sum of: independent sources (up to 35), an institutional source (25), implementation confirmed by a source (20), every source quotes its passage (10), checked recently (10). Indicative weights.",
+        "pl": "Suma: niezależne źródła (do 35), źródło instytucjonalne (25), wdrożenie potwierdzone przez źródło (20), każde źródło z cytatem (10), niedawne sprawdzenie (10). Wagi orientacyjne."
+      },
+      "sampleSize": 1,
+      "evidenceIds": [],
+      "explanation": {
+        "en": "1 source(s), 0 institutional; implementation not confirmed by a source; checked 0 day(s) ago. Score 32 of 100.",
+        "pl": "Źródeł: 1, w tym instytucjonalnych: 0; wdrożenie niepotwierdzone przez źródło; sprawdzono 0 dni temu. Wynik 32 ze 100."
+      },
+      "insufficientData": false
+    },
+    "innovativeness": {
+      "basis": "estimate",
+      "value": 83,
+      "method": "100 minus the mean similarity (as a percentage) of the three closest other cards in the database. Needs at least 5 other cards to compare with. When OpenAlex counts similar publications by Polish institutions, 60% of the score comes from the distance and 40% from how few such publications exist (0 works gives 100, 1000 or more gives 0, on a log scale). Indicative.",
+      "sourceIds": [
+        "9a21a457-fd23-502e-beb2-4fcc7a9dfd12"
+      ],
+      "confidence": "high",
+      "methodText": {
+        "en": "100 minus the mean similarity (as a percentage) of the three closest other cards in the database. Needs at least 5 other cards to compare with. When OpenAlex counts similar publications by Polish institutions, 60% of the score comes from the distance and 40% from how few such publications exist (0 works gives 100, 1000 or more gives 0, on a log scale). Indicative.",
+        "pl": "100 minus średnie podobieństwo (w procentach) trzech najbliższych innych kart w bazie. Wymaga co najmniej 5 innych kart do porównania. Gdy OpenAlex podaje liczbę podobnych publikacji polskich instytucji, 60% wyniku to odległość, a 40% to rzadkość takich publikacji (0 prac daje 100, 1000 lub więcej daje 0, w skali logarytmicznej). Wynik orientacyjny."
+      },
+      "sampleSize": 26,
+      "evidenceIds": [],
+      "explanation": {
+        "en": "Compared with 26 other cards; the three closest are on average 29% similar. OpenAlex finds 0 similar works by Polish institutions. Score 83 of 100.",
+        "pl": "Porównano z 26 innymi kartami; trzy najbliższe są średnio podobne w 29%. OpenAlex znajduje 0 podobnych prac polskich instytucji. Wynik 83 ze 100."
+      },
+      "insufficientData": false
+    },
+    "applicationPotential": {
+      "basis": "estimate",
+      "value": 76,
+      "method": "Sum of: implementation level (up to 40), documentation (sources, quoted numbers, owner contact; up to 30), other sectors named (up to 20), a source states numbers (10). Indicative weights.",
+      "sourceIds": [
+        "9a21a457-fd23-502e-beb2-4fcc7a9dfd12"
+      ],
+      "confidence": "low",
+      "methodText": {
+        "en": "Sum of: implementation level (up to 40), documentation (sources, quoted numbers, owner contact; up to 30), other sectors named (up to 20), a source states numbers (10). Indicative weights.",
+        "pl": "Suma: poziom wdrożenia (do 40), dokumentacja (źródła, cytowane liczby, kontakt do właściciela; do 30), wskazane inne sektory (do 20), źródło podaje liczby (10). Wagi orientacyjne."
+      },
+      "sampleSize": 1,
+      "evidenceIds": [],
+      "explanation": {
+        "en": "Implementation level 3 of 5, 1 source(s), 3 other sector(s) named. Score 76 of 100.",
+        "pl": "Poziom wdrożenia 3 z 5, źródeł: 1, wskazanych innych sektorów: 3. Wynik 76 ze 100."
+      },
+      "insufficientData": false
+    }
+  },
+  "oslo": {
+    "note": {
+      "en": "The solution has been tested in the laboratory and in the field and is offered for licensing, but the source does not confirm that it has been implemented.",
+      "pl": "Rozwiązanie zostało przetestowane w laboratorium i w terenie oraz jest oferowane do licencjonowania, ale źródło nie potwierdza jego wdrożenia."
+    },
+    "basis": "estimate",
+    "passed": false,
+    "newOrImproved": true,
+    "availableOrInUse": false,
+    "differsSignificantly": true
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "en": "Wastewater treatment plants",
+      "pl": "Oczyszczalnie ścieków"
+    }
+  ],
+  "owner": {
+    "name": "Uniwersytet Przyrodniczy w Poznaniu",
+    "url": "http://puls.edu.pl/"
+  },
+  "sources": [
+    {
+      "id": "9a21a457-fd23-502e-beb2-4fcc7a9dfd12",
+      "type": "crawl",
+      "name": "Platforma Transferu Technologii (ARP): Baza technologii",
+      "url": "http://ptt.arp.pl/bazy/spos%C3%B3b-ci%C4%85g%C5%82ego-odmulania-zbiornik%C3%B3w-wodnych-z-oddzieleniem-wybranych-frakcji-osad%C3%B3w/",
+      "retrievedAt": "2026-11-21T21:28:27Z",
+      "passage": "Przedmiotem oferty jest technologia budowy instalacji do hydromechanicznego usuwania osadów z dna zbiornika wodnego z równoczesną separacją wybranych frakcji, badano w warunkach laboratoryjnych i terenowych na zbiorniku przepływowym. Zasysanie osadu i transport mieszaniny odbywa się wyłącznie przy wykorzystaniu różnicy poziomów wody. … badano w warunkach laboratoryjnych i terenowych na zbiorniku przepływowym … TRL 7 … Uniwersytet Przyrodniczy w Poznaniu",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "1ff3ca09-cd26-5923-8e08-1a59fd975f40",
+      "type": "crawl",
+      "name": "Google Patents (dane UPRP): PL228599B1, Urządzenie do hydromechanicznego oczyszczania i usuwania osadów dennych ze zbiorników zaporowych",
+      "url": "https://patents.google.com/patent/PL228599B1/pl",
+      "retrievedAt": "2026-11-22T03:00:00Z",
+      "passage": "zasysanie osadu i transport mieszaniny odbywa się wyłącznie przy wykorzystaniu różnicy poziomów wody",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "134a4ddd-e188-4f40-a7a2-cf2cc08c3dcb",
+      "metric": "hazen_number_threshold",
+      "label": {
+        "en": "Hazen number threshold",
+        "pl": "Graniczna liczba Hazena"
+      },
+      "value": 0.35,
+      "unit": null,
+      "sourceId": "9a21a457-fd23-502e-beb2-4fcc7a9dfd12",
+      "query": "Read from http://ptt.arp.pl/bazy/spos%C3%B3b-ci%C4%85g%C5%82ego-odmulania-zbiornik%C3%B3w-wodnych-z-oddzieleniem-wybranych-frakcji-osad%C3%B3w/. Quoted text: \"liczbie Hazena mniejszej od 0,35\"",
+      "retrievedAt": "2026-11-21T21:28:27Z"
+    },
+    {
+      "id": "2812b2ac-c18f-448d-aa1c-42a1d0fd1a9d",
+      "metric": "min_effective_separation_efficiency",
+      "label": {
+        "en": "Minimum efficiency for effective separation",
+        "pl": "Minimalna sprawność skutecznej separacji"
+      },
+      "value": 70,
+      "unit": "%",
+      "sourceId": "9a21a457-fd23-502e-beb2-4fcc7a9dfd12",
+      "query": "Read from http://ptt.arp.pl/bazy/spos%C3%B3b-ci%C4%85g%C5%82ego-odmulania-zbiornik%C3%B3w-wodnych-z-oddzieleniem-wybranych-frakcji-osad%C3%B3w/. Quoted text: \"przy sprawności nie mniejszej niż 70%\"",
+      "retrievedAt": "2026-11-21T21:28:27Z"
+    },
+    {
+      "id": "6ebeafa6-d73a-4e56-ba1a-661071d43405",
+      "metric": "separation_efficiency_lab_spherical",
+      "label": {
+        "en": "Laboratory separation efficiency (spherical particles)",
+        "pl": "Sprawność separacji w laboratorium (cząstki kuliste)"
+      },
+      "value": 92,
+      "unit": "%",
+      "sourceId": "9a21a457-fd23-502e-beb2-4fcc7a9dfd12",
+      "query": "Read from http://ptt.arp.pl/bazy/spos%C3%B3b-ci%C4%85g%C5%82ego-odmulania-zbiornik%C3%B3w-wodnych-z-oddzieleniem-wybranych-frakcji-osad%C3%B3w/. Quoted text: \"sprawność procesu separacji była bardzo wysoka i wynosiła = 92%\"",
+      "retrievedAt": "2026-11-21T21:28:27Z"
+    },
+    {
+      "id": "a28d618c-4f6d-4f42-b7ad-c807de42cb60",
+      "metric": "velocity_ratio_threshold",
+      "label": {
+        "en": "Threshold ratio of flow velocity to settling velocity",
+        "pl": "Graniczny stosunek prędkości przepływu do prędkości opadania"
+      },
+      "value": 4.5,
+      "unit": null,
+      "sourceId": "9a21a457-fd23-502e-beb2-4fcc7a9dfd12",
+      "query": "Read from http://ptt.arp.pl/bazy/spos%C3%B3b-ci%C4%85g%C5%82ego-odmulania-zbiornik%C3%B3w-wodnych-z-oddzieleniem-wybranych-frakcji-osad%C3%B3w/. Quoted text: \"mniejszy od 4,5\"",
+      "retrievedAt": "2026-11-21T21:28:27Z"
+    },
+    {
+      "id": "b2475460-831f-5d74-a8fc-5be084236e25",
+      "metric": "patent_number",
+      "label": {
+        "pl": "Numer patentu",
+        "en": "Patent number"
+      },
+      "value": "PL 228599 B1",
+      "unit": null,
+      "sourceId": "1ff3ca09-cd26-5923-8e08-1a59fd975f40",
+      "query": "Read from https://patents.google.com/patent/PL228599B1/pl (Google Patents, data from the Polish Patent Office). Found by the reviewer as PAT.228599; the patent text describes the same suction and transport by the difference in water levels as the PTT listing.",
+      "retrievedAt": "2026-11-22T03:00:00Z"
+    },
+    {
+      "id": "abc1c069-130a-5c0e-a51e-af840ef7c88a",
+      "metric": "separation_efficiency_upper_sediment",
+      "label": {
+        "pl": "Sprawność separacji osadów z górnej części zbiornika",
+        "en": "Separation efficiency for sediment from the upper part of the reservoir"
+      },
+      "value": "55-65",
+      "unit": "%",
+      "sourceId": "9a21a457-fd23-502e-beb2-4fcc7a9dfd12",
+      "query": "Read from http://ptt.arp.pl/bazy/spos%C3%B3b-ci%C4%85g%C5%82ego-odmulania-zbiornik%C3%B3w-wodnych-z-oddzieleniem-wybranych-frakcji-osad%C3%B3w/. Quoted text: \"separacja osadów pobranym z górnej części zbiornika zachodziła ze skutecznością dochodzącą do 55-65%\"",
+      "retrievedAt": "2026-11-21T21:28:27Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-21T21:28:47Z",
+  "statusChangedAt": null
+}

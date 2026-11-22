@@ -51,8 +51,8 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "Od lutego 2024 r. mieszkańcy Poznania mogą umówić wizytę przez voicebota na miejskiej infolinii. Robot rozpoznaje sprawę, pyta o lokalizację i termin, a potwierdzenie przychodzi SMS-em. Obsługuje trzy działy urzędu; gdy nie zrozumie rozmówcy, łączy z pracownikiem infolinii. Streszczenie napisane przez model na podstawie strony.",
-    "en": "Since February 2024 Poznań residents can book a visit through a voicebot on the city hotline. The robot recognises the matter, asks for the location and date, and confirms by SMS. It serves three departments of the office; when it does not understand the caller, it connects to a hotline employee. Summary written by the model from the page."
+    "pl": "Od lutego 2024 r. mieszkańcy Poznania mogą umówić wizytę przez voicebota na miejskiej infolinii. Robot rozpoznaje sprawę, pyta o lokalizację i termin, a potwierdzenie przychodzi SMS-em. Obsługuje trzy działy urzędu. Streszczenie napisane przez model na podstawie strony.",
+    "en": "Since February 2024 Poznań residents can book a visit through a voicebot on the city hotline. The robot recognises the matter, asks for the location and date, and confirms by SMS. It serves three departments of the office. Summary written by the model from the page."
   },
   "implementationLevelDetail": {
     "basis": "confirmed",
@@ -169,6 +169,19 @@
       "sourceId": "ad83e3ff-312d-4a34-aab8-fbf135f51c64",
       "query": "Read from the page https://www.poznan.pl/mim/info/news/w-urzedzie-miasta-wizyte-zarezerwuje-robot,223816.html. Quoted text: \"Wydziału Spraw Obywatelskich i Uprawnień Komunikacyjnych, Urzędu Stanu Cywilnego oraz Wydziału Gospodarki Komunalnej\"",
       "retrievedAt": "2026-11-21T20:55:29Z"
+    },
+    {
+      "id": "1a5a7546-d70e-503b-9f82-c717b9d2da53",
+      "metric": "hotline_calls",
+      "label": {
+        "pl": "Rozmowy Biura Poznań Kontakt (1.01.2023–2.02.2024)",
+        "en": "Calls handled by Biuro Poznań Kontakt (1 Jan 2023 to 2 Feb 2024)"
+      },
+      "value": 1000000,
+      "unit": "rozmów",
+      "sourceId": "ad83e3ff-312d-4a34-aab8-fbf135f51c64",
+      "query": "Read from the page https://www.poznan.pl/mim/info/news/w-urzedzie-miasta-wizyte-zarezerwuje-robot,223816.html. Quoted text: \"pracownicy Biura Poznań Kontakt przeprowadzili 1 milion rozmów\"",
+      "retrievedAt": "2026-11-22T02:40:00Z"
     }
   ],
   "firstSeenAt": "2026-11-21T20:55:29Z",

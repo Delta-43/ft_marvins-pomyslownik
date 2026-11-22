@@ -51,8 +51,8 @@
   "sourceCount": 1,
   "relevance": null,
   "summary": {
-    "pl": "Wspólna inicjatywa ministerstw przedsiębiorczości i edukacji. Strona z 2019 r. opisuje cele pilotażu, 20 szkół podstawowych, dotację do 10 mln zł i realizację od października 2019 do sierpnia 2022. Raport z ewaluacji końcowej (2022) potwierdza, że pilotaż się odbył: niemal 76% uczniów osiągnęło wzrost kompetencji proinnowacyjnych. Streszczenie napisane przez model na podstawie źródeł.",
-    "en": "A joint initiative of the entrepreneurship and education ministries. The 2019 page describes the pilot's aims, 20 primary schools, a grant of up to PLN 10 million and a run from October 2019 to August 2022. The final evaluation report (2022) confirms the pilot took place: almost 76% of pupils improved their pro-innovation skills. Summary written by the model from the sources."
+    "pl": "Wspólna inicjatywa Ministerstwa Przedsiębiorczości i Technologii (dziś Ministerstwo Rozwoju i Technologii) oraz Ministerstwa Edukacji Narodowej. Strona z 2019 r. opisuje cele pilotażu, 20 szkół podstawowych, dotację do 10 mln zł i realizację od października 2019 do sierpnia 2022. Raport z ewaluacji końcowej (2022) potwierdza, że pilotaż się odbył: niemal 76% uczniów osiągnęło wzrost kompetencji proinnowacyjnych. Streszczenie napisane przez model na podstawie źródeł.",
+    "en": "A joint initiative of the Ministry of Entrepreneurship and Technology (now the Ministry of Development and Technology) and the Ministry of National Education. The 2019 page describes the pilot's aims, 20 primary schools, a grant of up to PLN 10 million and a run from October 2019 to August 2022. The final evaluation report (2022) confirms the pilot took place: almost 76% of pupils improved their pro-innovation skills. Summary written by the model from the sources."
   },
   "implementationLevelDetail": {
     "value": "pilot",
@@ -141,7 +141,7 @@
     }
   ],
   "owner": {
-    "name": "Ministerstwo Edukacji Narodowej",
+    "name": "Ministerstwo Edukacji Narodowej, Ministerstwo Rozwoju i Technologii",
     "url": "https://www.gov.pl/web/edukacja"
   },
   "sources": [

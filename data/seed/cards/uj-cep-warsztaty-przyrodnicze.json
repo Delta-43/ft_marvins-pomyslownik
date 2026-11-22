@@ -5,8 +5,8 @@
     "en": "Natural science workshops at the UJ Centre for Nature Education"
   },
   "summaryShort": {
-    "pl": "Interaktywne warsztaty dla grup szkolnych, od przedszkola po szkołę średnią, np. o DNA i barwach w przyrodzie.",
-    "en": "Interactive workshops for school groups, from kindergarten to secondary school, for example on DNA and colours in nature."
+    "pl": "Interaktywne warsztaty dla zwiedzających indywidualnych i grup, od przedszkola po szkołę średnią, np. o DNA i barwach w przyrodzie.",
+    "en": "Interactive workshops for individual visitors and groups, from kindergarten to secondary school, for example on DNA and colours in nature."
   },
   "area": "educational",
   "tags": [
@@ -29,7 +29,7 @@
     "name": "Uniwersytet Jagielloński, Centrum Edukacji Przyrodniczej",
     "type": "university",
     "url": "https://cep.uj.edu.pl",
-    "region": null
+    "region": "MA"
   },
   "implementationLevel": {
     "value": "in_practice",
