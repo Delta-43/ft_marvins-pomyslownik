@@ -46,6 +46,21 @@ def sector_named(label_pl: str, text: str) -> bool:
     return any(w[:6] in stems for w in re.findall(r"[a-z]{6,}", _fold(label_pl)) if w[:6] not in GENERIC_STEMS)
 
 
+def plain(s: str) -> str:
+    """Model and page text as plain text: tags are removed (G4)."""
+    return re.sub(r"<[^>]{0,200}>", "", s or "").strip()
+
+
+def web_url(u: str | None) -> str | None:
+    """Only http(s) links survive (G3): a javascript: or data: link from a page never reaches a card."""
+    return u if u and re.match(r"^https?://", u.strip()) else None
+
+
+def _plain2(b) -> dict:
+    """A {pl, en} model text as plain text in both languages."""
+    return {"pl": plain(b.pl), "en": plain(b.en)}
+
+
 def card_id_for(url: str) -> str:
     """Stable id: collecting the same URL again updates the same card."""
     return str(uuid.uuid5(uuid.NAMESPACE_URL, url))
@@ -103,12 +118,12 @@ def build_card(x: Extraction, *, text: str, url: str, source_name: str, source_t
     tags = {}
     for t in x.tags[:4]:
         if t.pl.strip() and t.en.strip():
-            tags[_slug(t.slug)] = {"slug": _slug(t.slug), "label": {"pl": t.pl.strip(), "en": t.en.strip()}}
+            tags[_slug(t.slug)] = {"slug": _slug(t.slug), "label": {"pl": plain(t.pl), "en": plain(t.en)}}
     card = {
         "id": card_id_for(url),
-        "title": x.title.model_dump(), "summaryShort": x.summary_short.model_dump(), "summary": x.summary.model_dump(),
+        "title": _plain2(x.title), "summaryShort": _plain2(x.summary_short), "summary": _plain2(x.summary),
         "area": x.area, "tags": list(tags.values()),
-        "organisation": {"name": x.organisation_name.strip(), "type": x.organisation_type, "url": x.organisation_url or None, "region": region},
+        "organisation": {"name": plain(x.organisation_name), "type": x.organisation_type, "url": web_url(x.organisation_url), "region": region},
         "implementationLevel": {"value": x.implementation_level, "basis": "confirmed" if level_ok else "estimate"},
         "trl": {"applicable": technological, "value": trl_value, "basis": trl_prov["basis"]},
         "scores": {"innovativeness": None, "applicationPotential": None, "credibility": None},
@@ -120,10 +135,10 @@ def build_card(x: Extraction, *, text: str, url: str, source_name: str, source_t
         "assessment": {"innovativeness": dict(empty_score), "applicationPotential": dict(empty_score), "credibility": dict(empty_score)},
         "oslo": {"passed": x.oslo_new_or_improved and x.oslo_differs_significantly and x.oslo_available_or_in_use,
                  "newOrImproved": x.oslo_new_or_improved, "differsSignificantly": x.oslo_differs_significantly,
-                 "availableOrInUse": x.oslo_available_or_in_use, "basis": "estimate", "note": x.oslo_note.model_dump()},
-        "couldAlsoBeUsedIn": [c.model_dump() for c in x.could_also_be_used_in[:3]
+                 "availableOrInUse": x.oslo_available_or_in_use, "basis": "estimate", "note": _plain2(x.oslo_note)},
+        "couldAlsoBeUsedIn": [_plain2(c) for c in x.could_also_be_used_in[:3]
                               if c.pl.strip() and c.en.strip() and sector_named(c.pl, text)],
-        "owner": {"name": x.organisation_name.strip(), "url": x.organisation_url or url},
+        "owner": {"name": plain(x.organisation_name), "url": web_url(x.organisation_url) or url},
         "sources": [{"id": sid, "type": source_type, "name": source_name, "url": url, "retrievedAt": retrieved_at,
                      "passage": passage, "passageLang": _passage_lang(passage) if passage else None, "license": license}],
         "evidence": evidence, "firstSeenAt": now, "statusChangedAt": None,

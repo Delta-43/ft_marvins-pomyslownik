@@ -9,6 +9,7 @@ import uuid
 
 from pypdf import PdfReader
 
+from ..config import settings
 from ..db import connection
 from . import fetch
 from .build import _passage_lang, build_card
@@ -19,6 +20,8 @@ MAX_CHARS = 1_200_000  # about 400k tokens, inside the 1M context. Longer docume
 
 def pdf_text(data: bytes) -> str:
     reader = PdfReader(io.BytesIO(data))
+    if len(reader.pages) > settings.pdf_max_pages:
+        raise ValueError(f"the PDF has {len(reader.pages)} pages, above the limit of {settings.pdf_max_pages}")
     return "\n".join((page.extract_text() or "") for page in reader.pages)
 
 

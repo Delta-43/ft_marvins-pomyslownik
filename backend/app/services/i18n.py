@@ -70,9 +70,33 @@ NO_DATA = {"pl": "brak danych", "en": "not enough data"}
 NOT_APPLICABLE = {"pl": "nie dotyczy", "en": "not applicable"}
 
 
+MARKUP = re.compile(r"<[a-zA-Z/!]")
+
+
+def _texts(card: dict):
+    """Every person-facing text of a card, as (field, text) pairs."""
+    for key in ("title", "summaryShort", "summary"):
+        for lang, t in (card.get(key) or {}).items():
+            yield f"{key}.{lang}", t
+    for t in card.get("tags", []):
+        for lang, v in (t.get("label") or {}).items():
+            yield f"tags.{t.get('slug')}.{lang}", v
+    for x in card.get("couldAlsoBeUsedIn", []):
+        for lang, v in x.items():
+            yield f"couldAlsoBeUsedIn.{lang}", v
+    for lang, v in ((card.get("oslo") or {}).get("note") or {}).items():
+        yield f"oslo.note.{lang}", v
+
+
 def consistency_problems(card: dict) -> list[str]:
     """Rules a card must follow besides the language rule."""
     out: list[str] = []
+    # G3: a link a person can follow is http(s) only, never javascript: or data:
+    links = [("organisation.url", (card.get("organisation") or {}).get("url")), ("owner.url", (card.get("owner") or {}).get("url"))]
+    links += [(f"sources.{s.get('id')}.url", s.get("url")) for s in card.get("sources", [])]
+    out += [f"{name} must be an http(s) link" for name, url in links if url and not re.match(r"^https?://", url)]
+    # G4: plain text only; the frontend renders text, never HTML
+    out += [f"{name} contains markup" for name, t in _texts(card) if isinstance(t, str) and MARKUP.search(t)]
     o = card.get("oslo") or {}
     if o and bool(o.get("passed")) != bool(o.get("newOrImproved") and o.get("differsSignificantly") and o.get("availableOrInUse")):
         out.append("oslo.passed must be true exactly when all three Oslo conditions are true")

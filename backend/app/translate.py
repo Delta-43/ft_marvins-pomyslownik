@@ -7,6 +7,7 @@ The API queues every text it could not serve in the requested language (table `t
 The worker calls `translate_pending()` on each loop. Without ANTHROPIC_API_KEY nothing is translated and the API keeps
 serving English for Ukrainian. Rows stay `machine = true`; the card shows `machineTranslated` until a person reviews.
 """
+import re
 import sys
 import uuid
 
@@ -36,6 +37,23 @@ class Batch(BaseModel):
     items: list[Item]
 
 
+QUOTED = re.compile(r"„[^”]{3,}”|\"[^\"]{3,}\"")
+URL = re.compile(r"https?://\S+")
+
+
+def valid_translation(source: str, text: str) -> bool:
+    """A translation is stored only when it keeps every number, URL and quotation of the source, has a plausible
+    length and holds no markup. Source texts can come from third-party pages, so the model's output is checked, not
+    trusted: a page cannot make the Ukrainian card say a different number (backend review)."""
+    if not text or re.search(r"<[a-zA-Z/!]", text):
+        return False
+    if len(source) >= 20 and not 0.25 <= len(text) / len(source) <= 4:
+        return False
+    if not set(re.findall(r"\d+", source)) <= set(re.findall(r"\d+", text)):
+        return False
+    return all(q in text for q in URL.findall(source) + QUOTED.findall(source))
+
+
 def _client() -> anthropic.Anthropic:
     return anthropic.Anthropic(api_key=settings.anthropic_api_key or None)
 
@@ -58,7 +76,7 @@ def translate_batch(target: str, texts: list[str]) -> list[str]:
 
 
 def translate_pending(limit: int | None = None, only: list[str] | None = None) -> int:
-    """Translate up to `limit` queued rows (default: one batch per target language). Returns how many were stored.
+    """Translate up to `limit` queued rows (default: one batch per target language). Returns how many were handled.
     `only` limits the work to these source hashes (tests use it, so they never touch the real queue)."""
     if not settings.anthropic_api_key:
         return 0
@@ -84,11 +102,17 @@ def translate_pending(limit: int | None = None, only: list[str] | None = None) -
                 conn.execute("UPDATE translations SET attempts = attempts + 1 WHERE target_lang = %s AND source_hash = ANY(%s)",
                              (target, [r["source_hash"] for r in rows]))
             continue
+        good = [(t, r) for t, r in zip(out, rows, strict=True) if valid_translation(r["source_text"], t)]
+        bad = [r["source_hash"] for t, r in zip(out, rows, strict=True) if not valid_translation(r["source_text"], t)]
         with connection() as conn, conn.cursor() as cur:
             cur.executemany("""UPDATE translations SET text = %s, translated_at = now(), machine = true
                                WHERE source_hash = %s AND target_lang = %s""",
-                            [(t, r["source_hash"], target) for t, r in zip(out, rows)])
-        done += len(rows)
+                            [(t, r["source_hash"], target) for t, r in good])
+            if bad:  # tried again later, at most three times; until then the API serves English and says so
+                cur.execute("UPDATE translations SET attempts = attempts + 1 WHERE target_lang = %s AND source_hash = ANY(%s)",
+                            (target, bad))
+                print(f"{len(bad)} translation(s) to {target} rejected by the checks")
+        done += len(rows)  # handled, stored or rejected, so a batch of rejections does not stop the loop
     return done
 
 

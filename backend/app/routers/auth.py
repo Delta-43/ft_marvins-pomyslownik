@@ -1,10 +1,10 @@
 """Auth tag: providers, register, login, logout, me. The demo provider is a labelled sandbox, not a real identity check."""
 import datetime as dt
-from typing import Literal
+from typing import Annotated, Literal
 
 import psycopg
 from fastapi import APIRouter, Depends, Response
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 from ..config import settings
 from ..db import connection, one
@@ -20,6 +20,7 @@ per_identity = RateLimiter(limit=10, window=60)
 session = Depends(current_user)
 
 Role = Literal["investors_business", "public_bodies", "universities", "schools", "startups_enterprises", "inventors"]
+Interest = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=60)]
 OrgType = Literal["university", "research_institute", "school", "local_government", "public_institution", "company",
                   "startup", "incubator", "investor", "individual", "other"]
 
@@ -38,7 +39,7 @@ class RegisterRequest(BaseModel):
     displayName: str | None = Field(default=None, max_length=120)
     role: Role
     affiliation: Affiliation
-    interests: list[str] = Field(max_length=20)
+    interests: list[Interest] = Field(max_length=20)
     acceptedTerms: bool
     consentToContact: bool = False
     preferredLanguage: Literal["pl", "en", "uk"] | None = None
@@ -54,7 +55,7 @@ class UpdateMeRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     role: Role | None = None
     affiliation: Affiliation | None = None
-    interests: list[str] | None = Field(default=None, max_length=20)
+    interests: list[Interest] | None = Field(default=None, max_length=20)
     consentToContact: bool | None = None
     preferredLanguage: Literal["pl", "en", "uk"] | None = None
 
@@ -99,6 +100,13 @@ def register(body: RegisterRequest):
     if not body.acceptedTerms:
         raise ApiError(422, "terms_not_accepted", "You must accept the terms of use to register.")
     subject = body.providerSubject.strip().lower()
+    if len(subject) < 3:
+        raise ApiError(422, "validation_failed", "providerSubject needs at least 3 characters.")
+    if subject in settings.demo_identity_set:
+        # The shared demo identity always gets the same neutral profile: whoever registers it first must not choose the
+        # email or affiliation that the whole jury sees (backend review, G1).
+        body = body.model_copy(update={"email": f"{subject}@example.invalid", "displayName": None, "interests": [],
+                                       "affiliation": Affiliation(name="Demo", type="other"), "consentToContact": False})
     with connection() as conn:
         if conn.execute("SELECT 1 FROM users WHERE provider = %s AND provider_subject = %s", (body.provider, subject)).fetchone():
             raise ApiError(409, "account_exists", "An account already exists for this identity. Sign in instead.")

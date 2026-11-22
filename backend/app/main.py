@@ -1,4 +1,5 @@
 """Innovation Radar API. The contract is docs/api/openapi.yaml. Change the contract first."""
+import re
 import uuid
 from contextlib import asynccontextmanager
 
@@ -16,6 +17,8 @@ from .security import hash_token
 from .services import lang as lang_service
 from .services.cards import iso
 
+REQUEST_ID = re.compile(r"[A-Za-z0-9._-]{1,64}")
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -30,9 +33,14 @@ app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origin_list, allo
                    allow_headers=["*"], expose_headers=["X-Request-Id", "Retry-After", "Content-Language"])
 
 
+def safe_request_id(value: str | None) -> str:
+    """A client's X-Request-Id is reflected in the body, the header and the logs: only short plain ids are kept."""
+    return value if value and REQUEST_ID.fullmatch(value) else str(uuid.uuid4())
+
+
 @app.middleware("http")
 async def request_id(request: Request, call_next):
-    request.state.request_id = request.headers.get("X-Request-Id") or str(uuid.uuid4())
+    request.state.request_id = safe_request_id(request.headers.get("X-Request-Id"))
     response = await call_next(request)
     response.headers["X-Request-Id"] = request.state.request_id
     return response
@@ -45,7 +53,7 @@ async def language(request: Request, call_next):
         return await call_next(request)
     query_lang = request.query_params.get("lang")
     if lang_service.bad_lang(query_lang):
-        request.state.request_id = request.headers.get("X-Request-Id") or str(uuid.uuid4())
+        request.state.request_id = safe_request_id(request.headers.get("X-Request-Id"))
         body = errors.error_body(request, "validation_failed", "One or more fields are invalid.",
                                  [{"field": "lang", "issue": f"must be one of {', '.join(lang_service.supported())}"}])
         response = JSONResponse(body, status_code=422, headers={"X-Request-Id": request.state.request_id})

@@ -70,8 +70,11 @@ def main() -> None:
                 log.info("run %s finished", run["id"])
                 continue
             # B15: translate texts the API queued (Ukrainian, and Polish error messages). Idle time only.
-            if translate.translate_pending():
-                continue
+            try:
+                if translate.translate_pending():
+                    continue
+            except Exception:
+                log.exception("translation step failed")
         except psycopg.Error:
             log.exception("database error in the worker loop")
         time.sleep(POLL_SECONDS)

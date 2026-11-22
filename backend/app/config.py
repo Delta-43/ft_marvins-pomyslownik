@@ -22,8 +22,12 @@ class Settings(BaseSettings):
     # Shared sandbox identities used by the demo (comma separated). They skip the per-identity sign-in limit, because
     # a whole jury signs in as one of them, and they cannot be deleted (known gap G1, docs/api/CONTRACT-REVIEW.md).
     demo_identities: str = "demo-jury"
-    supported_languages: str = "pl,en,uk"
-    public_web_url: str = "https://pomyslownik.delta43.net"  # links to card pages in relatedWork  # first one is the default and the fallback (B15)
+    supported_languages: str = "pl,en,uk"  # first one is the default and the fallback (B15)
+    public_web_url: str = "https://pomyslownik.delta43.net"  # links to card pages in relatedWork
+    pdf_max_pages: int = 400  # a longer PDF is refused (time and memory)
+    # Peers allowed to set CF-Connecting-IP (comma-separated IPs or CIDRs, for example the cloudflared host). Empty: any
+    # peer, which is only safe when the API port is reachable from the tunnel alone (known gap G8).
+    trusted_proxies: str = ""
     translate_batch: int = 40  # texts per translation call in the worker
 
     @property

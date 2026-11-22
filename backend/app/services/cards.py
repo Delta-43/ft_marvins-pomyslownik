@@ -2,14 +2,15 @@
 import datetime as dt
 import json
 import pathlib
+import re
 from uuid import UUID
 
 from fastapi import HTTPException
 
 from ..config import settings
 from ..db import one, rows
-from .i18n import REGIONS as REGION_CODES
 from .i18n import (
+    REGIONS,
     evidence_origin,
     licence_label,
     query_text,
@@ -18,6 +19,7 @@ from .i18n import (
     split_organisation,
     unit_label,
 )
+from .i18n import REGIONS as REGION_CODES
 from .i18n import label as fixed_label
 
 # Stale (#22): not checked within FRESHNESS_DAYS, or the project the card describes ended more than
@@ -72,11 +74,17 @@ class Filters:
         self.trl_min = trlMin if trlMin is not None else preset.get("trlMin")
         self.trl_max = trlMax if trlMax is not None else preset.get("trlMax")
         self.tag = _csv("tag", tag) or preset.get("tag", [])
+        if len(self.tag) > 20 or any(not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,63}", t) for t in self.tag):
+            raise HTTPException(status_code=422, detail="tag takes up to 20 tag slugs.")
         self.region = region or preset.get("region")
+        if self.region and self.region not in REGIONS:
+            raise HTTPException(status_code=422, detail="Unknown region.")
         self.polish_ip = polishIp if polishIp is not None else preset.get("polishIp")
         self.min_cred = minCredibility if minCredibility is not None else preset.get("minCredibility")
         self.include_stale = includeStale
         self.ip_status = _csv("polishIpStatus", polishIpStatus, {"confirmed", "stated", "unknown"})
+        if self.trl_min is not None and self.trl_max is not None and self.trl_min > self.trl_max:
+            raise HTTPException(status_code=422, detail="trlMin must not be above trlMax.")
 
     def where(self, skip: str | None = None) -> tuple[str, dict]:
         c, p = ["TRUE"], stale_params()

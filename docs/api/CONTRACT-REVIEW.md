@@ -29,6 +29,9 @@ Date: 2026-11-21. Method: the ten design checks of the `api-contract-review` ski
 
 ### Known gaps register (G1 to G9)
 
+**Status after the full backend review (2026-11-22, branch `fix/backend-hardening`):** G2, G3, G4, G5, G6 and G7 are closed. G8 is closed by configuration: set `TRUSTED_PROXIES` to the tunnel connector's address. G1 is mostly closed: demo identities cannot be deleted or changed, and always get a neutral profile; free sandbox subjects are still accepted for the registration form. G9 stays a process rule. The review also fixed: free-text tags in usage events, unchecked machine translations, `/health` opening a connection per call, unchecked `X-Request-Id`, unbounded interest strings, a PDF page cap, a worker crash path, and the API container missing `data/sources`.
+
+
 Not enforced by the live API. Each fix is small. None is needed for the demo. Task **B19** collects them for after the hackathon.
 
 | ID | Gap (verified in code) | Risk | Light fix | Est |

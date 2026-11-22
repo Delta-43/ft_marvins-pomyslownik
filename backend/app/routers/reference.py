@@ -35,7 +35,7 @@ def list_tags(sort: str = Query("recent", pattern="^(recent|count)$"), limit: in
 
 @router.get("/sources", dependencies=[Depends(require_session)])
 def list_sources(type: str | None = Query(None, pattern="^(api|crawl|document)$"),
-                 limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0)):
+                 limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0, le=10000)):
     total = one("SELECT count(*) AS n FROM sources WHERE (%(t)s::text IS NULL OR type = %(t)s)", {"t": type})["n"]
     data = rows("""SELECT s.id, s.type, s.name, s.url, s.license, s.last_collected_at,
                           (SELECT count(*) FROM card_sources cs WHERE cs.source_id = s.id) AS card_count
