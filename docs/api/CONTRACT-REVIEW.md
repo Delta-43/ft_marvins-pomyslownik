@@ -4,6 +4,42 @@ Date: 2026-11-21. Method: the ten design checks of the `api-contract-review` ski
 
 **Grounding.** Statements below rest on command output seen during this review: the Redocly CLI lint of `openapi.yaml` (valid, 3 warnings), a running Prism 5 mock (200, 400, 401, 404, 429 responses, CORS header), `openapi-typescript` 7.13.0 type generation (1,368 lines, all operations present), and `docker compose config` for both compose files. Items marked `[ungrounded: ...]` were not run.
 
+## 0b. Revision: draft 4, version 1.1.0-draft.4 (2026-11-22, review of #25 and full pass)
+
+**Inputs:** Philip's review of #25 (issue #26), then a full read of the contract against the backend routers (`backend/app/routers/*`, `security.py`) and the frontend sign-in (`frontend/src/app/actions/auth.ts`).
+**Scope decision (Delta):** draft 4 documents the gaps as known unknowns. It does not ask for heavy rework. Every new rule the live API does not follow yet is marked `(planned, Gn)` in the contract.
+
+**Issue #26 (Philip), all five points:**
+1. No language named: card texts keep the object form; only error `message` and `Content-Language` fall back to `preferredLanguage`, then `pl`.
+2. `RegisterRequest` now has a machine-checked `oneOf`: the sandbox branch (`provider: sandbox_id` + `providerSubject`) or the redirect branch (`login_gov_pl` / `mojeid` + `registrationTicket`). Each branch forbids the other field. Lint stays clean.
+3. `Content-Language` and `Vary` are declared (`components/headers`) on 24 JSON success responses.
+4. `RelatedWork.title` is a plain string in the work's own language, with `titleLang` (ISO 639-1), like `passageLang`.
+5. Examples use one form (string) everywhere. `q` matches Ukrainian too. Logout `200` + `redirectUrl` is described, and F12 handles it.
+
+**Drift fixed:** `/auth/logout` needs a session (the overview said all `/auth/*` is public). The live server is listed (`https://demo.delta43.net`). `similar` said "embeddings", but it uses trigram plus shared tags. "Polish and English" wording on six label fields now says "the negotiated language". `POST /events` advised `navigator.sendBeacon`, which cannot send the bearer token; the web server sends events. `/facets` always returns selected values with labels (B18). Partial `{en: …}` maps in the examples are gone. `passageLang` accepts any two-letter code.
+
+**Hardening in the design (not live, part of B13 and B14):** the redirect flow now uses PKCE (`codeChallenge` S256 on `/start`, `codeVerifier` on `/exchange`), so a leaked code is useless and login CSRF fails. `returnTo` needs an exact origin match (a prefix check would accept `https://pomyslownik.delta43.net.evil.example`). The SAML checks are listed (signature, `InResponseTo`, audience, time window, one use per artifact and state). OIDC uses PKCE and `nonce`. Registration tickets are single use and tied to their provider. Exchange errors are identical, so they reveal nothing.
+
+### Known gaps register (G1 to G9)
+
+Not enforced by the live API. Each fix is small. None is needed for the demo. Task **B19** collects them for after the hackathon.
+
+| ID | Gap (verified in code) | Risk | Light fix | Est |
+|---|---|---|---|---|
+| G1 | A sandbox subject is the only credential. `login` takes any registered subject (`routers/auth.py`). Anyone who knows `demo-jury` signs in as it, and can `DELETE /me` and break the shared jury account | Account takeover in the demo; personal data if someone typed real data | Env allow-list `SANDBOX_IDENTITIES` in production, `demoIdentities` in `/auth/providers`, `403` on `PATCH`/`DELETE /me` for shared ones. Frontend: picker instead of a free text box | 1 h |
+| G2 | No `Content-Language`, `Vary` or `Cache-Control` headers | A shared cache could serve one user's or one language's response to another | One middleware: `Vary: Accept-Language`; `Cache-Control: private, no-store` when a session is present | 0.3 h (with B15) |
+| G3 | Collected URLs are not checked for scheme | A `javascript:` link from a crawled page becomes a clickable XSS on the card page | Drop non-`http(s)` URLs at ingest; same check in the seed loader | 0.3 h |
+| G4 | Markup is not stripped from model and page text | Low today (React escapes text), real if anyone ever renders HTML | Strip tags at ingest; never use `dangerouslySetInnerHTML` (a lint rule) | 0.3 h |
+| G5 | Admin endpoints have no rate limit (the token check is constant time, good) | Brute force of `ADMIN_TOKEN` | Reuse `RateLimiter` on the admin router; refuse to start when `ADMIN_TOKEN` is shorter than 32 characters | 0.2 h |
+| G6 | `/stats/usage` accepts any `from`/`to` | Counts under 5 can be worked out by comparing overlapping periods | Minimum 7 days, maximum 366, `from` ≤ `to` | 0.2 h |
+| G7 | Input limits: repeated ids in `/compare`, `trlMin` > `trlMax`, unbounded `offset`, unbounded `tag` list, free `region` | Wasted queries; odd answers | Validate in the routers (`422`) | 0.3 h |
+| G8 | The rate-limit key trusts `CF-Connecting-IP` (`security.py`). Port 8000 is also reachable on the LAN, where a client can set that header | A LAN client can dodge the rate limits | Trust the header only from the tunnel (`cloudflared` address), or bind the API to localhost and let only `cloudflared` reach it | 0.3 h |
+| G9 | Registration email is not verified | `consentToContact` could make PCI write to someone who never signed up | PCI confirms the address before the first contact; later an email check | process |
+
+Not gaps, by design: `/audiences` and `/auth/providers` are public; `/stats/usage` is open to every signed-in user (decided in Q1, counts under 5 hidden); the session token never reaches the browser.
+
+**Grounding:** Redocly lint valid, the same 3 warnings as draft 2. Generated types typecheck. The live contract test passes against draft 4 (3 passed). Request bodies checked with `jsonschema`: the sandbox body the frontend sends today is valid; a ticket body is valid; both fields together, or a ticket with `provider: sandbox_id`, are rejected; `javascript:alert(1)` is rejected as a `WebUrl`. All schema examples validate.
+
 ## 0a. Revision: draft 3, version 1.1.0-draft.3 (2026-11-22, mentor feedback)
 
 **Changes requested by the mentor:** a drop-in for the national login (mObywatel, Profil Zaufany), Ukrainian with the language picked by the server, similarity hits kept on the card, and a configurable source registry. Findings: `docs/MENTOR-FEEDBACK-2026-11-22.md`. Login research: `docs/api/AUTH-PROVIDERS.md`.

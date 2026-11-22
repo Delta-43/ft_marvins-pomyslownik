@@ -94,8 +94,10 @@ It counts the markers in every file and lists all blockers.
 | S4 | Pitch (5 minutes) for stage II | QA, slides, video |
 | S5 | Final repository check | QA, slides, video |
 | C3 | Contract draft 3: review and merge | Mentor feedback |
+| C4 | Contract draft 4: review and merge | Mentor feedback |
 | B13 | Provider interface and redirect sign-in flow | Mentor feedback |
 | B14 | Węzeł Krajowy (login.gov.pl) adapter (after the hackathon) | Mentor feedback |
+| B19 | Known gaps G1 to G9 (after the hackathon) | Mentor feedback |
 | B15 | Server-side language (pl, en, uk) | Mentor feedback |
 | B16 | Source registry and admin source config | Mentor feedback |
 | B17 | Related work stored on the card | Mentor feedback |
