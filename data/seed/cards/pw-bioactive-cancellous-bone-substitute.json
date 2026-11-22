@@ -1,0 +1,389 @@
+{
+  "id": "d3adf685-81b9-4c6b-911e-103cd36e6e8a",
+  "title": {
+    "pl": "Bioaktywny substytut kości gąbczastej dopasowywany na sali operacyjnej",
+    "en": "Bioactive cancellous bone substitute shaped at the operating table"
+  },
+  "summaryShort": {
+    "pl": "Porowaty, resorbowalny implant z polilaktydu, który chirurg przycina do ubytku kości i nasącza osoczem bogatopłytkowym pacjenta.",
+    "en": "A porous, resorbable polylactide implant that the surgeon trims to the bone defect and soaks in the patient's platelet-rich plasma."
+  },
+  "area": "technological",
+  "tags": [
+    {
+      "slug": "implants",
+      "label": {
+        "pl": "Implanty",
+        "en": "Implants"
+      }
+    },
+    {
+      "slug": "medical-materials",
+      "label": {
+        "pl": "Materiały medyczne",
+        "en": "Medical materials"
+      }
+    },
+    {
+      "slug": "bone-regeneration",
+      "label": {
+        "pl": "Regeneracja kości",
+        "en": "Bone regeneration"
+      }
+    }
+  ],
+  "organisation": {
+    "name": "Politechnika Warszawska",
+    "type": "university",
+    "url": "https://www.pw.edu.pl/",
+    "region": "MZ"
+  },
+  "implementationLevel": {
+    "value": "testing",
+    "basis": "confirmed"
+  },
+  "trl": {
+    "applicable": true,
+    "value": 5,
+    "basis": "estimate"
+  },
+  "scores": {
+    "innovativeness": null,
+    "applicationPotential": null,
+    "credibility": null
+  },
+  "polishIp": true,
+  "lastCheckedAt": "2026-11-22T12:00:00Z",
+  "stale": false,
+  "sourceCount": 11,
+  "relevance": null,
+  "summary": {
+    "pl": "Zespół Politechniki Warszawskiej, we współpracy z firmą BoneReg Sp. z o.o., opracował elastyczny implant z polilaktydu o architekturze kości gąbczastej (pory 100–400 µm, porowatość otwarta 94%). Chirurg dopasowuje go do ubytku bezpośrednio na sali operacyjnej i nasącza osoczem bogatopłytkowym pacjenta; implant jest stopniowo zastępowany przez nową tkankę kostną. Metodę chroni sześć udzielonych polskich patentów należących do Politechniki Warszawskiej. Implant jest w badaniach przedklinicznych na dużym modelu zwierzęcym (owca wrzosówka) i nie jest jeszcze dostępny dla pacjentów. W 2025 r. projekt zdobył nagrodę główną konkursu Polski Produkt Przyszłości (PARP). Cena ok. 200 zł i działanie przeciwbakteryjne to deklaracje twórców, nie wyniki niezależnych badań. Streszczenie przygotowane na podstawie źródeł (zadanie R3).",
+    "en": "A team at Warsaw University of Technology, working with BoneReg Sp. z o.o., developed a flexible polylactide implant with the architecture of cancellous bone (pores of 100–400 µm, 94% open porosity). The surgeon fits it to the defect directly in the operating room and soaks it in the patient's platelet-rich plasma; the implant is gradually replaced by new bone. The method is protected by six granted Polish patents held by Warsaw University of Technology. The implant is in preclinical studies in a large animal model (heath sheep) and is not yet available to patients. In 2025 the project won the main prize of the Polski Produkt Przyszłości contest (PARP). The price of about PLN 200 and the antibacterial action are the developers' claims, not results of independent tests. Summary prepared from the sources (task R3)."
+  },
+  "implementationLevelDetail": {
+    "value": "testing",
+    "basis": "confirmed",
+    "sourceIds": [
+      "64027df6-228a-4329-b8d7-746f676fccb4"
+    ],
+    "evidenceIds": [
+      "886aded6-358f-45e6-8410-cbecaf464b21"
+    ],
+    "method": null,
+    "methodText": null
+  },
+  "trlDetail": {
+    "applicable": true,
+    "value": 5,
+    "basis": "estimate",
+    "sourceIds": [
+      "64027df6-228a-4329-b8d7-746f676fccb4"
+    ],
+    "evidenceIds": [
+      "886aded6-358f-45e6-8410-cbecaf464b21"
+    ],
+    "method": "No TRL in the sources. Components are made and verified in preclinical studies in a large animal model (sheep), with implantation protocols, µCT and histomorphometry. That reads as validation in a relevant environment (TRL 5). No clinical trial yet, so not TRL 6. Reviewer to confirm.",
+    "methodText": {
+      "pl": "Źródła nie podają TRL. Komponenty wytworzono i zweryfikowano w badaniach przedklinicznych na dużym modelu zwierzęcym (owca), z protokołami implantacji, µCT i histomorfometrią. Odpowiada to walidacji w środowisku zbliżonym do rzeczywistego (TRL 5). Nie ma jeszcze badania klinicznego, więc nie TRL 6. Do potwierdzenia przez recenzenta.",
+      "en": "No TRL in the sources. Components are made and verified in preclinical studies in a large animal model (sheep), with implantation protocols, µCT and histomorphometry. That reads as validation in a relevant environment (TRL 5). No clinical trial yet, so not TRL 6. Reviewer to confirm."
+    }
+  },
+  "assessment": {
+    "innovativeness": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "applicationPotential": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    },
+    "credibility": {
+      "value": null,
+      "confidence": "low",
+      "insufficientData": true,
+      "sampleSize": 0,
+      "basis": "estimate",
+      "sourceIds": [],
+      "evidenceIds": [],
+      "method": "Not computed yet. The scoring engine (task B5) has not run on this card.",
+      "methodText": {
+        "pl": "Jeszcze nie obliczono. Moduł oceny (zadanie B5) nie został uruchomiony dla tej karty.",
+        "en": "Not computed yet. The scoring engine (task B5) has not run on this card."
+      },
+      "explanation": null
+    }
+  },
+  "oslo": {
+    "passed": false,
+    "newOrImproved": true,
+    "differsSignificantly": true,
+    "availableOrInUse": false,
+    "basis": "estimate",
+    "note": {
+      "pl": "Nowy i wyraźnie inny niż przeszczep z kości pacjenta czy sztywne substytuty, ale jest dopiero w badaniach przedklinicznych i nie jest dostępny dla pacjentów.",
+      "en": "New and clearly different from a graft of the patient's own bone or rigid substitutes, but still in preclinical studies and not available to patients."
+    }
+  },
+  "couldAlsoBeUsedIn": [
+    {
+      "pl": "Ortopedia urazowa i onkologiczna: krytyczne ubytki kości gąbczastej (wg katalogu PARP)",
+      "en": "Trauma and oncological orthopaedics: critical cancellous bone defects (per the PARP catalogue)"
+    },
+    {
+      "pl": "Chirurgia szczękowo-twarzowa i implantologia stomatologiczna (wg katalogu PARP)",
+      "en": "Maxillofacial surgery and implant dentistry (per the PARP catalogue)"
+    },
+    {
+      "pl": "Medycyna weterynaryjna, np. urazy kości u koni (rozważana przez zespół, wg Politechniki Warszawskiej)",
+      "en": "Veterinary medicine, for example bone injuries in horses (considered by the team, per Warsaw University of Technology)"
+    }
+  ],
+  "owner": {
+    "name": "Politechnika Warszawska",
+    "url": "https://www.pw.edu.pl/"
+  },
+  "sources": [
+    {
+      "id": "64027df6-228a-4329-b8d7-746f676fccb4",
+      "type": "document",
+      "name": "Dokument PDF: PARP, katalog laureatów XXVI edycji konkursu Polski Produkt Przyszłości (2.12.2025), s. 28–31",
+      "url": "https://www.parp.gov.pl/storage/publications/pdf/PPP-katalog-elektr_02_12_2025.pdf",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Opracowaliśmy elastyczny implant, który chirurg może dopasować do kształtu ubytku bezpośrednio na sali operacyjnej. … Materiał o wysokiej porowatości i pełnej biokompatybilności może być dodatkowo nasączony osoczem bogatopłytkowym pacjenta … Jest zastępowany przez nową tkankę kostną, dzięki czemu unika się konieczności kolejnych operacji. … na dużym modelu zwierzęcym (owca wrzosówka) … Komponenty zostały wytworzone i weryfikowane w badaniach przedklinicznych … właścicielem patentów, którym aktualnie jest Politechnika Warszawska … LIDER/4/0010/L-11/19/NCBR/2020",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "6aaff066-2367-4b3c-a3aa-abfecdcac684",
+      "type": "document",
+      "name": "Dokument PDF: PARP, komunikat prasowy: laureaci XXVI edycji Polskiego Produktu Przyszłości (2.12.2025)",
+      "url": "https://www.parp.gov.pl/attachments/article/89672/2025-12-02-XXVI-edycja-PPP.pdf",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "nagrodę główną otrzymali twórcy „Bioaktywnego Substytutu Kości Gąbczastej”",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "68e4a14e-eb8a-44c6-b0a5-75e785a05560",
+      "type": "document",
+      "name": "Dokument PDF: PARP, komunikat prasowy: projekty, które pokazują, że współpraca nauki i biznesu jest możliwa (17.12.2025)",
+      "url": "https://redakcja.parp.gov.pl/attachments/article/89743/17%20grudnia%20projekty%20PPP.pdf",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Implant składa się z substancji naturalnie występujących w organizmie ludzkim. … zawiera w swoim składzie substancje o działaniu przeciwzapalnym i przeciwbakteryjnym",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "b9ef333f-3b24-4118-915b-1ad7c267cba7",
+      "type": "crawl",
+      "name": "Kołakowska et al., Chitosan-Based High-Intensity Modification of the Biodegradable Substitutes for Cancellous Bone, Journal of Functional Biomaterials 14(8):410, 2023",
+      "url": "https://doi.org/10.3390/jfb14080410",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "pore size 100-400 µm, open porosity 94% … high absorbability (850% dry weight) … promoting bone cell adhesion … platelet-rich plasma (PRP) carriers in future medical devices",
+      "passageLang": "en",
+      "license": null
+    },
+    {
+      "id": "6fddd800-9834-4c67-a927-93b03654db6b",
+      "type": "crawl",
+      "name": "Politechnika Warszawska, News: Implants developed by our researchers will accelerate bone regeneration (16.12.2021)",
+      "url": "https://eng.pw.edu.pl/News/Implants-developed-by-our-researchers-will-accelerate-bone-regeneration",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "the cost of a bioactive substitute for cancellous bone should be approx. PLN 200 … Several companies, both Polish and foreign, are interested … If the results are positive, the team hopes to carry out clinical trials with humans. … Researchers are also thinking about the use of implants in veterinary medicine",
+      "passageLang": "en",
+      "license": null
+    },
+    {
+      "id": "2f77e51c-108d-475c-992b-fdfe654bb884",
+      "type": "crawl",
+      "name": "Google Patents (dane UPRP): PL236111B1, Sposób wytwarzania dynamicznego substytutu kości gąbczastej",
+      "url": "https://patents.google.com/patent/PL236111B1/pl",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Sposób wytwarzania dynamicznego substytutu kości gąbczastej",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "d187f4d9-3903-4925-b9f4-5d3a6917efd4",
+      "type": "crawl",
+      "name": "Google Patents (dane UPRP): PL236857B1, Sposób wytwarzania polilaktydowego substytutu kości gąbczastej o zwiększonej hydrofilowości",
+      "url": "https://patents.google.com/patent/PL236857B1/pl",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Sposób wytwarzania polilaktydowego substytutu kości gąbczastej o zwiększonej hydrofilowości",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "8e57e76f-8259-4749-bb09-c85ab89a1cdc",
+      "type": "crawl",
+      "name": "Google Patents (dane UPRP): PL236858B1, Sposób hydrofilizacji polilaktydowego substytutu kości gąbczastej",
+      "url": "https://patents.google.com/patent/PL236858B1/pl",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Sposób hydrofilizacji polilaktydowego substytutu kości gąbczastej",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "71066310-4fb8-4c44-b5ce-9f6ce204530b",
+      "type": "crawl",
+      "name": "Google Patents (dane UPRP): PL239154B1, Sposób otrzymywania polilaktydowego substytutu kości gąbczastej",
+      "url": "https://patents.google.com/patent/PL239154B1/pl",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Sposób otrzymywania polilaktydowego substytutu kości gąbczastej",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "89ec00dc-08b4-4adc-95ee-683f4df7b75f",
+      "type": "crawl",
+      "name": "Google Patents (dane UPRP): PL239644B1, Sposób wytwarzania polilaktydowego substytutu kości gąbczastej",
+      "url": "https://patents.google.com/patent/PL239644B1/pl",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Sposób wytwarzania polilaktydowego substytutu kości gąbczastej",
+      "passageLang": "pl",
+      "license": null
+    },
+    {
+      "id": "2048b663-04e3-4e14-b7a2-3ea1db7d2fdb",
+      "type": "crawl",
+      "name": "Google Patents (dane UPRP): PL247092B1, Sposób modyfikacji polilaktydowego substytutu kości",
+      "url": "https://patents.google.com/patent/PL247092B1/pl",
+      "retrievedAt": "2026-11-22T00:00:00Z",
+      "passage": "Sposób modyfikacji polilaktydowego substytutu kości",
+      "passageLang": "pl",
+      "license": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "886aded6-358f-45e6-8410-cbecaf464b21",
+      "metric": "preclinical_model",
+      "label": {
+        "pl": "Badania przedkliniczne: model zwierzęcy",
+        "en": "Preclinical studies: animal model"
+      },
+      "value": "owca wrzosówka",
+      "unit": null,
+      "sourceId": "64027df6-228a-4329-b8d7-746f676fccb4",
+      "query": "Read from https://www.parp.gov.pl/storage/publications/pdf/PPP-katalog-elektr_02_12_2025.pdf. Quoted text: \"na dużym modelu zwierzęcym (owca wrzosówka)\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "5c680155-f8a4-493e-a181-82d511c825f3",
+      "metric": "open_porosity",
+      "label": {
+        "pl": "Porowatość otwarta (badanie recenzowane)",
+        "en": "Open porosity (peer-reviewed study)"
+      },
+      "value": 94,
+      "unit": "%",
+      "sourceId": "b9ef333f-3b24-4118-915b-1ad7c267cba7",
+      "query": "Read from https://doi.org/10.3390/jfb14080410. Quoted text: \"pore size 100-400 µm, open porosity 94%\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "827e60b8-f1b1-4ae2-807c-6cb595dbbb6a",
+      "metric": "pore_size",
+      "label": {
+        "pl": "Wielkość porów (badanie recenzowane)",
+        "en": "Pore size (peer-reviewed study)"
+      },
+      "value": "100-400",
+      "unit": "µm",
+      "sourceId": "b9ef333f-3b24-4118-915b-1ad7c267cba7",
+      "query": "Read from https://doi.org/10.3390/jfb14080410. Quoted text: \"pore size 100-400 µm\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "575e0463-a423-4542-8a9e-271060a270f2",
+      "metric": "absorbency_dry_weight",
+      "label": {
+        "pl": "Chłonność po modyfikacji chitozanem (% suchej masy)",
+        "en": "Absorbency after chitosan modification (% of dry weight)"
+      },
+      "value": 850,
+      "unit": "%",
+      "sourceId": "b9ef333f-3b24-4118-915b-1ad7c267cba7",
+      "query": "Read from https://doi.org/10.3390/jfb14080410. Quoted text: \"high absorbability (850% dry weight)\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "9c084876-79e8-4895-aa7a-853011459d34",
+      "metric": "patent_numbers",
+      "label": {
+        "pl": "Udzielone polskie patenty (właściciel: Politechnika Warszawska)",
+        "en": "Granted Polish patents (holder: Warsaw University of Technology)"
+      },
+      "value": "PL 236111, PL 236857, PL 236858, PL 239154, PL 239644, PL 247092",
+      "unit": null,
+      "sourceId": "2f77e51c-108d-475c-992b-fdfe654bb884",
+      "query": "Six B1 patent records on Google Patents (data from the Polish Patent Office), each listed as a source on this card. Grant of PL 236857 (P.426819) checked by hand in the UPRP e-Wyszukiwarka register by the reviewer on 2026-11-22: https://ewyszukiwarka.pue.uprp.gov.pl/search/pwp-details/P.426819",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "c0bc5349-a762-469e-882e-8e01a6320da9",
+      "metric": "award",
+      "label": {
+        "pl": "Nagroda",
+        "en": "Award"
+      },
+      "value": "Polski Produkt Przyszłości 2025 (PARP), nagroda główna",
+      "unit": null,
+      "sourceId": "6aaff066-2367-4b3c-a3aa-abfecdcac684",
+      "query": "Read from https://www.parp.gov.pl/attachments/article/89672/2025-12-02-XXVI-edycja-PPP.pdf. Quoted text: \"nagrodę główną otrzymali twórcy „Bioaktywnego Substytutu Kości Gąbczastej”\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "c824aba1-121d-4fa5-a60c-a9331f534b1b",
+      "metric": "funding_project",
+      "label": {
+        "pl": "Finansowanie: projekt NCBR LIDER XI",
+        "en": "Funding: NCBR LIDER XI project"
+      },
+      "value": "LIDER/4/0010/L-11/19/NCBR/2020",
+      "unit": null,
+      "sourceId": "64027df6-228a-4329-b8d7-746f676fccb4",
+      "query": "Read from https://www.parp.gov.pl/storage/publications/pdf/PPP-katalog-elektr_02_12_2025.pdf. Quoted text: \"LIDER/4/0010/L-11/19/NCBR/2020\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    },
+    {
+      "id": "ebe48452-8d90-4272-a720-3986d97c5415",
+      "metric": "expected_price_developer_claim",
+      "label": {
+        "pl": "Oczekiwana cena (deklaracja zespołu, 2021)",
+        "en": "Expected price (team's claim, 2021)"
+      },
+      "value": 200,
+      "unit": "zł",
+      "sourceId": "6fddd800-9834-4c67-a927-93b03654db6b",
+      "query": "Read from https://eng.pw.edu.pl/News/Implants-developed-by-our-researchers-will-accelerate-bone-regeneration. Quoted text: \"the cost of a bioactive substitute for cancellous bone should be approx. PLN 200\"",
+      "retrievedAt": "2026-11-22T00:00:00Z"
+    }
+  ],
+  "firstSeenAt": "2026-11-22T12:00:00Z",
+  "statusChangedAt": null,
+  "polishIpStatus": "confirmed"
+}
