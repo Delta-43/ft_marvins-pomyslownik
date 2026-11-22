@@ -93,3 +93,25 @@ It counts the markers in every file and lists all blockers.
 | S3 | Submission text | QA, slides, video |
 | S4 | Pitch (5 minutes) for stage II | QA, slides, video |
 | S5 | Final repository check | QA, slides, video |
+| C3 | Contract draft 3: review and merge | Mentor feedback |
+| B13 | Provider interface and redirect sign-in flow | Mentor feedback |
+| B14 | Węzeł Krajowy (login.gov.pl) adapter (after the hackathon) | Mentor feedback |
+| B15 | Server-side language (pl, en, uk) | Mentor feedback |
+| B16 | Source registry and admin source config | Mentor feedback |
+| B17 | Related work stored on the card | Mentor feedback |
+| B18 | Backend owns all labels | Mentor feedback |
+| F12 | Sign-in page for real providers | Mentor feedback |
+| F13 | Frontend in three languages, Cyrillic fonts | Mentor feedback |
+| F14 | Display settings: text size, contrast modes | Mentor feedback |
+| F15 | WCAG 2.2 fixes | Mentor feedback |
+| F16 | ARIA pass | Mentor feedback |
+| F17 | Apply the PCI palette | Mentor feedback |
+| F18 | Apply the type scale and layout | Mentor feedback |
+| F19 | Ease of use: three actions to the first card | Mentor feedback |
+| F20 | Card section "Who else works on this" | Mentor feedback |
+| D1 | PCI and Podkarpackie palette | Mentor feedback |
+| D2 | Type scale and layout | Mentor feedback |
+| R11 | Ask the mentor: FAQ §6 and login.gov.pl applications | Mentor feedback |
+| R12 | Review the Ukrainian texts | Mentor feedback |
+| P10 | Document the registry and new variables | Mentor feedback |
+| Q4 | Usability test with three people | Mentor feedback |

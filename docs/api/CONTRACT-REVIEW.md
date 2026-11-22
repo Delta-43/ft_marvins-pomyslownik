@@ -4,6 +4,24 @@ Date: 2026-11-21. Method: the ten design checks of the `api-contract-review` ski
 
 **Grounding.** Statements below rest on command output seen during this review: the Redocly CLI lint of `openapi.yaml` (valid, 3 warnings), a running Prism 5 mock (200, 400, 401, 404, 429 responses, CORS header), `openapi-typescript` 7.13.0 type generation (1,368 lines, all operations present), and `docker compose config` for both compose files. Items marked `[ungrounded: ...]` were not run.
 
+## 0a. Revision: draft 3, version 1.1.0-draft.3 (2026-11-22, mentor feedback)
+
+**Changes requested by the mentor:** a drop-in for the national login (mObywatel, Profil Zaufany), Ukrainian with the language picked by the server, similarity hits kept on the card, and a configurable source registry. Findings: `docs/MENTOR-FEEDBACK-2026-11-22.md`. Login research: `docs/api/AUTH-PROVIDERS.md`.
+
+- **Language negotiation.** New parameters `lang` (query) and `Accept-Language` (header) on all 25 `/api/v1` JSON operations. `LanguageCode` is `pl`, `en`, `uk`. `LocalizedText` is now `oneOf` a string (language named in the request) or the deprecated `LocalizedTextMap` (`pl`, `en`, `uk`). `User.preferredLanguage` and `UpdateMeRequest.preferredLanguage` added.
+- **Auth.** New: `POST /auth/{provider}/start`, `GET /auth/{provider}/redirect`, `POST /auth/{provider}/acs` (SAML artifact), `GET /auth/{provider}/callback` (OIDC), `POST /auth/exchange` (`200` session or `202` `RegistrationTicket`). `AuthProvider` gains optional `flow`, `assuranceLevel`, `methods`, and `kind: oidc`. `RegisterRequest` takes `registrationTicket` in place of `providerSubject`. `logout` may return `200 {redirectUrl}` for single logout. New error codes: `auth_cancelled`, `auth_failed`, `state_invalid`, `assurance_too_low`, `provider_unavailable`.
+- **Cards.** Optional `Card.relatedWork` (`RelatedWork` items) and `Card.machineTranslated`.
+- **Admin.** `GET /admin/source-config` (`SourceConfigStatus`) shows readiness per source and `tokenPresent`, never a token value.
+
+**Compatibility.** Every change is additive or widens a type. A client that sends no language gets the same object form as before (plus `uk`). The sandbox flow is unchanged.
+
+**Checks re-run:**
+- Check 6 (auth): the redirect flow keeps identity data off the frontend. The browser carries only a one-time code (60 s, single use) and the `state`. `returnTo` must be an allowed origin (open-redirect guard). **Risk R7:** the national node returns the PESEL. The backend stores only an HMAC with `IDENTITY_PEPPER`.
+- Check 4 (shapes): the "exactly one of `providerSubject` or `registrationTicket`" rule is in the description and enforced by the backend (`422`). A `oneOf` with `required` caused Redocly warnings, so it was left out.
+- Check 9 (caching): responses that depend on the language must send `Vary: Accept-Language`, or a cache serves the wrong language.
+- **Risk R8:** generated frontend types now see `LocalizedText` as `string | LocalizedTextMap`. `pick()` handles both (changed on this branch). F13 removes the object branch.
+- Grounding: Redocly lint valid, the same 3 warnings as draft 2. `openapi-typescript` generation and `npm run typecheck` pass after the `pick()` change. The live contract test (`CONTRACT_BASE_URL=https://demo.delta43.net pytest tests/test_contract.py`) passes against draft 3: 3 passed.
+
 ## 0. Revision: draft 2 (2026-11-21 evening)
 
 **Change requested by the team:** everyone signs in and picks a role, to deter misuse of the intellectual property on the cards.

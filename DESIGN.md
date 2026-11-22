@@ -15,7 +15,10 @@ This file is the design reference for every Pomysłownik screen. The source of t
 > Three items in `docs/design/` are older than this change and still name Fraunces: `tokens.css` (`--font-display`), the screenshot, and the wordmark text inside the logo SVGs.
 > Where they disagree with this file, follow this file. The logo SVGs are artwork: use them as they are, and convert the text to curves before printing.
 
-Interface copy is in Polish. Example content on screens is marked `[PRZYKŁAD]`.
+Interface copy is in Polish, English and (from task F13) Ukrainian. Each screen is in one language only. Example content on screens is marked `[PRZYKŁAD]`.
+
+> **Pending change (mentor feedback, 2026-11-22).** The palette moves towards PCI and Podkarpackie colours (PCI Navy `#001A49`, Deep blue `#035487`, blue-to-green band `#0085CC` → `#6BB437`), the type scale becomes one fluid scale, Roboto is added for Cyrillic, and high and low contrast modes are added.
+> Proposal with measured contrast: `docs/MENTOR-FEEDBACK-2026-11-22.md` §5 and §6. Tasks D1, D2, F14, F17, F18. Until D1 is merged, the tables below still apply.
 
 ---
 
@@ -239,5 +242,8 @@ Check every item before handing over a view.
 3. Every form field has a visible label. Errors are described in text.
 4. Rating bars and charts have a text or table version.
 5. Set `lang` on the page and on every passage in another language.
-6. Respect `prefers-reduced-motion`.
+6. Respect `prefers-reduced-motion`, `prefers-contrast` and `forced-colors`.
 7. Run the automated test (`axe`) before opening a pull request.
+8. WCAG 2.2 additions: focus is never hidden under the sticky header (2.4.11), targets are at least 24 by 24 px (2.5.8), help is in the same place on every page (3.2.6), no data is asked twice (3.3.7), sign-in needs no puzzle and allows paste (3.3.8).
+9. Works at 200% text size and at 320 CSS px width (400% zoom) with no loss of content.
+10. ARIA follows the WAI-ARIA Authoring Practices: native HTML first, `aria-expanded` on every disclosure, named `nav` landmarks, `lang` on every language name. Details: `docs/MENTOR-FEEDBACK-2026-11-22.md` §4.

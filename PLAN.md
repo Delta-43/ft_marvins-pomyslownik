@@ -18,6 +18,7 @@ The organisers' FAQ governs (`task_files/en/03-faq-clarification.md`):
 - Every field is a **confirmed fact (with source)** or an **estimate (with method)**.
 - **Not built:** idea submission, social features, crowdfunding, financing, investor search.
 - **Everyone signs in and selects a role** (one of the six audiences) before seeing any card. This deters misuse of the intellectual property on the cards. The demo uses a clearly labelled sandbox identity. The real national login (login.gov.pl, SAML) is documented as the next step. Usage statistics are aggregated by role.
+- **Mentor review (2026-11-22)** added ten points: national login as a drop-in (mObywatel, Profil Zaufany), Ukrainian chosen by the server, WCAG 2.2 and ARIA, PCI and Podkarpackie colours, clearer hierarchy, ease of use, related work kept on the card, a source registry, and a strict frontend/backend split. See §12.
 
 To confirm with a mentor: that the FAQ governs where it differs from the earlier mentor talk (catalogue of proposals, introductions). Required sign-in is the team's decision. The FAQ does not forbid it and asks for GDPR compliance.
 
@@ -35,6 +36,9 @@ These are the points that decide the score. Everything else is secondary.
 8. **Accessible interface** (WCAG 2.2 AA, tested) and Polish first.
 9. **Effectiveness numbers** the demo can show: time to find a solution, source coverage, freshness.
 10. **Runs from containers**, staged here and deployed on delta-server.
+11. **Three languages, chosen by the server** (Polish, English, Ukrainian). The frontend renders strings only.
+12. **"Who else works on this"** on every card: similar cards and research hits with organisations and public contact pages.
+13. **Easy to use:** three actions from the landing page to the first card. PCI and Podkarpackie colours.
 
 ## 3. Architecture
 
@@ -95,12 +99,13 @@ Do not scrape Google Scholar (no official API). Use OpenAlex and say so in the p
 
 | Tier | Items |
 |---|---|
-| **Must** | Items 1 to 9 of §2. Sign-in with role and terms (sandbox identity). Contract, containers and deployment |
-| **Should** | Anonymous analytics page, Polish-IP view, second live API source |
+| **Must** | Items 1 to 13 of §2. Sign-in with role and terms (sandbox identity). Contract, containers and deployment. Mentor "Now" tasks: C3, B15, F13, F15, F16, D1, F17, B17, F20, F19, B18, R11 |
+| **Should** | Anonymous analytics page, Polish-IP view, second live API source. Mentor "Should" tasks: B13, F12, B16, P10, F14, D2, F18, Q4, R12 |
 | **Could** | Saved searches, embeddings-based similarity (trigram fallback first) |
-| **Do not build** | Idea submission, community, crowdfunding, financing, introductions, real login.gov.pl, own model training |
+| **After the hackathon** | Real login.gov.pl adapter (B14): needs signed applications to the Ministry of Digital Affairs. Designed and in the contract now |
+| **Do not build** | Idea submission, community, crowdfunding, financing, introductions inside the app, own SMS sign-in codes, storing the PESEL, own model training |
 
-**Cut order if late:** embeddings similarity, saved searches, Polish-IP view, analytics page, the second crawler, then the second use case depth.
+**Cut order if late:** embeddings similarity, saved searches, Polish-IP view, analytics page, the second crawler, the second use case depth, then the mentor "Should" tasks in this order: F14, F18, D2, B16, B13 and F12. Never cut B15 + F13, F15, F16 or B17 + F20 without telling the mentor.
 **Solo backend risk:** one person builds the API, scoring and collectors. The seed set (Karrie) and the mock (frontend) keep the others unblocked. The backend order is fixed: seeded API first, then search, then scoring, then collectors, then refresh.
 
 ## 7. Stack
@@ -148,3 +153,21 @@ Required: title, problem and solution text, how it works, **PDF with at most 10 
 - Terms and robots rules per crawled site. Robots: checked for every site we crawl. Terms and licences: still unknown for PTT and RAD-on.
 - Licences: embedding model, Kohesio export, Lens.org, EEN keyword codes.
 - ~~Whether `pgvector/pgvector:pg16` pulls and runs here (not pulled yet).~~ Runs here and on delta-server.
+- Whether the mObywatel app is offered on login.gov.pl to private services (`SPType=private`), and whether integration is free (R11).
+
+## 12. Mentor review, 2026-11-22
+
+Full findings: `docs/MENTOR-FEEDBACK-2026-11-22.md`. Login research: `docs/api/AUTH-PROVIDERS.md`. Requirements M1 to M10: `REQUIREMENTS.md`. Tasks: `TASKS.md`, section "Mentor feedback (M)".
+
+| Point | Decision |
+|---|---|
+| National login | One provider interface. The Węzeł Krajowy (login.gov.pl) carries mObywatel, Profil Zaufany with its SMS step, e-dowód and bank login. SAML 2.0 with HTTP-Artifact. We store an HMAC of the identity, never the PESEL, and no phone numbers. Real adapter after the hackathon |
+| Ukrainian | `lang` or `Accept-Language` picks the language on the server. Each text is one string. `uk` stored for every text, machine translations marked. Roboto added for Cyrillic |
+| Accessibility | WCAG 2.2 AA including the six new criteria. Text-size and contrast modes. ARIA by the Authoring Practices |
+| Colours and type | PCI Navy and Deep blue, Mist surfaces, Podkarpackie green, blue-to-green band. One fluid type scale like the PCI site. Lato stays for headings |
+| Ease of use | Three actions to the first card. Usability test with three people |
+| Connecting people | `relatedWork` on the card: who else works on this, with public contact pages. No messaging, no matching, so FAQ §6 holds. Mentor to confirm |
+| Sources | `data/sources/registry.json` with `tokenEnv`. Tokens only in `.env`. Admin readiness endpoint |
+| Frontend and backend | The backend does all processing, language choice and labels. The frontend renders and keeps view state only |
+
+**Architecture change:** the language now travels with each request (`Accept-Language` from the web server to the API), and the API response varies by it (`Vary: Accept-Language`). Nothing else in §3 changes.
