@@ -1,6 +1,10 @@
-/** Server-only API client for the Pomysłownik! backend (contract: docs/api/openapi.yaml, types: src/api/schema.d.ts).
- *  Every call runs on the Next.js server. The session token stays in an httpOnly cookie and never reaches the browser bundle. */
+/** Server-only API client for the Pomysłownik! backend (contract: docs/api/openapi.yaml 1.1.0-draft.5,
+ *  types: src/api/schema.d.ts, generated). Every call runs on the Next.js server. The session token stays in an
+ *  httpOnly cookie and never reaches the browser bundle. Every call sends `Accept-Language` from the site language,
+ *  so the backend can answer in one language (draft 3+). */
+import { cookies } from "next/headers";
 import type { components } from "@/api/schema";
+import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE, type Locale } from "@/i18n/locale";
 
 export type Schemas = components["schemas"];
 export type LocalizedText = Schemas["LocalizedText"];
@@ -20,10 +24,16 @@ export class ApiError extends Error {
   }
 }
 
-type Options = { method?: "GET" | "POST" | "PATCH" | "DELETE"; body?: unknown; token?: string | null };
+type Options = { method?: "GET" | "POST" | "PATCH" | "DELETE"; body?: unknown; token?: string | null; lang?: Locale };
 
-export async function api<T>(path: string, { method = "GET", body, token }: Options = {}): Promise<T> {
-  const headers: Record<string, string> = { Accept: "application/json" };
+/** The site language from the cookie (server side). */
+export async function currentLocale(): Promise<Locale> {
+  const v = (await cookies()).get(LOCALE_COOKIE)?.value;
+  return isLocale(v) ? v : DEFAULT_LOCALE;
+}
+
+export async function api<T>(path: string, { method = "GET", body, token, lang }: Options = {}): Promise<T> {
+  const headers: Record<string, string> = { Accept: "application/json", "Accept-Language": lang ?? (await currentLocale()) };
   if (body !== undefined) headers["Content-Type"] = "application/json";
   if (token) headers.Authorization = `Bearer ${token}`;
 
@@ -47,17 +57,25 @@ export async function api<T>(path: string, { method = "GET", body, token }: Opti
   return res.json() as Promise<T>;
 }
 
-/** API text in the chosen language, falling back to the other one if it is missing.
- *  Contract draft 3: when the request names a language, the server already sends one string. Then it is shown as is.
- *  The object branch is the deprecated form and goes away with task F13. */
-export function pick(text: LocalizedText | null | undefined, locale: string): string {
-  if (typeof text === "string") return text.trim();
-  const first = locale === "en" ? text?.en : text?.pl;
-  const second = locale === "en" ? text?.pl : text?.en;
-  return first?.trim() || second?.trim() || "";
+/** API text for people. When the backend names a language it is already one string. The live API still sends the
+ *  deprecated `{pl, en, uk}` map; then the site language wins, with `uk → pl → en` as the fallback. */
+export function text(t: LocalizedText | null | undefined, locale: string): string {
+  if (!t) return "";
+  if (typeof t === "string") return t.trim();
+  const order = locale === "en" ? ["en", "pl", "uk"] : locale === "uk" ? ["uk", "pl", "en"] : ["pl", "en", "uk"];
+  for (const l of order) {
+    const v = (t as Record<string, string | undefined>)[l];
+    if (v?.trim()) return v.trim();
+  }
+  return "";
 }
 
-const KNOWN_ERRORS = ["registration_required", "account_exists", "terms_not_accepted", "validation_failed", "rate_limited", "unauthorized", "not_found", "unavailable"] as const;
+/** True when the text shown is not in the site language (object form without that language). The UI then marks it. */
+export function textFellBack(t: LocalizedText | null | undefined, locale: string): boolean {
+  return !!t && typeof t !== "string" && !(t as Record<string, string | undefined>)[locale]?.trim();
+}
+
+const KNOWN_ERRORS = ["registration_required", "account_exists", "terms_not_accepted", "validation_failed", "rate_limited", "unauthorized", "forbidden", "not_found", "unavailable"] as const;
 
 /** Dictionary key (messages: errors.*) for an API error code. Unknown codes get the generic message. */
 export function errorKey(code: string | undefined): (typeof KNOWN_ERRORS)[number] | "unknown" {
