@@ -36,6 +36,7 @@ class Run:
         self.lines: list[str] = []
 
     def note(self, msg: str) -> None:
+        msg = fetch.scrub(msg)  # run notes are served by GET /admin/collect-runs: never a token
         log.info("run %s: %s", self.id, msg)
         self.lines.append(msg[:300])
 
@@ -214,7 +215,12 @@ def collect_registry(run: Run, budget: int, ids: set[str], skip: set[str]) -> in
     """B16: sources an owner added in data/sources/registry.json (generic API, feed, sitemap, crawl)."""
     from . import registry
     from .collectors.extract import extract
-    for src in registry.load():
+    try:
+        sources = registry.load()
+    except OSError as exc:  # an unreadable registry must not fail the built-in sources that already ran
+        run.note(f"registry not read: {exc}")
+        return budget
+    for src in sources:
         if budget <= 0 or src.get("id") in registry.BUILT_IN or not registry.status(src, check_robots=False)["ready"]:
             continue
         if run.source_ids and src["id"] not in run.source_ids:

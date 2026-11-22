@@ -76,7 +76,7 @@ def list_runs(limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0)
 def source_config():
     """B16: readiness of every registry source. Token values never leave the server, only tokenPresent."""
     from .. import registry
-    return {"data": [registry.status(s) for s in registry.load()]}
+    return {"data": registry.statuses()}
 
 
 @router.get("/admin/collect-runs/{runId}")

@@ -9,12 +9,16 @@ and limits in targets.json; the registry adds generic ones:
 - method "crawl":   the listed `urls` are read as pages
 Every page and item goes through the same extraction, fact/estimate rule and robots.txt checks as the built-ins.
 """
+import gzip
+import html
+import io
 import json
 import os
 import pathlib
 import re
+from urllib.parse import urlparse
 
-from .config import settings
+from .config import Settings, settings
 
 BUILT_IN = {"radon", "openalex", "ptt", "school-and-council-pages", "reports", "gus-bdl"}
 PROBLEMS = {
@@ -22,7 +26,17 @@ PROBLEMS = {
     "token": {"pl": "Brak tokenu: ustaw zmienną środowiskową wskazaną w tokenEnv.", "en": "Token missing: set the environment variable named in tokenEnv."},
     "robots": {"pl": "robots.txt nie pozwala nam czytać tej strony.", "en": "robots.txt does not allow us to read this site."},
     "mapping": {"pl": "Źródło API potrzebuje pól itemsPath i mapping (title, url).", "en": "An API source needs itemsPath and a mapping (title, url)."},
+    "invalid": {"pl": "Wpis w rejestrze jest niepoprawny (brak id, method lub baseUrl, albo zły format).",
+                "en": "The registry entry is invalid (missing id, method or baseUrl, or a wrong format)."},
+    "token_name": {"pl": "tokenEnv może wskazywać tylko zmienną źródła, nie ustawienie aplikacji.",
+                   "en": "tokenEnv may only name a source variable, not an application setting."},
+    "file": {"pl": "Plik rejestru nie jest poprawnym JSON-em.", "en": "The registry file is not valid JSON."},
 }
+METHODS = {"api", "feed", "sitemap", "crawl", "document"}
+# Settings the app itself uses. A tokenEnv naming one of them would send that secret to a third party (PR #30 review).
+APP_SETTINGS = {name.upper() for name in Settings.model_fields} | {"POSTGRES_PASSWORD", "POSTGRES_USER", "POSTGRES_DB"}
+SOURCE_SETTINGS = {"OPENALEX_API_KEY"}  # app settings that are also a source's token
+MAX_XML = 20  # child sitemaps followed from a sitemap index
 
 
 def path() -> pathlib.Path | None:
@@ -33,16 +47,62 @@ def path() -> pathlib.Path | None:
     return None
 
 
-def load() -> list[dict]:
+def check(src) -> str | None:
+    """Why an entry cannot be used at all, or None. Bad entries are reported, never fatal."""
+    if not isinstance(src, dict) or not isinstance(src.get("id"), str) or not src["id"].strip():
+        return "invalid"
+    if src.get("method", "api") not in METHODS:
+        return "invalid"
+    if src.get("method", "api") in ("api", "feed", "sitemap") and src["id"] not in BUILT_IN and not str(src.get("baseUrl", "")).startswith("http"):
+        return "invalid"
+    if src.get("tokenEnv") is not None and not token_name_ok(src["tokenEnv"]):
+        return "token_name"
+    return None
+
+
+def load_checked() -> tuple[list[dict], list[dict]]:
+    """(usable entries, problem rows for the admin page). A broken file or entry never breaks a run or the endpoint."""
     p = path()
-    return json.loads(p.read_text(encoding="utf-8")).get("sources", []) if p else []
+    if not p:
+        return [], []
+    try:
+        entries = json.loads(p.read_text(encoding="utf-8")).get("sources", [])
+        if not isinstance(entries, list):
+            raise TypeError("sources is not a list")
+    except (ValueError, TypeError, AttributeError):
+        return [], [{"id": p.name, "name": {"pl": p.name, "en": p.name}, "method": "api", "enabled": False, "tokenEnv": None,
+                     "tokenPresent": None, "robots": "not_checked", "ready": False, "problem": PROBLEMS["file"]}]
+    good, bad = [], []
+    for i, src in enumerate(entries):
+        why = check(src)
+        if why is None:
+            good.append(src)
+        else:
+            sid = src.get("id") if isinstance(src, dict) and isinstance(src.get("id"), str) and src["id"].strip() else f"entry-{i + 1}"
+            bad.append({"id": sid, "name": {"pl": sid, "en": sid}, "method": src.get("method") if isinstance(src, dict) and src.get("method") in METHODS else "api",
+                        "enabled": False, "tokenEnv": None, "tokenPresent": None, "robots": "not_checked", "ready": False,
+                        "problem": PROBLEMS[why]})
+    return good, bad
+
+
+def load() -> list[dict]:
+    return load_checked()[0]
+
+
+def token_name_ok(name: str) -> bool:
+    return bool(re.fullmatch(r"[A-Z][A-Z0-9_]{2,63}", name or "")) and (name not in APP_SETTINGS or name in SOURCE_SETTINGS)
 
 
 def token(name: str | None) -> str:
-    """The token value, from the environment or from .env (via settings). Never logged, never returned by the API."""
-    if not name:
+    """The token value from the environment (OPENALEX_API_KEY also from .env via settings). Never logged, never
+    returned by the API: every value read is registered with fetch.scrub."""
+    if not name or not token_name_ok(name):
         return ""
-    return os.environ.get(name) or str(getattr(settings, name.lower(), "") or "")
+    value = os.environ.get(name) or (str(getattr(settings, name.lower(), "") or "") if name in SOURCE_SETTINGS else "")
+    if value:
+        from .collectors import fetch
+        fetch.register_secret(value)
+    return value
 
 
 def _probe_url(src: dict) -> str | None:
@@ -60,6 +120,12 @@ def robots_verdict(src: dict) -> str:
         return "allowed" if fetch._robots_for(url).can_fetch(fetch.USER_AGENT, url) else "disallowed"
     except Exception:  # noqa: BLE001 - a readiness check must never fail the admin page
         return "not_checked"
+
+
+def statuses() -> list[dict]:
+    """Every entry for GET /admin/source-config: usable ones with readiness, broken ones with the reason."""
+    good, bad = load_checked()
+    return [status(s) for s in good] + bad
 
 
 def status(src: dict, *, check_robots: bool = True) -> dict:
@@ -94,7 +160,7 @@ def jsonpath(obj, expr: str):
 
 
 def _headers_and_url(src: dict) -> tuple[str, dict]:
-    url, headers = src["baseUrl"], {}
+    url, headers = src["baseUrl"], {}  # fetch.get keeps a token on its own host and scrubs it from every message
     auth = src.get("auth") or {}
     value = token(src.get("tokenEnv"))
     if value and auth.get("in") == "header":
@@ -108,7 +174,9 @@ def api_items(src: dict, *, offline: bool = False) -> list[dict]:
     """Items of a generic API source, each as {url, title, text}. The text holds only the mapped fields."""
     from .collectors import fetch
     url, headers = _headers_and_url(src)
-    raw, _ = fetch.get(url, offline=offline, check_robots=False, headers=headers, cache_tag=f"registry:{src['id']}")
+    secret = {(src.get("auth") or {}).get("name", "")} - {""}
+    raw, _ = fetch.get(url, offline=offline, check_robots=False, headers=headers or None, cache_tag=f"registry:{src['id']}",
+                       secret_params=secret)
     items = jsonpath(json.loads(raw), src.get("itemsPath", "$")) or []
     out = []
     for item in items if isinstance(items, list) else []:
@@ -121,16 +189,42 @@ def api_items(src: dict, *, offline: bool = False) -> list[dict]:
     return out
 
 
+def _xml_text(body: bytes) -> str:
+    """XML as text: gzip is unpacked (with the same size cap), CDATA wrappers are dropped. No XML parser is used, so
+    no entity expansion or external entities (XXE)."""
+    from .collectors import fetch
+    if body[:2] == b"\x1f\x8b":
+        with gzip.GzipFile(fileobj=io.BytesIO(body)) as f:
+            body = f.read(fetch.settings.fetch_max_bytes + 1)
+        if len(body) > fetch.settings.fetch_max_bytes:
+            raise ValueError("unpacked sitemap is too large")
+    return re.sub(r"<!\[CDATA\[(.*?)\]\]>", r"\1", body.decode("utf-8", "ignore"), flags=re.DOTALL)
+
+
+def _links(text: str, method: str) -> list[str]:
+    if method == "sitemap":
+        found = re.findall(r"<loc>\s*([^<]+?)\s*</loc>", text)
+    else:  # RSS <link>…</link>, or Atom <link href="…"/>
+        found = (re.findall(r"<item\b.*?<link>\s*([^<]+?)\s*</link>", text, re.DOTALL)
+                 or re.findall(r"<entry\b.*?<link[^>]*href=[\"']([^\"']+)[\"']", text, re.DOTALL))
+    return [html.unescape(u.strip()) for u in found]
+
+
 def page_urls(src: dict, *, offline: bool = False) -> list[str]:
-    """Links to read for feed, sitemap and crawl sources."""
+    """Links to read for feed, sitemap and crawl sources. A sitemap index is followed one level (at most MAX_XML
+    child sitemaps). Links must stay on the feed's own host unless filters.allowOtherHosts is true."""
     from .collectors import fetch
     if src.get("method") == "crawl":
         return [u for u in src.get("urls") or [] if u.startswith("http")]
-    body, _ = fetch.get(src["baseUrl"], offline=offline)
-    text = body.decode("utf-8", "ignore")
-    if src.get("method") == "sitemap":
-        urls = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", text)
-    else:  # RSS <link>…</link> or Atom <link href="…"/>
-        urls = re.findall(r"<item\b.*?<link>\s*([^<\s]+)\s*</link>", text, re.DOTALL) or re.findall(r"<entry\b.*?<link[^>]*href=\"([^\"]+)\"", text, re.DOTALL)
-    need = (src.get("filters") or {}).get("urlContains")
-    return [u for u in urls if u.startswith("http") and (not need or need in u)]
+    text = _xml_text(fetch.get(src["baseUrl"], offline=offline)[0])
+    urls = _links(text, src.get("method"))
+    if src.get("method") == "sitemap" and "<sitemapindex" in text:
+        children, urls = urls[:MAX_XML], []
+        for child in children:
+            urls += _links(_xml_text(fetch.get(child, offline=offline)[0]), "sitemap")
+    filters = src.get("filters") or {}
+    host = (urlparse(src["baseUrl"]).hostname or "").lower()
+    need = filters.get("urlContains")
+    return [u for u in dict.fromkeys(urls)
+            if u.startswith(("http://", "https://")) and (not need or need in u)
+            and (filters.get("allowOtherHosts") or (urlparse(u).hostname or "").lower() == host)]
