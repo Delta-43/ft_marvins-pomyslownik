@@ -1,33 +1,14 @@
-"use client"; // Error boundaries must be Client Components.
+"use client";
 
-import { useEffect, useState } from "react";
-import pl from "../../messages/pl.json";
-import en from "../../messages/en.json";
-import "./globals.css";
-
-/** Last resort: the root layout itself failed, so this renders its own <html> and <body>.
- *  No translation provider here, so it reads the dictionaries directly and the language from the cookie. */
-export default function GlobalError({ error, retry }: { error: unknown; retry: () => void }) {
-  const [lang, setLang] = useState<"pl" | "en">("pl");
-  useEffect(() => {
-    if (/(?:^|;\s*)NEXT_LOCALE=en(?:;|$)/.test(document.cookie)) setLang("en");
-    console.error(error);
-  }, [error]);
-  const t = (lang === "en" ? en : pl).status;
-  const digest = error instanceof Error ? (error as Error & { digest?: string }).digest : undefined;
+/** Last resort: an error in the root layout itself. No dictionary is available here, so the text is Polish and English. */
+export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <html lang={lang}>
-      <body className="flex min-h-screen items-center justify-center p-6">
-        <title>Pomysłownik!</title>
-        <div role="alert" className="glass max-w-xl space-y-4 rounded-[2rem] p-8 text-center">
-          <h1 style={{ fontSize: "1.75rem" }}>{t.errorTitle}</h1>
-          <p className="text-kamien">{t.errorText}</p>
-          {digest && <p className="font-tech text-xs text-kamien">{t.errorId.replace("{id}", digest)}</p>}
-          <div className="flex flex-wrap justify-center gap-3 pt-2">
-            <button type="button" onClick={() => retry()} className="btn-primary cursor-pointer rounded-full px-6 py-2.5 font-bold">{t.retry}</button>
-            <a href="/" className="rounded-full px-5 py-2.5 font-bold">{t.home}</a>
-          </div>
-        </div>
+    <html lang="pl">
+      <body style={{ fontFamily: "system-ui, sans-serif", padding: "3rem", background: "#F7F2EB", color: "#141414" }}>
+        <h1>Coś poszło nie tak / Something went wrong</h1>
+        <p>Spróbuj ponownie. / Please try again.</p>
+        {error.digest && <p style={{ fontSize: "0.8rem", color: "#5A544D" }}>ID: {error.digest}</p>}
+        <button type="button" onClick={reset} style={{ padding: "0.6rem 1.4rem", borderRadius: 999, background: "#001A49", color: "#fff", border: 0, cursor: "pointer" }}>Spróbuj ponownie / Try again</button>
       </body>
     </html>
   );

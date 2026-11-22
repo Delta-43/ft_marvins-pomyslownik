@@ -39,6 +39,8 @@ export type State = {
   region?: string;
   tags: string[];
   audience?: Schemas["AudienceId"];
+  /** Minimum credibility score: 25, 50 or 75. */
+  minCred?: number;
   sort?: Sort;
 };
 
@@ -59,6 +61,7 @@ export function parse(sp: Search): State {
     region: region && /^[A-Z0-9]{1,10}$/.test(region) ? region : undefined,
     tags: [...new Set(raw(sp.tag).filter((s) => /^[a-z0-9][a-z0-9-]{0,63}$/.test(s)))].slice(0, 20),
     audience: list(sp.audience, AUDIENCES)[0],
+    minCred: [25, 50, 75].find((n) => String(n) === first(sp.minCredibility)),
     // "Relevance" only means something for a text search. The default sort (relevance with a search, otherwise
     // recent) is left out of the URL, so links stay short and the select's default isn't written into every link.
     sort: sort === "relevance" && !q ? undefined : sort === (q ? "relevance" : "recent") ? undefined : sort,
@@ -77,6 +80,7 @@ export function toUrl(s: State): URLSearchParams {
   if (s.region) u.set("region", s.region);
   s.tags.forEach((v) => u.append("tag", v));
   if (s.audience) u.set("audience", s.audience);
+  if (s.minCred) u.set("minCredibility", String(s.minCred));
   if (s.sort) u.set("sort", s.sort);
   return u;
 }
@@ -95,16 +99,26 @@ export function toApi(s: State): URLSearchParams {
   if (s.region) u.set("region", s.region);
   if (s.tags.length) u.set("tag", s.tags.join(","));
   if (s.audience) u.set("audience", s.audience);
+  if (s.minCred) u.set("minCredibility", String(s.minCred));
   return u;
 }
 
 /** Page number from `strona` (1 when missing or invalid). */
 export const pageOf = (sp: Search) => Math.max(1, Math.floor(Number(first(sp.strona))) || 1);
 
+/** The open card (`karta=<id>`: the detail is rendered in place of the list) and the phone filter sheet (`filtry=1`). */
+export type View = { karta?: string; filtry?: boolean };
+export function viewOf(sp: Search): View {
+  const karta = first(sp.karta);
+  return { karta: karta && /^[0-9a-f-]{8,64}$/i.test(karta) ? karta : undefined, filtry: first(sp.filtry) === "1" || undefined };
+}
+
 /** Our URL for these results and page: `/wyniki?…` without empty, default or invalid params. */
-export function resultsHref(s: State, page = 1): string {
+export function resultsHref(s: State, page = 1, view: View = {}): string {
   const u = toUrl(s);
   if (page > 1) u.set("strona", String(page));
+  if (view.karta) u.set("karta", view.karta);
+  if (view.filtry) u.set("filtry", "1");
   return u.toString() ? `/wyniki?${u}` : "/wyniki";
 }
 
@@ -122,7 +136,7 @@ export function toSearch(params: URLSearchParams): Search {
  *  unknown values), else null. Param order alone is not a difference, so there is never a redirect loop. */
 export function canonicalResultsHref(params: URLSearchParams): string | null {
   const sp = toSearch(params);
-  const href = resultsHref(parse(sp), pageOf(sp));
+  const href = resultsHref(parse(sp), pageOf(sp), viewOf(sp));
   const key = (u: URLSearchParams) => [...u].map(([k, v]) => `${k}=${v}`).sort().join("&");
   return key(params) === key(new URL(href, "http://x").searchParams) ? null : href;
 }

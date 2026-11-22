@@ -1,15 +1,14 @@
-import { cookies } from "next/headers";
-import { NextResponse, type NextRequest } from "next/server";
-import { DEMO_COOKIE, SESSION_COOKIE } from "@/lib/cookie";
+import { NextResponse } from "next/server";
+import { SESSION_COOKIE } from "@/lib/cookie";
+import { DEMO_COOKIE } from "@/lib/cookie";
 
-/** The API answered 401: clear the stale session cookie and go to sign-in, keeping the target page. */
-export async function GET(request: NextRequest) {
-  const store = await cookies();
-  store.delete(SESSION_COOKIE);
-  store.delete(DEMO_COOKIE);
-  const next = request.nextUrl.searchParams.get("next") ?? "/szukaj";
-  const login = new URL("/logowanie", request.url);
-  if (next.startsWith("/") && !next.startsWith("//")) login.searchParams.set("next", next);
-  login.searchParams.set("blad", "unauthorized");
-  return NextResponse.redirect(login);
+/** The API answered 401: clear the session cookie and go to the landing sign-in, remembering where the user was. */
+export function GET(request: Request) {
+  const url = new URL(request.url);
+  const next = url.searchParams.get("next") ?? "/szukaj";
+  const safe = next.startsWith("/") && !next.startsWith("//") ? next : "/szukaj";
+  const res = NextResponse.redirect(new URL(`/?blad=unauthorized&next=${encodeURIComponent(safe)}#logowanie`, request.url));
+  res.cookies.delete(SESSION_COOKIE);
+  res.cookies.delete(DEMO_COOKIE);
+  return res;
 }

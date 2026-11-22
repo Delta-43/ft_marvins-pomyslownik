@@ -1,0 +1,91 @@
+/* ─── Page-to-page motion (DESIGN.md §7, components/motion/Motion.tsx) ───
+   Only transform, opacity and clip-path animate. Timings follow the flow prototype. */
+::view-transition { pointer-events: none; }
+@keyframes vt-in { from { opacity: 0; } }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-hold { from { opacity: 1; } to { opacity: 1; } }
+@keyframes vt-rise { from { opacity: 0; transform: translateY(8px); } }
+@keyframes vt-sink { to { opacity: 0; transform: translateY(6px); } }
+@keyframes vt-card-grow { from { clip-path: var(--card-rect); } to { clip-path: var(--card-full); } }
+@keyframes vt-card-shrink { from { clip-path: var(--card-full); opacity: 1; } 55% { opacity: 1; } to { clip-path: var(--card-rect); opacity: 0; } }
+@keyframes vt-sweep { from { clip-path: var(--sweep-from); } to { clip-path: inset(0 0 0 0); } }
+
+:root { --card-rect: inset(0 0 calc(100% - 120px) 0 round 20px); --card-full: inset(0 0 0 0 round 20px); --sweep-from: inset(0 0 0 54%); }
+@media (max-width: 1079px) { :root { --sweep-from: inset(40svh 0 0 0); } }
+
+.vt-pin { position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* Named pieces. The two full-screen layers first: the landing and the app window. */
+.landing { view-transition-name: landing-window; }
+.shell { view-transition-name: app-window; }
+.search-form { view-transition-name: search-bar; }
+.search-title { view-transition-name: search-title; }
+.tags-block { view-transition-name: search-tags; }
+.results-area { view-transition-name: results-area; }
+.list-wrap { view-transition-name: results-list; }
+.detail { view-transition-name: card-detail; }
+.hero-logo, .nav .home .word { view-transition-name: brand-logo; }
+
+/* The two full-screen layers fade when one replaces the other (sign-out, session end). */
+::view-transition-old(root), ::view-transition-old(app-window), ::view-transition-old(landing-window) { animation: 150ms linear both vt-out; }
+::view-transition-new(root), ::view-transition-new(app-window), ::view-transition-new(landing-window) { animation: 150ms linear both vt-in; }
+::view-transition-group(app-window), ::view-transition-group(landing-window) { animation-duration: 0s; }
+/* Between two app pages the window itself does not fade at all, so the nav card and the page never dip. */
+::view-transition-old(app-window):not(:only-child) { display: none; }
+::view-transition-new(app-window):not(:only-child) { animation: none; }
+/* React's own boundaries carry no motion. */
+::view-transition-old(.vt-b), ::view-transition-new(.vt-b) { animation: none; }
+::view-transition-group(.vt-b) { animation: none; }
+
+/* Search ↔ results: the bar is one object. */
+::view-transition-group(search-bar) { animation-duration: 360ms; animation-timing-function: var(--ease-out); z-index: 30; }
+/* On pages without the bar (Źródła, Profil) it leaves quickly instead of lingering over the new page. */
+::view-transition-old(search-bar):only-child { animation: 120ms ease-in both vt-out; }
+::view-transition-new(search-bar):only-child { animation: 280ms var(--ease-out) 80ms both vt-rise; }
+::view-transition-group(brand-logo) { animation-duration: 360ms; animation-timing-function: var(--ease-out); }
+::view-transition-old(brand-logo):only-child { animation: 160ms ease-out both vt-out; }
+::view-transition-old(search-title), ::view-transition-old(search-tags) { animation: 120ms ease-in both vt-sink; }
+::view-transition-new(search-title), ::view-transition-new(search-tags) { animation: 280ms var(--ease-out) 80ms both vt-rise; }
+::view-transition-new(results-area):only-child { animation: 280ms var(--ease-out) 80ms both vt-rise; }
+::view-transition-old(results-area):only-child { animation: 120ms ease-in both vt-out; }
+/* Same-route changes on the results screen (a card opens, a filter changes): the area itself does not move. */
+::view-transition-old(results-area):not(:only-child) { display: none; }
+::view-transition-new(results-area):not(:only-child) { animation: none; }
+
+/* A card grows in place from its tile to the visible part of the column (380 ms) and shrinks back (240 ms).
+   These two moves need the tile measured first, so they run only for the typed navigations `card-open` and
+   `card-close`. Every other way a card or the list appears or leaves (a deep link, a filter change with a card open,
+   Back and Forward, card to card) is a short fade. */
+::view-transition-group(card-detail), ::view-transition-group(results-area) { animation-duration: 0s; z-index: 45; }
+::view-transition-group(results-area) { z-index: auto; }
+::view-transition-new(results-list):only-child { animation: 280ms var(--ease-out) 80ms both vt-rise; }
+::view-transition-old(results-list):only-child { animation: 120ms ease-in both vt-out; }
+::view-transition-new(card-detail), ::view-transition-old(card-detail) { mix-blend-mode: plus-lighter; }
+::view-transition-new(card-detail) { animation: 150ms linear both vt-in; }
+::view-transition-old(card-detail) { animation: 150ms linear both vt-out; }
+html:active-view-transition-type(card-open)::view-transition-new(card-detail):only-child { animation: 380ms var(--ease-out) both vt-card-grow, 120ms linear both vt-in; }
+html:active-view-transition-type(card-open)::view-transition-old(results-list):only-child { animation: 160ms ease-in 100ms both vt-out; }
+html:active-view-transition-type(card-close)::view-transition-old(card-detail):only-child { animation: 240ms var(--ease-out) both vt-card-shrink; }
+html:active-view-transition-type(card-close)::view-transition-new(results-list):only-child { animation: none; }
+
+/* Opening: the app window sweeps open over the hero from the hero's inner edge; the logo flies to the nav. */
+html:active-view-transition-type(opening)::view-transition-old(landing-window) { animation: 720ms linear both vt-hold; }
+html:active-view-transition-type(opening)::view-transition-new(app-window) { animation: 640ms var(--ease-out) 80ms both vt-sweep; }
+html:active-view-transition-type(opening)::view-transition-group(landing-window) { z-index: 1; }
+html:active-view-transition-type(opening)::view-transition-group(app-window) { z-index: 2; }
+html:active-view-transition-type(opening)::view-transition-group(brand-logo) { animation-duration: 640ms; animation-delay: 80ms; animation-timing-function: var(--ease-out); animation-fill-mode: both; z-index: 50; }
+/* The light logo turns into the dark one part-way through the flight (320 ms from 300 ms), not at its start. */
+html:active-view-transition-type(opening)::view-transition-old(brand-logo):not(:only-child) { animation: 320ms ease-out 300ms both vt-out; mix-blend-mode: plus-lighter; }
+html:active-view-transition-type(opening)::view-transition-new(brand-logo):not(:only-child) { animation: 320ms ease-out 300ms both vt-in; mix-blend-mode: plus-lighter; }
+html:active-view-transition-type(opening)::view-transition-new(search-bar),
+html:active-view-transition-type(opening)::view-transition-new(search-title),
+html:active-view-transition-type(opening)::view-transition-new(search-tags) { animation: 280ms var(--ease-out) 300ms both vt-rise; }
+html:active-view-transition-type(opening)::view-transition-new(search-bar) { animation-delay: 340ms; }
+html:active-view-transition-type(opening)::view-transition-new(search-tags) { animation-delay: 380ms; }
+
+/* Reduced motion: nothing travels. Every snapshot cross-fades in 150 ms. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*) { animation-duration: 0s !important; animation-delay: 0s !important; }
+  ::view-transition-old(*) { display: block !important; animation: 150ms linear both vt-out !important; }
+  ::view-transition-new(*) { animation: 150ms linear both vt-in !important; }
+}
