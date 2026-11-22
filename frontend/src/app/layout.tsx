@@ -11,9 +11,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // Fonts (DESIGN.md §2): Lato (display), Atkinson Hyperlegible Next (body), Atkinson Hyperlegible Mono (technical values),
-// Roboto with the Cyrillic subset so Ukrainian text never falls back to a system font. All SIL OFL.
+// Roboto with the Cyrillic subset so Ukrainian text never falls back to a system font, and Roboto Mono for the Cyrillic
+// of technical values (Atkinson Hyperlegible Mono has none). The browser fetches a Roboto Mono subset only for glyphs
+// the first face lacks, so Polish and English pages never download it. All SIL OFL (Roboto Mono: Apache 2.0).
 const FONTS =
-  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Lato:wght@400;700&family=Roboto:wght@400;700&display=swap";
+  "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Lato:wght@400;700&family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;500&display=swap";
 
 // Root layout: shared by every route. The page chrome lives in the route groups. Language (pl, en, uk) and the
 // display settings (text size, contrast) come from cookies, so the server renders the right theme with no flash.

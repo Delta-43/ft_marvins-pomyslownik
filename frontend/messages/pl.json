@@ -23,7 +23,7 @@
     "infoText": "Tożsamość testowa nie jest weryfikacją krajową. Logowanie przez login.gov.pl (mObywatel, Profil Zaufany) pojawi się później.",
     "errorLead": "Błąd:",
     "registerTitle": "Załóż konto",
-    "registerSubtitle": "Rola ustawia startowe filtry wyszukiwania. Zmienisz ją w profilu.",
+    "registerSubtitle": "Rola ustawia startowy widok wyszukiwania. Zmienisz ją w profilu.",
     "email": "E-mail",
     "emailHint": "Nie weryfikujemy adresu. Służy tylko do kontaktu, jeśli wyrazisz zgodę.",
     "role": "Rola",
@@ -37,7 +37,13 @@
     "submitRegister": "Załóż konto",
     "haveAccount": "Masz już konto?",
     "backToSignIn": "Zaloguj się",
-    "providerComing": "login.gov.pl (wkrótce): mObywatel, Profil Zaufany, e-dowód, bank"
+    "providerComing": "login.gov.pl (wkrótce): mObywatel, Profil Zaufany, e-dowód, bank",
+    "errId": "Błąd: wpisz identyfikator, co najmniej 3 znaki.",
+    "errRequired": "Błąd: wypełnij to pole.",
+    "errEmail": "Błąd: wpisz adres e-mail w formie nazwa@domena.pl.",
+    "errChoice": "Błąd: wybierz jedną z opcji.",
+    "errTerms": "Błąd: zaakceptuj regulamin, aby założyć konto.",
+    "errTaken": "Błąd: konto z tym identyfikatorem już istnieje. Zaloguj się."
   },
   "profile": {
     "title": "Profil",
@@ -72,9 +78,9 @@
     "other": "Inne"
   },
   "errors": {
-    "registration_required": "Nie znamy tej tożsamości. Załóż konto poniżej.",
-    "account_exists": "Konto z tą tożsamością już istnieje. Zaloguj się.",
-    "terms_not_accepted": "Aby korzystać z serwisu, zaakceptuj regulamin.",
+    "registration_required": "Nie znamy tego identyfikatora. Załóż konto poniżej.",
+    "account_exists": "Konto z tym identyfikatorem już istnieje. Zaloguj się.",
+    "terms_not_accepted": "Aby założyć konto, zaakceptuj regulamin.",
     "validation_failed": "Sprawdź pola formularza.",
     "rate_limited": "Zbyt wiele prób. Odczekaj chwilę i spróbuj ponownie.",
     "unauthorized": "Sesja wygasła. Zaloguj się ponownie.",
@@ -140,11 +146,11 @@
     "m2Title": "Fakt albo szacunek",
     "m2Text": "Wartość potwierdzona źródłem ma etykietę „Potwierdzone” i link do źródła. Wartość obliczona ma etykietę „Szacunek” i opis metody. Model językowy nigdy nie tworzy liczb: oceny liczy kod z zapisanych dowodów.",
     "m3Title": "Pięć kryteriów",
-    "m3Text": "Poziom wdrożenia (koncepcja, prototyp, testy, pilotaż, w praktyce). TRL 1–9 tylko dla technologii. Nowatorstwo: podobieństwo do innych kart i prac. Potencjał zastosowania: możliwość przeniesienia do innych organizacji. Wiarygodność: liczba i jakość źródeł oraz potwierdzeń.",
+    "m3Text": "Poziom wdrożenia (koncepcja, prototyp, testy, pilotaż, w praktyce). TRL 1–9 tylko dla technologii. Innowacyjność: podobieństwo do innych kart i prac. Potencjał zastosowania: możliwość przeniesienia do innych organizacji. Wiarygodność: liczba i jakość źródeł oraz potwierdzeń.",
     "m4Title": "Definicja innowacji",
-    "m4Text": "Oslo Manual 2018: nowe lub ulepszone rozwiązanie, znacząco różne od wcześniejszych, dostępne lub w użyciu. Każda karta ma trzy flagi i wynik tej kontroli.",
+    "m4Text": "Podręcznik Oslo (2018): nowe lub ulepszone rozwiązanie, znacząco różne od wcześniejszych, dostępne lub w użyciu. Każda karta pokazuje wynik tego testu dla trzech warunków.",
     "m5Title": "Ograniczenia",
-    "m5Text": "Baza jest prototypem. Źródła mogą być nieaktualne (karta ma wtedy etykietę „Dawno nie sprawdzano”). Nie zbieramy danych osób prywatnych i nie pośredniczymy w kontakcie."
+    "m5Text": "Baza jest prototypem. Źródła mogą być nieaktualne (karta ma wtedy etykietę „Nieaktualne”). Nie zbieramy danych osób prywatnych i nie pośredniczymy w kontakcie."
   },
   "shell": {
     "skip": "Przejdź do treści",
@@ -171,7 +177,9 @@
     "signOut": "Wyloguj",
     "info": "Informacje",
     "newTab": "(otwiera się w nowej karcie przeglądarki)",
-    "backToSearch": "Wróć do wyszukiwarki"
+    "backToSearch": "Wróć do wyszukiwarki",
+    "guestMenu": "Menu",
+    "guestMenuSr": "pomoc i ustawienia wyświetlania"
   },
   "hero": {
     "group": "Panele o serwisie",
@@ -275,7 +283,7 @@
     "errText": "Nie udało się wczytać wyników, bo serwer nie odpowiada. Twoje filtry zostały zachowane.",
     "rateText": "Za dużo zapytań w krótkim czasie. Odczekaj chwilę i spróbuj ponownie.",
     "retry": "Spróbuj ponownie",
-    "reqId": "ID zgłoszenia",
+    "reqId": "ID błędu",
     "errTitle": "Nie udało się wczytać",
     "pageCurrent": "Strona {n}, bieżąca",
     "emptyHintQ": "Sprawdź pisownię albo spróbuj innego słowa. Zbieramy tylko innowacje opisane w publicznych źródłach.",
@@ -361,7 +369,7 @@
     "histRow": "z „{from}” na „{to}”",
     "histUnavailable": "Historia zmian jest chwilowo niedostępna.",
     "sources": "Źródła",
-    "t_api": "Dane z API",
+    "t_api": "Baza danych",
     "t_crawl": "Strona internetowa",
     "t_document": "Dokument",
     "retrieved": "Pobrano: {d}",
