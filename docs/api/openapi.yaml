@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Pomysłownik! API
-  version: 1.0.0-draft.2
+  version: 1.1.0-draft.4
   summary: API for Pomysłownik!, an innovation radar prototype (Hacknation 2026, PCI challenge).
   description: |
     Contract-first draft. The frontend builds against this file with a mock server.
@@ -10,10 +10,14 @@ info:
     **Product rules that shape the API**
     - The Radar finds innovations that already exist. There is no endpoint to submit an idea.
     - **Everyone signs in** and picks a role (one of the six audiences). This deters misuse of the
-      intellectual property described on the cards. Only `/health`, `/api/v1/audiences` and `/api/v1/auth/*`
-      work without a session. Every other endpoint needs `Authorization: Bearer <session token>`.
+      intellectual property described on the cards. Only `/health`, `/api/v1/audiences` and the `/api/v1/auth/*`
+      sign-in calls work without a session (`/auth/logout` needs one). Every other endpoint needs
+      `Authorization: Bearer <session token>`.
     - Sign-in uses an identity provider. For the demo the provider is a clearly labelled **sandbox**. The real
-      national login (login.gov.pl) needs SAML onboarding and will replace it with a redirect flow later.
+      national login (login.gov.pl, the Węzeł Krajowy) is a drop-in provider with a redirect flow
+      (`/auth/{provider}/start`, `/auth/exchange`). It carries Profil Zaufany (SMS code), the mObywatel app,
+      e-dowód and bank login, so the frontend never handles phone numbers or national ID numbers.
+      Design and research: `docs/api/AUTH-PROVIDERS.md`.
     - The `/admin` endpoints need the separate admin token.
     - Every assessed field says whether it is a **confirmed** fact (with sources) or an **estimate**
       (with the method). The model never produces a number. Scores come from stored evidence.
@@ -26,9 +30,33 @@ info:
     - Every success body is `{ "data": ... }`. List bodies add `meta` with `total`, `limit`, `offset`.
     - Every error body is `{ "error": { "code", "message", "details", "requestId" } }`.
     - Malformed JSON returns `400 bad_request`. A well-formed but invalid value returns `422 validation_failed`.
-    - Text for people is `LocalizedText` (`pl`, `en`). The frontend picks the language and falls back to the other.
+    - **The server picks the language** (since draft 3). Supported: `pl` (default), `en`, `uk`.
+      1. **Named language.** The request names it with the `lang` query parameter or the `Accept-Language` header
+         (`lang` wins). Then every `LocalizedText` is **one string** in that language, and error `message` values
+         follow it. The frontend only renders.
+      2. **No language named** (deprecated, removed in v2). Every `LocalizedText` is the object form with `pl`, `en`
+         and `uk`. Only error `message` and `Content-Language` use the fallback: the signed-in user's
+         `preferredLanguage`, then `pl`.
+      Every JSON response sets `Content-Language` (the language of the strings and messages) and
+      `Vary: Accept-Language`. New clients always send `Accept-Language`. Error `code` values never change.
+    - Every stored text exists in all supported languages. A Ukrainian text made by machine translation is listed in
+      the card's `machineTranslated` field, and the UI says so. Two kinds of text are **not** translated and stay in
+      their own language with a language field: source quotes (`passageLang`) and titles of external works
+      (`RelatedWork.titleLang`).
+    - **Plain text only** (planned, G4). Every string is plain text, never HTML or Markdown. The backend strips markup at ingest. The
+      frontend renders strings as text, never as HTML.
+    - **Links** (planned, G3). Every URL a person can follow uses `http` or `https` (`WebUrl`). Collected links with any other scheme
+      (`javascript:`, `data:`) are dropped at ingest.
+    - **Caching** (planned, G2). Responses that need a session send `Cache-Control: private, no-store`. Public reference data
+      (`/audiences`, `/auth/providers`) may be cached briefly. All responses vary by `Accept-Language`.
     - CORS: the API allows the web origins listed in the `CORS_ORIGINS` environment variable.
-    - Rate limiting: a `429` carries a `Retry-After` header (seconds).
+    - Rate limiting: a `429` carries a `Retry-After` header (seconds). This includes the admin endpoints (planned, G5).
+
+    **Known gaps (draft 4).** Rules marked `(planned, Gn)` are agreed but **not enforced by the live API yet**. They
+    are written here so nobody builds against the gap. Details and the light fix for each: `docs/api/CONTRACT-REVIEW.md` §0b.
+    G1 sandbox subjects are not secret. G2 language and cache headers. G3 link schemes. G4 plain text at ingest.
+    G5 admin rate limit. G6 usage-stats periods. G7 input limits. G8 rate-limit address on the LAN. G9 unverified email.
+    The redirect sign-in flow (`/auth/{provider}/*`, `/auth/exchange`) is design only (tasks B13, B14).
 
     **Status of this draft**
     Mock example data is fictional and starts with `[MOCK]`. Field names are agreed by the team only when
@@ -41,8 +69,8 @@ servers:
     description: Mock server (Prism), for frontend work
   - url: http://localhost:8000
     description: Local backend
-  - url: https://api.example.invalid
-    description: Delta-server behind the tunnel. Replace with the real host when it exists
+  - url: https://demo.delta43.net
+    description: Live demo API on delta-server, behind the Cloudflare tunnel
 # Signed in by default. Public operations say `security: []`. Admin operations use the admin token.
 security:
   - userBearer: []
@@ -80,7 +108,7 @@ paths:
                 required: [status, version, database]
                 properties:
                   status: { type: string, enum: [ok, degraded] }
-                  version: { type: string, examples: ['1.0.0-draft.1'] }
+                  version: { type: string, examples: ['1.1.0-draft.4'] }
                   database: { type: string, enum: [up, down] }
                   lastRefreshAt:
                     type: [string, 'null']
@@ -92,11 +120,17 @@ paths:
     get:
       tags: [Auth]
       operationId: listAuthProviders
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
       summary: Identity providers the user can sign in with
       security: []
       responses:
         '200':
           description: Providers. In the demo only `sandbox_id` is enabled.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -111,11 +145,20 @@ paths:
     post:
       tags: [Auth]
       operationId: register
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
       summary: Create an account with a verified identity and a role
       description: |
-        The identity comes from the provider (`providerSubject`). The user picks one role, states an affiliation
-        and interests, and must accept the terms of use, which forbid misuse of the intellectual property on the cards.
+        The identity comes from the provider: `providerSubject` for the sandbox, or a `registrationTicket` from
+        `/auth/exchange` for a real provider. The user picks one role, states an affiliation and interests, and must
+        accept the terms of use, which forbid misuse of the intellectual property on the cards.
         Returns a session, so the user is signed in at once.
+
+        **Sandbox rule** (planned, G1). A sandbox subject is not a secret, so anyone who knows it can sign in as it. In production
+        (`SANDBOX_FREE_SUBJECTS=false`, the default) the sandbox accepts only the shared demo identities listed in
+        `/auth/providers` (`demoIdentities`). Any other subject returns `422 validation_failed`. Free subjects are for
+        local development only. Never enter real personal data with a sandbox identity.
       security: []
       requestBody:
         required: true
@@ -125,6 +168,9 @@ paths:
       responses:
         '201':
           description: Account created and signed in.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -145,7 +191,11 @@ paths:
     post:
       tags: [Auth]
       operationId: login
-      summary: Sign in with an identity from a provider
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      summary: Sign in with a sandbox identity
+      description: Sandbox only (`flow` `direct`). Real providers use `/auth/{provider}/start`. The sandbox rule under `register` applies.
       security: []
       requestBody:
         required: true
@@ -155,6 +205,9 @@ paths:
       responses:
         '200':
           description: Signed in.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -171,24 +224,242 @@ paths:
         '422': { $ref: '#/components/responses/ValidationFailed' }
         '429': { $ref: '#/components/responses/RateLimited' }
 
+  /api/v1/auth/{provider}/start:
+    post:
+      tags: [Auth]
+      operationId: startProviderSignIn
+      summary: Start a redirect sign-in with a real identity provider
+      description: |
+        For providers with `flow: redirect` (login.gov.pl, later mojeID). The backend builds the signed request and keeps
+        the state. The web server sends the browser to `redirectUrl`. Identity data never passes through the frontend.
+
+        **`returnTo` check.** The backend parses the URL. Its scheme, host and port must equal one origin in
+        `CORS_ORIGINS` exactly (no prefix match, so `https://pomyslownik.delta43.net.evil.example` fails). No user
+        information part. Otherwise `422 validation_failed`.
+
+        **Binding (PKCE, RFC 7636).** The web server makes a random `codeVerifier` (43 to 128 characters), keeps it in
+        an httpOnly cookie on the web origin, and sends `codeChallenge` = BASE64URL(SHA-256(verifier)). `/auth/exchange`
+        needs the verifier. So a code that leaks (logs, browser history, referrer) is useless to anyone else, and an
+        attacker cannot sign a victim in to the attacker's account (login CSRF). The `returnTo` page sends
+        `Referrer-Policy: no-referrer`.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Provider'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [intent, returnTo, codeChallenge, codeChallengeMethod]
+              additionalProperties: false
+              properties:
+                intent: { type: string, enum: [login, register] }
+                returnTo:
+                  allOf: [{ $ref: '#/components/schemas/WebUrl' }]
+                  description: 'Web page that receives `?code=` (or `?error=`) after the provider. Exact origin match, see above.'
+                codeChallenge: { type: string, minLength: 43, maxLength: 43, pattern: '^[A-Za-z0-9_-]{43}$', description: 'BASE64URL(SHA-256(codeVerifier)), no padding.' }
+                codeChallengeMethod: { type: string, const: S256 }
+      responses:
+        '200':
+          description: Go to the provider.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [redirectUrl, expiresAt]
+                    properties:
+                      redirectUrl:
+                        allOf: [{ $ref: '#/components/schemas/WebUrl' }]
+                        description: 'A backend page that forwards the browser to the provider (auto-posted SAML request or OIDC redirect).'
+                      expiresAt: { type: string, format: date-time }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+        '503': { $ref: '#/components/responses/Unavailable' }
+
+  /api/v1/auth/{provider}/redirect:
+    get:
+      tags: [Auth]
+      operationId: providerRedirect
+      summary: Browser hand-off page to the provider
+      description: Returns a small HTML page that auto-posts `SAMLRequest` and `RelayState` to login.gov.pl, or a `303` to an OIDC provider. Opened by the browser only.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Provider'
+        - { name: state, in: query, required: true, schema: { type: string, maxLength: 200 } }
+      responses:
+        '200':
+          description: Auto-posting form (no script needed, a visible button is the fallback).
+          content:
+            text/html:
+              schema: { type: string }
+        '303': { description: Redirect to an OIDC provider. }
+        '400': { $ref: '#/components/responses/BadRequest' }
+
+  /api/v1/auth/{provider}/acs:
+    post:
+      tags: [Auth]
+      operationId: providerAssertionConsumer
+      summary: SAML assertion consumer service (called by login.gov.pl through the browser)
+      description: |
+        Receives `SAMLart` (HTTP-Artifact binding). The backend resolves it with a signed `ArtifactResolve` over SOAP,
+        decrypts the assertion, checks the level of assurance, and turns `PersonIdentifier` into a pairwise subject.
+        The PESEL is never stored. Then it sends the browser to `returnTo` with a one-time `code`, or with `error`.
+
+        Checks, all required: the signature on the response and the assertion; `InResponseTo` equals the stored request
+        id; `Audience` is our issuer; `NotBefore` / `NotOnOrAfter` with at most 60 s clock skew; `RelayState` matches a
+        stored, unused state. Each artifact, assertion id and state is accepted once (replay guard). Any failure gives
+        `error=auth_failed` and is logged without personal data.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Provider'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [SAMLart]
+              properties:
+                SAMLart: { type: string }
+                RelayState: { type: string }
+      responses:
+        '303': { description: 'Back to the web app: `returnTo?code=...` or `returnTo?error=auth_cancelled|auth_failed|assurance_too_low`.' }
+        '200':
+          description: Only when the sign-in state is lost (for example an expired `RelayState`). A plain page in the negotiated language with a link to start again.
+          content:
+            text/html:
+              schema: { type: string }
+
+  /api/v1/auth/{provider}/callback:
+    get:
+      tags: [Auth]
+      operationId: providerCallback
+      summary: OpenID Connect callback (later providers such as mojeID through a broker)
+      description: Authorisation code flow with PKCE and `nonce` towards the provider. The ID token signature, `iss`, `aud`, `exp` and `nonce` are checked. `state` is accepted once.
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Provider'
+        - { name: code, in: query, schema: { type: string } }
+        - { name: state, in: query, required: true, schema: { type: string } }
+        - { name: error, in: query, schema: { type: string } }
+      responses:
+        '303': { description: 'Back to the web app, as for `acs`.' }
+        '200':
+          description: Only when the sign-in state is lost. Same page as for `acs`.
+          content:
+            text/html:
+              schema: { type: string }
+
+  /api/v1/auth/exchange:
+    post:
+      tags: [Auth]
+      operationId: exchangeSignInCode
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      summary: Swap the one-time code for a session, or for a registration ticket
+      description: |
+        Called by the web server, which then sets the httpOnly session cookie. The code is valid for 60 seconds and works
+        once. The `codeVerifier` must match the `codeChallenge` sent to `/start`. A wrong verifier burns the code.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code, codeVerifier]
+              additionalProperties: false
+              properties:
+                code: { type: string, minLength: 32, maxLength: 200 }
+                codeVerifier: { type: string, minLength: 43, maxLength: 128, pattern: '^[A-Za-z0-9._~-]{43,128}$' }
+      responses:
+        '200':
+          description: Known identity, signed in.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/Session' }
+        '202':
+          description: New identity. Show the registration form with this ticket (valid 15 minutes, single use, kept on the web server, never in the page or the URL).
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/RegistrationTicket' }
+        '400':
+          description: Unknown, used or expired code, or a verifier that does not match (`state_invalid`). The same answer for every case, so it reveals nothing.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
   /api/v1/auth/logout:
     post:
       tags: [Auth]
       operationId: logout
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
       summary: End the current session
+      description: The frontend handles both answers. `204` ends here. `200` also needs the browser to visit `redirectUrl` for single logout (SLO) at the provider.
       responses:
         '204':
           description: Signed out. Safe to repeat.
+        '200':
+          description: Signed out here. The provider also needs single logout (SLO), so send the browser to `redirectUrl` (a backend page, never an outside link).
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [redirectUrl]
+                    properties:
+                      redirectUrl: { $ref: '#/components/schemas/WebUrl' }
         '401': { $ref: '#/components/responses/Unauthorized' }
 
   /api/v1/me:
     get:
       tags: [Auth]
       operationId: getMe
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
       summary: The signed-in user's profile
       responses:
         '200':
           description: Profile.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -200,16 +471,24 @@ paths:
     delete:
       tags: [Auth]
       operationId: deleteMe
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
       summary: Delete the account and its personal data (GDPR right to erasure)
-      description: Removes email, affiliation and interests, and ends all sessions. Aggregated usage counts stay, because they hold no user id.
+      description: Removes email, affiliation and interests, and ends all sessions. Aggregated usage counts stay, because they hold no user id. A shared demo identity cannot be deleted or changed (`403 forbidden`), so one visitor cannot break it for the others (planned, G1).
       responses:
         '204':
           description: Deleted.
         '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
     patch:
       tags: [Auth]
       operationId: updateMe
-      summary: Change role, affiliation or interests
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      summary: Change role, affiliation, interests or language
+      description: A shared demo identity cannot be changed (`403 forbidden`, planned, G1).
       requestBody:
         required: true
         content:
@@ -218,6 +497,9 @@ paths:
       responses:
         '200':
           description: Updated profile.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -227,6 +509,7 @@ paths:
                   data: { $ref: '#/components/schemas/User' }
         '400': { $ref: '#/components/responses/BadRequest' }
         '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
         '422': { $ref: '#/components/responses/ValidationFailed' }
 
   /api/v1/cards:
@@ -239,13 +522,15 @@ paths:
         Counts and facets for the same filters come from `/api/v1/facets`.
         Default sort is `relevance` when `q` is set, otherwise `recent`.
       parameters:
-        - { name: q, in: query, description: Free text. Matches Polish and English text., schema: { type: string, maxLength: 200 } }
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - { name: q, in: query, description: 'Free text. Matches the Polish, English and Ukrainian text of a card, with and without Polish diacritics. Which language matched does not change the response language.', schema: { type: string, maxLength: 200 } }
         - { name: area, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/Area' } } }
         - { name: implementationLevel, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/ImplementationLevel' } } }
-        - { name: trlMin, in: query, schema: { type: integer, minimum: 1, maximum: 9 } }
+        - { name: trlMin, in: query, description: 'At most `trlMax`, otherwise `422` (planned, G7).', schema: { type: integer, minimum: 1, maximum: 9 } }
         - { name: trlMax, in: query, schema: { type: integer, minimum: 1, maximum: 9 } }
-        - { name: tag, in: query, style: form, explode: false, description: Tag slugs., schema: { type: array, items: { type: string } } }
-        - { name: region, in: query, description: 'Region code, for example `PK` for Podkarpackie.', schema: { type: string, maxLength: 10 } }
+        - { name: tag, in: query, style: form, explode: false, description: Tag slugs., schema: { $ref: '#/components/schemas/TagSlugList' } }
+        - { name: region, in: query, description: 'Region code (ISO 3166-2:PL without `PL-`), for example `PK` for Podkarpackie.', schema: { $ref: '#/components/schemas/RegionCode' } }
         - { name: audience, in: query, description: Applies the preset from `/api/v1/audiences`. Explicit filters override it., schema: { $ref: '#/components/schemas/AudienceId' } }
         - { name: polishIp, in: query, description: Only cards based on Polish IP., schema: { type: boolean } }
         - { name: minCredibility, in: query, schema: { type: integer, minimum: 0, maximum: 100 } }
@@ -262,6 +547,9 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: A page of card summaries.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -283,11 +571,16 @@ paths:
       summary: Read one full innovation card
       description: Includes the assessment, the sources and the evidence rows the scores were computed from.
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - $ref: '#/components/parameters/CardId'
       responses:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: The card.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -309,14 +602,22 @@ paths:
       tags: [Cards]
       operationId: getSimilarCards
       summary: Cards similar to this one
-      description: Used for the innovativeness check and the "similar solutions" panel. Sorted by similarity, highest first.
+      description: |
+        Used for the innovativeness check and the "similar solutions" panel. Sorted by similarity, highest first.
+        Since draft 3 the same hits, plus the external research hits (papers, patents, research projects, listings), are
+        also stored on the card in `relatedWork`, so one card shows who else works on the same thing.
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - $ref: '#/components/parameters/CardId'
         - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 20, default: 5 } }
       responses:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Similar cards.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -334,7 +635,7 @@ paths:
                           type: number
                           minimum: 0
                           maximum: 1
-                          description: Computed from stored embeddings and shared keywords. Not written by the model.
+                          description: Computed by code from trigram text similarity and shared tags (embeddings later, task B10). Not written by the model.
                         basis: { $ref: '#/components/schemas/Basis' }
         '404': { $ref: '#/components/responses/NotFound' }
 
@@ -344,11 +645,16 @@ paths:
       operationId: getCardHistory
       summary: Status changes found by scheduled refreshes
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - $ref: '#/components/parameters/CardId'
       responses:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Changes, newest first. Empty when nothing changed since first seen.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -366,12 +672,14 @@ paths:
       operationId: compareCards
       summary: Compare two to four cards side by side
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - name: ids
           in: query
           required: true
           style: form
           explode: false
-          description: Two to four card ids, comma separated.
+          description: Two to four different card ids, comma separated. A repeated id returns `422` (planned, G7).
           schema:
             type: array
             minItems: 2
@@ -381,6 +689,9 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: The cards and a row-by-row comparison the frontend can render as a table.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -405,13 +716,18 @@ paths:
       tags: [Reference]
       operationId: getFacets
       summary: Filter options with counts for the current filters
-      description: Accepts the same filter parameters as `/api/v1/cards` (not `sort`, `limit`, `offset`), so the counts match the list. The `tag` and `region` lists return at most the 50 largest options.
+      description: |
+        Accepts the same filter parameters as `/api/v1/cards` (not `sort`, `limit`, `offset`), so the counts match the list.
+        The `tag` and `region` lists return at most the 50 largest options. **Every selected value is always returned**,
+        with its label, even when its count is 0, so the frontend never has to invent a label (task B18).
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - { name: q, in: query, schema: { type: string, maxLength: 200 } }
         - { name: area, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/Area' } } }
         - { name: implementationLevel, in: query, style: form, explode: false, schema: { type: array, items: { $ref: '#/components/schemas/ImplementationLevel' } } }
-        - { name: tag, in: query, style: form, explode: false, schema: { type: array, items: { type: string } } }
-        - { name: region, in: query, schema: { type: string, maxLength: 10 } }
+        - { name: tag, in: query, style: form, explode: false, schema: { $ref: '#/components/schemas/TagSlugList' } }
+        - { name: region, in: query, schema: { $ref: '#/components/schemas/RegionCode' } }
         - { name: audience, in: query, schema: { $ref: '#/components/schemas/AudienceId' } }
         - { name: polishIp, in: query, schema: { type: boolean } }
         - { name: trlMin, in: query, schema: { type: integer, minimum: 1, maximum: 9 } }
@@ -423,6 +739,9 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Counts per option.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -450,12 +769,18 @@ paths:
     get:
       tags: [Reference]
       operationId: listAudiences
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
       security: []
       summary: The six audience presets
       description: A preset is a saved filter set plus the fields to show first. It is not a separate site and not an account type.
       responses:
         '200':
           description: All presets.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -473,12 +798,17 @@ paths:
       summary: Tags with their card counts, newest first by default
       description: '`sort=recent` puts the tags of the most recently found cards first, for the chips under the search bar. `sort=count` puts the most used first.'
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - { name: sort, in: query, schema: { type: string, enum: [recent, count], default: recent } }
         - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 12 } }
       responses:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Tags.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -502,6 +832,8 @@ paths:
       operationId: listSources
       summary: Sources the Radar collects from, with freshness
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - { name: type, in: query, schema: { $ref: '#/components/schemas/SourceType' } }
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
@@ -509,6 +841,9 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: A page of sources.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -524,12 +859,18 @@ paths:
     get:
       tags: [Statistics]
       operationId: getOverviewStats
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
       summary: Database size, coverage and freshness
       description: Feeds the home page and the effectiveness measures (task section 6e).
       responses:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Current numbers. Computed from the database, never from the model.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -543,14 +884,23 @@ paths:
       tags: [Statistics]
       operationId: getUsageStats
       summary: Anonymous usage trends for PCI
-      description: Aggregates of events from `POST /api/v1/events`, by role, area and tag. Counts below 5 are not shown, to avoid singling anyone out.
+      description: |
+        Aggregates of events from `POST /api/v1/events`, by role, area and tag. Counts below 5 are not shown in any
+        list (including `mostViewedCards` and `searchesByAudience`), to avoid singling anyone out.
+        To stop anyone from working out a hidden count by comparing overlapping periods, a period is at least 7 days
+        (planned, G6). `from` after `to`, a shorter period, or a period over 366 days returns `422`.
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - { name: from, in: query, description: Start of period., schema: { type: string, format: date } }
         - { name: to, in: query, description: End of period (inclusive)., schema: { type: string, format: date } }
       responses:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '200':
           description: Aggregated counts.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -564,11 +914,16 @@ paths:
     post:
       tags: [Events]
       operationId: recordEvent
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
       summary: Record one anonymous usage event
       description: |
         Safe to retry. The same `eventId` is stored once. No free text and no IP address is stored.
         The server adds the user's role from the session. The user id is not stored with the event.
-        The frontend should send events with `navigator.sendBeacon` or a fire-and-forget call, and ignore failures.
+        The browser never holds the session token, so it cannot call this endpoint directly (and `navigator.sendBeacon`
+        cannot send an `Authorization` header). The web server sends the event (server action or route handler),
+        fire-and-forget, and ignores failures.
       requestBody:
         required: true
         content:
@@ -593,6 +948,8 @@ paths:
         The same key with a different body returns `409`.
       security: [{ adminBearer: [] }]
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - name: Idempotency-Key
           in: header
           required: true
@@ -616,6 +973,9 @@ paths:
       responses:
         '202':
           description: Run accepted.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -634,11 +994,16 @@ paths:
       summary: List recent runs
       security: [{ adminBearer: [] }]
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Offset'
       responses:
         '200':
           description: A page of runs, newest first.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -659,10 +1024,15 @@ paths:
       summary: Read one run
       security: [{ adminBearer: [] }]
       parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
         - { name: runId, in: path, required: true, schema: { type: string, format: uuid } }
       responses:
         '200':
           description: The run.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
           content:
             application/json:
               schema:
@@ -673,6 +1043,36 @@ paths:
         '401': { $ref: '#/components/responses/Unauthorized' }
         '403': { $ref: '#/components/responses/Forbidden' }
         '404': { $ref: '#/components/responses/NotFound' }
+
+  /api/v1/admin/source-config:
+    get:
+      tags: [Admin]
+      operationId: getSourceConfig
+      parameters:
+        - $ref: '#/components/parameters/Lang'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      summary: Which configured sources can run, and why not
+      description: |
+        Reads `data/sources/registry.json` and the environment. Shows for each source whether it is enabled, whether the
+        token it names is set, and the robots.txt verdict. **Never returns a token value**, only `tokenPresent`.
+      security: [{ adminBearer: [] }]
+      responses:
+        '200':
+          description: The registry with readiness per source.
+          headers:
+            Content-Language: { $ref: '#/components/headers/ContentLanguage' }
+            Vary: { $ref: '#/components/headers/Vary' }
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/SourceConfigStatus' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
 
 components:
   securitySchemes:
@@ -690,11 +1090,11 @@ components:
       summary: Full card (fictional)
       value:
           id: 7b1d5a52-3d0e-4c52-9a43-0a8e5f1c2d01
-          title: { pl: '[MOCK] Lekka obudowa czujnika', en: '[MOCK] Lightweight sensor housing' }
-          summaryShort: { en: '[MOCK] A composite housing for flight sensors, tested in a university lab.' }
-          summary: { en: '[MOCK] A composite housing that cuts sensor mass for small aircraft. Prototype tested in a university lab. Patent application filed in Poland. Fictional example for frontend work.' }
+          title: '[MOCK] Lightweight sensor housing'
+          summaryShort: '[MOCK] A composite housing for flight sensors, tested in a university lab.'
+          summary: '[MOCK] A composite housing that cuts sensor mass for small aircraft. Prototype tested in a university lab. Patent application filed in Poland. Fictional example for frontend work.'
           area: technological
-          tags: [{ slug: robotics, label: { pl: Robotyka, en: Robotics } }, { slug: aviation, label: { pl: Lotnictwo, en: Aviation } }]
+          tags: [{ slug: robotics, label: Robotics }, { slug: aviation, label: Aviation }]
           organisation: { name: '[MOCK] Example University of Technology', type: university, url: null, region: PK }
           implementationLevel: { value: prototype, basis: confirmed }
           trl: { applicable: true, value: 5, basis: estimate }
@@ -727,7 +1127,7 @@ components:
               sourceIds: [22222222-2222-4222-8222-222222222222]
               evidenceIds: [33333333-3333-4333-8333-333333333333]
               method: 'Distance to the 14 nearest records, plus counts of similar patents and papers.'
-              explanation: { en: '[MOCK] Fewer similar patents than the typical record in this area (evidence 3333).' }
+              explanation: '[MOCK] Fewer similar patents than the typical record in this area (evidence 3333).'
             applicationPotential:
               value: 48
               confidence: low
@@ -754,10 +1154,10 @@ components:
             differsSignificantly: true
             availableOrInUse: true
             basis: estimate
-            note: { en: '[MOCK] Tested prototype exists, so it counts as available for testing.' }
+            note: '[MOCK] Tested prototype exists, so it counts as available for testing.'
           couldAlsoBeUsedIn:
-            - { en: '[MOCK] Drone manufacturing' }
-            - { en: '[MOCK] Industrial inspection' }
+            - '[MOCK] Drone manufacturing'
+            - '[MOCK] Industrial inspection'
           owner: { name: '[MOCK] Example University of Technology', url: 'https://example.invalid/lab' }
           sources:
             - id: 11111111-1111-4111-8111-111111111111
@@ -787,6 +1187,24 @@ components:
 
 
   parameters:
+    Lang:
+      name: lang
+      in: query
+      required: false
+      description: Response language. Wins over `Accept-Language`. Send it or the header on every call.
+      schema: { $ref: '#/components/schemas/LanguageCode' }
+    AcceptLanguage:
+      name: Accept-Language
+      in: header
+      required: false
+      description: 'Standard header, for example `uk, pl;q=0.8`. The server picks the best supported match and falls back to `pl`.'
+      schema: { type: string, maxLength: 200, examples: ['uk', 'en-GB,en;q=0.9,pl;q=0.5'] }
+    Provider:
+      name: provider
+      in: path
+      required: true
+      description: A provider with `flow` `redirect` from `/auth/providers`.
+      schema: { type: string, enum: [login_gov_pl, mojeid] }
     CardId:
       name: cardId
       in: path
@@ -800,8 +1218,16 @@ components:
     Offset:
       name: offset
       in: query
-      description: Number of items to skip.
-      schema: { type: integer, minimum: 0, default: 0 }
+      description: Number of items to skip. At most 10000 (planned, G7); narrow the search instead.
+      schema: { type: integer, minimum: 0, maximum: 10000, default: 0 }
+
+  headers:
+    ContentLanguage:
+      description: The language of the strings and error messages in this response (planned with B15, G2).
+      schema: { $ref: '#/components/schemas/LanguageCode' }
+    Vary:
+      description: Includes `Accept-Language`, so a cache never serves one language to a request for another (planned with B15, G2).
+      schema: { type: string, examples: ['Accept-Language'] }
 
   responses:
     BadRequest:
@@ -880,33 +1306,113 @@ components:
       type: object
       required: [id, label, kind, enabled]
       properties:
-        id: { type: string, enum: [sandbox_id, login_gov_pl] }
+        id: { type: string, enum: [sandbox_id, login_gov_pl, mojeid] }
         label: { $ref: '#/components/schemas/LocalizedText' }
         kind:
           type: string
-          enum: [sandbox, saml]
-          description: '`sandbox` is a labelled demo provider. `saml` is the real national login, not available yet.'
+          enum: [sandbox, saml, oidc]
+          description: '`sandbox` is a labelled demo provider. `saml` is the national login (Węzeł Krajowy). `oidc` is for later providers such as mojeID through a broker.'
         enabled: { type: boolean }
+        flow:
+          type: string
+          enum: [direct, redirect]
+          description: '`direct`: call `login` and `register` with `providerSubject` (sandbox only). `redirect`: call `/auth/{provider}/start`.'
+        assuranceLevel: { $ref: '#/components/schemas/AssuranceLevel' }
+        methods:
+          type: array
+          description: The ways a person can prove identity through this provider. The UI lists them, so users know that Profil Zaufany and mObywatel work.
+          items: { type: string, enum: [profil_zaufany, mobywatel, e_dowod, bank, eidas] }
+        demoIdentities:
+          type: array
+          description: Sandbox only. The shared demo identities the sign-in page offers. In production the sandbox accepts only these (planned, G1).
+          items:
+            type: object
+            required: [subject, label]
+            properties:
+              subject: { type: string, minLength: 3, maxLength: 200 }
+              label: { $ref: '#/components/schemas/LocalizedText' }
       examples:
-        - { id: sandbox_id, label: { pl: 'Tożsamość testowa (demo)', en: 'Test identity (demo)' }, kind: sandbox, enabled: true }
+        - { id: sandbox_id, label: 'Test identity (demo)', kind: sandbox, enabled: true, flow: direct, demoIdentities: [{ subject: demo-jury, label: 'Jury (shared demo)' }] }
+        - { id: login_gov_pl, label: 'login.gov.pl (coming)', kind: saml, enabled: false, flow: redirect, assuranceLevel: substantial, methods: [profil_zaufany, mobywatel, e_dowod, bank] }
+
+    WebUrl:
+      type: string
+      format: uri
+      pattern: '^https?://'
+      maxLength: 2048
+      description: A link a person can follow. Only `http` and `https`, so a collected `javascript:` or `data:` link can never reach a page (G3).
+
+    TagSlugList:
+      type: array
+      maxItems: 20
+      items: { type: string, pattern: '^[a-z0-9][a-z0-9-]{0,63}$' }
+
+    RegionCode:
+      type: string
+      enum: [DS, KP, LU, LB, LD, MA, MZ, OP, PK, PD, PM, SL, SK, WN, WP, ZP]
+      description: Voivodeship, ISO 3166-2:PL without the `PL-` prefix.
+
+    AssuranceLevel:
+      type: string
+      enum: [none, low, substantial, high]
+      description: eIDAS level of assurance of the identity check. `none` for the sandbox. We ask login.gov.pl for `substantial`.
+
+    LanguageCode:
+      type: string
+      enum: [pl, en, uk]
+      description: Supported languages. `pl` is the default and the fallback.
+
+    RegistrationTicket:
+      type: object
+      required: [registrationTicket, provider, expiresAt, assuranceLevel]
+      description: A verified identity with no account yet. Send the ticket to `/auth/register` with the role, affiliation and interests.
+      properties:
+        registrationTicket: { type: string }
+        provider: { type: string, enum: [login_gov_pl, mojeid] }
+        expiresAt: { type: string, format: date-time }
+        assuranceLevel: { $ref: '#/components/schemas/AssuranceLevel' }
+        suggestedDisplayName:
+          type: [string, 'null']
+          description: Given name and family name from the provider, for the user to keep or clear. Not stored unless the user keeps it.
 
     RegisterRequest:
       type: object
-      required: [provider, providerSubject, email, role, affiliation, interests, acceptedTerms]
+      required: [provider, email, role, affiliation, interests, acceptedTerms]
+      description: Send `providerSubject` for the sandbox (`flow` `direct`), or `registrationTicket` for a redirect provider. Exactly one of the two, otherwise `422 validation_failed`. The ticket's provider must equal `provider`.
+      oneOf:
+        - title: Sandbox
+          required: [providerSubject]
+          properties:
+            provider: { const: sandbox_id }
+            providerSubject: { type: string }
+            registrationTicket: false
+        - title: Redirect provider
+          required: [registrationTicket]
+          properties:
+            provider: { enum: [login_gov_pl, mojeid] }
+            registrationTicket: { type: string }
+            providerSubject: false
       additionalProperties: false
       properties:
-        provider: { type: string, enum: [sandbox_id] }
+        provider: { type: string, enum: [sandbox_id, login_gov_pl, mojeid] }
         providerSubject:
           type: string
           minLength: 3
           maxLength: 200
-          description: Identity from the provider. In the sandbox the user picks one of the demo identities. Never a national ID number.
-        email: { type: string, format: email }
+          description: Sandbox only. The user picks one of the demo identities. Never a national ID number.
+        registrationTicket:
+          type: string
+          minLength: 32
+          maxLength: 200
+          description: From `/auth/exchange` (`202`). Single use. The backend takes the verified identity from the ticket, not from the client.
+        preferredLanguage: { $ref: '#/components/schemas/LanguageCode' }
+        email: { type: string, format: email, maxLength: 254, description: 'Not verified (G9).' }
         displayName: { type: string, maxLength: 120 }
         role: { $ref: '#/components/schemas/AudienceId' }
         affiliation:
           type: object
           required: [name, type]
+          additionalProperties: false
           properties:
             name: { type: string, maxLength: 200 }
             type: { $ref: '#/components/schemas/OrganisationType' }
@@ -922,7 +1428,7 @@ components:
         consentToContact:
           type: boolean
           default: false
-          description: Optional. Allows PCI to contact the user about matching innovations.
+          description: Optional. Allows PCI to contact the user about matching innovations. The email is not verified (G9), so PCI confirms it before the first contact.
 
     LoginRequest:
       type: object
@@ -949,6 +1455,7 @@ components:
           maxItems: 20
           items: { type: string, maxLength: 60 }
         consentToContact: { type: boolean }
+        preferredLanguage: { $ref: '#/components/schemas/LanguageCode' }
 
     User:
       type: object
@@ -968,7 +1475,9 @@ components:
         identityVerified:
           type: boolean
           description: True only for a real identity provider. Always false for the sandbox, and the UI must say so.
-        provider: { type: string, enum: [sandbox_id, login_gov_pl] }
+        provider: { type: string, enum: [sandbox_id, login_gov_pl, mojeid] }
+        assuranceLevel: { $ref: '#/components/schemas/AssuranceLevel' }
+        preferredLanguage: { $ref: '#/components/schemas/LanguageCode' }
         consentToContact: { type: boolean }
         createdAt: { type: string, format: date-time }
       examples:
@@ -1019,8 +1528,8 @@ components:
           properties:
             code:
               type: string
-              enum: [bad_request, validation_failed, not_found, unauthorized, forbidden, idempotency_conflict, run_in_progress, account_exists, registration_required, terms_not_accepted, rate_limited, source_unavailable, internal_error]
-            message: { type: string }
+              enum: [bad_request, validation_failed, not_found, unauthorized, forbidden, idempotency_conflict, run_in_progress, account_exists, registration_required, terms_not_accepted, rate_limited, source_unavailable, internal_error, auth_cancelled, auth_failed, state_invalid, assurance_too_low, provider_unavailable]
+            message: { type: string, description: 'Human text in the negotiated language. Show it only as a fallback: the UI maps `code` to its own words.' }
             details:
               type: array
               items:
@@ -1040,14 +1549,26 @@ components:
         offset: { type: integer, minimum: 0 }
 
     LocalizedText:
+      description: |
+        Text for people. When the request names a language (`lang` or `Accept-Language`), this is one string in that
+        language. Otherwise it is the deprecated object form with every supported language. The backend refuses to load
+        or create any card text that lacks one of the supported languages.
+      oneOf:
+        - type: string
+        - $ref: '#/components/schemas/LocalizedTextMap'
+      examples:
+        - '[MOCK] Легкий корпус датчика'
+        - { pl: '[MOCK] Lekka obudowa czujnika', en: '[MOCK] Lightweight sensor housing', uk: '[MOCK] Легкий корпус датчика' }
+
+    LocalizedTextMap:
       type: object
-      description: Text for people. The backend refuses to load or create any card text that lacks Polish or English, so both languages are present. The UI still falls back to the other language if one is empty.
+      deprecated: true
+      description: All languages at once. Only for requests that name no language. Removed in v2.
       minProperties: 1
       properties:
         pl: { type: string }
         en: { type: string }
-      examples:
-        - { pl: '[MOCK] Lekka obudowa czujnika', en: '[MOCK] Lightweight sensor housing' }
+        uk: { type: string }
 
     Area:
       type: string
@@ -1085,7 +1606,7 @@ components:
         name: { type: string, description: 'The organisation itself, for example Politechnika Koszalińska.' }
         unit: { type: [string, 'null'], description: 'A faculty or department when the source names one, for example Wydział Mechaniczny.' }
         type: { $ref: '#/components/schemas/OrganisationType' }
-        url: { type: [string, 'null'], format: uri }
+        url: { oneOf: [{ $ref: '#/components/schemas/WebUrl' }, { type: 'null' }] }
         region: { type: [string, 'null'], description: 'Region code, for example PK.' }
 
     Provenance:
@@ -1107,7 +1628,7 @@ components:
           oneOf:
             - { $ref: '#/components/schemas/LocalizedText' }
             - { type: 'null' }
-          description: The same text in Polish and English. Use this in the UI. The screen is 100% Polish or 100% English.
+          description: The same text in the negotiated language. Use this in the UI. Each screen is in one language only.
 
     ImplementationLevelField:
       allOf:
@@ -1221,10 +1742,10 @@ components:
           description: Search score. Null when there is no `q`.
       examples:
         - id: 7b1d5a52-3d0e-4c52-9a43-0a8e5f1c2d01
-          title: { pl: '[MOCK] Lekka obudowa czujnika', en: '[MOCK] Lightweight sensor housing' }
-          summaryShort: { en: '[MOCK] A composite housing for flight sensors, tested in a university lab.' }
+          title: '[MOCK] Lightweight sensor housing'
+          summaryShort: '[MOCK] A composite housing for flight sensors, tested in a university lab.'
           area: technological
-          tags: [{ slug: robotics, label: { pl: Robotyka, en: Robotics } }, { slug: aviation, label: { pl: Lotnictwo, en: Aviation } }]
+          tags: [{ slug: robotics, label: Robotics }, { slug: aviation, label: Aviation }]
           organisation: { name: '[MOCK] Example University of Technology', type: university, url: null, region: PK }
           implementationLevel: { value: prototype, basis: confirmed }
           trl: { applicable: true, value: 5, basis: estimate }
@@ -1264,7 +1785,7 @@ components:
               required: [name, url]
               properties:
                 name: { type: string }
-                url: { type: string, format: uri }
+                url: { $ref: '#/components/schemas/WebUrl' }
             sources:
               type: array
               items: { $ref: '#/components/schemas/Source' }
@@ -1273,6 +1794,76 @@ components:
               items: { $ref: '#/components/schemas/Evidence' }
             firstSeenAt: { type: string, format: date-time }
             statusChangedAt: { type: [string, 'null'], format: date-time }
+            relatedWork:
+              type: array
+              description: |
+                Optional (draft 3). Everything the similarity and research steps found for this card, kept on the card:
+                similar cards in the catalogue and external hits (papers, patents, research projects, transfer listings).
+                Each hit names its organisation and a public contact page, so a reader sees who to reach.
+                The Radar does not mediate contact and has no messaging (FAQ section 6).
+              items: { $ref: '#/components/schemas/RelatedWork' }
+            machineTranslated:
+              type: array
+              description: Optional (draft 3). Languages of this card's texts that come from machine translation and are not reviewed yet. The UI shows a note in those languages.
+              items: { $ref: '#/components/schemas/LanguageCode' }
+
+    RelatedWork:
+      type: object
+      required: [kind, title, url, similarity, basis, foundAt]
+      properties:
+        kind:
+          type: string
+          enum: [card, publication, patent, research_project, transfer_listing, web_page]
+        cardId:
+          type: [string, 'null']
+          format: uuid
+          description: Set when `kind` is `card`. Link to the card page.
+        title:
+          type: string
+          description: The work's own title, as its source writes it. Not translated (like a source quote). For `kind` `card` it is the card title in the negotiated language.
+        titleLang:
+          type: [string, 'null']
+          pattern: '^[a-z]{2}$'
+          description: ISO 639-1 language of `title`. The UI sets `lang` on it. Null when unknown.
+        url: { $ref: '#/components/schemas/WebUrl' }
+        organisation:
+          type: [object, 'null']
+          required: [name]
+          properties:
+            name: { type: string }
+            region: { oneOf: [{ $ref: '#/components/schemas/RegionCode' }, { type: 'null' }] }
+            contactUrl:
+              oneOf: [{ $ref: '#/components/schemas/WebUrl' }, { type: 'null' }]
+              description: A public contact or transfer-office page. Never a private person's data.
+        year: { type: [integer, 'null'] }
+        similarity:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Computed by code (trigram, shared tags, later embeddings). Not written by the model.
+        sharedTags:
+          type: array
+          description: Tag slugs the hit shares with this card. Explains the match in plain words.
+          items: { type: string }
+        basis: { $ref: '#/components/schemas/Basis' }
+        source:
+          type: string
+          description: Where the hit came from, for example `catalogue`, `openalex`, `radon`, `ptt`.
+        foundAt: { type: string, format: date-time }
+
+    SourceConfigStatus:
+      type: object
+      required: [id, method, enabled, ready]
+      properties:
+        id: { type: string, description: 'Key in `data/sources/registry.json`.' }
+        name: { $ref: '#/components/schemas/LocalizedText' }
+        method: { type: string, enum: [api, crawl, sitemap, feed, document] }
+        enabled: { type: boolean }
+        tokenEnv: { type: [string, 'null'], description: 'Name of the environment variable that holds the token, for example `OPENALEX_API_KEY`.' }
+        tokenPresent: { type: [boolean, 'null'], description: 'True when that variable is set. Null when the source needs no token. The value itself is never returned.' }
+        robots: { type: [string, 'null'], enum: [allowed, disallowed, not_checked, not_applicable, null] }
+        ready: { type: boolean, description: 'Enabled, token present if needed, and robots allows it.' }
+        problem: { oneOf: [{ $ref: '#/components/schemas/LocalizedText' }, { type: 'null' }] }
 
     Source:
       type: object
@@ -1281,23 +1872,23 @@ components:
         id: { type: string, format: uuid }
         type: { $ref: '#/components/schemas/SourceType' }
         name: { type: string }
-        url: { type: string, format: uri }
+        url: { $ref: '#/components/schemas/WebUrl' }
         retrievedAt: { type: string, format: date-time }
         passage:
           type: [string, 'null']
           description: The quoted passage the fact came from, exactly as the source wrote it (usually Polish). Show it as a quotation with the language set in `passageLang`. Null for pure API numbers.
         nameText:
           allOf: [{ $ref: '#/components/schemas/LocalizedText' }]
-          description: The source name in Polish and English. The part after the colon is the source's own title, kept as written.
+          description: The source name in the negotiated language. The part after the colon is the source's own title, kept as written.
         licenseLabel:
           oneOf:
             - { $ref: '#/components/schemas/LocalizedText' }
             - { type: 'null' }
-          description: The licence in Polish and English. Null when the source states none.
-        licenseUrl: { type: [string, 'null'], format: uri }
+          description: The licence in the negotiated language. Null when the source states none.
+        licenseUrl: { oneOf: [{ $ref: '#/components/schemas/WebUrl' }, { type: 'null' }] }
         passageLang:
           type: [string, 'null']
-          enum: [pl, en, null]
+          pattern: '^[a-z]{2}$'
           description: Language of the quoted passage. The UI sets `lang` on the quotation, so a screen reader and the spell checker treat it correctly.
         license: { type: [string, 'null'] }
 
@@ -1308,7 +1899,7 @@ components:
         id: { type: string, format: uuid }
         type: { $ref: '#/components/schemas/SourceType' }
         name: { type: string }
-        url: { type: string, format: uri }
+        url: { $ref: '#/components/schemas/WebUrl' }
         nameText: { $ref: '#/components/schemas/LocalizedText' }
         lastCollectedAt: { type: [string, 'null'], format: date-time }
         cardCount: { type: integer, minimum: 0 }
@@ -1324,7 +1915,7 @@ components:
           oneOf:
             - { $ref: '#/components/schemas/LocalizedText' }
             - { type: 'null' }
-          description: Name of the metric in Polish and English. Null only for evidence made before this field existed.
+          description: Name of the metric in the negotiated language. Null only for evidence made before this field existed.
         value: { type: [number, string, boolean] }
         unit: { type: [string, 'null'], description: As the source writes it. Show `unitLabel`. }
         unitLabel:
@@ -1369,7 +1960,7 @@ components:
             required: [cardId, display, basis]
             properties:
               cardId: { type: string, format: uuid }
-              display: { $ref: '#/components/schemas/LocalizedText', description: 'Ready-to-show text in Polish and English. Show the language the user chose, never a mix.' }
+              display: { $ref: '#/components/schemas/LocalizedText', description: 'Ready-to-show text in the negotiated language.' }
               raw: { type: [number, string, boolean, 'null'] }
               basis: { oneOf: [{ $ref: '#/components/schemas/Basis' }, { type: 'null' }] }
               isBest: { type: boolean, description: True for the highest value in a numeric row. }
@@ -1399,8 +1990,8 @@ components:
             enum: [implementationLevel, trl, innovativeness, applicationPotential, credibility, polishIp, organisation]
       examples:
         - id: startups_enterprises
-          label: { pl: Startupy i przedsiębiorstwa, en: Startups and enterprises }
-          description: { en: 'Ready or nearly ready solutions to use, license or integrate.' }
+          label: Startups and enterprises
+          description: 'Ready or nearly ready solutions to use, license or integrate.'
           defaultFilters: { implementationLevel: [pilot, in_practice] }
           highlightedFields: [implementationLevel, applicationPotential, credibility]
 
@@ -1413,8 +2004,8 @@ components:
         implementationLevel: { type: array, items: { $ref: '#/components/schemas/ImplementationLevel' } }
         trlMin: { type: integer, minimum: 1, maximum: 9 }
         trlMax: { type: integer, minimum: 1, maximum: 9 }
-        tag: { type: array, items: { type: string } }
-        region: { type: string }
+        tag: { $ref: '#/components/schemas/TagSlugList' }
+        region: { $ref: '#/components/schemas/RegionCode' }
         polishIp: { type: boolean }
         minCredibility: { type: integer, minimum: 0, maximum: 100 }
 
@@ -1514,7 +2105,7 @@ components:
           oneOf:
             - { $ref: '#/components/schemas/LocalizedText' }
             - { type: 'null' }
-          description: The value's name in Polish and English.
+          description: The value's name in the negotiated language.
         count: { type: integer, minimum: 0 }
 
     CollectRun:

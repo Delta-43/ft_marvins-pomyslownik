@@ -1,0 +1,100 @@
+{
+  "_comment": [
+    "Source registry (task B16). Copy to registry.json and edit. The backend does not read this file yet: today it reads targets.json.",
+    "One entry per source. method: api | crawl | sitemap | feed | document.",
+    "Secrets never go here. tokenEnv names the .env variable that holds the token. GET /api/v1/admin/source-config shows if it is set.",
+    "Crawling always obeys robots.txt and Crawl-delay (collectors/fetch.py). minDelaySeconds only makes it slower, never faster.",
+    "Licence and terms must be checked (research/01-sources.md) before enabled is set to true."
+  ],
+  "version": 1,
+  "defaults": {"minDelaySeconds": 5, "timeoutSeconds": 30, "maxNewPerRun": 6, "offline": false},
+  "sources": [
+    {
+      "id": "radon",
+      "name": {"pl": "RAD-on (OPI PIB): projekty badawcze", "en": "RAD-on (OPI PIB): research projects", "uk": "RAD-on (OPI PIB): дослідницькі проєкти"},
+      "method": "api",
+      "enabled": true,
+      "baseUrl": "https://radon.nauka.gov.pl/opendata",
+      "tokenEnv": null,
+      "produces": "cards",
+      "areas": ["technological"],
+      "query": {"titleWords": ["technologia", "innowacyjn", "wdrożenie"], "sinceYear": 2019},
+      "limits": {"maxNew": 2},
+      "licence": "RAD-on open data (OPI PIB). Terms: radon.nauka.gov.pl"
+    },
+    {
+      "id": "openalex",
+      "name": {"pl": "OpenAlex: podobne publikacje", "en": "OpenAlex: similar works", "uk": "OpenAlex: схожі публікації"},
+      "method": "api",
+      "enabled": true,
+      "baseUrl": "https://api.openalex.org",
+      "tokenEnv": "OPENALEX_API_KEY",
+      "auth": {"in": "query", "name": "api_key"},
+      "produces": "evidence,relatedWork",
+      "filters": {"institutions.country_code": "PL"},
+      "licence": "CC0"
+    },
+    {
+      "id": "ptt",
+      "name": {"pl": "Platforma Transferu Technologii (ARP)", "en": "Technology Transfer Platform (ARP)", "uk": "Платформа трансферу технологій (ARP)"},
+      "method": "sitemap",
+      "enabled": true,
+      "baseUrl": "http://ptt.arp.pl/sitemap.xml",
+      "tokenEnv": null,
+      "produces": "cards,relatedWork",
+      "areas": ["technological"],
+      "filters": {"ownerTypes": ["Jednostka naukowa", "Instytut naukowo - badawczy"]},
+      "limits": {"maxNew": 3, "maxPagesRead": 40},
+      "licence": null
+    },
+    {
+      "id": "gus-bdl",
+      "name": {"pl": "GUS Bank Danych Lokalnych", "en": "Statistics Poland Local Data Bank", "uk": "ГУС Банк місцевих даних"},
+      "method": "api",
+      "enabled": false,
+      "baseUrl": "https://bdl.stat.gov.pl/api/v1",
+      "tokenEnv": "GUS_BDL_CLIENT_ID",
+      "auth": {"in": "header", "name": "X-ClientId", "optional": true},
+      "produces": "evidence",
+      "note": "Task R9: regional context numbers. A client id raises the rate limit. It is optional.",
+      "licence": "CC BY 4.0 (check before use)"
+    },
+    {
+      "id": "school-and-council-pages",
+      "name": {"pl": "Strony szkół i urzędów", "en": "School and council pages", "uk": "Сторінки шкіл та органів влади"},
+      "method": "crawl",
+      "enabled": true,
+      "urls": [],
+      "tokenEnv": null,
+      "produces": "cards",
+      "areas": ["educational", "administrative"],
+      "limits": {"maxNew": 2},
+      "licence": null
+    },
+    {
+      "id": "reports",
+      "name": {"pl": "Raporty PDF", "en": "PDF reports", "uk": "Звіти PDF"},
+      "method": "document",
+      "enabled": true,
+      "documents": [
+        {"url": "https://szkoladlainnowatora.ceo.org.pl/wp-content/uploads/2022/08/Raport-z-ewaluacji-koncowej-projektu-Szkola-dla-innowatora.pdf",
+         "title": "Raport z ewaluacji końcowej projektu Szkoła dla innowatora (CEO, 2022)",
+         "enrichCard": "85c8eb04-5102-48d0-bc8f-cd4cf4d48130"}
+      ],
+      "tokenEnv": null,
+      "produces": "cards,evidence"
+    },
+    {
+      "id": "example-private-api",
+      "name": {"pl": "Przykład: własne API z tokenem", "en": "Example: own API with a token", "uk": "Приклад: власний API з токеном"},
+      "method": "api",
+      "enabled": false,
+      "baseUrl": "https://api.example.invalid/v1/innovations",
+      "tokenEnv": "EXAMPLE_SOURCE_TOKEN",
+      "auth": {"in": "header", "name": "Authorization", "scheme": "Bearer"},
+      "produces": "cards",
+      "mapping": {"title": "$.name", "summary": "$.description", "organisation": "$.owner.name", "url": "$.link"},
+      "note": "Template for a database an owner adds later. The mapping uses JSONPath on each item."
+    }
+  ]
+}
