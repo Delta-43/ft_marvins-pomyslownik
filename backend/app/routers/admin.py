@@ -72,6 +72,13 @@ def list_runs(limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0)
     return {"data": [run_json(r) for r in data], "meta": {"total": total, "limit": limit, "offset": offset}}
 
 
+@router.get("/admin/source-config")
+def source_config():
+    """B16: readiness of every registry source. Token values never leave the server, only tokenPresent."""
+    from .. import registry
+    return {"data": [registry.status(s) for s in registry.load()]}
+
+
 @router.get("/admin/collect-runs/{runId}")
 def get_run(runId: UUID):
     r = one("SELECT * FROM collect_runs WHERE id = %s", (runId,))

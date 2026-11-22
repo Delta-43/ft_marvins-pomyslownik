@@ -17,7 +17,7 @@ from pypdf.errors import PyPdfError
 
 from . import enrich, related, score
 from .collectors import crawler, documents, fetch, radon
-from .collectors.build import card_id_for, save_snapshot_card, store
+from .collectors.build import build_card, card_id_for, save_snapshot_card, store
 from .collectors.extract import NotAnInnovation, on_page
 from .config import settings
 from .db import connection
@@ -206,6 +206,55 @@ def collect(run: Run) -> None:
         except ITEM_ERRORS as exc:
             run.errors += 1
             run.note(f"page failed {page}: {type(exc).__name__}: {exc}")
+
+    budget = collect_registry(run, budget, ids, skip)
+
+
+def collect_registry(run: Run, budget: int, ids: set[str], skip: set[str]) -> int:
+    """B16: sources an owner added in data/sources/registry.json (generic API, feed, sitemap, crawl)."""
+    from . import registry
+    from .collectors.extract import extract
+    for src in registry.load():
+        if budget <= 0 or src.get("id") in registry.BUILT_IN or not registry.status(src, check_robots=False)["ready"]:
+            continue
+        if run.source_ids and src["id"] not in run.source_ids:
+            continue
+        want = min(int((src.get("limits") or {}).get("maxNew", 2)), budget)
+        try:
+            if src.get("method") == "api":
+                work = [(i["url"], i) for i in registry.api_items(src)]
+            else:
+                work = [(u, None) for u in registry.page_urls(src)]
+        except ITEM_ERRORS as exc:
+            run.errors += 1
+            run.note(f"registry source {src['id']} failed: {type(exc).__name__}: {exc}")
+            continue
+        for url, item in work:
+            if want <= 0:
+                break
+            if card_id_for(url) in ids or url in skip:
+                continue
+            try:
+                if item is None:
+                    card = crawler.collect_url(url, kind="page")
+                else:
+                    name = f"{src.get('name', {}).get('pl') or src['id']}: {item['title'][:100]}"
+                    x = extract(item["text"], url=url, source_name=name)
+                    if not x.is_innovation:
+                        raise NotAnInnovation(x.rejection_reason)
+                    card = build_card(x, text=item["text"], url=url, source_name=name, source_type="api",
+                                      retrieved_at=fetch.now_iso(), license=src.get("licence"))
+                _keep(run, card)
+                ids.add(card_id_for(url))
+                want -= 1
+                budget -= 1
+            except NotAnInnovation as exc:
+                remember_skip(url, str(exc))
+                run.note(f"{src['id']} skipped {url}: {exc}")
+            except ITEM_ERRORS as exc:
+                run.errors += 1
+                run.note(f"{src['id']} failed {url}: {type(exc).__name__}: {exc}")
+    return budget
 
 
 def _source_text(data: bytes) -> str:
