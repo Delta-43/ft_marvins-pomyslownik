@@ -20,7 +20,9 @@ WORKDIR /app
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
-RUN mkdir -p public && adduser -S -u 10001 radar && chown -R radar /app
+# Static files (landing images, brand icons, design files). Without this every /public URL answers 404.
+COPY --from=build /app/public ./public
+RUN adduser -S -u 10001 radar && chown -R radar /app
 USER radar
 EXPOSE 3000
 CMD ["node", "server.js"]
