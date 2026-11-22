@@ -55,7 +55,7 @@
   "polishIp": false,
   "lastCheckedAt": "2026-11-22T12:00:00Z",
   "stale": false,
-  "sourceCount": 8,
+  "sourceCount": 7,
   "relevance": null,
   "summary": {
     "pl": "e-Doręczenia to elektroniczny odpowiednik listu poleconego za potwierdzeniem odbioru, oparty na ustawie z 18 listopada 2020 r. o doręczeniach elektronicznych i rozporządzeniu eIDAS. Nadanie i odbiór potwierdza kwalifikowany elektroniczny znacznik czasu. Gdy adresat nie ma adresu do e-Doręczeń, publiczna usługa hybrydowa drukuje list i doręcza go na papierze, więc urzędy mogą przejść na cyfrę przed adresatami. Od 1 stycznia 2026 r. to podstawowy kanał komunikacji administracji z podmiotami prywatnymi, a od 1 lipca 2026 r. skrzynka jest też w aplikacji mObywatel. Do 5 sierpnia 2026 r. nadano ponad 100 mln przesyłek. W maju 2026 r. większość doręczeń (46 z 78 mln) była jeszcze hybrydowa. Sądy i prokuratura dołączą od 1 października 2029 r. Liczby pochodzą z komunikatów i danych ministerstwa. Streszczenie przygotowane na podstawie źródeł (zadanie R3).",
@@ -232,16 +232,6 @@
       "passage": "Stan na dzień 01.11.2026r.",
       "passageLang": "pl",
       "license": "CC BY-SA 4.0"
-    },
-    {
-      "id": "cc830188-2d5e-4d2b-a875-415648b1f1a5",
-      "type": "crawl",
-      "name": "ISAP: Ustawa z dnia 18 listopada 2020 r. o doręczeniach elektronicznych, Dz.U. 2020 poz. 2320 (link; robots.txt nie pozwala na automatyczny odczyt)",
-      "url": "https://isap.sejm.gov.pl/isap.nsf/DocDetails.xsp?id=WDU20200002320",
-      "retrievedAt": "2026-11-22T00:00:00Z",
-      "passage": null,
-      "passageLang": null,
-      "license": null
     }
   ],
   "evidence": [

@@ -55,7 +55,7 @@
   "polishIp": true,
   "lastCheckedAt": "2026-11-22T12:00:00Z",
   "stale": false,
-  "sourceCount": 12,
+  "sourceCount": 11,
   "relevance": null,
   "summary": {
     "pl": "Zespół Politechniki Warszawskiej, we współpracy z firmą BoneReg Sp. z o.o., opracował elastyczny implant z polilaktydu o architekturze kości gąbczastej (pory 100–400 µm, porowatość otwarta 94%). Chirurg dopasowuje go do ubytku bezpośrednio na sali operacyjnej i nasącza osoczem bogatopłytkowym pacjenta; implant jest stopniowo zastępowany przez nową tkankę kostną. Metodę chroni sześć udzielonych polskich patentów należących do Politechniki Warszawskiej. Implant jest w badaniach przedklinicznych na dużym modelu zwierzęcym (owca wrzosówka) i nie jest jeszcze dostępny dla pacjentów. W 2025 r. projekt zdobył nagrodę główną konkursu Polski Produkt Przyszłości (PARP). Cena ok. 200 zł i działanie przeciwbakteryjne to deklaracje twórców, nie wyniki niezależnych badań. Streszczenie przygotowane na podstawie źródeł (zadanie R3).",
@@ -217,16 +217,6 @@
       "license": null
     },
     {
-      "id": "309637d8-19c2-424c-a994-8817f688dc66",
-      "type": "crawl",
-      "name": "Urząd Patentowy RP, rejestr (sprawdzone ręcznie): P.426819 (PL 236857)",
-      "url": "https://ewyszukiwarka.pue.uprp.gov.pl/search/pwp-details/P.426819?lng=en",
-      "retrievedAt": "2026-11-22T00:00:00Z",
-      "passage": null,
-      "passageLang": null,
-      "license": null
-    },
-    {
       "id": "2f77e51c-108d-475c-992b-fdfe654bb884",
       "type": "crawl",
       "name": "Google Patents (dane UPRP): PL236111B1, Sposób wytwarzania dynamicznego substytutu kości gąbczastej",
@@ -350,7 +340,7 @@
       "value": "PL 236111, PL 236857, PL 236858, PL 239154, PL 239644, PL 247092",
       "unit": null,
       "sourceId": "2f77e51c-108d-475c-992b-fdfe654bb884",
-      "query": "Six B1 patent records on Google Patents (data from the Polish Patent Office), each listed as a source on this card. Grant of PL 236857 (P.426819) checked by hand in the UPRP e-Wyszukiwarka register by the reviewer on 2026-11-22.",
+      "query": "Six B1 patent records on Google Patents (data from the Polish Patent Office), each listed as a source on this card. Grant of PL 236857 (P.426819) checked by hand in the UPRP e-Wyszukiwarka register by the reviewer on 2026-11-22: https://ewyszukiwarka.pue.uprp.gov.pl/search/pwp-details/P.426819",
       "retrievedAt": "2026-11-22T00:00:00Z"
     },
     {
