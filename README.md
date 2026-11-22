@@ -30,4 +30,4 @@ docker compose --profile full up --build   # whole stack: web :3000, API :8000
 
 ## Licence
 
-EUPL-1.2. See `LICENSE` (to be added before submission).
+EUPL-1.2. See `LICENSE` (official text from the European Commission's Joinup site).
