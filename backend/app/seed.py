@@ -206,9 +206,10 @@ def main() -> int:
             changes = load_card(conn, json.loads(f.read_text(encoding="utf-8")))
             print("loaded", f.name, *(f"[{field}: {old} -> {new}]" for field, old, new in changes))
     print(f"{len(files)} cards loaded")
-    from . import enrich, score
+    from . import enrich, related, score
     enrich.main(close=False)  # OpenAlex evidence for technological cards (skipped without a key)
-    score.main()
+    score.main(close=False)
+    related.main()  # B17: who else works on this, kept on each card
     return 0
 
 

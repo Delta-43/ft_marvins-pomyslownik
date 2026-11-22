@@ -10,7 +10,7 @@ import time
 
 import psycopg
 
-from . import pipeline
+from . import pipeline, translate
 from .config import settings
 from .db import connection
 
@@ -68,6 +68,9 @@ def main() -> None:
                 log.info("run %s (%s) started", run["id"], run["mode"])
                 pipeline.execute(run)
                 log.info("run %s finished", run["id"])
+                continue
+            # B15: translate texts the API queued (Ukrainian, and Polish error messages). Idle time only.
+            if translate.translate_pending():
                 continue
         except psycopg.Error:
             log.exception("database error in the worker loop")

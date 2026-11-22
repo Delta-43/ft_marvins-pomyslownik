@@ -15,7 +15,7 @@ import httpx
 import psycopg
 from pypdf.errors import PyPdfError
 
-from . import enrich, score
+from . import enrich, related, score
 from .collectors import crawler, documents, fetch, radon
 from .collectors.build import card_id_for, save_snapshot_card, store
 from .collectors.extract import NotAnInnovation, on_page
@@ -275,6 +275,7 @@ def execute(row: dict) -> None:
         else:
             refresh(run)
         score.main(close=False)
+        related.main(close=False)  # B17
         run.save("succeeded")
         run.note("done")
         run.save()

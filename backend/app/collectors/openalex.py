@@ -41,3 +41,29 @@ def similar_polish_works(title_en: str, *, offline: bool = False) -> tuple[int, 
     if count == 0 and short != q:
         count, url = _count(short, offline)
     return count, url
+
+
+def top_polish_works(title_en: str, n: int = 3, *, offline: bool = False) -> list[dict]:
+    """The best-matching works by Polish institutions, for "who else works on this" (B17).
+
+    Only institutions are kept: author names (people) are dropped here and never stored (GDPR, F17).
+    """
+    q = query_words(title_en)
+    if not q or not settings.openalex_api_key:
+        return []
+    params = {"search": q, "filter": "institutions.country_code:PL,from_publication_date:2015-01-01", "per-page": str(n),
+              "select": "id,display_name,publication_year,doi,authorships"}
+    url = BASE + "?" + urllib.parse.urlencode(params)
+    raw, _ = fetch.get(url + "&api_key=" + urllib.parse.quote(settings.openalex_api_key), offline=offline,
+                       check_robots=False, cache_tag="openalex")
+    out = []
+    for w in json.loads(raw).get("results", []):
+        insts = [i for a in w.get("authorships") or [] for i in a.get("institutions") or [] if i.get("country_code") == "PL"]
+        inst = insts[0] if insts else {}
+        link = w.get("doi") or w.get("id")
+        if not w.get("display_name") or not link or not str(link).startswith("http"):
+            continue
+        out.append({"title": w["display_name"], "year": w.get("publication_year"), "url": link,
+                    "org_name": inst.get("display_name"), "contact_url": inst.get("ror") if str(inst.get("ror", "")).startswith("http") else None,
+                    "query_url": url})
+    return out
