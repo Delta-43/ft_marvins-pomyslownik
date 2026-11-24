@@ -15,9 +15,9 @@
 </p>
 
 <p align="center">
-  🏆 <b>Półfinalista HackNation 2026 – w pierwszej piątce zespołów</b><br>
-  <b>HackNation 2026 semifinalist – one of the top five teams</b><br><br>
-  Zespół / Team <b>ft_marvins</b> · wyzwanie / challenge „Radar Innowacji” – Podkarpackie Centrum Innowacji (PCI)<br>
+  🏆 <b>Półfinalista HackNation 2026 – w pierwszej piątce ścieżki „Radar Innowacji”</b><br>
+  <b>HackNation 2026 semifinalist – top five in the “Radar Innowacji” track</b><br><br>
+  Zespół / Team <b>ft_marvins</b> · ścieżka / track „Radar Innowacji” – Podkarpackie Centrum Innowacji (PCI)<br>
   <a href="https://youtu.be/dOhubWcxWdE">Wideo / Video</a> · <a href="https://delta-43.github.io/ft_marvins-pomyslownik/">Demo</a> · <a href="docs/api/openapi.yaml">OpenAPI</a> · <a href="docs/presentation/ft_marvins-pomyslownik-prezentacja.pdf">Prezentacja / Deck</a> · Licencja / Licence: <a href="LICENSE">EUPL-1.2</a>
 </p>
 
@@ -28,9 +28,9 @@
   <sub>▶ Obejrzyj wideo / Watch the video</sub>
 </p>
 
-> **Status:** projekt powstał na HackNation 2026, gdzie awansował do półfinału i znalazł się w pierwszej piątce. Hackathon jest zakończony. Działająca instancja została wyłączona; [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) to statyczna kopia z sześcioma kartami (bez logowania i formularzy). Całość można uruchomić lokalnie – patrz [Uruchomienie](#uruchomienie).
+> **Status:** projekt powstał na HackNation 2026, gdzie awansował do półfinału i znalazł się w pierwszej piątce ścieżki „Radar Innowacji”. Hackathon jest zakończony. Działająca instancja została wyłączona; [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) to statyczna kopia z sześcioma kartami (bez logowania i formularzy). Całość można uruchomić lokalnie – patrz [Uruchomienie](#uruchomienie).
 >
-> **Status:** built at HackNation 2026, where it reached the semifinal as one of the top five teams. The hackathon is over. The live instance has been shut down; the [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) is a static copy with six cards (no sign-in or forms). Run the whole stack locally – see [Run it](#run-it).
+> **Status:** built at HackNation 2026, where it reached the semifinal and placed in the top five of the “Radar Innowacji” track. The hackathon is over. The live instance has been shut down; the [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) is a static copy with six cards (no sign-in or forms). Run the whole stack locally – see [Run it](#run-it).
 
 **Polski** · [English](#english)
 
