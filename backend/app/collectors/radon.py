@@ -2,7 +2,7 @@
 
 POST https://radon.nauka.gov.pl/opendata/project/search returns research projects. We keep recent projects that
 have a Polish summary, and we never pass people's names on: personsInProject and authors are removed before
-anything else sees the record (GDPR, REQUIREMENTS F17).
+anything else sees the record (GDPR).
 """
 import datetime as dt
 import json

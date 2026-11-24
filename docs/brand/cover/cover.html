@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>Pomysłownik cover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@700;900&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;500;700&display=block" rel="stylesheet">
+<style>
+:root{
+  --navy:#02314E; --navy-deep:#011a2c; --pci:#0085CC; --iskra:#6BB437; --papier:#F1F8FD;
+  --mist:#E1EFFB; --atrament:#0A1B28; --kamien:#4A5D6D; --granat:#006095; --tak:#40731A;
+  --lab:#A0D1F8; --uczel:#C3E8AF; --pat:#A1E7E1; --muted:#D1E0EE; --sun:#FFE14D;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--navy-deep)}
+body{font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif;color:var(--papier);-webkit-font-smoothing:antialiased}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden;
+  background:
+    radial-gradient(1000px 800px at 1640px 360px, rgba(0,133,204,.34), transparent 70%),
+    radial-gradient(1200px 900px at 0px 1080px, rgba(0,96,149,.35), transparent 70%),
+    linear-gradient(160deg,#03406a 0%, #02314E 38%, #011a2c 100%);}
+/* faint grid, like a radar screen */
+.grid{position:absolute;inset:0;opacity:.07;
+  background-image:linear-gradient(rgba(209,224,238,1) 1px,transparent 1px),linear-gradient(90deg,rgba(209,224,238,1) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(1100px 800px at 1500px 420px,#000 10%,transparent 75%)}
+/* radar rings centred on the bulb */
+.rings{position:absolute;left:1640px;top:350px;width:0;height:0}
+.rings i{position:absolute;border:1.5px solid rgba(160,209,248,.16);border-radius:50%;transform:translate(-50%,-50%)}
+.rings i:nth-child(1){width:560px;height:560px;border-color:rgba(160,209,248,.26)}
+.rings i:nth-child(2){width:860px;height:860px}
+.rings i:nth-child(3){width:1180px;height:1180px;border-color:rgba(160,209,248,.10)}
+.rings i:nth-child(4){width:1520px;height:1520px;border-color:rgba(160,209,248,.06)}
+.sweep{position:absolute;left:1640px;top:350px;width:1520px;height:1520px;transform:translate(-50%,-50%) rotate(-60deg);border-radius:50%;
+  background:conic-gradient(from 0deg, rgba(107,180,55,.0) 0deg, rgba(107,180,55,.11) 40deg, rgba(107,180,55,0) 40.5deg 360deg);
+  -webkit-mask-image:radial-gradient(circle,#000 0 55%,transparent 72%)}
+/* the network map of Poland */
+.map{position:absolute;left:300px;top:40px;width:2000px;height:1000px;
+  background:url(map-alpha.png) center/contain no-repeat;opacity:.8}
+/* light behind the bulb */
+.glow{position:absolute;left:1640px;top:340px;width:1000px;height:1000px;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle, rgba(241,248,253,1) 0%, rgba(200,228,250,.95) 24%, rgba(91,184,236,.55) 38%, rgba(0,133,204,.18) 52%, rgba(0,133,204,0) 68%);
+  filter:blur(4px)}
+.glow2{position:absolute;left:1612px;top:830px;width:460px;height:260px;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(ellipse, rgba(255,225,77,.55), rgba(255,225,77,0) 70%)}
+.mascot{position:absolute;left:1392px;top:96px;height:790px;filter:drop-shadow(0 30px 40px rgba(1,20,36,.55))}
+
+/* left column */
+.left{position:absolute;left:112px;top:96px;width:900px}
+.logo svg{height:74px;width:auto;display:block}
+.eyebrow{margin-top:92px;font:700 22px/1.3 "Atkinson Hyperlegible Next";letter-spacing:.18em;text-transform:uppercase;color:var(--iskra);display:flex;align-items:center;gap:16px}
+.eyebrow b{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--iskra);box-shadow:0 0 0 6px rgba(107,180,55,.18)}
+h1{margin-top:22px;font:900 128px/1.0 "Lato";letter-spacing:-.02em;color:#fff;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(90deg,#7cc6f2 0%, #a6dd7c 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin-top:36px;width:740px;font:400 31px/1.42 "Atkinson Hyperlegible Next";color:var(--muted)}
+.lead strong{color:#fff;font-weight:700}
+
+.stats{position:absolute;left:112px;bottom:132px;display:flex;gap:0}
+.stat{padding:0 44px;border-left:1.5px solid rgba(209,224,238,.22)}
+.stat:first-child{padding-left:0;border-left:0}
+.stat .n{font:700 64px/1 "Atkinson Hyperlegible Mono";font-variant-numeric:tabular-nums;color:#fff;letter-spacing:-.02em}
+.stat .u{font:700 40px/1 "Atkinson Hyperlegible Next";margin-left:6px;color:var(--muted)}
+.stat .l{margin-top:10px;font:500 20px/1.3 "Atkinson Hyperlegible Next";color:var(--muted)}
+
+/* floating innovation cards */
+.cards{position:absolute;left:1000px;top:575px;width:520px;height:420px;perspective:1600px}
+.card{position:absolute;width:500px;border-radius:24px;background:#fff;color:var(--atrament);padding:26px 28px 24px;
+  box-shadow:0 2px 0 rgba(255,255,255,.6) inset, 0 40px 80px -20px rgba(0,10,20,.65), 0 12px 24px rgba(0,10,20,.25)}
+.card.back2{transform:translate(-62px,-74px) rotate(-7deg) scale(.92);opacity:.55;height:250px;background:var(--pat)}
+.card.back1{transform:translate(-30px,-38px) rotate(-3.5deg) scale(.96);opacity:.8;height:270px;background:var(--uczel)}
+.card.front{transform:rotate(1.5deg)}
+.chip{display:inline-flex;align-items:center;gap:8px;font:700 16px/1 "Atkinson Hyperlegible Next";padding:8px 14px 8px 10px;border-radius:999px;background:var(--lab);color:var(--atrament)}
+.chip svg{width:18px;height:18px}
+.card h3{margin-top:16px;font:900 29px/1.15 "Lato";letter-spacing:-.005em}
+.org{margin-top:10px;font:500 18px/1.3 "Atkinson Hyperlegible Next";color:var(--kamien)}
+.rows{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row{border-radius:14px;background:var(--papier);padding:12px 14px}
+.row .k{font:500 14px/1.2 "Atkinson Hyperlegible Next";color:var(--kamien)}
+.row .v{margin-top:6px;font:700 20px/1.1 "Atkinson Hyperlegible Mono";display:flex;align-items:center;gap:8px}
+.row .w{font:700 21px/1.1 "Atkinson Hyperlegible Next"}
+.row .of{color:var(--kamien);font-weight:500;margin-left:-6px}
+.tag{font:700 13px/1 "Atkinson Hyperlegible Next";padding:5px 9px;border-radius:999px;letter-spacing:.01em}
+.tag.ok{background:#E9F7E3;color:var(--tak)}
+.tag.est{background:var(--mist);color:var(--granat)}
+.src{margin-top:16px;display:flex;justify-content:space-between;align-items:center;font:500 15px/1 "Atkinson Hyperlegible Mono";color:var(--kamien)}
+.src .ip{font:700 14px/1 "Atkinson Hyperlegible Next";color:var(--atrament);display:flex;align-items:center;gap:6px}
+.flag{width:22px;height:14px;border-radius:2px;overflow:hidden;display:inline-block;box-shadow:0 0 0 1px #d0dbe3}
+.flag i{display:block;height:50%}
+
+/* search pill floating above */
+.search{position:absolute;left:1010px;top:205px;display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.96);color:var(--atrament);
+  border-radius:999px;padding:16px 24px 16px 20px;font:500 22px/1 "Atkinson Hyperlegible Next";box-shadow:0 24px 50px -16px rgba(0,10,20,.6);transform:rotate(-3deg)}
+.search svg{width:26px;height:26px}
+.search .caret{width:2px;height:26px;background:var(--granat);margin-left:-8px}
+
+.band{position:absolute;left:0;right:0;bottom:0;height:14px;background:linear-gradient(90deg,var(--pci),var(--iskra))}
+.foot{position:absolute;left:112px;right:112px;bottom:52px;display:flex;justify-content:space-between;align-items:center;
+  font:500 20px/1 "Atkinson Hyperlegible Next";color:rgba(209,224,238,.85)}
+.foot .mono{font-family:"Atkinson Hyperlegible Mono";letter-spacing:.02em}
+.foot .langs{display:flex;gap:10px}
+.foot .langs span{border:1.5px solid rgba(209,224,238,.4);border-radius:999px;padding:7px 14px;font:700 17px/1 "Atkinson Hyperlegible Next";color:#fff}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="grid"></div>
+  <div class="sweep"></div>
+  <div class="rings"><i></i><i></i><i></i><i></i></div>
+  <div class="map"></div>
+  <div class="glow"></div>
+  <div class="glow2"></div>
+  <img class="mascot" src="sygnet-crop.png" alt="">
+
+  <div class="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#006095" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+    <span>implant kości</span><span class="caret"></span>
+  </div>
+
+  <div class="left">
+    <div class="logo" id="logo"></div>
+    <div class="eyebrow"><b></b>Radar innowacji · HackNation 2026</div>
+    <h1>Tu pomysły<br><em>znajdują ludzi.</em></h1>
+    <p class="lead">Istniejące polskie innowacje z&nbsp;publicznych źródeł, w&nbsp;jednym miejscu. <strong>Ocenione, ze źródłem i&nbsp;datą przy każdej liczbie.</strong></p>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">28</div><div class="l">kart innowacji</div></div>
+    <div class="stat"><div class="n">67</div><div class="l">źródeł z cytatami</div></div>
+    <div class="stat"><div class="n">5</div><div class="l">kryteriów oceny</div></div>
+    <div class="stat"><div class="n">24<span class="u">h</span></div><div class="l">cykl odświeżania</div></div>
+  </div>
+
+  <div class="cards">
+    <div class="card back2"></div>
+    <div class="card back1"></div>
+    <div class="card front">
+      <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#0A1B28" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7 15h10"/></svg>Technologiczne</span>
+      <h3>Bioaktywny substytut kości gąbczastej</h3>
+      <div class="org">Politechnika Warszawska · mazowieckie</div>
+      <div class="rows">
+        <div class="row"><div class="k">Poziom wdrożenia</div><div class="v"><span class="w">Testy</span> <span class="tag ok">✓ fakt</span></div></div>
+        <div class="row"><div class="k">TRL</div><div class="v">5<span class="of">/9</span> <span class="tag est">≈ szacunek</span></div></div>
+      </div>
+      <div class="src"><span>11 źródeł · spr. 21.11.2026</span><span class="ip"><span class="flag"><i style="background:#fff"></i><i style="background:#DC143C"></i></span>Polskie IP</span></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>Zespół <b style="color:#fff">ft_marvins</b> · wyzwanie „Radar Innowacji” – Podkarpackie Centrum Innowacji</span>
+    <span class="langs"><span>PL</span><span>EN</span><span>UK</span></span>
+  </div>
+  <div class="band"></div>
+</div>
+<script>
+// Logo built from the brand's outlined Lato Black path (inverted), plus the symbol in PCI blue
+</script>
+</body>
+</html>
