@@ -1,4 +1,5 @@
 """Full backend review, 2026-11-22: each fix has a test."""
+import datetime as dt
 import io
 import os
 import uuid
@@ -84,7 +85,7 @@ def test_request_id_is_sanitised(client):
 def test_events_accept_only_known_tag_slugs(client, auth):
     from app.db import one
     slug = one("SELECT slug FROM tags LIMIT 1")["slug"]
-    base = {"type": "search_performed", "occurredAt": "2026-11-22T03:00:00Z"}
+    base = {"type": "search_performed", "occurredAt": dt.datetime.now(dt.UTC).isoformat()}  # the API takes the last two days only
     assert client.post("/api/v1/events", json={**base, "eventId": str(uuid.uuid4()), "tags": [slug]}, headers=auth).status_code == 202
     for bad in (["Kup teraz! http://spam.example"], ["no-such-tag-xyz"]):
         r = client.post("/api/v1/events", json={**base, "eventId": str(uuid.uuid4()), "tags": bad}, headers=auth)

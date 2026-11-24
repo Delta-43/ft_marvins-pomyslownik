@@ -69,8 +69,6 @@ servers:
     description: Mock server (Prism), for frontend work
   - url: http://localhost:8000
     description: Local backend
-  - url: https://demo.delta43.net
-    description: Live demo API on delta-server, behind the Cloudflare tunnel
 # Signed in by default. Public operations say `security: []`. Admin operations use the admin token.
 security:
   - userBearer: []

@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="docs/brand/pomyslownik-symbol.svg" alt="Pomysłownik! – logo" height="140">
+  <img src="docs/brand/cover/pomyslownik-cover-1920x1080.png" alt="Pomysłownik! – okładka / cover" width="100%">
+</p>
+
+<p align="center">
+  <img src="docs/design/logo/pomyslownik-logo-podstawowe.svg" alt="Pomysłownik! – logo" height="96">
 </p>
 
 <h1 align="center">Pomysłownik!</h1>
@@ -11,8 +15,19 @@
 
 <p align="center">
   Zespół / Team <b>ft_marvins</b> · HackNation 2026 · wyzwanie / challenge „Radar Innowacji” – Podkarpackie Centrum Innowacji (PCI)<br>
-  <a href="https://pomyslownik.delta43.net">Demo</a> · <a href="https://demo.delta43.net/docs">API</a> · <a href="docs/api/openapi.yaml">OpenAPI</a> · Licencja / Licence: <a href="LICENSE">EUPL-1.2</a>
+  <a href="https://youtu.be/dOhubWcxWdE">Wideo / Video</a> · <a href="https://delta-43.github.io/ft_marvins-pomyslownik/">Demo</a> · <a href="docs/api/openapi.yaml">OpenAPI</a> · <a href="docs/presentation/ft_marvins-pomyslownik-prezentacja.pdf">Prezentacja / Deck</a> · Licencja / Licence: <a href="LICENSE">EUPL-1.2</a>
 </p>
+
+<p align="center">
+  <a href="https://youtu.be/dOhubWcxWdE">
+    <img src="https://img.youtube.com/vi/dOhubWcxWdE/maxresdefault.jpg" alt="Pomysłownik! – wideo na YouTube / video on YouTube" width="640">
+  </a><br>
+  <sub>▶ Obejrzyj wideo / Watch the video</sub>
+</p>
+
+> **Status:** projekt powstał na HackNation 2026 i jest zakończony. Działająca instancja została wyłączona; [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) to statyczna kopia z sześcioma kartami (bez logowania i formularzy). Całość można uruchomić lokalnie – patrz [Uruchomienie](#uruchomienie).
+>
+> **Status:** built at HackNation 2026, now finished. The live instance has been shut down; the [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) is a static copy with six cards (no sign-in or forms). Run the whole stack locally – see [Run it](#run-it).
 
 **Polski** · [English](#english)
 
@@ -135,7 +150,7 @@ Sources live in `data/sources/registry.json` (start from `registry.example.json`
 | `backend/` | FastAPI API and worker: collectors, scoring, refresh, translations |
 | `frontend/` | Next.js web app (pl, en, uk) |
 | `docs/api/` | OpenAPI contract, its review, sign-in design |
-| `docs/` | Design, mentor feedback, frontend plan and review ([docs/README.md](docs/README.md)) |
+| `docs/` | Design, brand, cover and presentation ([docs/README.md](docs/README.md)) |
 | `data/seed/` | Curated starter cards (JSON, contract format) |
 | `data/sources/` | Source registry and collection limits |
 | `research/` | Source checks, showcases, methodology, mentor questions |
