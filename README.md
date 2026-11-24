@@ -2,11 +2,12 @@
   <img src="docs/brand/cover/pomyslownik-cover-1920x1080.png" alt="Pomysłownik! – okładka / cover" width="100%">
 </p>
 
-<p align="center">
-  <img src="docs/design/logo/pomyslownik-logo-podstawowe.svg" alt="Pomysłownik! – logo" height="96">
-</p>
-
-<h1 align="center">Pomysłownik!</h1>
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/pomyslownik-logotype-dark.svg">
+    <img src="docs/brand/pomyslownik-logotype.svg" alt="Pomysłownik!" width="420">
+  </picture>
+</h1>
 
 <p align="center">
   <b>Radar innowacji: istniejące polskie innowacje w jednym miejscu, z oceną i źródłami.</b><br>
@@ -14,7 +15,9 @@
 </p>
 
 <p align="center">
-  Zespół / Team <b>ft_marvins</b> · HackNation 2026 · wyzwanie / challenge „Radar Innowacji” – Podkarpackie Centrum Innowacji (PCI)<br>
+  🏆 <b>Półfinalista HackNation 2026 – w pierwszej piątce zespołów</b><br>
+  <b>HackNation 2026 semifinalist – one of the top five teams</b><br><br>
+  Zespół / Team <b>ft_marvins</b> · wyzwanie / challenge „Radar Innowacji” – Podkarpackie Centrum Innowacji (PCI)<br>
   <a href="https://youtu.be/dOhubWcxWdE">Wideo / Video</a> · <a href="https://delta-43.github.io/ft_marvins-pomyslownik/">Demo</a> · <a href="docs/api/openapi.yaml">OpenAPI</a> · <a href="docs/presentation/ft_marvins-pomyslownik-prezentacja.pdf">Prezentacja / Deck</a> · Licencja / Licence: <a href="LICENSE">EUPL-1.2</a>
 </p>
 
@@ -25,9 +28,9 @@
   <sub>▶ Obejrzyj wideo / Watch the video</sub>
 </p>
 
-> **Status:** projekt powstał na HackNation 2026 i jest zakończony. Działająca instancja została wyłączona; [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) to statyczna kopia z sześcioma kartami (bez logowania i formularzy). Całość można uruchomić lokalnie – patrz [Uruchomienie](#uruchomienie).
+> **Status:** projekt powstał na HackNation 2026, gdzie awansował do półfinału i znalazł się w pierwszej piątce. Hackathon jest zakończony. Działająca instancja została wyłączona; [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) to statyczna kopia z sześcioma kartami (bez logowania i formularzy). Całość można uruchomić lokalnie – patrz [Uruchomienie](#uruchomienie).
 >
-> **Status:** built at HackNation 2026, now finished. The live instance has been shut down; the [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) is a static copy with six cards (no sign-in or forms). Run the whole stack locally – see [Run it](#run-it).
+> **Status:** built at HackNation 2026, where it reached the semifinal as one of the top five teams. The hackathon is over. The live instance has been shut down; the [demo](https://delta-43.github.io/ft_marvins-pomyslownik/) is a static copy with six cards (no sign-in or forms). Run the whole stack locally – see [Run it](#run-it).
 
 **Polski** · [English](#english)
 
